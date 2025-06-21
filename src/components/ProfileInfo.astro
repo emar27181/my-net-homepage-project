@@ -1,0 +1,81 @@
+---
+// プロフィール情報の一元管理コンポーネント
+
+// 基本プロフィール情報
+const profileData = {
+  netName: "nodoame（のどあめ）",
+  age: "大学生（20代前半）",
+  major: "情報科学・コンピューターサイエンス",
+  location: "日本のどこか 🗾",
+  favoriteColors: "ピンク、水色、パステルカラー全般",
+  motto: '"継続は力なり" & "好きこそものの上手なれ"',
+  hobbies: "ゲーム・イラスト・Web制作",
+  favorites: "猫・レトロ・ドット絵"
+};
+
+// 表示タイプの定義
+export interface Props {
+  type?: 'full' | 'basic' | 'mini';
+  showLabels?: boolean;
+  className?: string;
+}
+
+const { 
+  type = 'full',
+  showLabels = true,
+  className = ''
+} = Astro.props;
+---
+
+{type === 'full' && (
+  <table class={`profile-table ${className}`}>
+    <tr>
+      <td class="profile-label">ネットネーム</td>
+      <td class="profile-value">{profileData.netName}</td>
+    </tr>
+    <tr>
+      <td class="profile-label">年齢</td>
+      <td class="profile-value">{profileData.age}</td>
+    </tr>
+    <tr>
+      <td class="profile-label">専攻</td>
+      <td class="profile-value">{profileData.major}</td>
+    </tr>
+    <tr>
+      <td class="profile-label">居住地</td>
+      <td class="profile-value">{profileData.location}</td>
+    </tr>
+    <tr>
+      <td class="profile-label">好きな色</td>
+      <td class="profile-value">{profileData.favoriteColors}</td>
+    </tr>
+    <tr>
+      <td class="profile-label">座右の銘</td>
+      <td class="profile-value">{profileData.motto}</td>
+    </tr>
+  </table>
+)}
+
+{type === 'basic' && (
+  <div class={`profile-section ${className}`}>
+    <p style="font-size: 12px; padding: 8px;">
+      {showLabels && (
+        <>
+          <strong>ネットネーム:</strong> {profileData.netName}<br/>
+          <strong>年齢:</strong> {profileData.age}<br/>
+          <strong>趣味:</strong> {profileData.hobbies}<br/>
+          <strong>好きなもの:</strong> {profileData.favorites}
+        </>
+      )}
+      {!showLabels && (
+        <>{profileData.netName} | {profileData.age}</>
+      )}
+    </p>
+  </div>
+)}
+
+{type === 'mini' && (
+  <span class={className}>
+    {profileData.netName}
+  </span>
+)}

@@ -1,0 +1,40 @@
+---
+// Today's Word コンポーネント - 一元管理
+
+// 今日の言葉の配列（日替わりで表示）
+const todaysWords = [
+  "レトロなWebサイトって見てるだけで癒される～ ✨\n昔のインターネットの温かみを大切にしたいな 🌟",
+  "継続は力なり...毎日少しずつでも前進していこう 💪\nコードも絵も、積み重ねが大事だよね ⭐",
+  "猫のイラストを描いてる時が一番幸せ 🐱\nふわふわな毛玉に包まれたい気持ち 💕",
+  "VALORANTでオーメンのスモーク決まった時の快感 🌫️\nチームプレイって最高だなあ 🎮",
+  "新しい技術を学ぶワクワク感が止まらない 💻\n情報科学って本当に面白い世界だな ✨"
+];
+
+// 日付ベースで今日の言葉を選択
+const today = new Date();
+const dayIndex = today.getDate() % todaysWords.length;
+const todaysMessage = todaysWords[dayIndex];
+
+export interface Props {
+  className?: string;
+  showTitle?: boolean;
+}
+
+const { 
+  className = '',
+  showTitle = true
+} = Astro.props;
+---
+
+<div class={`profile-section ${className}`}>
+  {showTitle && (
+    <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px; color: var(--profile-text-secondary);">
+      💭 Today's Word
+    </h3>
+  )}
+  <div class="profile-quote">
+    {todaysMessage.split('\n').map(line => (
+      <span>{line}<br/></span>
+    ))}
+  </div>
+</div>

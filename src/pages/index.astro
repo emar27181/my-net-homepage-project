@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ProfileInfo from '../components/ProfileInfo.astro';
+import TodaysWord from '../components/TodaysWord.astro';
 import '../styles/global.css';
 
 const currentDate = new Date().toLocaleDateString('ja-JP', {
@@ -29,12 +31,7 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
           <img src="https://via.placeholder.com/120x120/FFB6C1/333333?text=nodoame" alt="nodoameのアバター" class="mx-auto" style="image-rendering: pixelated;">
           <div class="image-title">nodoame 🐱</div>
         </div>
-        <p style="font-size: 12px; padding: 8px;">
-          <strong>ネットネーム:</strong> nodoame<br>
-          <strong>年齢:</strong> 大学生<br>
-          <strong>趣味:</strong> ゲーム・イラスト・Web制作<br>
-          <strong>好きなもの:</strong> 猫・レトロ・ドット絵
-        </p>
+        <ProfileInfo type="basic" />
       </div>
 
       <!-- 最近の活動 -->
@@ -55,15 +52,7 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
       </div>
 
       <!-- 今日の一言 -->
-      <div class="retro-frame">
-        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
-          💭 Today's Word
-        </h3>
-        <p style="font-size: 11px; background-color: #fff0f5; padding: 6px; border: 1px dashed #ff69b4;">
-          "レトロなWebサイトって見てるだけで癒される～ ✨<br>
-          昔のインターネットの温かみを大切にしたいな 🌟"
-        </p>
-      </div>
+      <TodaysWord />
     </div>
 
     <!-- メインコンテンツエリア -->

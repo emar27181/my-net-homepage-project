@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ProfileInfo from '../components/ProfileInfo.astro';
 import '../styles/global.css';
 ---
 
@@ -24,32 +25,7 @@ import '../styles/global.css';
           <div class="image-title">nodoame 🐱 ✨</div>
         </div>
 
-        <table class="retro-table w-full" style="font-size: 12px;">
-          <tr>
-            <td style="background-color: #ffd1dc; font-weight: bold;">ネットネーム</td>
-            <td>nodoame（のどあめ）</td>
-          </tr>
-          <tr>
-            <td style="background-color: #ffd1dc; font-weight: bold;">年齢</td>
-            <td>大学生（20代前半）</td>
-          </tr>
-          <tr>
-            <td style="background-color: #ffd1dc; font-weight: bold;">専攻</td>
-            <td>情報科学・コンピューターサイエンス</td>
-          </tr>
-          <tr>
-            <td style="background-color: #ffd1dc; font-weight: bold;">居住地</td>
-            <td>日本のどこか 🗾</td>
-          </tr>
-          <tr>
-            <td style="background-color: #ffd1dc; font-weight: bold;">好きな色</td>
-            <td>ピンク、水色、パステルカラー全般</td>
-          </tr>
-          <tr>
-            <td style="background-color: #ffd1dc; font-weight: bold;">座右の銘</td>
-            <td>"継続は力なり" & "好きこそものの上手なれ"</td>
-          </tr>
-        </table>
+        <ProfileInfo type="full" />
       </div>
 
       <!-- スキル・得意なこと -->
@@ -94,34 +70,34 @@ import '../styles/global.css';
         </h2>
 
         <div style="font-size: 12px;">
-          <div class="mb-4 p-3" style="background-color: #f0f8ff; border: 2px dashed #4169e1;">
+          <div class="mb-4 p-3" style="background-color: var(--color-bg-secondary); color: var(--color-text); border: 2px dashed var(--text-accessible-blue);">
             <p><strong>Q: ネットネーム「nodoame」の由来は？</strong></p>
             <p><strong>A:</strong> 昔から風邪をひきやすくて、いつものど飴を舐めていたから 😅<br>
             甘くて優しい響きも気に入ってて、もう何年も使ってます！</p>
           </div>
 
-          <div class="mb-4 p-3" style="background-color: #fff0f5; border: 2px dashed #ff69b4;">
+          <div class="mb-4 p-3" style="background-color: var(--color-bg-secondary); color: var(--color-text); border: 2px dashed var(--text-accessible-purple);">
             <p><strong>Q: なぜVALORANTのオーメンを使うの？</strong></p>
             <p><strong>A:</strong> スモークで味方をサポートするのが好きだから！<br>
             テレポートで予想外な場所から現れるのも楽しいです 🌫️<br>
             元はアストラ専だったけど、オーメンの方が使いやすくて...</p>
           </div>
 
-          <div class="mb-4 p-3" style="background-color: #f0fff0; border: 2px dashed #32cd32;">
+          <div class="mb-4 p-3" style="background-color: var(--color-bg-secondary); color: var(--color-text); border: 2px dashed var(--text-accessible-blue);">
             <p><strong>Q: 猫のイラストをよく描くのはなぜ？</strong></p>
             <p><strong>A:</strong> 猫が大好きだから！🐱<br>
             丸っこい体型とか、ぷにぷにの肉球とか、描いてて癒されるんです。<br>
             いつか実際に猫を飼いたいな～</p>
           </div>
 
-          <div class="mb-4 p-3" style="background-color: #fffacd; border: 2px dashed #ffd700;">
+          <div class="mb-4 p-3" style="background-color: var(--color-bg-secondary); color: var(--color-text); border: 2px dashed var(--text-accessible-purple);">
             <p><strong>Q: ジェネラティブアートって何？</strong></p>
             <p><strong>A:</strong> プログラムで自動生成するアート作品のことです！<br>
             Pythonでランダムな図形や色を生成して、予想もしない美しい作品ができるのが面白い ✨<br>
             数学とアートの融合って感じで、すごく楽しいです！</p>
           </div>
 
-          <div class="mb-4 p-3" style="background-color: #ffefd5; border: 2px dashed #ff8c00;">
+          <div class="mb-4 p-3" style="background-color: var(--color-bg-secondary); color: var(--color-text); border: 2px dashed var(--text-accessible-blue);">
             <p><strong>Q: なぜレトロなWebサイトを作ったの？</strong></p>
             <p><strong>A:</strong> 2000年代のインターネットの温かみが恋しくて... 💭<br>
             個人ホームページやブログ全盛期の、手作り感あふれるサイトが大好きなんです。<br>
