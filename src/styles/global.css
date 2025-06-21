@@ -116,8 +116,23 @@ body {
   border-collapse: separate;
   border-spacing: 2px;
   background: var(--color-bg-tertiary);
-  border: 2px solid var(--color-accent);
-  box-shadow: 0 0 15px rgba(128, 179, 255, 0.3);
+  position: relative;
+  border-radius: 4px;
+}
+
+.retro-table::before {
+  /* ネオンテーブルボーダー */
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(90deg, var(--neon-primary), var(--neon-secondary), var(--neon-primary));
+  border-radius: 6px;
+  z-index: -1;
+  opacity: 0.5;
+  filter: blur(2px);
 }
 
 .retro-table td {
@@ -215,14 +230,44 @@ a:visited {
 
 /* サイバーフレーム */
 .retro-frame {
-  border: 2px solid var(--color-accent);
   background: var(--color-bg-secondary);
   padding: 15px;
   margin: 10px 0;
-  box-shadow: 
-    inset 0 0 20px rgba(128, 179, 255, 0.1),
-    0 0 15px rgba(128, 179, 255, 0.2);
   position: relative;
+  border-radius: 4px;
+}
+
+.retro-frame::before {
+  /* ネオンフレーム効果 */
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: linear-gradient(45deg, 
+    var(--neon-primary) 0%,
+    var(--neon-secondary) 25%,
+    var(--neon-tertiary) 50%,
+    var(--neon-secondary) 75%,
+    var(--neon-primary) 100%
+  );
+  border-radius: 8px;
+  z-index: -1;
+  opacity: 0.7;
+  filter: blur(3px);
+  animation: neon-frame-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes neon-frame-glow {
+  0% {
+    opacity: 0.7;
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 0.9;
+    filter: blur(1px);
+  }
 }
 
 .retro-frame::before {
@@ -281,18 +326,131 @@ a:visited {
   z-index: 1;
 }
 
+/* ネオンライン・境界線スタイル（一元管理） */
+.neon-line {
+  /* ネオンサイン風直線 */
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--neon-primary), transparent);
+  box-shadow: 
+    0 0 5px var(--neon-primary),
+    0 0 10px var(--neon-primary),
+    0 0 15px var(--neon-primary);
+  margin: 16px 0;
+  animation: neon-line-pulse 2s ease-in-out infinite alternate;
+}
+
+.neon-line-horizontal {
+  /* 水平ネオンライン */
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--neon-primary) 20%, var(--neon-secondary) 50%, var(--neon-primary) 80%, transparent 100%);
+  box-shadow: 
+    0 0 3px var(--neon-primary),
+    0 0 6px var(--neon-primary),
+    0 0 12px var(--neon-primary);
+  margin: 12px 0;
+}
+
+.neon-line-vertical {
+  /* 垂直ネオンライン */
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, var(--neon-primary) 20%, var(--neon-secondary) 50%, var(--neon-primary) 80%, transparent 100%);
+  box-shadow: 
+    0 0 3px var(--neon-primary),
+    0 0 6px var(--neon-primary),
+    0 0 12px var(--neon-primary);
+  margin: 0 12px;
+}
+
+.neon-border {
+  /* ネオンサイン風ボーダー */
+  border: 2px solid var(--neon-primary);
+  box-shadow: 
+    inset 0 0 10px rgba(77, 121, 255, 0.2),
+    0 0 10px var(--neon-primary),
+    0 0 20px var(--neon-primary);
+  position: relative;
+}
+
+.neon-border::before {
+  /* ネオンボーダーの内側グロー */
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary), var(--neon-tertiary), var(--neon-primary));
+  z-index: -1;
+  border-radius: inherit;
+  opacity: 0.3;
+  filter: blur(3px);
+}
+
+.neon-divider {
+  /* セクション区切り用ネオンライン */
+  width: 80%;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--neon-deep-blue) 10%,
+    var(--neon-primary) 30%,
+    var(--neon-secondary) 50%,
+    var(--neon-primary) 70%,
+    var(--neon-deep-blue) 90%,
+    transparent 100%
+  );
+  box-shadow: 
+    0 0 5px var(--neon-primary),
+    0 0 10px var(--neon-primary),
+    0 0 20px rgba(77, 121, 255, 0.5);
+  margin: 20px auto;
+  border-radius: 2px;
+}
+
+@keyframes neon-line-pulse {
+  0% {
+    box-shadow: 
+      0 0 5px var(--neon-primary),
+      0 0 10px var(--neon-primary),
+      0 0 15px var(--neon-primary);
+    opacity: 0.8;
+  }
+  100% {
+    box-shadow: 
+      0 0 8px var(--neon-primary),
+      0 0 15px var(--neon-primary),
+      0 0 25px var(--neon-primary);
+    opacity: 1;
+  }
+}
+
 /* プロフィール専用スタイル（一元管理） */
 .profile-section {
   /* プロフィールセクション全体のスタイル */
   background: var(--color-bg-secondary);
   color: var(--color-text);
-  border: 2px solid var(--color-accent);
   border-radius: 4px;
   padding: 12px;
   margin: 8px 0;
-  box-shadow: 
-    inset 0 0 15px rgba(128, 179, 255, 0.1),
-    0 0 10px rgba(128, 179, 255, 0.2);
+  position: relative;
+}
+
+.profile-section::before {
+  /* ネオンボーダー効果 */
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary), var(--neon-primary));
+  border-radius: 6px;
+  z-index: -1;
+  opacity: 0.6;
+  filter: blur(2px);
 }
 
 .profile-table {
@@ -303,6 +461,23 @@ a:visited {
   background: var(--color-bg-secondary);
   color: var(--color-text);
   font-size: 12px;
+  position: relative;
+  border-radius: 4px;
+}
+
+.profile-table::before {
+  /* ネオンテーブルボーダー */
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, var(--neon-primary), var(--neon-secondary), var(--neon-tertiary), var(--neon-primary));
+  border-radius: 6px;
+  z-index: -1;
+  opacity: 0.4;
+  filter: blur(1.5px);
 }
 
 .profile-label {

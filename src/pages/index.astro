@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import ProfileInfo from '../components/ProfileInfo.astro';
 import TodaysWord from '../components/TodaysWord.astro';
+import NeonLine from '../components/NeonLine.astro';
 import '../styles/global.css';
 
 const currentDate = new Date().toLocaleDateString('ja-JP', {
@@ -84,6 +85,9 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
         </div>
       </div>
 
+      <!-- ネオン区切り線 -->
+      <NeonLine type="divider" />
+
       <!-- お気に入りリンク -->
       <div class="retro-frame mb-6">
         <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px;">
@@ -116,6 +120,9 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
           </tr>
         </table>
       </div>
+
+      <!-- ネオン区切り線 -->
+      <NeonLine type="horizontal" />
 
       <!-- 訪問者カウンター風 -->
       <div class="retro-frame text-center">

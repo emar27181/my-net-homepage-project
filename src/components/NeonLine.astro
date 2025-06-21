@@ -1,0 +1,31 @@
+---
+// ネオンライン コンポーネント - 区切り線・装飾線の一元管理
+
+export interface Props {
+  type?: 'horizontal' | 'vertical' | 'divider' | 'simple';
+  className?: string;
+  style?: string;
+}
+
+const { 
+  type = 'horizontal',
+  className = '',
+  style = ''
+} = Astro.props;
+---
+
+{type === 'horizontal' && (
+  <div class={`neon-line-horizontal ${className}`} style={style}></div>
+)}
+
+{type === 'vertical' && (
+  <div class={`neon-line-vertical ${className}`} style={style}></div>
+)}
+
+{type === 'divider' && (
+  <div class={`neon-divider ${className}`} style={style}></div>
+)}
+
+{type === 'simple' && (
+  <div class={`neon-line ${className}`} style={style}></div>
+)}
