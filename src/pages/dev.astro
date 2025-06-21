@@ -1,0 +1,389 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+---
+
+<Layout title="Dev - nodoameの開発・研究">
+  <!-- ページタイトル -->
+  <div class="marquee mb-6">
+    💻 nodoame's Development World - Web制作・プログラミング・研究活動を紹介します！ 💻
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    
+    <!-- 左サイドバー：スキル・技術スタック -->
+    <div class="lg:col-span-1">
+      <!-- 技術スタック -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px; text-align: center;">
+          🛠️ Tech Stack
+        </h2>
+        
+        <div style="font-size: 11px;">
+          <div class="mb-3">
+            <h4 style="font-family: var(--font-pixel); font-size: 10px; margin-bottom: 4px; color: #ff6b9d;">
+              Frontend 🎨
+            </h4>
+            <div class="flex flex-wrap gap-1">
+              <span class="px-2 py-1 bg-blue-100 border border-blue-300 text-blue-800" style="font-size: 9px;">HTML5</span>
+              <span class="px-2 py-1 bg-blue-100 border border-blue-300 text-blue-800" style="font-size: 9px;">CSS3</span>
+              <span class="px-2 py-1 bg-yellow-100 border border-yellow-300 text-yellow-800" style="font-size: 9px;">JavaScript</span>
+              <span class="px-2 py-1 bg-cyan-100 border border-cyan-300 text-cyan-800" style="font-size: 9px;">React</span>
+              <span class="px-2 py-1 bg-purple-100 border border-purple-300 text-purple-800" style="font-size: 9px;">Astro</span>
+              <span class="px-2 py-1 bg-teal-100 border border-teal-300 text-teal-800" style="font-size: 9px;">Tailwind</span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <h4 style="font-family: var(--font-pixel); font-size: 10px; margin-bottom: 4px; color: #4ecdc4;">
+              Backend & Tools 🔧
+            </h4>
+            <div class="flex flex-wrap gap-1">
+              <span class="px-2 py-1 bg-green-100 border border-green-300 text-green-800" style="font-size: 9px;">Python</span>
+              <span class="px-2 py-1 bg-orange-100 border border-orange-300 text-orange-800" style="font-size: 9px;">Node.js</span>
+              <span class="px-2 py-1 bg-gray-100 border border-gray-300 text-gray-800" style="font-size: 9px;">Git</span>
+              <span class="px-2 py-1 bg-purple-100 border border-purple-300 text-purple-800" style="font-size: 9px;">VSCode</span>
+              <span class="px-2 py-1 bg-blue-100 border border-blue-300 text-blue-800" style="font-size: 9px;">GitHub</span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <h4 style="font-family: var(--font-pixel); font-size: 10px; margin-bottom: 4px; color: #9b59b6;">
+              Design & Graphics 🎨
+            </h4>
+            <div class="flex flex-wrap gap-1">
+              <span class="px-2 py-1 bg-pink-100 border border-pink-300 text-pink-800" style="font-size: 9px;">Photoshop</span>
+              <span class="px-2 py-1 bg-indigo-100 border border-indigo-300 text-indigo-800" style="font-size: 9px;">Illustrator</span>
+              <span class="px-2 py-1 bg-red-100 border border-red-300 text-red-800" style="font-size: 9px;">Figma</span>
+              <span class="px-2 py-1 bg-green-100 border border-green-300 text-green-800" style="font-size: 9px;">Clip Studio</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 現在学習中 -->
+      <div class="retro-frame mb-6">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          📚 Currently Learning
+        </h3>
+        <div style="font-size: 11px;">
+          <p><strong>🔥 優先度高:</strong></p>
+          <ul style="margin-left: 15px; margin-bottom: 8px;">
+            <li>TypeScript（型安全性の向上）</li>
+            <li>Three.js（3Dグラフィックス）</li>
+            <li>p5.js（ジェネラティブアート）</li>
+          </ul>
+
+          <p><strong>📖 興味あり:</strong></p>
+          <ul style="margin-left: 15px;">
+            <li>WebGL・シェーダー</li>
+            <li>機械学習基礎（Python）</li>
+            <li>UI/UXデザイン理論</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- GitHub統計風 -->
+      <div class="retro-frame">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          📊 Code Stats
+        </h3>
+        <div style="font-size: 10px;">
+          <div class="mb-2 p-2" style="background-color: #f8f8f8; border: 1px dashed #666;">
+            <strong>Total Repositories:</strong> 18<br>
+            <strong>Public Repos:</strong> 12<br>
+            <strong>Private Repos:</strong> 6
+          </div>
+          <div class="mb-2 p-2" style="background-color: #e8f5e8; border: 1px dashed #4caf50;">
+            <strong>Most Used Language:</strong><br>
+            JavaScript (45%) | Python (30%) | CSS (25%)
+          </div>
+          <div class="p-2" style="background-color: #fff3e0; border: 1px dashed #ff9800;">
+            <strong>Contribution Streak:</strong><br>
+            📅 Current: 23 days | 🏆 Longest: 45 days
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- メインコンテンツ：プロジェクト紹介 -->
+    <div class="lg:col-span-2">
+      <!-- 主要プロジェクト -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          🚀 Featured Projects 🚀
+        </h2>
+
+        <!-- プロジェクト1：ポートフォリオサイト -->
+        <div class="mb-6 p-4" style="background-color: #f0f8ff; border: 2px solid #4169e1;">
+          <div class="flex items-start gap-4">
+            <div class="image-container">
+              <img src="https://via.placeholder.com/120x90/FF69B4/FFFFFF?text=Portfolio" alt="ポートフォリオサイト" style="image-rendering: pixelated;">
+              <div class="image-title">This Site! 🌟</div>
+            </div>
+            <div class="flex-1">
+              <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 6px;">
+                📱 レトロポートフォリオサイト
+              </h3>
+              <p style="font-size: 11px; margin-bottom: 8px;">
+                <strong>技術:</strong> Astro + Tailwind CSS + TypeScript<br>
+                <strong>制作期間:</strong> 2024/06 (約2週間)<br>
+                <strong>デプロイ:</strong> Netlify
+              </p>
+              <p style="font-size: 12px; line-height: 1.4;">
+                2000年代初頭のレトロなホームページの雰囲気を現代の技術で再現。
+                テーブルレイアウト風のデザイン、ピクセルフォント、アニメーション等で
+                懐かしいWeb空間を表現しました ✨
+              </p>
+              <div class="mt-2">
+                <a href="https://github.com/nodoame/retro-portfolio" class="retro-button mr-2" target="_blank">
+                  💻 GitHub
+                </a>
+                <a href="https://nodoame-portfolio.netlify.app" class="retro-button" target="_blank">
+                  🌐 Live Demo
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- プロジェクト2：ジェネラティブアート -->
+        <div class="mb-6 p-4" style="background-color: #f5f0ff; border: 2px solid #9370db;">
+          <div class="flex items-start gap-4">
+            <div class="image-container">
+              <img src="https://via.placeholder.com/120x90/9932CC/FFFF00?text=Gen+Art" alt="ジェネラティブアート" style="image-rendering: pixelated;">
+              <div class="image-title">Art Generator ⚡</div>
+            </div>
+            <div class="flex-1">
+              <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 6px;">
+                🎨 ジェネラティブアート実験室
+              </h3>
+              <p style="font-size: 11px; margin-bottom: 8px;">
+                <strong>技術:</strong> Python + matplotlib + numpy<br>
+                <strong>制作期間:</strong> 2024/05〜継続中<br>
+                <strong>アートワーク数:</strong> 50+ 作品
+              </p>
+              <p style="font-size: 12px; line-height: 1.4;">
+                数学的アルゴリズムを使用してアート作品を自動生成。
+                フラクタル、ノイズ、ランダムウォークなど様々な手法を実験中。
+                毎回予想できない美しい作品が生まれるのが面白い！
+              </p>
+              <div class="mt-2">
+                <a href="https://github.com/nodoame/generative-art" class="retro-button mr-2" target="_blank">
+                  💻 Code
+                </a>
+                <a href="/gallery" class="retro-button">
+                  🖼️ Gallery
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- プロジェクト3：Webアプリ -->
+        <div class="mb-6 p-4" style="background-color: #f0fff0; border: 2px solid #32cd32;">
+          <div class="flex items-start gap-4">
+            <div class="image-container">
+              <img src="https://via.placeholder.com/120x90/32CD32/333333?text=Task+App" alt="タスク管理アプリ" style="image-rendering: pixelated;">
+              <div class="image-title">Todo Manager 📝</div>
+            </div>
+            <div class="flex-1">
+              <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 6px;">
+                ✅ レトロ風タスク管理アプリ
+              </h3>
+              <p style="font-size: 11px; margin-bottom: 8px;">
+                <strong>技術:</strong> React + TypeScript + Local Storage<br>
+                <strong>制作期間:</strong> 2024/04 (約1週間)<br>
+                <strong>機能:</strong> CRUD操作、フィルター、ドラッグ&ドロップ
+              </p>
+              <p style="font-size: 12px; line-height: 1.4;">
+                レトロなデザインのタスク管理アプリ。90年代のソフトウェアUIを
+                モチーフにしたボタンやウィンドウスタイルで、
+                機能性と懐かしさを両立させました 🖥️
+              </p>
+              <div class="mt-2">
+                <a href="https://github.com/nodoame/retro-todo" class="retro-button mr-2" target="_blank">
+                  💻 Source
+                </a>
+                <a href="https://retro-todo-nodoame.netlify.app" class="retro-button" target="_blank">
+                  🚀 Demo
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 研究・学習活動 -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          🔬 Research & Learning 🔬
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 大学での研究 -->
+          <div>
+            <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+              🎓 大学での研究活動
+            </h3>
+            <div style="font-size: 11px; background-color: #fff8dc; padding: 8px; border: 2px dashed #daa520;">
+              <p><strong>研究テーマ:</strong><br>
+              「Web技術を活用したインタラクティブアート表現の研究」</p>
+              
+              <p style="margin-top: 6px;"><strong>研究内容:</strong></p>
+              <ul style="margin-left: 15px;">
+                <li>ブラウザ上での実時間グラフィックス生成</li>
+                <li>ユーザーインタラクションとビジュアル表現の関係</li>
+                <li>WebGL・Canvas APIの活用手法</li>
+                <li>レスポンシブデザインとアート表現の両立</li>
+              </ul>
+              
+              <p style="margin-top: 6px;"><strong>成果物:</strong><br>
+              学会発表予定（2024年秋）、デモアプリ3つ制作済み</p>
+            </div>
+          </div>
+
+          <!-- 個人学習 -->
+          <div>
+            <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+              📚 個人学習・実験
+            </h3>
+            <div style="font-size: 11px; background-color: #f0f8ff; padding: 8px; border: 2px dashed #4169e1;">
+              <p><strong>最近の学習トピック:</strong></p>
+              <ul style="margin-left: 15px; margin-bottom: 8px;">
+                <li>Three.js でのシェーダープログラミング</li>
+                <li>p5.js を使った参加型アート作品</li>
+                <li>Web Audio API での音声ビジュアライザー</li>
+                <li>機械学習による画像生成（Python）</li>
+              </ul>
+              
+              <p><strong>参加しているコミュニティ:</strong></p>
+              <ul style="margin-left: 15px;">
+                <li>Creative Coding Japan (Discord)</li>
+                <li>Web制作者交流会（月1回参加）</li>
+                <li>ジェネラティブアート勉強会</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 技術記事・ブログ -->
+      <div class="retro-frame">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          📝 Tech Articles & Blog 📝
+        </h2>
+
+        <div style="font-size: 12px;">
+          <div class="mb-4 p-3" style="background-color: #fffacd; border: 1px solid #ffd700;">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 4px;">
+              📄 「Astroで作るレトロWebサイト」
+            </h4>
+            <p style="font-size: 10px; color: #666; margin-bottom: 4px;">2024/06/20 | Zenn投稿予定</p>
+            <p>このポートフォリオサイトの制作過程をまとめた技術記事。
+            Astroの静的サイト生成機能とTailwind CSSを使ったレトロスタイルの実装方法を詳しく解説</p>
+          </div>
+
+          <div class="mb-4 p-3" style="background-color: #f0fff0; border: 1px solid #32cd32;">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 4px;">
+              📄 「p5.jsで始めるジェネラティブアート」
+            </h4>
+            <p style="font-size: 10px; color: #666; margin-bottom: 4px;">2024/06/05 | Qiita</p>
+            <p>ジェネラティブアート初心者向けのチュートリアル記事。
+            基本的な図形描画からランダム要素を使った作品制作まで、実際のコード例と共に説明</p>
+          </div>
+
+          <div class="mb-4 p-3" style="background-color: #f8f8ff; border: 1px solid #9370db;">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 4px;">
+              📄 「CSS Grid vs Flexbox 使い分けガイド」
+            </h4>
+            <p style="font-size: 10px; color: #666; margin-bottom: 4px;">2024/05/15 | 個人ブログ</p>
+            <p>レスポンシブレイアウト設計でのCSS GridとFlexboxの
+            適材適所な使い分けについて、実例を交えて比較検討した記事</p>
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <a href="/blog" class="retro-button mr-2">📝 More Articles</a>
+          <a href="https://zenn.dev/nodoame" class="retro-button" target="_blank">📚 Zenn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 連絡・コラボレーション -->
+  <div class="retro-frame mt-6">
+    <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+      🤝 Collaboration & Contact 🤝
+    </h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          💼 お仕事・プロジェクト依頼
+        </h3>
+        <div style="font-size: 12px; background-color: #f0f8ff; padding: 10px; border: 2px dashed #4169e1;">
+          <p><strong>対応可能な案件:</strong></p>
+          <ul style="margin-left: 15px; margin-bottom: 8px;">
+            <li>レスポンシブWebサイト制作</li>
+            <li>フロントエンド開発（React/Astro）</li>
+            <li>UI/UXデザイン</li>
+            <li>ジェネラティブアート制作</li>
+            <li>技術記事・チュートリアル執筆</li>
+          </ul>
+          <p style="font-size: 11px; color: #666;">
+            ※ 学業と両立しながらの活動のため、規模や納期はご相談ください
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          👥 コラボレーション・交流
+        </h3>
+        <div style="font-size: 12px; background-color: #fff0f5; padding: 10px; border: 2px dashed #ff69b4;">
+          <p><strong>興味があること:</strong></p>
+          <ul style="margin-left: 15px; margin-bottom: 8px;">
+            <li>クリエイティブコーディング勉強会</li>
+            <li>ハッカソン・アイデアソン参加</li>
+            <li>オープンソースプロジェクト貢献</li>
+            <li>アート×テクノロジー企画</li>
+            <li>学生開発者コミュニティ活動</li>
+          </ul>
+          <p style="font-size: 11px;">
+            同じ興味を持つ方、一緒に何か作りませんか？ 🚀
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-6">
+      <div class="flex justify-center gap-3 flex-wrap">
+        <a href="mailto:nodoame.dev@example.com" class="retro-button">📧 Email</a>
+        <a href="https://github.com/nodoame" class="retro-button" target="_blank">💻 GitHub</a>
+        <a href="https://twitter.com/nodoame_dev" class="retro-button" target="_blank">🐦 Twitter</a>
+        <a href="https://discord.gg/nodoame" class="retro-button" target="_blank">💬 Discord</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- フローティングコード -->
+  <div style="position: fixed; bottom: 280px; right: 20px; z-index: 1000;">
+    <div style="font-size: 20px; animation: code-glow 3s ease-in-out infinite;">
+      💻
+    </div>
+  </div>
+
+  <style>
+    @keyframes code-glow {
+      0%, 100% { 
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px #4ecdc4);
+      }
+      50% { 
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 15px #ff6b9d);
+      }
+    }
+  </style>
+</Layout>
