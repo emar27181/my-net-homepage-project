@@ -131,6 +131,7 @@ const combinedStyle = [
     position: relative;
     display: block;
     padding: 1rem;
+    border-radius: 8px;
   }
 
   .neon-line-divider {
@@ -138,6 +139,7 @@ const combinedStyle = [
     margin: 1rem 0;
     border: none;
     background: transparent;
+    border-radius: 4px;
   }
 
   .neon-line-underline {
@@ -156,12 +158,14 @@ const combinedStyle = [
     border: inherit;
     box-shadow: inherit;
     animation: inherit;
+    border-radius: 2px;
   }
 
   .neon-line-frame {
     position: relative;
     display: block;
     padding: 1.5rem;
+    border-radius: 12px;
   }
 
   .neon-line-text {
@@ -186,9 +190,9 @@ const combinedStyle = [
     --neon-size-multiplier: 1.6;
   }
 
-  /* 角丸 */
+  /* 角丸の強化（roundedオプション使用時） */
   .rounded {
-    border-radius: calc(0.5rem * var(--neon-size-multiplier, 1));
+    border-radius: calc(1rem * var(--neon-size-multiplier, 1)) !important;
   }
 
   /* 無効状態 */
@@ -201,6 +205,7 @@ const combinedStyle = [
   .neon-line-fallback {
     border: 1px solid #333;
     opacity: 0.3;
+    border-radius: 8px;
   }
 
   /* レスポンシブ対応 */
