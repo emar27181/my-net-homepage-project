@@ -1,0 +1,323 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+---
+
+<Layout title="Game - nodoameのゲーム情報">
+  <!-- ページタイトル -->
+  <div class="marquee mb-6">
+    🎮 nodoame's Gaming World - VALORANT中心にFPSゲームの戦績・情報をお届け！ 🎮
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    
+    <!-- 左サイドバー：現在のステータス -->
+    <div class="lg:col-span-1">
+      <!-- 現在のランク -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px; text-align: center;">
+          🏆 Current Status
+        </h2>
+        
+        <div class="text-center mb-4">
+          <div class="image-container">
+            <!-- VALORANTランクアイコン（プレースホルダー） -->
+            <img src="https://via.placeholder.com/80x80/4169E1/FFFFFF?text=GOLD" alt="GOLDランク" style="image-rendering: pixelated;">
+            <div class="image-title">Gold 2 ⭐</div>
+          </div>
+        </div>
+
+        <table class="retro-table w-full" style="font-size: 11px;">
+          <tr>
+            <td style="background-color: #e6f3ff; font-weight: bold;">現在ランク</td>
+            <td>Gold 2 (67 RR)</td>
+          </tr>
+          <tr>
+            <td style="background-color: #e6f3ff; font-weight: bold;">最高ランク</td>
+            <td>Platinum 1</td>
+          </tr>
+          <tr>
+            <td style="background-color: #e6f3ff; font-weight: bold;">メインエージェント</td>
+            <td>オーメン 🌫️</td>
+          </tr>
+          <tr>
+            <td style="background-color: #e6f3ff; font-weight: bold;">サブエージェント</td>
+            <td>アストラ ⭐</td>
+          </tr>
+          <tr>
+            <td style="background-color: #e6f3ff; font-weight: bold;">総プレイ時間</td>
+            <td>約180時間</td>
+          </tr>
+          <tr>
+            <td style="background-color: #e6f3ff; font-weight: bold;">勝率</td>
+            <td>58% (直近20戦)</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- お気に入りマップ -->
+      <div class="retro-frame mb-6">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          🗺️ Favorite Maps
+        </h3>
+        <div style="font-size: 11px;">
+          <p><strong>1位:</strong> Split 🏢<br>
+          <span style="color: #666;">勝率 65% - 狭いマップでスモーク活かしやすい</span></p>
+          
+          <p><strong>2位:</strong> Bind 🚂<br>
+          <span style="color: #666;">勝率 62% - テレポータとの相性が良い</span></p>
+          
+          <p><strong>3位:</strong> Haven ⛪<br>
+          <span style="color: #666;">勝率 55% - 3サイトの守り方が楽しい</span></p>
+        </div>
+      </div>
+
+      <!-- 最近の戦績 -->
+      <div class="retro-frame">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          📊 Recent Matches
+        </h3>
+        <div style="font-size: 10px;">
+          <div class="mb-2 p-2" style="background-color: #e8f5e8; border: 1px solid #4caf50;">
+            <strong>勝利</strong> Ascent | 13-11<br>
+            オーメン | 18K/14D | MVP ⭐
+          </div>
+          <div class="mb-2 p-2" style="background-color: #ffe8e8; border: 1px solid #f44336;">
+            <strong>敗北</strong> Icebox | 10-13<br>
+            オーメン | 15K/16D
+          </div>
+          <div class="mb-2 p-2" style="background-color: #e8f5e8; border: 1px solid #4caf50;">
+            <strong>勝利</strong> Split | 13-8<br>
+            オーメン | 20K/12D | チームMVP 🏆
+          </div>
+          <div class="mb-2 p-2" style="background-color: #e8f5e8; border: 1px solid #4caf50;">
+            <strong>勝利</strong> Bind | 13-9<br>
+            アストラ | 16K/13D
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- メインコンテンツ：詳細情報 -->
+    <div class="lg:col-span-2">
+      <!-- エージェント情報 -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          🌟 Agent Profiles 🌟
+        </h2>
+
+        <!-- オーメン -->
+        <div class="mb-6">
+          <div class="flex items-center mb-3">
+            <div class="image-container mr-4">
+              <img src="https://via.placeholder.com/64x64/2E2E54/FFFFFF?text=OMEN" alt="オーメン" style="image-rendering: pixelated;">
+              <div class="image-title">Omen 🌫️</div>
+            </div>
+            <div>
+              <h3 style="font-family: var(--font-pixel); font-size: 14px;">OMEN (メイン)</h3>
+              <p style="font-size: 11px; color: #666;">使用率: 70% | 勝率: 61%</p>
+            </div>
+          </div>
+          
+          <div style="font-size: 12px; background-color: #f8f8f8; padding: 10px; border: 2px dashed #666;">
+            <p><strong>💪 得意なプレイ:</strong></p>
+            <ul style="margin-left: 15px; margin-bottom: 8px;">
+              <li>スモークでの味方サポート・視界封じ</li>
+              <li>フロムザシャドウズでの予想外な位置取り</li>
+              <li>パラノイアでの敵妨害・情報収集</li>
+              <li>ダークカバーでのサイト執行サポート</li>
+            </ul>
+            
+            <p><strong>🎯 プレイスタイル:</strong></p>
+            <p>攻めよりも守りが得意。チームの動きに合わせたスモーク配置を心がけて、
+            味方が有利なポジションを取れるようサポートしています。
+            テレポートは奇襲よりも安全な退避に使うことが多いかな 🌫️</p>
+          </div>
+        </div>
+
+        <!-- アストラ -->
+        <div class="mb-6">
+          <div class="flex items-center mb-3">
+            <div class="image-container mr-4">
+              <img src="https://via.placeholder.com/64x64/8A2BE2/FFFFFF?text=ASTRA" alt="アストラ" style="image-rendering: pixelated;">
+              <div class="image-title">Astra ⭐</div>
+            </div>
+            <div>
+              <h3 style="font-family: var(--font-pixel); font-size: 14px;">ASTRA (元メイン)</h3>
+              <p style="font-size: 11px; color: #666;">使用率: 25% | 勝率: 54%</p>
+            </div>
+          </div>
+          
+          <div style="font-size: 12px; background-color: #f5f0ff; padding: 10px; border: 2px dashed #8a2be2;">
+            <p><strong>💫 思い出:</strong></p>
+            <p>VALORANTを始めた頃からずっと使っていたエージェント。
+            アストラルフォームでマップ全体を見渡しながら戦略を立てるのがとても楽しかったです。
+            ただ、操作が複雑で味方との連携が難しく、最近はオーメンの方をメインにしています ⭐</p>
+            
+            <p style="margin-top: 8px;"><strong>🌟 得意だったスキル:</strong></p>
+            <ul style="margin-left: 15px;">
+              <li>グラビティウェルでの敵の動き制限</li>
+              <li>ノヴァパルスでのダメージ・情報取り</li>
+              <li>ネビュラでの広範囲スモーク</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- プレイスタイル・戦術 -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          ⚔️ Play Style & Tactics ⚔️
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+              🛡️ 守備時の戦術
+            </h3>
+            <div style="font-size: 11px; background-color: #e8f4f8; padding: 8px; border: 1px solid #4fc3f7;">
+              <ul style="margin-left: 15px;">
+                <li>早めのスモーク展開で敵の視界を遮断</li>
+                <li>音を聞いて適切なローテーション</li>
+                <li>パラノイアで敵の位置を探る</li>
+                <li>スパイクタイムでのワンウェイスモーク</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div>
+            <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+              ⚡ 攻撃時の戦術
+            </h3>
+            <div style="font-size: 11px; background-color: #fff3e0; padding: 8px; border: 1px solid #ffb74d;">
+              <ul style="margin-left: 15px;">
+                <li>デュエリストのエントリーをスモークでサポート</li>
+                <li>複数方向からの挟み撃ちを支援</li>
+                <li>リテイクでのフロムザシャドウズ活用</li>
+                <li>味方との連携を重視した立ち回り</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 p-3" style="background-color: #f0f8ff; border: 2px dashed #4169e1;">
+          <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 6px;">
+            💭 プレイで意識していること
+          </h4>
+          <p style="font-size: 11px;">
+            「チームの勝利」を最優先に考えています。キル数よりもチームへの貢献度を重視し、
+            味方が活躍できる環境を作ることを心がけています。コミュニケーションも大切にしていて、
+            敵の位置情報や戦術の提案を積極的に行うようにしています 🤝
+          </p>
+        </div>
+      </div>
+
+      <!-- 設定・デバイス情報 -->
+      <div class="retro-frame">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          ⚙️ Settings & Setup ⚙️
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+              🖱️ デバイス情報
+            </h3>
+            <table class="retro-table w-full" style="font-size: 10px;">
+              <tr>
+                <td style="background-color: #ffe6e6; font-weight: bold;">マウス</td>
+                <td>Logicool G Pro X</td>
+              </tr>
+              <tr>
+                <td style="background-color: #ffe6e6; font-weight: bold;">キーボード</td>
+                <td>HyperX Alloy</td>
+              </tr>
+              <tr>
+                <td style="background-color: #ffe6e6; font-weight: bold;">ヘッドセット</td>
+                <td>SteelSeries Arctis 7</td>
+              </tr>
+              <tr>
+                <td style="background-color: #ffe6e6; font-weight: bold;">モニター</td>
+                <td>144Hz 24インチ</td>
+              </tr>
+            </table>
+          </div>
+
+          <div>
+            <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+              ⚙️ ゲーム設定
+            </h3>
+            <table class="retro-table w-full" style="font-size: 10px;">
+              <tr>
+                <td style="background-color: #e6ffe6; font-weight: bold;">感度</td>
+                <td>0.35 (800 DPI)</td>
+              </tr>
+              <tr>
+                <td style="background-color: #e6ffe6; font-weight: bold;">クロスヘア</td>
+                <td>青色・アウトライン有</td>
+              </tr>
+              <tr>
+                <td style="background-color: #e6ffe6; font-weight: bold;">解像度</td>
+                <td>1920×1080</td>
+              </tr>
+              <tr>
+                <td style="background-color: #e6ffe6; font-weight: bold;">FPS制限</td>
+                <td>144fps固定</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 今後の目標 -->
+  <div class="retro-frame mt-6">
+    <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+      🎯 Goals & Objectives 🎯
+    </h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="text-center p-4" style="background-color: #fff8dc; border: 2px solid #daa520;">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          短期目標 (1ヶ月)
+        </h3>
+        <p style="font-size: 11px;">Platinumランクへの復帰 💎<br>
+        スモーク投げの精度向上<br>
+        コミュニケーション強化</p>
+      </div>
+      
+      <div class="text-center p-4" style="background-color: #f0f8ff; border: 2px solid #4682b4;">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          中期目標 (3ヶ月)
+        </h3>
+        <p style="font-size: 11px;">Diamondランク到達 💎<br>
+        複数エージェント習得<br>
+        チーム戦術の理解向上</p>
+      </div>
+      
+      <div class="text-center p-4" style="background-color: #f5f0ff; border: 2px solid #9370db;">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          長期目標 (1年)
+        </h3>
+        <p style="font-size: 11px;">Immortalランク挑戦 ⚡<br>
+        大会・コミュニティ参加<br>
+        ゲーム配信活動開始？</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- フローティングコントローラー -->
+  <div style="position: fixed; bottom: 220px; left: 20px; z-index: 1000;">
+    <div style="font-size: 24px; animation: gamepad-bounce 2s ease-in-out infinite;">
+      🎮
+    </div>
+  </div>
+
+  <style>
+    @keyframes gamepad-bounce {
+      0%, 100% { transform: translateY(0px) rotate(-5deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+  </style>
+</Layout>
