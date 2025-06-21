@@ -1044,10 +1044,10 @@ a:visited {
   .unified-double::after {
     content: '';
     position: absolute;
-    top: -6px;
-    left: -6px;
-    right: -6px;
-    bottom: -6px;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
     border: 1px solid currentColor;
     border-radius: inherit;
     opacity: 0.5;
@@ -1089,6 +1089,29 @@ a:visited {
 
 /* ネオンライン管理システム統合CSS */
 @layer neon-line-system {
+  /* グラデーション効果を無効化 */
+  .neon-line-primary::before,
+  .neon-line-primary::after,
+  .neon-line-secondary::before,
+  .neon-line-secondary::after,
+  .neon-line-cyan::before,
+  .neon-line-cyan::after,
+  .neon-line-pink::before,
+  .neon-line-pink::after,
+  .neon-line-lime::before,
+  .neon-line-lime::after,
+  .neon-line-success::before,
+  .neon-line-success::after,
+  .neon-line-warning::before,
+  .neon-line-warning::after,
+  .neon-line-error::before,
+  .neon-line-error::after,
+  .neon-line-gradient::before,
+  .neon-line-gradient::after,
+  .neon-line-subtle::before,
+  .neon-line-subtle::after {
+    display: none !important;
+  }
   /* 動的ネオンライン変数（TypeScriptから制御） */
   :root {
     /* プライマリー系 */
@@ -1182,62 +1205,271 @@ a:visited {
 
   /* 動的ネオンラインクラス生成 */
   .neon-line-primary { 
+    position: relative;
     border: var(--neon-line-primary-border-style);
     box-shadow: var(--neon-line-primary-shadow);
     animation: var(--neon-line-primary-animation);
     color: var(--neon-line-primary-color);
   }
 
+  .neon-line-primary::before {
+    content: '';
+    display: none;
+  }
+
+  .neon-line-primary::after {
+    content: '';
+    display: none;
+  }
+
   .neon-line-secondary { 
+    position: relative;
     border: var(--neon-line-secondary-border-style);
     box-shadow: var(--neon-line-secondary-shadow);
     animation: var(--neon-line-secondary-animation);
     color: var(--neon-line-secondary-color);
   }
 
+  .neon-line-secondary::before {
+    content: '';
+    display: none;
+  }
+
+  .neon-line-secondary::after {
+    content: '';
+    display: none;
+  }
+
   .neon-line-cyan { 
+    position: relative;
     border: var(--neon-line-cyan-border-style);
     box-shadow: var(--neon-line-cyan-shadow);
     animation: var(--neon-line-cyan-animation);
     color: var(--neon-line-cyan-color);
   }
 
+  .neon-line-cyan::before {
+    content: '';
+    display: none;
+  }
+
+  .neon-line-cyan::after {
+    content: '';
+    display: none;
+  }
+
   .neon-line-pink { 
+    position: relative;
     border: var(--neon-line-pink-border-style);
     box-shadow: var(--neon-line-pink-shadow);
     animation: var(--neon-line-pink-animation);
     color: var(--neon-line-pink-color);
   }
 
+  .neon-line-pink::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, 
+      transparent 0%, 
+      rgba(255, 20, 147, 0.075) 25%, 
+      rgba(255, 20, 147, 0.125) 50%, 
+      rgba(255, 20, 147, 0.075) 75%, 
+      transparent 100%);
+    border-radius: inherit;
+    z-index: -2;
+    filter: blur(2px);
+  }
+
+  .neon-line-pink::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: radial-gradient(ellipse at center, 
+      rgba(255, 20, 147, 0.075) 0%, 
+      rgba(255, 20, 147, 0.025) 50%, 
+      transparent 100%);
+    border-radius: inherit;
+    z-index: -3;
+    filter: blur(3px);
+  }
+
   .neon-line-lime { 
+    position: relative;
     border: var(--neon-line-lime-border-style);
     box-shadow: var(--neon-line-lime-shadow);
     animation: var(--neon-line-lime-animation);
     color: var(--neon-line-lime-color);
   }
 
+  .neon-line-lime::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, 
+      transparent 0%, 
+      rgba(50, 255, 50, 0.075) 25%, 
+      rgba(50, 255, 50, 0.125) 50%, 
+      rgba(50, 255, 50, 0.075) 75%, 
+      transparent 100%);
+    border-radius: inherit;
+    z-index: -2;
+    filter: blur(2px);
+  }
+
+  .neon-line-lime::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: radial-gradient(ellipse at center, 
+      rgba(50, 255, 50, 0.075) 0%, 
+      rgba(50, 255, 50, 0.025) 50%, 
+      transparent 100%);
+    border-radius: inherit;
+    z-index: -3;
+    filter: blur(3px);
+  }
+
   .neon-line-success { 
+    position: relative;
     border: var(--neon-line-success-border-style);
     box-shadow: var(--neon-line-success-shadow);
     animation: var(--neon-line-success-animation);
     color: var(--neon-line-success-color);
   }
 
+  .neon-line-success::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, 
+      transparent 0%, 
+      rgba(0, 255, 136, 0.075) 25%, 
+      rgba(0, 255, 136, 0.125) 50%, 
+      rgba(0, 255, 136, 0.075) 75%, 
+      transparent 100%);
+    border-radius: inherit;
+    z-index: -2;
+    filter: blur(2px);
+  }
+
+  .neon-line-success::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: radial-gradient(ellipse at center, 
+      rgba(0, 255, 136, 0.075) 0%, 
+      rgba(0, 255, 136, 0.025) 50%, 
+      transparent 100%);
+    border-radius: inherit;
+    z-index: -3;
+    filter: blur(3px);
+  }
+
   .neon-line-warning { 
+    position: relative;
     border: var(--neon-line-warning-border-style);
     box-shadow: var(--neon-line-warning-shadow);
     animation: var(--neon-line-warning-animation);
     color: var(--neon-line-warning-color);
   }
 
+  .neon-line-warning::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, 
+      transparent 0%, 
+      rgba(255, 102, 0, 0.075) 25%, 
+      rgba(255, 102, 0, 0.125) 50%, 
+      rgba(255, 102, 0, 0.075) 75%, 
+      transparent 100%);
+    border-radius: inherit;
+    z-index: -2;
+    filter: blur(2px);
+  }
+
+  .neon-line-warning::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: radial-gradient(ellipse at center, 
+      rgba(255, 102, 0, 0.075) 0%, 
+      rgba(255, 102, 0, 0.025) 50%, 
+      transparent 100%);
+    border-radius: inherit;
+    z-index: -3;
+    filter: blur(3px);
+  }
+
   .neon-line-error { 
+    position: relative;
     border: var(--neon-line-error-border-style);
     box-shadow: var(--neon-line-error-shadow);
     animation: var(--neon-line-error-animation);
     color: var(--neon-line-error-color);
   }
 
+  .neon-line-error::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, 
+      transparent 0%, 
+      rgba(255, 51, 51, 0.075) 25%, 
+      rgba(255, 51, 51, 0.125) 50%, 
+      rgba(255, 51, 51, 0.075) 75%, 
+      transparent 100%);
+    border-radius: inherit;
+    z-index: -2;
+    filter: blur(2px);
+  }
+
+  .neon-line-error::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: radial-gradient(ellipse at center, 
+      rgba(255, 51, 51, 0.075) 0%, 
+      rgba(255, 51, 51, 0.025) 50%, 
+      transparent 100%);
+    border-radius: inherit;
+    z-index: -3;
+    filter: blur(3px);
+  }
+
   .neon-line-gradient { 
+    position: relative;
     border: var(--neon-line-gradient-border-style);
     box-shadow: var(--neon-line-gradient-shadow);
     animation: var(--neon-line-gradient-animation);
@@ -1245,10 +1477,79 @@ a:visited {
     background: var(--neon-line-gradient-color);
   }
 
+  .neon-line-gradient::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, 
+      rgba(255, 0, 128, 0.1) 0%, 
+      rgba(0, 212, 255, 0.1) 25%, 
+      rgba(50, 255, 50, 0.1) 50%, 
+      rgba(255, 102, 0, 0.1) 75%, 
+      rgba(255, 0, 128, 0.1) 100%);
+    border-radius: inherit;
+    z-index: -2;
+    filter: blur(2px);
+  }
+
+  .neon-line-gradient::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: radial-gradient(ellipse at center, 
+      rgba(77, 121, 255, 0.075) 0%, 
+      rgba(77, 121, 255, 0.025) 50%, 
+      transparent 100%);
+    border-radius: inherit;
+    z-index: -3;
+    filter: blur(3px);
+  }
+
   .neon-line-subtle { 
+    position: relative;
     border: var(--neon-line-subtle-border-style);
     box-shadow: var(--neon-line-subtle-shadow);
     color: var(--neon-line-subtle-color);
+  }
+
+  .neon-line-subtle::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, 
+      transparent 0%, 
+      rgba(255, 255, 255, 0.075) 25%, 
+      rgba(255, 255, 255, 0.125) 50%, 
+      rgba(255, 255, 255, 0.075) 75%, 
+      transparent 100%);
+    border-radius: inherit;
+    z-index: -2;
+    filter: blur(2px);
+  }
+
+  .neon-line-subtle::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: radial-gradient(ellipse at center, 
+      rgba(255, 255, 255, 0.05) 0%, 
+      rgba(255, 255, 255, 0.015) 50%, 
+      transparent 100%);
+    border-radius: inherit;
+    z-index: -3;
+    filter: blur(3px);
   }
 
   /* サイズ別修飾子 */
