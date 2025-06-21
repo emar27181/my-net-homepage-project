@@ -1,0 +1,39 @@
+---
+// ナビゲーションコンポーネント
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { href: '/', label: 'HOME', icon: '🏠' },
+  { href: '/about', label: 'ABOUT', icon: '😊' },
+  { href: '/gallery', label: 'GALLERY', icon: '🎨' },
+  { href: '/game', label: 'GAME', icon: '🎮' },
+  { href: '/dev', label: 'DEV', icon: '💻' },
+  { href: '/blog', label: 'BLOG', icon: '📝' },
+  { href: '/link', label: 'LINK', icon: '🔗' }
+];
+---
+
+<nav class="retro-frame bg-yellow-100">
+  <table class="retro-table w-full">
+    <tr>
+      {navItems.map(item => (
+        <td class="text-center">
+          <a 
+            href={item.href} 
+            class={`retro-button ${currentPath === item.href ? 'bg-pink-200' : ''}`}
+          >
+            {item.icon} {item.label}
+          </a>
+        </td>
+      ))}
+    </tr>
+  </table>
+</nav>
+
+<style>
+  .retro-button.bg-pink-200 {
+    background: linear-gradient(to bottom, #fce7f3 0%, #f3e8ff 100%);
+    border: 2px inset #cccccc;
+    font-weight: bold;
+  }
+</style>

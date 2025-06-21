@@ -1,0 +1,106 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "nodoameのレトロなポートフォリオサイト" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="keywords" content="nodoame,ポートフォリオ,レトロ,VALORANT,イラスト,ドット絵,Web制作" />
+    <meta name="author" content="nodoame" />
+    
+    <!-- レトロな雰囲気のためのメタタグ -->
+    <meta name="generator" content="Astro v4.x" />
+    <style>
+      /* HTMLファイルでmarqueeタグを使用するためのポリフィル */
+      marquee {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        animation: marquee 15s linear infinite;
+      }
+      
+      @keyframes marquee {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- レトロな枠線でページ全体を囲む -->
+    <div class="min-h-screen max-w-4xl mx-auto bg-white border-4 border-gray-400" style="border-style: ridge;">
+      
+      <!-- ヘッダー部分：タイトルとナビゲーション -->
+      <header class="retro-frame bg-gradient-to-r from-pink-200 to-blue-200">
+        <h1 style="font-family: var(--font-pixel); font-size: 16px; text-align: center; color: #333; text-shadow: 2px 2px 0px #fff;">
+          🌟 nodoame's Homepage 🌟
+        </h1>
+        <p style="text-align: center; font-size: 12px; margin-top: 8px;">
+          ✨ レトロなWeb世界へようこそ! ✨
+        </p>
+      </header>
+
+      <!-- ナビゲーションバー -->
+      <nav class="retro-frame bg-yellow-100">
+        <table class="retro-table w-full">
+          <tr>
+            <td class="text-center">
+              <a href="/" class="retro-button">🏠 HOME</a>
+            </td>
+            <td class="text-center">
+              <a href="/about" class="retro-button">😊 ABOUT</a>
+            </td>
+            <td class="text-center">
+              <a href="/gallery" class="retro-button">🎨 GALLERY</a>
+            </td>
+            <td class="text-center">
+              <a href="/game" class="retro-button">🎮 GAME</a>
+            </td>
+            <td class="text-center">
+              <a href="/dev" class="retro-button">💻 DEV</a>
+            </td>
+            <td class="text-center">
+              <a href="/blog" class="retro-button">📝 BLOG</a>
+            </td>
+            <td class="text-center">
+              <a href="/link" class="retro-button">🔗 LINK</a>
+            </td>
+          </tr>
+        </table>
+      </nav>
+
+      <!-- メインコンテンツエリア -->
+      <main class="p-4">
+        <slot />
+      </main>
+
+      <!-- フッター -->
+      <footer class="retro-frame bg-gray-100 text-center mt-8">
+        <p style="font-family: var(--font-pixel); font-size: 10px;">
+          💫 Created by nodoame | Powered by Astro + Tailwind CSS 💫
+        </p>
+        <p style="font-size: 10px; margin-top: 4px;">
+          <span>⏰ Last Updated: {new Date().toLocaleDateString('ja-JP')}</span>
+        </p>
+        <div class="flex justify-center items-center gap-2 mt-2">
+          <img src="https://via.placeholder.com/31x15/FF69B4/FFFFFF?text=Made+with+♥" alt="Made with Love" style="image-rendering: pixelated;" />
+          <img src="https://via.placeholder.com/80x15/4169E1/FFFFFF?text=Astro+Powered" alt="Astro Powered" style="image-rendering: pixelated;" />
+        </div>
+      </footer>
+    </div>
+
+    <!-- グローバルスタイルをインポート -->
+    <style>
+      @import '../styles/global.css';
+    </style>
+  </body>
+</html>
