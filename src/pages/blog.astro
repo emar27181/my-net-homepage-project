@@ -1,0 +1,342 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+
+// ブログ記事のデータ（実際の開発では外部ファイルやCMSから取得）
+const blogPosts = [
+  {
+    id: 1,
+    title: "レトロWebサイト制作完了！✨",
+    date: "2024-06-21",
+    category: "Web制作",
+    emoji: "🌟",
+    content: "ついにポートフォリオサイトが完成しました！Astroとの格闘の日々でしたが、思い描いていた2000年代風のデザインを実現できて満足です。マーキータグのアニメーションとかテーブルレイアウト風のスタイリングとか、レトロ要素をたくさん詰め込みました。次はもっとインタラクティブな要素を追加してみたいな～",
+    tags: ["Astro", "Web制作", "レトロデザイン"]
+  },
+  {
+    id: 2,
+    title: "VALORANTでついにGold到達！🎮",
+    date: "2024-06-18",
+    category: "ゲーム",
+    emoji: "🏆",
+    content: "ランク戦でGold 2まで上がることができました！オーメンでのスモーク練習が実って、チームに貢献できている実感があります。特に昨日の試合ではMVPを取れて嬉しかった～。次の目標はPlatinumです。エイムの練習も頑張らないと！",
+    tags: ["VALORANT", "ランク戦", "オーメン"]
+  },
+  {
+    id: 3,
+    title: "ジェネラティブアートが面白すぎる件",
+    date: "2024-06-15",
+    category: "アート",
+    emoji: "🎨",
+    content: "p5.jsを使ってランダムな図形を生成するプログラムを書いてみました。数学とアートの融合って感じで、実行するたびに違う作品ができるのが本当に面白い！フラクタル図形とかノイズを使った表現とか、まだまだ試したいことがたくさんあります。いつか展示会とかで発表してみたいな。",
+    tags: ["ジェネラティブアート", "p5.js", "プログラミング"]
+  },
+  {
+    id: 4,
+    title: "猫カフェに行ってきました🐱",
+    date: "2024-06-12",
+    category: "日常",
+    emoji: "☕",
+    content: "久しぶりに猫カフェでまったりしてきました。白い毛玉みたいな子が膝の上で寝ちゃって、1時間くらい動けませんでした(笑) やっぱり猫は最高に癒されますね。スケッチブックを持参して何匹か描いてきたので、後でデジタル化してイラストにしようと思います！",
+    tags: ["猫", "イラスト", "癒し"]
+  },
+  {
+    id: 5,
+    title: "大学の研究発表の準備中💻",
+    date: "2024-06-08",
+    category: "研究",
+    emoji: "📚",
+    content: "秋の学会に向けて研究発表の準備を進めています。テーマは「Web技術を活用したインタラクティブアート」で、これまで作ってきた作品をまとめる感じです。Three.jsを使った3D表現の部分がまだ完成していないので、夏休み中に頑張って実装しないと。先輩からのアドバイスも参考にしながら進めていきます。",
+    tags: ["研究", "学会", "Three.js"]
+  },
+  {
+    id: 6,
+    title: "新しいPixelアートに挑戦！",
+    date: "2024-06-05",
+    category: "アート",
+    emoji: "🕹️",
+    content: "Asepriteを使って8bit風のキャラクターを作ってみました。歩行アニメーションも作ったんですが、フレーム間の動きを滑らかにするのが意外と難しい！でもレトロゲームっぽい雰囲気が出せて満足です。今度はもっと複雑なアクションも作ってみたいな。",
+    tags: ["ピクセルアート", "Aseprite", "アニメーション"]
+  },
+  {
+    id: 7,
+    title: "Reactでタスク管理アプリ作成📝",
+    date: "2024-06-01",
+    category: "Web制作",
+    emoji: "⚡",
+    content: "TypeScriptを勉強がてら、Reactでシンプルなタスク管理アプリを作りました。Local Storageでデータ保存、ドラッグ&ドロップでの並び替え機能も実装。レトロなUIデザインにこだわって、90年代のソフトウェア風にしてみました。型安全性の恩恵を感じられて、TypeScript良いですね！",
+    tags: ["React", "TypeScript", "Webアプリ"]
+  },
+  {
+    id: 8,
+    title: "初めてのZenn記事投稿✍️",
+    date: "2024-05-28",
+    category: "技術記事",
+    emoji: "📖",
+    content: "技術記事をZennに初投稿しました！「p5.jsで始めるジェネラティブアート」というタイトルで、初心者向けのチュートリアルを書きました。自分の知識をアウトプットするのって、理解が深まるし誰かの役に立てるかもしれないしで良いことずくめですね。今度はAstroの記事も書いてみようと思います。",
+    tags: ["Zenn", "技術記事", "アウトプット"]
+  }
+];
+---
+
+<Layout title="Blog - nodoameの日記・雑記">
+  <!-- ページタイトル -->
+  <div class="marquee mb-6">
+    📝 nodoame's Digital Diary - 日常・技術・ゲーム・創作活動について気ままに書いてます 📝
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    
+    <!-- サイドバー：カテゴリ・アーカイブ -->
+    <div class="lg:col-span-1">
+      <!-- カテゴリー -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px; text-align: center;">
+          📂 Categories
+        </h2>
+        <div style="font-size: 11px;">
+          <button class="category-filter w-full text-left p-2 mb-1 border border-gray-300 hover:bg-gray-100" data-category="all">
+            🌟 全ての記事 (8)
+          </button>
+          <button class="category-filter w-full text-left p-2 mb-1 border border-gray-300 hover:bg-gray-100" data-category="Web制作">
+            💻 Web制作 (2)
+          </button>
+          <button class="category-filter w-full text-left p-2 mb-1 border border-gray-300 hover:bg-gray-100" data-category="ゲーム">
+            🎮 ゲーム (1)
+          </button>
+          <button class="category-filter w-full text-left p-2 mb-1 border border-gray-300 hover:bg-gray-100" data-category="アート">
+            🎨 アート (2)
+          </button>
+          <button class="category-filter w-full text-left p-2 mb-1 border border-gray-300 hover:bg-gray-100" data-category="研究">
+            📚 研究 (1)
+          </button>
+          <button class="category-filter w-full text-left p-2 mb-1 border border-gray-300 hover:bg-gray-100" data-category="日常">
+            ☕ 日常 (1)
+          </button>
+          <button class="category-filter w-full text-left p-2 mb-1 border border-gray-300 hover:bg-gray-100" data-category="技術記事">
+            📖 技術記事 (1)
+          </button>
+        </div>
+      </div>
+
+      <!-- アーカイブ -->
+      <div class="retro-frame mb-6">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          📅 Archive
+        </h3>
+        <div style="font-size: 11px;">
+          <p>📆 <strong>2024年6月</strong> (7件)</p>
+          <p>📆 <strong>2024年5月</strong> (1件)</p>
+          <p style="color: #666; font-size: 10px; margin-top: 8px;">
+            ※ ブログ開始: 2024年5月
+          </p>
+        </div>
+      </div>
+
+      <!-- タグクラウド -->
+      <div class="retro-frame mb-6">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          🏷️ Tags
+        </h3>
+        <div class="flex flex-wrap gap-1" style="font-size: 9px;">
+          <span class="px-2 py-1 bg-blue-100 border border-blue-300 text-blue-800">Web制作</span>
+          <span class="px-2 py-1 bg-purple-100 border border-purple-300 text-purple-800">Astro</span>
+          <span class="px-2 py-1 bg-green-100 border border-green-300 text-green-800">VALORANT</span>
+          <span class="px-2 py-1 bg-pink-100 border border-pink-300 text-pink-800">アート</span>
+          <span class="px-2 py-1 bg-yellow-100 border border-yellow-300 text-yellow-800">p5.js</span>
+          <span class="px-2 py-1 bg-red-100 border border-red-300 text-red-800">猫</span>
+          <span class="px-2 py-1 bg-indigo-100 border border-indigo-300 text-indigo-800">研究</span>
+          <span class="px-2 py-1 bg-teal-100 border border-teal-300 text-teal-800">React</span>
+        </div>
+      </div>
+
+      <!-- プロフィール（ミニ版） -->
+      <div class="retro-frame">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px; text-align: center;">
+          👤 About Writer
+        </h3>
+        <div class="text-center">
+          <div class="image-container mb-2">
+            <img src="https://via.placeholder.com/60x60/FFB6C1/333333?text=nodoame" alt="nodoame" style="image-rendering: pixelated;">
+          </div>
+          <p style="font-size: 10px;">
+            <strong>nodoame</strong><br>
+            大学生 | プログラマー | アーティスト<br>
+            レトロ文化とテクノロジーを愛する創作者
+          </p>
+          <div class="mt-2">
+            <a href="/about" class="retro-button" style="font-size: 9px;">More Info</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- メインコンテンツ：ブログ記事一覧 -->
+    <div class="lg:col-span-3">
+      <!-- ブログ紹介 -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 8px; text-align: center;">
+          ✨ Welcome to nodoame's Blog! ✨
+        </h2>
+        <p style="font-size: 12px; text-align: center; line-height: 1.4;">
+          日々の制作活動・学習・ゲーム・日常について気ままに書いています 😊<br>
+          レトロなWeb文化への愛と、テクノロジーへの情熱をお届け！
+        </p>
+      </div>
+
+      <!-- 記事一覧 -->
+      <div class="space-y-6">
+        {blogPosts.map(post => (
+          <article class="retro-frame blog-post" data-category={post.category}>
+            <!-- 記事ヘッダー -->
+            <div class="flex items-start gap-3 mb-3">
+              <div style="font-size: 32px; line-height: 1;">
+                {post.emoji}
+              </div>
+              <div class="flex-1">
+                <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 4px;">
+                  {post.title}
+                </h3>
+                <div class="flex items-center gap-4" style="font-size: 10px; color: #666;">
+                  <span>📅 {post.date}</span>
+                  <span class="px-2 py-1 rounded" style={`background-color: ${
+                    post.category === 'Web制作' ? '#e3f2fd' :
+                    post.category === 'ゲーム' ? '#f3e5f5' :
+                    post.category === 'アート' ? '#fff3e0' :
+                    post.category === '研究' ? '#e8f5e8' :
+                    post.category === '日常' ? '#fce4ec' :
+                    '#f5f5f5'
+                  }; color: #333;`}>
+                    {post.category}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 記事本文 -->
+            <div style="font-size: 12px; line-height: 1.6; margin-bottom: 12px; padding: 10px; background-color: #fafafa; border: 1px dashed #ccc;">
+              {post.content}
+            </div>
+
+            <!-- タグ -->
+            <div class="flex flex-wrap gap-1 mb-3">
+              {post.tags.map(tag => (
+                <span class="px-2 py-1 bg-gray-100 border border-gray-300 text-gray-700" style="font-size: 9px;">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+
+            <!-- 記事フッター -->
+            <div class="flex justify-between items-center" style="font-size: 10px; color: #666; border-top: 1px dashed #ccc; padding-top: 8px;">
+              <div class="flex items-center gap-3">
+                <span>💬 コメント (0)</span>
+                <span>👍 いいね (0)</span>
+                <span>🔄 シェア</span>
+              </div>
+              <a href={`/blog/${post.id}`} class="retro-button" style="font-size: 9px;">
+                続きを読む →
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- ページネーション -->
+      <div class="retro-frame mt-8 text-center">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          📄 Page Navigation
+        </h3>
+        <div class="flex justify-center items-center gap-2">
+          <span class="retro-button" style="background-color: #f0f0f0; color: #ccc;">« Prev</span>
+          <span class="retro-button" style="background-color: #ff69b4; color: white;">1</span>
+          <span class="retro-button">2</span>
+          <span class="retro-button">3</span>
+          <span class="retro-button">Next »</span>
+        </div>
+        <p style="font-size: 10px; margin-top: 6px; color: #666;">
+          1 / 3 ページ（全 8 記事）
+        </p>
+      </div>
+
+      <!-- RSS・更新情報 -->
+      <div class="retro-frame mt-6">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px; text-align: center;">
+          📡 Subscribe & Updates
+        </h3>
+        <div class="text-center">
+          <p style="font-size: 11px; margin-bottom: 8px;">
+            新着記事をチェックしよう！
+          </p>
+          <div class="flex justify-center gap-2">
+            <a href="/rss.xml" class="retro-button">📡 RSS Feed</a>
+            <a href="https://twitter.com/nodoame_blog" class="retro-button" target="_blank">🐦 Twitter</a>
+            <a href="#" class="retro-button">📧 Newsletter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- フローティングノート -->
+  <div style="position: fixed; bottom: 340px; left: 20px; z-index: 1000;">
+    <div style="font-size: 20px; animation: note-float 4s ease-in-out infinite;">
+      📝
+    </div>
+  </div>
+
+  <style>
+    .category-filter.active {
+      background-color: #ff69b4;
+      color: white;
+      border-color: #ff1493;
+    }
+
+    .blog-post {
+      transition: opacity 0.3s ease;
+    }
+
+    .blog-post.hidden {
+      display: none;
+    }
+
+    @keyframes note-float {
+      0%, 100% { 
+        transform: translateY(0px) rotate(-2deg);
+      }
+      50% { 
+        transform: translateY(-8px) rotate(2deg);
+      }
+    }
+  </style>
+
+  <script>
+    // カテゴリーフィルター機能
+    document.addEventListener('DOMContentLoaded', function() {
+      const categoryFilters = document.querySelectorAll('.category-filter');
+      const blogPosts = document.querySelectorAll('.blog-post');
+
+      categoryFilters.forEach(filter => {
+        filter.addEventListener('click', function() {
+          const category = this.dataset.category;
+          
+          // アクティブフィルターの切り替え
+          categoryFilters.forEach(f => f.classList.remove('active'));
+          this.classList.add('active');
+          
+          // 記事の表示/非表示
+          blogPosts.forEach(post => {
+            if (category === 'all' || post.dataset.category === category) {
+              post.classList.remove('hidden');
+            } else {
+              post.classList.add('hidden');
+            }
+          });
+        });
+      });
+
+      // 初期状態で「全ての記事」を選択
+      document.querySelector('[data-category="all"]').classList.add('active');
+    });
+  </script>
+</Layout>
