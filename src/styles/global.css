@@ -1112,9 +1112,110 @@ a:visited {
   .neon-line-subtle::after {
     display: none !important;
   }
+  /* 一元管理カラーパレット - 水色統一 */
+  :root {
+    /* メインカラー統一 */
+    --unified-border-color: #4d79ff;          /* 青 - 枠線・境界線 */
+    --unified-text-primary: #00d4ff;          /* 水色 - メインテキスト */
+    --unified-text-secondary: #7ae7ff;        /* 明るい水色 - セカンダリテキスト */
+    --unified-text-accent: #00b8e6;           /* 濃い水色 - アクセント */
+    --unified-bg-color: rgba(0, 212, 255, 0.05); /* 薄い水色背景 */
+    --unified-highlight-color: #33ddff;       /* ハイライト水色 */
+    
+    /* 後方互換性のための変数 */
+    --unified-text-color: var(--unified-text-primary);
+    --unified-accent-color: var(--unified-text-accent);
+
+    /* 要素別詳細色設定 */
+    --text-h1: var(--unified-text-accent);
+    --text-h2: var(--unified-text-primary);
+    --text-h3: var(--unified-text-primary);
+    --text-body: var(--unified-text-primary);
+    --text-link: var(--unified-highlight-color);
+    --text-button: var(--unified-text-accent);
+  }
+
+  /* 一元管理カラー適用 */
+  body {
+    color: var(--unified-text-primary) !important;
+  }
+
+  /* 見出しの階層的色設定 */
+  h1 {
+    color: var(--text-h1) !important;
+    text-shadow: 0 0 10px var(--text-h1);
+  }
+
+  h2 {
+    color: var(--text-h2) !important;
+    text-shadow: 0 0 8px var(--text-h2);
+  }
+
+  h3, h4, h5, h6 {
+    color: var(--text-h3) !important;
+    text-shadow: 0 0 6px var(--text-h3);
+  }
+
+  /* 基本テキスト要素 */
+  p, span, div, li, td, th {
+    color: var(--text-body) !important;
+  }
+
+  /* 強調要素 */
+  strong, b {
+    color: var(--unified-text-accent) !important;
+    text-shadow: 0 0 5px var(--unified-text-accent);
+  }
+
+  em, i {
+    color: var(--unified-text-secondary) !important;
+  }
+
+  /* リンク要素 */
+  a:link, a:visited {
+    color: var(--text-link) !important;
+    text-shadow: 0 0 5px var(--text-link);
+  }
+
+  a:hover, a:active {
+    color: var(--unified-text-accent) !important;
+    text-shadow: 0 0 8px var(--unified-text-accent);
+  }
+
+  /* ナビゲーション関連 */
+  .neon-nav-link {
+    color: var(--text-button) !important;
+  }
+
+  .neon-nav-link:hover {
+    color: var(--unified-highlight-color) !important;
+    text-shadow: 0 0 10px var(--unified-highlight-color);
+  }
+
+  /* ボタン関連 */
+  .retro-button {
+    color: var(--text-button) !important;
+  }
+
+  /* 背景の統一 */
+  .neon-line-border,
+  .neon-line-frame {
+    background-color: var(--unified-bg-color);
+  }
+
+  /* 特殊要素の色設定 */
+  .profile-quote {
+    color: var(--unified-text-secondary) !important;
+  }
+
+  .image-title {
+    color: var(--unified-text-accent) !important;
+    text-shadow: 0 0 5px var(--unified-text-accent);
+  }
+
   /* 動的ネオンライン変数（TypeScriptから制御） */
   :root {
-    /* プライマリー系 */
+    /* プライマリー系 - ブルー統一 */
     --neon-line-primary-color: #4d79ff;
     --neon-line-primary-thickness: 2px;
     --neon-line-primary-opacity: 0.9;
@@ -1123,84 +1224,84 @@ a:visited {
     --neon-line-primary-animation: neon-pulse 2s infinite;
     --neon-line-primary-border-style: 2px solid #4d79ff;
 
-    /* セカンダリー系 */
-    --neon-line-secondary-color: #8000ff;
+    /* セカンダリー系 - ブルー統一 */
+    --neon-line-secondary-color: #4d79ff;
     --neon-line-secondary-thickness: 2px;
-    --neon-line-secondary-opacity: 0.8;
-    --neon-line-secondary-blur: 8px;
-    --neon-line-secondary-shadow: inset 0 0 8px rgba(128, 0, 255, 0.2), 0 0 8px #8000ff, 0 0 16px #8000ff, 0 0 24px rgba(128, 0, 255, 0.28);
-    --neon-line-secondary-animation: neon-glow 3s infinite;
-    --neon-line-secondary-border-style: 2px solid #8000ff;
+    --neon-line-secondary-opacity: 0.9;
+    --neon-line-secondary-blur: 10px;
+    --neon-line-secondary-shadow: inset 0 0 10px rgba(77, 121, 255, 0.2), 0 0 10px #4d79ff, 0 0 20px #4d79ff, 0 0 30px rgba(77, 121, 255, 0.28);
+    --neon-line-secondary-animation: neon-pulse 2s infinite;
+    --neon-line-secondary-border-style: 2px solid #4d79ff;
 
-    /* シアン系 */
-    --neon-line-cyan-color: #00d4ff;
-    --neon-line-cyan-thickness: 1px;
-    --neon-line-cyan-opacity: 0.85;
-    --neon-line-cyan-blur: 12px;
-    --neon-line-cyan-shadow: inset 0 0 12px rgba(0, 212, 255, 0.3), 0 0 12px #00d4ff, 0 0 24px #00d4ff, 0 0 36px rgba(0, 212, 255, 0.28);
-    --neon-line-cyan-animation: neon-breathe 2.5s infinite;
-    --neon-line-cyan-border-style: 1px solid #00d4ff;
+    /* シアン系 - ブルー統一 */
+    --neon-line-cyan-color: #4d79ff;
+    --neon-line-cyan-thickness: 2px;
+    --neon-line-cyan-opacity: 0.9;
+    --neon-line-cyan-blur: 10px;
+    --neon-line-cyan-shadow: inset 0 0 10px rgba(77, 121, 255, 0.2), 0 0 10px #4d79ff, 0 0 20px #4d79ff, 0 0 30px rgba(77, 121, 255, 0.28);
+    --neon-line-cyan-animation: neon-pulse 2s infinite;
+    --neon-line-cyan-border-style: 2px solid #4d79ff;
 
-    /* ピンク系 */
-    --neon-line-pink-color: #ff1493;
-    --neon-line-pink-thickness: 3px;
-    --neon-line-pink-opacity: 0.95;
-    --neon-line-pink-blur: 15px;
-    --neon-line-pink-shadow: inset 0 0 15px rgba(255, 20, 147, 0.3), 0 0 15px #ff1493, 0 0 30px #ff1493, 0 0 45px #ff1493, 0 0 60px rgba(255, 20, 147, 0.28);
-    --neon-line-pink-animation: neon-flicker 3s infinite;
-    --neon-line-pink-border-style: 3px solid #ff1493;
+    /* ピンク系 - ブルー統一 */
+    --neon-line-pink-color: #4d79ff;
+    --neon-line-pink-thickness: 2px;
+    --neon-line-pink-opacity: 0.9;
+    --neon-line-pink-blur: 10px;
+    --neon-line-pink-shadow: inset 0 0 10px rgba(77, 121, 255, 0.2), 0 0 10px #4d79ff, 0 0 20px #4d79ff, 0 0 30px rgba(77, 121, 255, 0.28);
+    --neon-line-pink-animation: neon-pulse 2s infinite;
+    --neon-line-pink-border-style: 2px solid #4d79ff;
 
-    /* ライム系 */
-    --neon-line-lime-color: #32ff32;
+    /* ライム系 - ブルー統一 */
+    --neon-line-lime-color: #4d79ff;
     --neon-line-lime-thickness: 2px;
-    --neon-line-lime-opacity: 0.8;
+    --neon-line-lime-opacity: 0.9;
     --neon-line-lime-blur: 10px;
-    --neon-line-lime-shadow: inset 0 0 10px rgba(50, 255, 50, 0.2), 0 0 10px #32ff32, 0 0 20px #32ff32, 0 0 30px rgba(50, 255, 50, 0.28);
-    --neon-line-lime-animation: neon-wave 4s infinite;
-    --neon-line-lime-border-style: 2px solid #32ff32;
+    --neon-line-lime-shadow: inset 0 0 10px rgba(77, 121, 255, 0.2), 0 0 10px #4d79ff, 0 0 20px #4d79ff, 0 0 30px rgba(77, 121, 255, 0.28);
+    --neon-line-lime-animation: neon-pulse 2s infinite;
+    --neon-line-lime-border-style: 2px solid #4d79ff;
 
-    /* 状態系 */
-    --neon-line-success-color: #00ff88;
-    --neon-line-success-thickness: 1px;
-    --neon-line-success-opacity: 0.8;
-    --neon-line-success-blur: 8px;
-    --neon-line-success-shadow: inset 0 0 8px rgba(0, 255, 136, 0.2), 0 0 8px #00ff88, 0 0 16px #00ff88, 0 0 24px rgba(0, 255, 136, 0.28);
-    --neon-line-success-animation: neon-glow 3s infinite;
-    --neon-line-success-border-style: 1px solid #00ff88;
+    /* 状態系 - 全てブルー統一 */
+    --neon-line-success-color: #4d79ff;
+    --neon-line-success-thickness: 2px;
+    --neon-line-success-opacity: 0.9;
+    --neon-line-success-blur: 10px;
+    --neon-line-success-shadow: inset 0 0 10px rgba(77, 121, 255, 0.2), 0 0 10px #4d79ff, 0 0 20px #4d79ff, 0 0 30px rgba(77, 121, 255, 0.28);
+    --neon-line-success-animation: neon-pulse 2s infinite;
+    --neon-line-success-border-style: 2px solid #4d79ff;
 
-    --neon-line-warning-color: #ff6600;
+    --neon-line-warning-color: #4d79ff;
     --neon-line-warning-thickness: 2px;
     --neon-line-warning-opacity: 0.9;
     --neon-line-warning-blur: 10px;
-    --neon-line-warning-shadow: inset 0 0 10px rgba(255, 102, 0, 0.3), 0 0 10px #ff6600, 0 0 20px #ff6600, 0 0 30px rgba(255, 102, 0, 0.28);
+    --neon-line-warning-shadow: inset 0 0 10px rgba(77, 121, 255, 0.2), 0 0 10px #4d79ff, 0 0 20px #4d79ff, 0 0 30px rgba(77, 121, 255, 0.28);
     --neon-line-warning-animation: neon-pulse 2s infinite;
-    --neon-line-warning-border-style: 2px solid #ff6600;
+    --neon-line-warning-border-style: 2px solid #4d79ff;
 
-    --neon-line-error-color: #ff3333;
-    --neon-line-error-thickness: 3px;
-    --neon-line-error-opacity: 0.95;
-    --neon-line-error-blur: 12px;
-    --neon-line-error-shadow: inset 0 0 12px rgba(255, 51, 51, 0.3), 0 0 12px #ff3333, 0 0 24px #ff3333, 0 0 36px #ff3333, 0 0 48px rgba(255, 51, 51, 0.28);
-    --neon-line-error-animation: neon-flicker 3s infinite;
-    --neon-line-error-border-style: 3px solid #ff3333;
+    --neon-line-error-color: #4d79ff;
+    --neon-line-error-thickness: 2px;
+    --neon-line-error-opacity: 0.9;
+    --neon-line-error-blur: 10px;
+    --neon-line-error-shadow: inset 0 0 10px rgba(77, 121, 255, 0.2), 0 0 10px #4d79ff, 0 0 20px #4d79ff, 0 0 30px rgba(77, 121, 255, 0.28);
+    --neon-line-error-animation: neon-pulse 2s infinite;
+    --neon-line-error-border-style: 2px solid #4d79ff;
 
-    /* グラデーション系 */
-    --neon-line-gradient-color: linear-gradient(45deg, #ff0080, #00d4ff, #32ff32, #ff6600);
-    --neon-line-gradient-thickness: 4px;
-    --neon-line-gradient-opacity: 0.7;
-    --neon-line-gradient-blur: 20px;
-    --neon-line-gradient-shadow: inset 0 0 20px rgba(77, 121, 255, 0.3), 0 0 20px #4d79ff, 0 0 40px #4d79ff, 0 0 60px #4d79ff, 0 0 80px rgba(77, 121, 255, 0.28);
-    --neon-line-gradient-animation: neon-wave 4s infinite;
-    --neon-line-gradient-border-style: 4px solid #4d79ff;
+    /* グラデーション系 - ブルー統一 */
+    --neon-line-gradient-color: #4d79ff;
+    --neon-line-gradient-thickness: 2px;
+    --neon-line-gradient-opacity: 0.9;
+    --neon-line-gradient-blur: 10px;
+    --neon-line-gradient-shadow: inset 0 0 10px rgba(77, 121, 255, 0.2), 0 0 10px #4d79ff, 0 0 20px #4d79ff, 0 0 30px rgba(77, 121, 255, 0.28);
+    --neon-line-gradient-animation: neon-pulse 2s infinite;
+    --neon-line-gradient-border-style: 2px solid #4d79ff;
 
-    /* サブトル系 */
-    --neon-line-subtle-color: #ffffff;
-    --neon-line-subtle-thickness: 1px;
-    --neon-line-subtle-opacity: 0.5;
-    --neon-line-subtle-blur: 5px;
-    --neon-line-subtle-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1), 0 0 5px #ffffff;
-    --neon-line-subtle-animation: none;
-    --neon-line-subtle-border-style: 1px solid #ffffff;
+    /* サブトル系 - ブルー統一 */
+    --neon-line-subtle-color: #4d79ff;
+    --neon-line-subtle-thickness: 2px;
+    --neon-line-subtle-opacity: 0.9;
+    --neon-line-subtle-blur: 10px;
+    --neon-line-subtle-shadow: inset 0 0 10px rgba(77, 121, 255, 0.2), 0 0 10px #4d79ff, 0 0 20px #4d79ff, 0 0 30px rgba(77, 121, 255, 0.28);
+    --neon-line-subtle-animation: neon-pulse 2s infinite;
+    --neon-line-subtle-border-style: 2px solid #4d79ff;
   }
 
   /* 動的ネオンラインクラス生成 */

@@ -131,7 +131,7 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
         <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
           📊 Visitor Counter
         </h3>
-        <div style="background-color: #000; color: #8000ff; padding: 8px; border: 2px inset #ccc; font-family: monospace; font-size: 16px;">
+        <div style="background-color: #000; color: #00d4ff; padding: 8px; border: 2px inset #ccc; font-family: monospace; font-size: 16px;">
           👥 Total Visitors: 001337 
         </div>
         <p style="font-size: 10px; margin-top: 4px;">
@@ -163,13 +163,52 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
   </style>
 
   <script>
-    // ネオンライン管理システムの初期化
+    // ネオンライン管理システムとカラー管理システムの初期化
     import { neonLineManager } from '../utils/neonLineManager';
+    import { colorManager } from '../utils/colorManager';
 
     // ページロード時にCSS変数を適用
     document.addEventListener('DOMContentLoaded', () => {
+      // ネオンライン管理システム初期化
       neonLineManager.applyToDOM();
       console.log('ネオンライン管理システムが初期化されました');
+
+      // カラー管理システム初期化（水色テーマ）
+      colorManager.setColorScheme('cyan');
+      colorManager.applyToDOM();
+      console.log('カラー管理システムが初期化されました（水色テーマ）');
+      console.log('現在の色設定:', colorManager.getColorInfo());
     });
+
+    // 開発時用のカラー変更関数
+    if (import.meta.env.DEV) {
+      (window as any).colorDemo = {
+        // 色スキーム変更
+        setScheme: (schemeId: string) => {
+          colorManager.setColorScheme(schemeId);
+          colorManager.applyToDOM();
+          console.log(`カラースキームを ${schemeId} に変更しました`);
+        },
+        
+        // 特定色変更
+        updateColor: (colorType: string, color: string) => {
+          colorManager.updateColor(colorType as any, color);
+          colorManager.applyToDOM();
+          console.log(`${colorType} を ${color} に変更しました`);
+        },
+        
+        // 現在の色情報表示
+        showColors: () => {
+          console.table(colorManager.getColorInfo());
+        },
+        
+        // 利用可能なスキーム表示
+        showSchemes: () => {
+          console.table(colorManager.getAvailableSchemes());
+        }
+      };
+      
+      console.log('開発モード: window.colorDemo でカラー管理関数にアクセスできます');
+    }
   </script>
 </Layout>
