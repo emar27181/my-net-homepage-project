@@ -1,0 +1,349 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+---
+
+<Layout title="Link - nodoameのお気に入りリンク集">
+  <!-- ページタイトル -->
+  <div class="marquee mb-6">
+    🔗 nodoame's Link Collection - お気に入りサイト・相互リンク・懐かしのWebリング風リンク集！ 🔗
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    
+    <!-- サイドバー：バナー・ボタンエリア -->
+    <div class="lg:col-span-1">
+      <!-- 当サイトのバナー -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px; text-align: center;">
+          🏠 当サイトのバナー
+        </h2>
+        <div class="text-center">
+          <div class="image-container mb-3">
+            <img src="https://via.placeholder.com/200x60/FF69B4/FFFFFF?text=nodoame's+Homepage" alt="nodoameのホームページバナー" style="image-rendering: pixelated;">
+            <div class="image-title">200×60 バナー</div>
+          </div>
+          <div class="image-container mb-3">
+            <img src="https://via.placeholder.com/120x40/4169E1/FFFFFF?text=nodoame" alt="nodoame小バナー" style="image-rendering: pixelated;">
+            <div class="image-title">120×40 バナー</div>
+          </div>
+          <p style="font-size: 10px; margin-top: 8px;">
+            リンクご自由にどうぞ！<br>
+            相互リンクも大歓迎です 😊
+          </p>
+        </div>
+      </div>
+
+      <!-- レトロWebリング風 -->
+      <div class="retro-frame mb-6">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px; text-align: center;">
+          🌐 Web Ring Style
+        </h3>
+        <div class="text-center" style="background-color: #000; color: #00ff00; padding: 8px; border: 2px inset #ccc; font-family: monospace; font-size: 10px;">
+          <p>◄◄ PREV | <span style="color: #ffff00;">RANDOM</span> | NEXT ►►</p>
+          <p style="margin-top: 4px;">【 Creative Coders Ring 】</p>
+          <p style="color: #ff69b4; font-size: 8px;">Member #42 of 128</p>
+        </div>
+        <p style="font-size: 9px; text-align: center; margin-top: 4px; color: #666;">
+          ※ 雰囲気作りのための演出です
+        </p>
+      </div>
+
+      <!-- アクセスカウンター風 -->
+      <div class="retro-frame mb-6">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px; text-align: center;">
+          📊 Access Counter
+        </h3>
+        <div class="text-center">
+          <div style="background-color: #000; color: #00ff00; padding: 6px; border: 2px inset #ccc; font-family: monospace; font-size: 14px; margin-bottom: 4px;">
+            🔢 000123456
+          </div>
+          <div style="font-size: 9px;">
+            <p>📅 Today: 042</p>
+            <p>📈 Yesterday: 038</p>
+            <p>📊 Total: 123456</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 最終更新情報 -->
+      <div class="retro-frame">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px; text-align: center;">
+          🔄 Update Info
+        </h3>
+        <div style="font-size: 10px;">
+          <p><strong>最終更新:</strong><br>
+          2024/06/21 (リンク追加)</p>
+          
+          <p style="margin-top: 6px;"><strong>更新履歴:</strong></p>
+          <ul style="margin-left: 15px; font-size: 9px;">
+            <li>06/21: 新しい相互リンク 3件</li>
+            <li>06/18: デザインリンク追加</li>
+            <li>06/15: 技術系リンク整理</li>
+            <li>06/10: ページ作成</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- メインコンテンツ：リンク集 -->
+    <div class="lg:col-span-2">
+      
+      <!-- 相互リンク -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          🤝 相互リンク・お友達サイト 🤝
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 友達サイト1 -->
+          <div class="p-3" style="background-color: #fff0f5; border: 2px solid #ff69b4;">
+            <div class="flex items-center gap-3 mb-2">
+              <img src="https://via.placeholder.com/40x40/87CEEB/333333?text=AI" alt="あいちゃんのサイト" style="image-rendering: pixelated;">
+              <div>
+                <h4 style="font-family: var(--font-pixel); font-size: 11px;">あいちゃんの創作工房</h4>
+                <p style="font-size: 9px; color: #666;">イラスト・小説・ハンドメイド</p>
+              </div>
+            </div>
+            <p style="font-size: 10px;">同じ大学の友達のサイト！可愛いイラストとオリジナル小説がいっぱい ✨</p>
+            <a href="https://ai-creative.example.com" class="retro-button mt-2" style="font-size: 9px;" target="_blank">Visit →</a>
+          </div>
+
+          <!-- 友達サイト2 -->
+          <div class="p-3" style="background-color: #f0f8ff; border: 2px solid #4169e1;">
+            <div class="flex items-center gap-3 mb-2">
+              <img src="https://via.placeholder.com/40x40/32CD32/333333?text=CODE" alt="コードラボ" style="image-rendering: pixelated;">
+              <div>
+                <h4 style="font-family: var(--font-pixel); font-size: 11px;">Code Laboratory</h4>
+                <p style="font-size: 9px; color: #666;">プログラミング・技術記事</p>
+              </div>
+            </div>
+            <p style="font-size: 10px;">プログラミング仲間のテック系ブログ。勉強になる記事がたくさん！</p>
+            <a href="https://codelab.example.com" class="retro-button mt-2" style="font-size: 9px;" target="_blank">Visit →</a>
+          </div>
+
+          <!-- 友達サイト3 -->
+          <div class="p-3" style="background-color: #f5f0ff; border: 2px solid #9370db;">
+            <div class="flex items-center gap-3 mb-2">
+              <img src="https://via.placeholder.com/40x40/FF6347/FFFFFF?text=GAME" alt="ゲーマーズカフェ" style="image-rendering: pixelated;">
+              <div>
+                <h4 style="font-family: var(--font-pixel); font-size: 11px;">Gamer's Café</h4>
+                <p style="font-size: 9px; color: #666;">ゲーム攻略・レビュー</p>
+              </div>
+            </div>
+            <p style="font-size: 10px;">VALORANTの戦術とか一緒に考えてくれる頼もしいゲーム仲間 🎮</p>
+            <a href="https://gamers-cafe.example.com" class="retro-button mt-2" style="font-size: 9px;" target="_blank">Visit →</a>
+          </div>
+
+          <!-- 友達サイト4 -->
+          <div class="p-3" style="background-color: #f0fff0; border: 2px solid #32cd32;">
+            <div class="flex items-center gap-3 mb-2">
+              <img src="https://via.placeholder.com/40x40/FFB6C1/333333?text=CAT" alt="ねこねこ日記" style="image-rendering: pixelated;">
+              <div>
+                <h4 style="font-family: var(--font-pixel); font-size: 11px;">ねこねこ日記</h4>
+                <p style="font-size: 9px; color: #666;">猫写真・猫イラスト・猫グッズ</p>
+              </div>
+            </div>
+            <p style="font-size: 10px;">猫好きさんのほのぼのサイト。見てるだけで癒される～ 🐱</p>
+            <a href="https://neko-diary.example.com" class="retro-button mt-2" style="font-size: 9px;" target="_blank">Visit →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- お気に入り技術系サイト -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          💻 技術・学習サイト 💻
+        </h2>
+
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 p-3" style="background-color: #f8f8f8; border: 1px solid #ddd;">
+            <img src="https://via.placeholder.com/32x32/FF6B35/FFFFFF?text=MDN" alt="MDN" style="image-rendering: pixelated;">
+            <div class="flex-1">
+              <h4 style="font-family: var(--font-pixel); font-size: 11px;">MDN Web Docs</h4>
+              <p style="font-size: 10px; color: #666;">Web技術の公式リファレンス。困った時はここ！</p>
+            </div>
+            <a href="https://developer.mozilla.org" class="retro-button" style="font-size: 9px;" target="_blank">Visit</a>
+          </div>
+
+          <div class="flex items-center gap-3 p-3" style="background-color: #f8f8f8; border: 1px solid #ddd;">
+            <img src="https://via.placeholder.com/32x32/47A248/FFFFFF?text=Zenn" alt="Zenn" style="image-rendering: pixelated;">
+            <div class="flex-1">
+              <h4 style="font-family: var(--font-pixel); font-size: 11px;">Zenn</h4>
+              <p style="font-size: 10px; color: #666;">日本の技術者コミュニティ。質の高い記事がたくさん</p>
+            </div>
+            <a href="https://zenn.dev" class="retro-button" style="font-size: 9px;" target="_blank">Visit</a>
+          </div>
+
+          <div class="flex items-center gap-3 p-3" style="background-color: #f8f8f8; border: 1px solid #ddd;">
+            <img src="https://via.placeholder.com/32x32/FF6C37/FFFFFF?text=P5" alt="p5.js" style="image-rendering: pixelated;">
+            <div class="flex-1">
+              <h4 style="font-family: var(--font-pixel); font-size: 11px;">p5.js</h4>
+              <p style="font-size: 10px; color: #666;">クリエイティブコーディングの必須ライブラリ</p>
+            </div>
+            <a href="https://p5js.org" class="retro-button" style="font-size: 9px;" target="_blank">Visit</a>
+          </div>
+
+          <div class="flex items-center gap-3 p-3" style="background-color: #f8f8f8; border: 1px solid #ddd;">
+            <img src="https://via.placeholder.com/32x32/FF3E00/FFFFFF?text=Astro" alt="Astro" style="image-rendering: pixelated;">
+            <div class="flex-1">
+              <h4 style="font-family: var(--font-pixel); font-size: 11px;">Astro</h4>
+              <p style="font-size: 10px; color: #666;">このサイトでも使用中の最新Web框架</p>
+            </div>
+            <a href="https://astro.build" class="retro-button" style="font-size: 9px;" target="_blank">Visit</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- デザイン・クリエイティブ系 -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          🎨 デザイン・アート・インスピレーション 🎨
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="p-3" style="background-color: #fff8f0; border: 1px solid #ff8c00;">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 4px;">
+              🌈 Color Hunt
+            </h4>
+            <p style="font-size: 10px; margin-bottom: 6px;">色彩パレットのインスピレーション源</p>
+            <a href="https://colorhunt.co" class="retro-button" style="font-size: 9px;" target="_blank">Visit</a>
+          </div>
+
+          <div class="p-3" style="background-color: #f0f8ff; border: 1px solid #4169e1;">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 4px;">
+              🔤 Google Fonts
+            </h4>
+            <p style="font-size: 10px; margin-bottom: 6px;">豊富なWebフォントライブラリ</p>
+            <a href="https://fonts.google.com" class="retro-button" style="font-size: 9px;" target="_blank">Visit</a>
+          </div>
+
+          <div class="p-3" style="background-color: #f5f0ff; border: 1px solid #9370db;">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 4px;">
+              🎯 Dribbble
+            </h4>
+            <p style="font-size: 10px; margin-bottom: 6px;">世界のデザイナー作品集</p>
+            <a href="https://dribbble.com" class="retro-button" style="font-size: 9px;" target="_blank">Visit</a>
+          </div>
+
+          <div class="p-3" style="background-color: #fff0f5; border: 1px solid #ff69b4;">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 4px;">
+              🖼️ Unsplash
+            </h4>
+            <p style="font-size: 10px; margin-bottom: 6px;">高品質フリー写真素材サイト</p>
+            <a href="https://unsplash.com" class="retro-button" style="font-size: 9px;" target="_blank">Visit</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- レトロWeb・懐かしサイト -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          📼 レトロWeb・懐かしのインターネット 📼
+        </h2>
+
+        <div class="space-y-3">
+          <div class="p-3" style="background-color: #ffe4e1; border: 2px dashed #ff6b9d;">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 4px;">
+              🕰️ Internet Archive - Wayback Machine
+            </h4>
+            <p style="font-size: 10px; margin-bottom: 6px;">
+              過去のWebサイトを見ることができるタイムマシン！2000年代の懐かしサイトを探すのが楽しい
+            </p>
+            <a href="https://web.archive.org" class="retro-button" style="font-size: 9px;" target="_blank">Visit</a>
+          </div>
+
+          <div class="p-3" style="background-color: #e1f5fe; border: 2px dashed #29b6f6;">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 4px;">
+              🎮 GEOCITIES Gallery
+            </h4>
+            <p style="font-size: 10px; margin-bottom: 6px;">
+              伝説の無料ホームページサービス「ジオシティーズ」のアーカイブ集
+            </p>
+            <a href="https://geocities.restorativland.org" class="retro-button" style="font-size: 9px;" target="_blank">Visit</a>
+          </div>
+
+          <div class="p-3" style="background-color: #f3e5f5; border: 2px dashed #ba68c8;">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 4px;">
+              ✨ Pixel Art Maker
+            </h4>
+            <p style="font-size: 10px; margin-bottom: 6px;">
+              ブラウザ上でドット絵が描けるツール。レトロゲーム風の素材作りに便利
+            </p>
+            <a href="https://www.pixilart.com" class="retro-button" style="font-size: 9px;" target="_blank">Visit</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- リンクについて・お願い -->
+      <div class="retro-frame">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          📋 リンクについて・相互リンクのお誘い 📋
+        </h2>
+
+        <div style="font-size: 12px; line-height: 1.6;">
+          <div class="mb-4 p-3" style="background-color: #f0f8ff; border: 2px dashed #4169e1;">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 6px;">
+              🤝 相互リンクについて
+            </h4>
+            <p style="font-size: 11px;">
+              個人サイト・創作系サイトとの相互リンク大歓迎です！<br>
+              特に以下のような方と交流できると嬉しいです：
+            </p>
+            <ul style="margin-left: 20px; margin-top: 6px; font-size: 11px;">
+              <li>Web制作・プログラミングに興味がある方</li>
+              <li>イラスト・デザイン・アート制作をされている方</li>
+              <li>ゲーム好き（特にVALORANT）の方</li>
+              <li>レトロ文化・懐かしWeb文化が好きな方</li>
+              <li>大学生・同世代のクリエイターさん</li>
+            </ul>
+          </div>
+
+          <div class="mb-4 p-3" style="background-color: #fff0f5; border: 2px dashed #ff69b4;">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 6px;">
+              📧 リンク申請方法
+            </h4>
+            <p style="font-size: 11px;">
+              メールまたはTwitterのDMでお気軽にご連絡ください！<br>
+              <strong>記載事項:</strong> サイト名、URL、簡単な紹介文、バナー画像（あれば）
+            </p>
+            <div class="mt-3">
+              <a href="mailto:nodoame@example.com" class="retro-button mr-2" style="font-size: 10px;">📧 Email</a>
+              <a href="https://twitter.com/nodoame_art" class="retro-button" style="font-size: 10px;" target="_blank">🐦 Twitter</a>
+            </div>
+          </div>
+
+          <div class="p-3" style="background-color: #f0fff0; border: 2px dashed #32cd32;">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 6px;">
+              ⚠️ リンクポリシー
+            </h4>
+            <ul style="margin-left: 20px; font-size: 11px;">
+              <li>当サイトへのリンクは基本的にフリーです</li>
+              <li>バナー画像の直リンクはご遠慮ください</li>
+              <li>公序良俗に反するサイトとのリンクはお断りします</li>
+              <li>更新停止が長期間続いている場合、リンクを削除する場合があります</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- フローティングリンクアイコン -->
+  <div style="position: fixed; bottom: 400px; right: 20px; z-index: 1000;">
+    <div style="font-size: 22px; animation: link-swing 3s ease-in-out infinite;">
+      🔗
+    </div>
+  </div>
+
+  <style>
+    @keyframes link-swing {
+      0%, 100% { 
+        transform: rotate(-10deg) scale(1);
+      }
+      50% { 
+        transform: rotate(10deg) scale(1.1);
+      }
+    }
+  </style>
+</Layout>
