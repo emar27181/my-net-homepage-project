@@ -1,5 +1,6 @@
 ---
 // Today's Word コンポーネント - 一元管理
+import NeonLine from './NeonLine.astro';
 
 // 今日の言葉の配列（日替わりで表示）
 const todaysWords = [
@@ -26,7 +27,7 @@ const {
 } = Astro.props;
 ---
 
-<div class={`profile-section ${className}`}>
+<NeonLine lineId="primary" type="frame" size="sm" class={className}>
   {showTitle && (
     <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px; color: var(--profile-text-secondary);">
       💭 Today's Word
@@ -37,4 +38,4 @@ const {
       <span>{line}<br/></span>
     ))}
   </div>
-</div>
+</NeonLine>
