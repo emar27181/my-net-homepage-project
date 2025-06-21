@@ -1,0 +1,166 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+
+const currentDate = new Date().toLocaleDateString('ja-JP', {
+  year: 'numeric',
+  month: 'long', 
+  day: 'numeric'
+});
+---
+
+<Layout title="nodoame's Homepage - レトロなポートフォリオ">
+  <!-- 更新情報のマーキー -->
+  <div class="marquee mb-6">
+    🌟 Welcome to nodoame's retro homepage! 🌟 最新情報: VALORANTランク更新中 | 新しいイラスト作品をギャラリーに追加しました! | ジェネラティブアート実験中... 🌟
+  </div>
+
+  <!-- メインコンテンツ -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    
+    <!-- 左サイドバー -->
+    <div class="md:col-span-1">
+      <!-- プロフィール写真 -->
+      <div class="retro-frame text-center mb-4">
+        <h2 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px;">
+          💫 Profile 💫
+        </h2>
+        <div class="image-container">
+          <img src="https://via.placeholder.com/120x120/FFB6C1/333333?text=nodoame" alt="nodoameのアバター" class="mx-auto" style="image-rendering: pixelated;">
+          <div class="image-title">nodoame 🐱</div>
+        </div>
+        <p style="font-size: 12px; padding: 8px;">
+          <strong>ネットネーム:</strong> nodoame<br>
+          <strong>年齢:</strong> 大学生<br>
+          <strong>趣味:</strong> ゲーム・イラスト・Web制作<br>
+          <strong>好きなもの:</strong> 猫・レトロ・ドット絵
+        </p>
+      </div>
+
+      <!-- 最近の活動 -->
+      <div class="retro-frame mb-4">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          📅 Recent Activity
+        </h3>
+        <div style="font-size: 11px; line-height: 1.4;">
+          <p>🎮 <strong>{currentDate}</strong><br>
+          VALORANT オーメンでランク戦頑張ってます！</p>
+          
+          <p>🎨 <strong>2024/06/15</strong><br>
+          新しい猫のイラストを描きました～</p>
+          
+          <p>💻 <strong>2024/06/10</strong><br>
+          ジェネラティブアート実験開始！</p>
+        </div>
+      </div>
+
+      <!-- 今日の一言 -->
+      <div class="retro-frame">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          💭 Today's Word
+        </h3>
+        <p style="font-size: 11px; background-color: #fff0f5; padding: 6px; border: 1px dashed #ff69b4;">
+          "レトロなWebサイトって見てるだけで癒される～ ✨<br>
+          昔のインターネットの温かみを大切にしたいな 🌟"
+        </p>
+      </div>
+    </div>
+
+    <!-- メインコンテンツエリア -->
+    <div class="md:col-span-2">
+      <!-- 自己紹介 -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          🌟 Welcome to nodoame's Homepage! 🌟
+        </h2>
+        
+        <div style="font-size: 13px; line-height: 1.6;">
+          <p>こんにちは！ネットネーム <strong>nodoame</strong> です 😊</p>
+          
+          <p>このサイトは2000年代初頭のレトロなホームページの雰囲気を再現して作りました。
+          懐かしいHTML4時代のテーブルレイアウトやアニメーションGIF、ピクセルフォントなどを使って、
+          あの頃のインターネットの温かみを表現しています ✨</p>
+          
+          <p><strong>🎮 好きなゲーム:</strong><br>
+          VALORANT（オーメン専、元アストラ専）でFPSを楽しんでいます！<br>
+          ランク戦でコツコツ上達中... 頑張ります！</p>
+          
+          <p><strong>🎨 イラスト・アート:</strong><br>
+          猫のイラストや漫画の模写、ロゴ作成が得意です。<br>
+          最近はジェネラティブアートにも挑戦中で、プログラムで生成するアートの面白さを探求しています。</p>
+          
+          <p><strong>💻 Web制作・プログラミング:</strong><br>
+          大学で情報科学を学びながら、Web制作の技術を身につけています。<br>
+          このサイトもAstro + Tailwind CSSで作成しました！</p>
+        </div>
+      </div>
+
+      <!-- お気に入りリンク -->
+      <div class="retro-frame mb-6">
+        <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px;">
+          🔗 Quick Links
+        </h3>
+        <table class="retro-table w-full">
+          <tr>
+            <td style="width: 50%;">
+              <a href="/gallery" class="retro-button w-full block text-center">
+                🎨 作品ギャラリー
+              </a>
+            </td>
+            <td style="width: 50%;">
+              <a href="/game" class="retro-button w-full block text-center">
+                🎮 ゲーム情報
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/dev" class="retro-button w-full block text-center">
+                💻 開発・研究
+              </a>
+            </td>
+            <td>
+              <a href="/blog" class="retro-button w-full block text-center">
+                📝 日記・雑記
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- 訪問者カウンター風 -->
+      <div class="retro-frame text-center">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          📊 Visitor Counter
+        </h3>
+        <div style="background-color: #000; color: #00ff00; padding: 8px; border: 2px inset #ccc; font-family: monospace; font-size: 16px;">
+          👥 Total Visitors: 001337 
+        </div>
+        <p style="font-size: 10px; margin-top: 4px;">
+          ※ レトロな雰囲気作りのための演出です 😉
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- フローティングアイコン（装飾用） -->
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+    <div style="background: linear-gradient(45deg, #ff6b9d, #4ecdc4); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border: 3px solid #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.3); animation: bounce 2s infinite;">
+      <span style="font-size: 24px;">🌟</span>
+    </div>
+  </div>
+
+  <style>
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+  </style>
+</Layout>
