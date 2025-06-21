@@ -1,31 +1,232 @@
 ---
-// ネオンライン コンポーネント - 区切り線・装飾線の一元管理
+/**
+ * ネオンライン参照コンポーネント
+ * 中央管理されたネオンライン設定を参照して表示
+ */
 
-export interface Props {
-  type?: 'horizontal' | 'vertical' | 'divider' | 'simple';
-  className?: string;
-  style?: string;
+interface Props {
+  /** ネオンライン設定ID */
+  lineId: string;
+  /** サイズ (sm | md | lg | xl) */
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  /** 表示タイプ */
+  type?: 'border' | 'divider' | 'underline' | 'frame';
+  /** 追加のCSSクラス */
+  class?: string;
+  /** 幅 (divider用) */
+  width?: string;
+  /** 高さ (divider用) */
+  height?: string;
+  /** テキスト (underline用) */
+  text?: string;
+  /** 角丸 */
+  rounded?: boolean;
+  /** 無効化 */
+  disabled?: boolean;
 }
 
 const { 
-  type = 'horizontal',
-  className = '',
-  style = ''
+  lineId, 
+  size = 'md', 
+  type = 'border', 
+  class: className = '', 
+  width = '100%', 
+  height = '2px',
+  text,
+  rounded = false,
+  disabled = false,
+  ...props 
 } = Astro.props;
+
+// TypeScriptでの型安全性のためにここで設定を参照
+import { neonLineManager } from '../utils/neonLineManager';
+
+const config = neonLineManager.getConfig(lineId);
+const isEnabled = config && config.enabled && !disabled;
+const neonClass = isEnabled ? neonLineManager.getClassName(lineId, size) : '';
+const inlineStyle = isEnabled ? neonLineManager.getInlineStyle(lineId) : '';
+
+// タイプ別のクラスとスタイルを決定
+let typeClass = '';
+let typeStyle = '';
+let Tag: keyof HTMLElementTagNameMap = 'div';
+
+switch (type) {
+  case 'border':
+    typeClass = 'neon-line-border';
+    Tag = 'div';
+    break;
+  case 'divider':
+    typeClass = 'neon-line-divider';
+    typeStyle = `width: ${width}; height: ${height};`;
+    Tag = 'hr';
+    break;
+  case 'underline':
+    typeClass = 'neon-line-underline';
+    Tag = 'span';
+    break;
+  case 'frame':
+    typeClass = 'neon-line-frame';
+    Tag = 'div';
+    break;
+}
+
+const combinedClass = [
+  typeClass,
+  neonClass,
+  rounded ? 'rounded' : '',
+  disabled ? 'disabled' : '',
+  className
+].filter(Boolean).join(' ');
+
+const combinedStyle = [
+  inlineStyle,
+  typeStyle
+].filter(Boolean).join(' ');
 ---
 
-{type === 'horizontal' && (
-  <div class={`neon-line-horizontal ${className}`} style={style}></div>
+<!-- ネオンライン参照コンポーネント -->
+{isEnabled ? (
+  <Tag 
+    class={combinedClass}
+    style={combinedStyle}
+    data-neon-line={lineId}
+    data-neon-size={size}
+    data-neon-type={type}
+    {...props}
+  >
+    {type === 'underline' && text && (
+      <span class="neon-line-text">{text}</span>
+    )}
+    {type === 'frame' && (
+      <slot />
+    )}
+    {type === 'border' && (
+      <slot />
+    )}
+  </Tag>
+) : (
+  <!-- フォールバック表示（ネオン効果なし） -->
+  <Tag 
+    class={`neon-line-fallback ${typeClass} ${className}`}
+    data-neon-line={lineId}
+    data-disabled="true"
+    {...props}
+  >
+    {type === 'underline' && text && (
+      <span class="neon-line-text">{text}</span>
+    )}
+    {type === 'frame' && (
+      <slot />
+    )}
+    {type === 'border' && (
+      <slot />
+    )}
+  </Tag>
 )}
 
-{type === 'vertical' && (
-  <div class={`neon-line-vertical ${className}`} style={style}></div>
-)}
+<style>
+  /* ベーススタイル */
+  .neon-line-border {
+    position: relative;
+    display: block;
+    padding: 1rem;
+  }
 
-{type === 'divider' && (
-  <div class={`neon-divider ${className}`} style={style}></div>
-)}
+  .neon-line-divider {
+    display: block;
+    margin: 1rem 0;
+    border: none;
+    background: transparent;
+  }
 
-{type === 'simple' && (
-  <div class={`neon-line ${className}`} style={style}></div>
-)}
+  .neon-line-underline {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+  }
+
+  .neon-line-underline::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border: inherit;
+    box-shadow: inherit;
+    animation: inherit;
+  }
+
+  .neon-line-frame {
+    position: relative;
+    display: block;
+    padding: 1.5rem;
+  }
+
+  .neon-line-text {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* サイズバリエーション */
+  .neon-line-sm {
+    --neon-size-multiplier: 0.7;
+  }
+
+  .neon-line-md {
+    --neon-size-multiplier: 1;
+  }
+
+  .neon-line-lg {
+    --neon-size-multiplier: 1.3;
+  }
+
+  .neon-line-xl {
+    --neon-size-multiplier: 1.6;
+  }
+
+  /* 角丸 */
+  .rounded {
+    border-radius: calc(0.5rem * var(--neon-size-multiplier, 1));
+  }
+
+  /* 無効状態 */
+  .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* フォールバック */
+  .neon-line-fallback {
+    border: 1px solid #333;
+    opacity: 0.3;
+  }
+
+  /* レスポンシブ対応 */
+  @media (max-width: 768px) {
+    .neon-line-border,
+    .neon-line-frame {
+      padding: 0.75rem;
+    }
+    
+    .neon-line-xl {
+      --neon-size-multiplier: 1.2;
+    }
+  }
+
+  /* アクセシビリティ対応 */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+    }
+  }
+
+  /* ダークモード対応 */
+  @media (prefers-color-scheme: dark) {
+    .neon-line-fallback {
+      border-color: #666;
+      opacity: 0.5;
+    }
+  }
+</style>
