@@ -527,3 +527,562 @@ a:visited {
   border-color: var(--text-accessible-purple);
   box-shadow: inset 0 0 10px rgba(179, 153, 255, 0.1);
 }
+
+/* ネオンボーダー・ユーティリティクラス */
+@layer utilities {
+  /* サイズ別ネオンボーダー */
+  .neon-border-sm {
+    border: 1px solid var(--neon-primary);
+    box-shadow: 
+      inset 0 0 5px rgba(77, 121, 255, 0.2),
+      0 0 5px var(--neon-primary),
+      0 0 10px var(--neon-primary);
+    position: relative;
+    border-radius: 2px;
+  }
+  
+  .neon-border-md {
+    border: 2px solid var(--neon-primary);
+    box-shadow: 
+      inset 0 0 10px rgba(77, 121, 255, 0.2),
+      0 0 10px var(--neon-primary),
+      0 0 20px var(--neon-primary);
+    position: relative;
+    border-radius: 4px;
+  }
+  
+  .neon-border-lg {
+    border: 3px solid var(--neon-primary);
+    box-shadow: 
+      inset 0 0 15px rgba(77, 121, 255, 0.3),
+      0 0 15px var(--neon-primary),
+      0 0 30px var(--neon-primary);
+    position: relative;
+    border-radius: 6px;
+  }
+  
+  .neon-border-xl {
+    border: 4px solid var(--neon-primary);
+    box-shadow: 
+      inset 0 0 20px rgba(77, 121, 255, 0.3),
+      0 0 20px var(--neon-primary),
+      0 0 40px var(--neon-primary);
+    position: relative;
+    border-radius: 8px;
+  }
+  
+  /* 色別ネオンボーダー */
+  .neon-border-cyan {
+    border-color: #00d4ff;
+    color: #00d4ff;
+    box-shadow: 
+      inset 0 0 10px rgba(0, 212, 255, 0.2),
+      0 0 10px #00d4ff,
+      0 0 20px #00d4ff;
+  }
+  
+  .neon-border-pink {
+    border-color: #ff1493;
+    color: #ff1493;
+    box-shadow: 
+      inset 0 0 10px rgba(255, 20, 147, 0.2),
+      0 0 10px #ff1493,
+      0 0 20px #ff1493;
+  }
+  
+  .neon-border-purple {
+    border-color: var(--neon-secondary);
+    color: var(--neon-secondary);
+    box-shadow: 
+      inset 0 0 10px rgba(128, 0, 255, 0.2),
+      0 0 10px var(--neon-secondary),
+      0 0 20px var(--neon-secondary);
+  }
+  
+  .neon-border-lime {
+    border-color: #32ff32;
+    color: #32ff32;
+    box-shadow: 
+      inset 0 0 10px rgba(50, 255, 50, 0.2),
+      0 0 10px #32ff32,
+      0 0 20px #32ff32;
+  }
+  
+  .neon-border-blue {
+    border-color: var(--neon-primary);
+    color: var(--neon-primary);
+    box-shadow: 
+      inset 0 0 10px rgba(77, 121, 255, 0.2),
+      0 0 10px var(--neon-primary),
+      0 0 20px var(--neon-primary);
+  }
+  
+  .neon-border-red {
+    border-color: #ff3333;
+    color: #ff3333;  
+    box-shadow: 
+      inset 0 0 10px rgba(255, 51, 51, 0.2),
+      0 0 10px #ff3333,
+      0 0 20px #ff3333;
+  }
+  
+  /* グラデーションネオンボーダー */
+  .neon-border-gradient::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary), var(--neon-tertiary), var(--neon-primary));
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0.3;
+    filter: blur(3px);
+  }
+  
+  /* アニメーション付きネオンボーダー */
+  .neon-border-pulse {
+    animation: neon-border-pulse 2s ease-in-out infinite alternate;
+  }
+  
+  .neon-border-glow {
+    animation: neon-border-glow 3s ease-in-out infinite;
+  }
+}
+
+/* ネオンボーダーアニメーション */
+@keyframes neon-border-pulse {
+  0% {
+    box-shadow: 
+      inset 0 0 10px rgba(77, 121, 255, 0.2),
+      0 0 10px currentColor,
+      0 0 20px currentColor;
+    opacity: 0.8;
+  }
+  100% {
+    box-shadow: 
+      inset 0 0 15px rgba(77, 121, 255, 0.4),
+      0 0 15px currentColor,
+      0 0 30px currentColor;
+    opacity: 1;
+  }
+}
+
+@keyframes neon-border-glow {
+  0%, 100% {
+    filter: brightness(1) drop-shadow(0 0 10px currentColor);
+  }
+  50% {
+    filter: brightness(1.2) drop-shadow(0 0 20px currentColor);
+  }
+}
+
+/* 追加のネオンボーダー色バリエーション */
+@layer utilities {
+  .neon-border-orange {
+    border-color: #ff6600;
+    color: #ff6600;
+    box-shadow: 
+      inset 0 0 10px rgba(255, 102, 0, 0.2),
+      0 0 10px #ff6600,
+      0 0 20px #ff6600;
+  }
+  
+  .neon-border-yellow {
+    border-color: #ffff00;
+    color: #ffff00;
+    box-shadow: 
+      inset 0 0 10px rgba(255, 255, 0, 0.2),
+      0 0 10px #ffff00,
+      0 0 20px #ffff00;
+  }
+  
+  .neon-border-teal {
+    border-color: #00ffff;
+    color: #00ffff;
+    box-shadow: 
+      inset 0 0 10px rgba(0, 255, 255, 0.2),
+      0 0 10px #00ffff,
+      0 0 20px #00ffff;
+  }
+  
+  .neon-border-magenta {
+    border-color: #ff00ff;
+    color: #ff00ff;
+    box-shadow: 
+      inset 0 0 10px rgba(255, 0, 255, 0.2),
+      0 0 10px #ff00ff,
+      0 0 20px #ff00ff;
+  }
+  
+  /* 高度なアニメーション効果 */
+  .neon-border-flicker {
+    animation: neon-border-flicker 3s linear infinite;
+  }
+  
+  .neon-border-wave {
+    animation: neon-border-wave 4s ease-in-out infinite;
+  }
+  
+  .neon-border-rotate {
+    animation: neon-border-rotate 6s linear infinite;
+  }
+  
+  .neon-border-breathe {
+    animation: neon-border-breathe 2.5s ease-in-out infinite;
+  }
+  
+  /* 特殊効果 */
+  .neon-border-double::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 1px solid;
+    border-color: inherit;
+    border-radius: inherit;
+    opacity: 0.5;
+    box-shadow: 0 0 5px currentColor;
+  }
+  
+  .neon-border-electric {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .neon-border-electric::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      currentColor 60deg,
+      transparent 120deg,
+      currentColor 180deg,
+      transparent 240deg,
+      currentColor 300deg,
+      transparent 360deg
+    );
+    animation: neon-border-electric 2s linear infinite;
+    z-index: -1;
+  }
+  
+  .neon-border-electric::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: var(--color-bg-secondary);
+    border-radius: inherit;
+    z-index: -1;
+  }
+}
+
+/* アニメーション定義 */
+@keyframes neon-border-flicker {
+  0%, 100% { opacity: 1; }
+  5% { opacity: 0.5; }
+  10% { opacity: 1; }
+  15% { opacity: 0.3; }
+  20% { opacity: 1; }
+  25% { opacity: 0.8; }
+  30% { opacity: 1; }
+  90% { opacity: 1; }
+  95% { opacity: 0.6; }
+}
+
+@keyframes neon-border-wave {
+  0%, 100% {
+    box-shadow: 
+      inset 0 0 10px rgba(77, 121, 255, 0.2),
+      0 0 10px currentColor,
+      0 0 20px currentColor;
+  }
+  25% {
+    box-shadow: 
+      inset 0 0 15px rgba(77, 121, 255, 0.3),
+      0 0 15px currentColor,
+      0 0 30px currentColor;
+  }
+  50% {
+    box-shadow: 
+      inset 0 0 20px rgba(77, 121, 255, 0.4),
+      0 0 20px currentColor,
+      0 0 40px currentColor;
+  }
+  75% {
+    box-shadow: 
+      inset 0 0 15px rgba(77, 121, 255, 0.3),
+      0 0 15px currentColor,
+      0 0 30px currentColor;
+  }
+}
+
+@keyframes neon-border-rotate {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes neon-border-breathe {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.02);
+    filter: brightness(1.3);
+  }
+}
+
+@keyframes neon-border-electric {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 統合ネオンボーダー - 完全に色が一致したシステム */
+@layer utilities {
+  /* ベースの統合ネオンボーダー */
+  .unified-neon-border {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* サイズバリエーション */
+  .unified-size-sm {
+    border-width: 1px;
+    border-radius: 4px;
+  }
+  
+  .unified-size-md {
+    border-width: 2px;
+    border-radius: 6px;
+  }
+  
+  .unified-size-lg {
+    border-width: 3px;
+    border-radius: 8px;
+  }
+  
+  .unified-size-xl {
+    border-width: 4px;
+    border-radius: 10px;
+  }
+
+  /* 統合色システム - シアン */
+  .unified-neon-cyan {
+    border-color: #00d4ff;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.035) 0%, rgba(0, 212, 255, 0.105) 50%, rgba(0, 212, 255, 0.035) 100%);
+    box-shadow: 
+      inset 0 0 10px rgba(0, 212, 255, 0.3),
+      0 0 10px #00d4ff,
+      0 0 20px #00d4ff,
+      0 0 30px rgba(0, 212, 255, 0.28);
+    color: #00d4ff;
+    text-shadow: 0 0 10px #00d4ff;
+  }
+
+  /* 統合色システム - ピンク */
+  .unified-neon-pink {
+    border-color: #ff1493;
+    background: linear-gradient(135deg, rgba(255, 20, 147, 0.035) 0%, rgba(255, 20, 147, 0.105) 50%, rgba(255, 20, 147, 0.035) 100%);
+    box-shadow: 
+      inset 0 0 10px rgba(255, 20, 147, 0.3),
+      0 0 10px #ff1493,
+      0 0 20px #ff1493,
+      0 0 30px rgba(255, 20, 147, 0.28);
+    color: #ff1493;
+    text-shadow: 0 0 10px #ff1493;
+  }
+
+  /* 統合色システム - パープル */
+  .unified-neon-purple {
+    border-color: #8000ff;
+    background: linear-gradient(135deg, rgba(128, 0, 255, 0.035) 0%, rgba(128, 0, 255, 0.105) 50%, rgba(128, 0, 255, 0.035) 100%);
+    box-shadow: 
+      inset 0 0 10px rgba(128, 0, 255, 0.3),
+      0 0 10px #8000ff,
+      0 0 20px #8000ff,
+      0 0 30px rgba(128, 0, 255, 0.28);
+    color: #8000ff;
+    text-shadow: 0 0 10px #8000ff;
+  }
+
+  /* 統合色システム - ライム */
+  .unified-neon-lime {
+    border-color: #32ff32;
+    background: linear-gradient(135deg, rgba(50, 255, 50, 0.035) 0%, rgba(50, 255, 50, 0.105) 50%, rgba(50, 255, 50, 0.035) 100%);
+    box-shadow: 
+      inset 0 0 10px rgba(50, 255, 50, 0.3),
+      0 0 10px #32ff32,
+      0 0 20px #32ff32,
+      0 0 30px rgba(50, 255, 50, 0.28);
+    color: #32ff32;
+    text-shadow: 0 0 10px #32ff32;
+  }
+
+  /* 統合色システム - ブルー */
+  .unified-neon-blue {
+    border-color: #4d79ff;
+    background: linear-gradient(135deg, rgba(77, 121, 255, 0.035) 0%, rgba(77, 121, 255, 0.105) 50%, rgba(77, 121, 255, 0.035) 100%);
+    box-shadow: 
+      inset 0 0 10px rgba(77, 121, 255, 0.3),
+      0 0 10px #4d79ff,
+      0 0 20px #4d79ff,
+      0 0 30px rgba(77, 121, 255, 0.28);
+    color: #4d79ff;
+    text-shadow: 0 0 10px #4d79ff;
+  }
+
+  /* 統合色システム - レッド */
+  .unified-neon-red {
+    border-color: #ff3333;
+    background: linear-gradient(135deg, rgba(255, 51, 51, 0.035) 0%, rgba(255, 51, 51, 0.105) 50%, rgba(255, 51, 51, 0.035) 100%);
+    box-shadow: 
+      inset 0 0 10px rgba(255, 51, 51, 0.3),
+      0 0 10px #ff3333,
+      0 0 20px #ff3333,
+      0 0 30px rgba(255, 51, 51, 0.28);
+    color: #ff3333;
+    text-shadow: 0 0 10px #ff3333;
+  }
+
+  /* 統合色システム - オレンジ */
+  .unified-neon-orange {
+    border-color: #ff6600;
+    background: linear-gradient(135deg, rgba(255, 102, 0, 0.035) 0%, rgba(255, 102, 0, 0.105) 50%, rgba(255, 102, 0, 0.035) 100%);
+    box-shadow: 
+      inset 0 0 10px rgba(255, 102, 0, 0.3),
+      0 0 10px #ff6600,
+      0 0 20px #ff6600,
+      0 0 30px rgba(255, 102, 0, 0.28);
+    color: #ff6600;
+    text-shadow: 0 0 10px #ff6600;
+  }
+
+  /* 統合色システム - イエロー */
+  .unified-neon-yellow {
+    border-color: #ffff00;
+    background: linear-gradient(135deg, rgba(255, 255, 0, 0.035) 0%, rgba(255, 255, 0, 0.105) 50%, rgba(255, 255, 0, 0.035) 100%);
+    box-shadow: 
+      inset 0 0 10px rgba(255, 255, 0, 0.3),
+      0 0 10px #ffff00,
+      0 0 20px #ffff00,
+      0 0 30px rgba(255, 255, 0, 0.28);
+    color: #ffff00;
+    text-shadow: 0 0 10px #ffff00;
+  }
+
+  /* 統合色システム - ティール */
+  .unified-neon-teal {
+    border-color: #00ffff;
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.035) 0%, rgba(0, 255, 255, 0.105) 50%, rgba(0, 255, 255, 0.035) 100%);
+    box-shadow: 
+      inset 0 0 10px rgba(0, 255, 255, 0.3),
+      0 0 10px #00ffff,
+      0 0 20px #00ffff,
+      0 0 30px rgba(0, 255, 255, 0.28);
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
+  }
+
+  /* 統合色システム - マゼンタ */
+  .unified-neon-magenta {
+    border-color: #ff00ff;
+    background: linear-gradient(135deg, rgba(255, 0, 255, 0.035) 0%, rgba(255, 0, 255, 0.105) 50%, rgba(255, 0, 255, 0.035) 100%);
+    box-shadow: 
+      inset 0 0 10px rgba(255, 0, 255, 0.3),
+      0 0 10px #ff00ff,
+      0 0 20px #ff00ff,
+      0 0 30px rgba(255, 0, 255, 0.28);
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff;
+  }
+
+  /* 統合アニメーション */
+  .unified-anim-pulse {
+    animation: unified-pulse 2s ease-in-out infinite alternate;
+  }
+
+  .unified-anim-glow {
+    animation: unified-glow 3s ease-in-out infinite;
+  }
+
+  .unified-anim-breathe {
+    animation: unified-breathe 2.5s ease-in-out infinite;
+  }
+
+  /* グラデーション効果 */
+  .unified-gradient::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, currentColor, transparent, currentColor);
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0.6;
+    filter: blur(3px);
+  }
+
+  /* ダブルボーダー効果 */
+  .unified-double::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border: 1px solid currentColor;
+    border-radius: inherit;
+    opacity: 0.5;
+    box-shadow: 0 0 10px currentColor;
+  }
+}
+
+/* 統合アニメーション定義 */
+@keyframes unified-pulse {
+  0% {
+    filter: brightness(1);
+    transform: scale(1);
+  }
+  100% {
+    filter: brightness(1.3);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes unified-glow {
+  0%, 100% {
+    filter: brightness(1) drop-shadow(0 0 10px currentColor);
+  }
+  50% {
+    filter: brightness(1.4) drop-shadow(0 0 20px currentColor);
+  }
+}
+
+@keyframes unified-breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,386 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { 
+  applyNeonBorder, 
+  simpleNeonBorder, 
+  glowingNeonBorder, 
+  flickerNeonBorder,
+  electricNeonBorder,
+  ultimateNeonBorder,
+  breathingNeonBorder,
+  wavingNeonBorder,
+  unifiedNeonBorder,
+  createUnifiedNeonStyle,
+  NEON_COLORS,
+  NEON_SIZES,
+  NEON_ANIMATIONS
+} from '../utils/neonBorder';
+---
+
+<Layout title="ネオンボーダー・デモ">
+  <main class="container mx-auto px-4 py-8 min-h-screen bg-gray-900">
+    <div class="retro-frame">
+      <h1 class="text-3xl font-bold text-center mb-8 neon-glow text-white" style="text-shadow: 0 0 10px #4d79ff, 0 0 20px #4d79ff, 0 0 30px #4d79ff;">🌈 ネオンボーダー・デモ 🌈</h1>
+      
+      <!-- テスト用ネオンボーダー -->
+      <section class="mb-8">
+        <div class="flex justify-center">
+          <div class="p-4 bg-black text-white text-center rounded-lg neon-border-test">
+            <h3 class="font-semibold">✨ ネオン効果確認 ✨</h3>
+          </div>
+        </div>
+      </section>
+
+      <!-- 統合ネオンボーダー（色一致システム） -->
+      <section class="mb-12">
+        <h2 class="text-xl font-semibold mb-6 text-center text-white" style="text-shadow: 0 0 10px #32ff32;">🎯 統合ネオンボーダー（色完全一致）</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div class={`p-6 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${unifiedNeonBorder('cyan', 'md', { animation: 'pulse' })}`}>
+            <h3 class="font-semibold text-lg">🌊 統合シアン</h3>
+            <p class="text-sm mt-2 text-gray-300">線と背景グラデーション完全一致</p>
+          </div>
+          
+          <div class={`p-6 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${unifiedNeonBorder('pink', 'lg', { animation: 'glow', gradient: true })}`}>
+            <h3 class="font-semibold text-lg">💖 統合ピンク</h3>
+            <p class="text-sm mt-2 text-gray-300">グラデーション + グロー効果</p>
+          </div>
+          
+          <div class={`p-6 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${unifiedNeonBorder('purple', 'xl', { animation: 'breathe', double: true })}`}>
+            <h3 class="font-semibold text-lg">🔮 統合パープル</h3>
+            <p class="text-sm mt-2 text-gray-300">ダブルボーダー + 呼吸エフェクト</p>
+          </div>
+        </div>
+
+        <!-- インラインスタイル版のデモ -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-6 bg-black text-white text-center rounded-lg transition-all hover:scale-105" style={createUnifiedNeonStyle('lime', 'lg', { animation: 'pulse' })}>
+            <h3 class="font-semibold text-lg">⚡ インラインスタイル版</h3>
+            <p class="text-sm mt-2 text-gray-300">createUnifiedNeonStyle('lime', 'lg')</p>
+          </div>
+          
+          <div class="p-6 bg-black text-white text-center rounded-lg transition-all hover:scale-105" style={createUnifiedNeonStyle('orange', 'xl', { gradient: true })}>
+            <h3 class="font-semibold text-lg">🔥 完全統合オレンジ</h3>
+            <p class="text-sm mt-2 text-gray-300">線・背景・テキスト全て同色</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 基本的な使い方 -->
+      <section class="mb-12">
+        <h2 class="text-xl font-semibold mb-6 text-center text-white" style="text-shadow: 0 0 10px #8000ff;">基本的な使い方</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class={`p-6 bg-black text-white text-center rounded-lg ${applyNeonBorder('cyan', 'md')}`}>
+            <h3 class="font-semibold text-lg">シアン・ミディアム</h3>
+            <p class="text-sm mt-2 text-gray-300">applyNeonBorder('cyan', 'md')</p>
+          </div>
+          
+          <div class={`p-6 bg-black text-white text-center rounded-lg ${applyNeonBorder('pink', 'lg', { animation: 'pulse' })}`}>
+            <h3 class="font-semibold text-lg">ピンク・ラージ・パルス</h3>
+            <p class="text-sm mt-2 text-gray-300">animation: 'pulse'</p>
+          </div>
+          
+          <div class={`p-6 bg-black text-white text-center rounded-lg ${applyNeonBorder('purple', 'xl', { gradient: true })}`}>
+            <h3 class="font-semibold text-lg">パープル・XL・グラデーション</h3>
+            <p class="text-sm mt-2 text-gray-300">gradient: true</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- カラーバリエーション -->
+      <section class="mb-12">
+        <h2 class="text-xl font-semibold mb-6 text-center text-white" style="text-shadow: 0 0 10px #00d4ff;">カラーバリエーション</h2>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+          {NEON_COLORS.map(color => (
+            <div class={`p-4 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${simpleNeonBorder(color, 'md')}`}>
+              <div class="text-sm font-semibold">{color.toUpperCase()}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- サイズバリエーション -->
+      <section class="mb-12">
+        <h2 class="text-xl font-semibold mb-6 text-center text-white" style="text-shadow: 0 0 10px #32ff32;">サイズバリエーション</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {NEON_SIZES.map(size => (
+            <div class={`p-6 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${applyNeonBorder('blue', size)}`}>
+              <h3 class="font-semibold text-lg">{size.toUpperCase()}</h3>
+              <p class="text-sm mt-2 text-gray-300">Size: {size}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- アニメーションバリエーション -->
+      <section class="mb-12">
+        <h2 class="text-xl font-semibold mb-6 text-center text-white" style="text-shadow: 0 0 10px #ff1493;">アニメーションバリエーション</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {NEON_ANIMATIONS.map(animation => (
+            <div class={`p-6 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${applyNeonBorder('cyan', 'lg', { animation })}`}>
+              <h3 class="font-semibold text-lg">{animation.toUpperCase()}</h3>
+              <p class="text-sm mt-2 text-gray-300">Animation: {animation}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- プリセット関数デモ -->
+      <section class="mb-12">
+        <h2 class="text-xl font-semibold mb-6 text-center text-white" style="text-shadow: 0 0 10px #ff6600;">プリセット関数デモ</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class={`p-6 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${simpleNeonBorder('lime')}`}>
+            <h3 class="font-semibold text-lg">シンプル</h3>
+            <p class="text-sm mt-2 text-gray-300">simpleNeonBorder('lime')</p>
+          </div>
+          
+          <div class={`p-6 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${glowingNeonBorder('pink')}`}>
+            <h3 class="font-semibold text-lg">グローイング</h3>
+            <p class="text-sm mt-2 text-gray-300">glowingNeonBorder('pink')</p>
+          </div>
+          
+          <div class={`p-6 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${flickerNeonBorder('red')}`}>
+            <h3 class="font-semibold text-lg">フリッカー</h3>
+            <p class="text-sm mt-2 text-gray-300">flickerNeonBorder('red')</p>
+          </div>
+          
+          <div class={`p-6 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${electricNeonBorder('teal')}`}>
+            <h3 class="font-semibold text-lg">エレクトリック</h3>
+            <p class="text-sm mt-2 text-gray-300">electricNeonBorder('teal')</p>
+          </div>
+          
+          <div class={`p-6 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${breathingNeonBorder('purple')}`}>
+            <h3 class="font-semibold text-lg">ブリージング</h3>
+            <p class="text-sm mt-2 text-gray-300">breathingNeonBorder('purple')</p>
+          </div>
+          
+          <div class={`p-6 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${wavingNeonBorder('orange')}`}>
+            <h3 class="font-semibold text-lg">ウェーブ</h3>
+            <p class="text-sm mt-2 text-gray-300">wavingNeonBorder('orange')</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 特殊効果デモ -->
+      <section class="mb-12">
+        <h2 class="text-xl font-semibold mb-6 text-center text-white" style="text-shadow: 0 0 10px #ff00ff;">特殊効果デモ</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class={`p-8 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${applyNeonBorder('magenta', 'xl', { double: true, animation: 'glow' })}`}>
+            <h3 class="font-semibold text-xl">ダブルボーダー</h3>
+            <p class="text-sm mt-2 text-gray-300">double: true</p>
+            <p class="text-xs mt-1 text-gray-400">二重のネオン効果</p>
+          </div>
+          
+          <div class={`p-8 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${applyNeonBorder('yellow', 'xl', { gradient: true, animation: ['pulse', 'rotate'] })}`}>
+            <h3 class="font-semibold text-xl">複数アニメーション</h3>
+            <p class="text-sm mt-2 text-gray-300">animation: ['pulse', 'rotate']</p>
+            <p class="text-xs mt-1 text-gray-400">パルス + 色相回転</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 実用例 -->
+      <section class="mb-12">
+        <h2 class="text-xl font-semibold mb-6 text-center text-white" style="text-shadow: 0 0 10px #00ffff;">実用例</h2>
+        <div class="space-y-8">
+          <!-- カード例 -->
+          <div class={`p-6 bg-black text-white rounded-lg transition-all hover:scale-102 ${glowingNeonBorder('cyan', 'lg')}`}>
+            <h3 class="text-xl font-bold mb-4" style="text-shadow: 0 0 5px #00d4ff;">プロフィールカード</h3>
+            <div class="flex flex-col md:flex-row gap-4">
+              <div class={`w-20 h-20 bg-gray-800 rounded-full flex items-center justify-center transition-all hover:scale-110 ${simpleNeonBorder('pink', 'sm')}`}>
+                <span class="text-2xl">👤</span>
+              </div>
+              <div class="flex-1">
+                <h4 class="font-semibold text-lg" style="text-shadow: 0 0 3px #ff1493;">サイバーネオン</h4>
+                <p class="text-sm text-gray-300">ネオンボーダーで彩られたプロフィールカード</p>
+                <div class="mt-2 flex gap-2">
+                  <span class={`px-2 py-1 text-xs rounded ${applyNeonBorder('purple', 'sm')}`}>Developer</span>
+                  <span class={`px-2 py-1 text-xs rounded ${applyNeonBorder('blue', 'sm')}`}>Designer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ボタン例 -->
+          <div class="text-center space-x-4 space-y-4 md:space-y-0">
+            <button class={`px-8 py-4 bg-black text-white rounded-lg transition-all hover:scale-105 hover:brightness-110 ${applyNeonBorder('lime', 'md', { animation: 'pulse' })}`}>
+              <span style="text-shadow: 0 0 5px #32ff32;">アクションボタン</span>
+            </button>
+            <button class={`px-8 py-4 bg-black text-white rounded-lg transition-all hover:scale-105 hover:brightness-110 ${flickerNeonBorder('red', 'md')}`}>
+              <span style="text-shadow: 0 0 5px #ff3333;">警告ボタン</span>
+            </button>
+            <button class={`px-8 py-4 bg-black text-white rounded-lg transition-all hover:scale-105 hover:brightness-110 ${electricNeonBorder('teal', 'md')}`}>
+              <span style="text-shadow: 0 0 5px #00ffff;">エレクトリックボタン</span>
+            </button>
+          </div>
+
+          <!-- 通知例 -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class={`p-4 bg-black text-white rounded-lg transition-all hover:scale-105 ${applyNeonBorder('orange', 'sm', { animation: 'breathe' })}`}>
+              <div class="flex items-center gap-3">
+                <span class="text-xl">⚠️</span>
+                <div>
+                  <h4 class="font-semibold" style="text-shadow: 0 0 3px #ff6600;">システム通知</h4>
+                  <p class="text-sm text-gray-300">ネオンボーダーで注意を引くメッセージ</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class={`p-4 bg-black text-white rounded-lg transition-all hover:scale-105 ${applyNeonBorder('purple', 'sm', { animation: 'wave' })}`}>
+              <div class="flex items-center gap-3">
+                <span class="text-xl">💾</span>
+                <div>
+                  <h4 class="font-semibold" style="text-shadow: 0 0 3px #8000ff;">データ保存完了</h4>
+                  <p class="text-sm text-gray-300">サイバーパンク風の成功通知</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 使用方法ガイド -->
+      <section class="mb-12">
+        <h2 class="text-xl font-semibold mb-6 text-center text-white" style="text-shadow: 0 0 10px #4d79ff;">使用方法ガイド</h2>
+        <div class={`p-6 bg-black text-white rounded-lg ${applyNeonBorder('blue', 'md', { gradient: true })}`}>
+          <h3 class="font-semibold text-lg mb-4" style="text-shadow: 0 0 5px #4d79ff;">基本的な使い方</h3>
+          <pre class="bg-gray-800 p-4 rounded text-sm overflow-x-auto border border-gray-600">
+<code class="text-green-400">{`// 基本的な使い方
+import { applyNeonBorder, unifiedNeonBorder, createUnifiedNeonStyle } from '../utils/neonBorder';
+
+// 通常のネオンボーダー
+<div class={\`\${applyNeonBorder('cyan', 'lg')}\`}>
+  Hello, Neon Border!
+</div>
+
+// 統合ネオンボーダー（色完全一致）
+<div class={\`\${unifiedNeonBorder('pink', 'xl', {
+  animation: 'pulse',
+  gradient: true,
+  double: true
+})}\`}>
+  Unified Neon Border!
+</div>
+
+// インラインスタイル版（色完全一致）
+<div style={\`\${createUnifiedNeonStyle('lime', 'lg', {
+  animation: 'glow'
+})}\`}>
+  Inline Unified Style!
+</div>
+
+// プリセット関数を使用
+<div class={\`\${simpleNeonBorder('lime', 'md')}\`}>
+  Simple Neon Border!
+</div>`}</code>
+          </pre>
+        </div>
+      </section>
+
+      <!-- 究極のネオンボーダー -->
+      <section class="text-center">
+        <div class={`p-12 bg-black text-white rounded-lg transition-all hover:scale-105 ${ultimateNeonBorder('magenta')}`}>
+          <h2 class="text-4xl font-bold mb-6" style="text-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff;">🎆 究極のネオンボーダー 🎆</h2>
+          <p class="text-xl mb-4" style="text-shadow: 0 0 10px #ff00ff;">全エフェクトが組み合わされた最高のネオンボーダー体験</p>
+          <p class="text-sm text-gray-300">ultimateNeonBorder('magenta')</p>
+          <div class="mt-6 flex justify-center gap-4">
+            <span class={`px-3 py-1 text-xs rounded ${applyNeonBorder('cyan', 'sm', { animation: 'pulse' })}`}>PULSE</span>
+            <span class={`px-3 py-1 text-xs rounded ${applyNeonBorder('pink', 'sm', { animation: 'glow' })}`}>GLOW</span>
+            <span class={`px-3 py-1 text-xs rounded ${applyNeonBorder('yellow', 'sm', { gradient: true })}`}>GRADIENT</span>
+            <span class={`px-3 py-1 text-xs rounded ${applyNeonBorder('teal', 'sm', { double: true })}`}>DOUBLE</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    max-width: 1200px;
+  }
+  
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  /* デモページ専用のネオン効果強化 */
+  body {
+    background: #000 !important;
+  }
+  
+  /* ホバー効果強化 */
+  .hover\:scale-102:hover {
+    transform: scale(1.02);
+  }
+  
+  /* グリッドカードのネオン効果 */
+  .grid > div {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .grid > div:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+  }
+  
+  /* セクション間のスペース調整 */
+  section {
+    scroll-margin-top: 2rem;
+  }
+  
+  /* コードブロックのシンタックスハイライト風 */
+  pre code {
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    line-height: 1.5;
+  }
+  
+  /* タイトルのアニメーション（軽量化） */
+  @keyframes title-glow {
+    0%, 100% {
+      text-shadow: 0 0 10px #4d79ff, 0 0 20px #4d79ff, 0 0 30px #4d79ff;
+    }
+    50% {
+      text-shadow: 0 0 15px #4d79ff, 0 0 30px #4d79ff, 0 0 45px #4d79ff;
+    }
+  }
+  
+  h1 {
+    animation: title-glow 4s ease-in-out infinite;
+  }
+  
+  /* 背景パターンの軽量化 */
+  main {
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(77, 121, 255, 0.05) 1px, transparent 2px);
+    background-size: 200px 200px;
+  }
+  
+  /* ネオンボーダーのフォールバック確保 */
+  .neon-border-test {
+    border: 2px solid #00d4ff !important;
+    box-shadow: 
+      inset 0 0 10px rgba(0, 212, 255, 0.2),
+      0 0 10px #00d4ff,
+      0 0 20px #00d4ff,
+      0 0 30px #00d4ff !important;
+    animation: test-pulse 2s ease-in-out infinite alternate !important;
+  }
+  
+  @keyframes test-pulse {
+    0% {
+      box-shadow: 
+        inset 0 0 10px rgba(0, 212, 255, 0.2),
+        0 0 10px #00d4ff,
+        0 0 20px #00d4ff,
+        0 0 30px #00d4ff;
+    }
+    100% {
+      box-shadow: 
+        inset 0 0 15px rgba(0, 212, 255, 0.4),
+        0 0 15px #00d4ff,
+        0 0 30px #00d4ff,
+        0 0 50px #00d4ff;
+    }
+  }
+</style>
