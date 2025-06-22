@@ -43,7 +43,7 @@ const { title, description = "nodoameのレトロなポートフォリオサイ�
   </head>
   <body class="scanlines crt-effect">
     <!-- ネオ東京風メインコンテナ -->
-    <div class="min-h-screen max-w-4xl mx-auto border-4" style="background: var(--dark-bg-secondary); border-color: var(--neon-primary); border-style: solid; box-shadow: 0 0 30px rgba(77, 121, 255, 0.3);">
+    <div class="min-h-screen max-w-4xl mx-auto border-4 md:border-4 border-2" style="background: var(--dark-bg-secondary); border-color: var(--neon-primary); border-style: solid; box-shadow: 0 0 30px rgba(77, 121, 255, 0.3);">
       
       <!-- ネオンヘッダー -->
       <header class="retro-frame" style="background: var(--gradient-cyber); border-color: var(--neon-tertiary);">
@@ -57,31 +57,49 @@ const { title, description = "nodoameのレトロなポートフォリオサイ�
 
       <!-- サイバーナビゲーション -->
       <nav class="retro-frame" style="background: var(--dark-bg-tertiary); border-color: var(--neon-violet);">
-        <table class="retro-table w-full">
-          <tr>
-            <td class="text-center">
-              <a href="/" class="retro-button">🏠 HOME</a>
-            </td>
-            <td class="text-center">
-              <a href="/about" class="retro-button">🤖 ABOUT</a>
-            </td>
-            <td class="text-center">
-              <a href="/gallery" class="retro-button">🎨 GALLERY</a>
-            </td>
-            <td class="text-center">
-              <a href="/game" class="retro-button">🎮 GAME</a>
-            </td>
-            <td class="text-center">
-              <a href="/dev" class="retro-button">💾 DEV</a>
-            </td>
-            <td class="text-center">
-              <a href="/blog" class="retro-button">📡 BLOG</a>
-            </td>
-            <td class="text-center">
-              <a href="/link" class="retro-button">🔗 LINK</a>
-            </td>
-          </tr>
-        </table>
+        <!-- デスクトップ表示 -->
+        <div class="hidden md:block">
+          <table class="retro-table w-full">
+            <tr>
+              <td class="text-center">
+                <a href="/" class="retro-button">🏠 HOME</a>
+              </td>
+              <td class="text-center">
+                <a href="/about" class="retro-button">🤖 ABOUT</a>
+              </td>
+              <td class="text-center">
+                <a href="/gallery" class="retro-button">🎨 GALLERY</a>
+              </td>
+              <td class="text-center">
+                <a href="/game" class="retro-button">🎮 GAME</a>
+              </td>
+              <td class="text-center">
+                <a href="/dev" class="retro-button">💾 DEV</a>
+              </td>
+              <td class="text-center">
+                <a href="/blog" class="retro-button">📡 BLOG</a>
+              </td>
+              <td class="text-center">
+                <a href="/link" class="retro-button">🔗 LINK</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        
+        <!-- モバイル表示 -->
+        <div class="md:hidden">
+          <div class="grid grid-cols-2 gap-2 p-2">
+            <a href="/" class="retro-button text-center block">🏠 HOME</a>
+            <a href="/about" class="retro-button text-center block">🤖 ABOUT</a>
+            <a href="/gallery" class="retro-button text-center block">🎨 GALLERY</a>
+            <a href="/game" class="retro-button text-center block">🎮 GAME</a>
+            <a href="/dev" class="retro-button text-center block">💾 DEV</a>
+            <a href="/blog" class="retro-button text-center block">📡 BLOG</a>
+          </div>
+          <div class="px-2 pb-2">
+            <a href="/link" class="retro-button text-center block w-full">🔗 LINK</a>
+          </div>
+        </div>
       </nav>
 
       <!-- メインコンテンツエリア -->
