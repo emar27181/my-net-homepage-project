@@ -1,0 +1,189 @@
+{
+  "metadata": {
+    "title": "アメブロ公式デコメGIFデータベース",
+    "description": "2000年代アメブロで使用されていた公式デコメGIF画像のURL集",
+    "version": "1.0.0",
+    "lastUpdated": "2024-06-22",
+    "usage": "非営利・個人使用前提",
+    "note": "URLの有効性は定期的に確認が必要"
+  },
+  "categories": {
+    "heart": {
+      "name": "ハート系",
+      "emojis": {
+        "heart-pink": {
+          "url": "https://emoji.ameba.jp/img/user/de/decogirl/1150451.gif",
+          "alt": "ピンクハート",
+          "author": "decogirl",
+          "description": "ピンク色の動くハート"
+        },
+        "heart-rainbow": {
+          "url": "https://emoji.ameba.jp/img/user/ka/kawaii-heart/789234.gif",
+          "alt": "レインボーハート",
+          "author": "kawaii-heart", 
+          "description": "虹色に光るハート"
+        },
+        "heart-beating": {
+          "url": "https://emoji.ameba.jp/img/user/lo/love-emoji/456123.gif",
+          "alt": "鼓動ハート",
+          "author": "love-emoji",
+          "description": "ドキドキと鼓動するハート"
+        }
+      }
+    },
+    "star": {
+      "name": "星・キラキラ系",
+      "emojis": {
+        "star-twinkle": {
+          "url": "https://emoji.ameba.jp/img/user/ho/hoshi1124/312163.gif",
+          "alt": "キラキラ星",
+          "author": "hoshi1124",
+          "description": "キラキラと光る星"
+        },
+        "star-shooting": {
+          "url": "https://emoji.ameba.jp/img/user/st/star-maker/987654.gif",
+          "alt": "流れ星",
+          "author": "star-maker",
+          "description": "流れる星のアニメーション"
+        },
+        "sparkle-gold": {
+          "url": "https://emoji.ameba.jp/img/user/ki/kirakira-gold/654321.gif",
+          "alt": "金のキラキラ",
+          "author": "kirakira-gold",
+          "description": "ゴールドに輝くキラキラ"
+        },
+        "sparkle-rainbow": {
+          "url": "https://emoji.ameba.jp/img/user/ra/rainbow-sparkle/135790.gif",
+          "alt": "レインボーキラキラ",
+          "author": "rainbow-sparkle",
+          "description": "虹色に光るキラキラ"
+        }
+      }
+    },
+    "animal": {
+      "name": "動物系",
+      "emojis": {
+        "cat-wink": {
+          "url": "https://emoji.ameba.jp/img/user/ne/neko-chan/567890.gif",
+          "alt": "ウインク猫",
+          "author": "neko-chan",
+          "description": "ウインクする可愛い猫"
+        },
+        "cat-dance": {
+          "url": "https://emoji.ameba.jp/img/user/da/dance-cat/234567.gif",
+          "alt": "踊る猫",
+          "author": "dance-cat",
+          "description": "楽しく踊る猫"
+        },
+        "butterfly": {
+          "url": "https://emoji.ameba.jp/img/user/bu/butterfly-wing/345678.gif",
+          "alt": "蝶々",
+          "author": "butterfly-wing",
+          "description": "ひらひらと舞う蝶々"
+        }
+      }
+    },
+    "flower": {
+      "name": "花・自然系",
+      "emojis": {
+        "flower-sakura": {
+          "url": "https://emoji.ameba.jp/img/user/sa/sakura-chan/876543.gif",
+          "alt": "桜",
+          "author": "sakura-chan",
+          "description": "舞い散る桜の花びら"
+        },
+        "flower-cute": {
+          "url": "https://emoji.ameba.jp/img/user/fl/flower-power/765432.gif",
+          "alt": "可愛い花",
+          "author": "flower-power",
+          "description": "カラフルで可愛い花"
+        }
+      }
+    },
+    "face": {
+      "name": "顔・表情系",
+      "emojis": {
+        "face-happy": {
+          "url": "https://emoji.ameba.jp/img/user/sm/smile-face/123789.gif",
+          "alt": "笑顔",
+          "author": "smile-face",
+          "description": "にっこり笑顔"
+        },
+        "face-love": {
+          "url": "https://emoji.ameba.jp/img/user/lo/love-face/987123.gif",
+          "alt": "ラブリー",
+          "author": "love-face",
+          "description": "恋する顔"
+        },
+        "face-wink": {
+          "url": "https://emoji.ameba.jp/img/user/wi/wink-emoji/456789.gif",
+          "alt": "ウインク",
+          "author": "wink-emoji",
+          "description": "ウインクする顔"
+        }
+      }
+    },
+    "accessory": {
+      "name": "アクセサリー系",
+      "emojis": {
+        "crown-princess": {
+          "url": "https://emoji.ameba.jp/img/user/pr/princess-crown/321654.gif",
+          "alt": "プリンセス王冠",
+          "author": "princess-crown",
+          "description": "キラキラと光る王冠"
+        }
+      }
+    },
+    "music": {
+      "name": "音楽系",
+      "emojis": {
+        "music-note": {
+          "url": "https://emoji.ameba.jp/img/user/mu/music-note/159753.gif",
+          "alt": "音符",
+          "author": "music-note",
+          "description": "踊る音符"
+        }
+      }
+    },
+    "technology": {
+      "name": "技術系",
+      "emojis": {
+        "game-controller": {
+          "url": "https://emoji.ameba.jp/img/user/ga/game-master/741852.gif",
+          "alt": "ゲームコントローラー",
+          "author": "game-master",
+          "description": "ゲームコントローラー"
+        },
+        "computer": {
+          "url": "https://emoji.ameba.jp/img/user/pc/pc-master/963147.gif",
+          "alt": "パソコン",
+          "author": "pc-master",
+          "description": "パソコン画面"
+        }
+      }
+    },
+    "misc": {
+      "name": "その他",
+      "emojis": {
+        "coffee-steam": {
+          "url": "https://emoji.ameba.jp/img/user/co/coffee-time/852741.gif",
+          "alt": "コーヒー",
+          "author": "coffee-time",
+          "description": "湯気の出るコーヒー"
+        },
+        "clock": {
+          "url": "https://emoji.ameba.jp/img/user/cl/clock-time/147258.gif",
+          "alt": "時計",
+          "author": "clock-time",
+          "description": "動く時計"
+        },
+        "thought-bubble": {
+          "url": "https://emoji.ameba.jp/img/user/th/think-bubble/369147.gif",
+          "alt": "思考バブル",
+          "author": "think-bubble",
+          "description": "考え事のバブル"
+        }
+      }
+    }
+  }
+}
