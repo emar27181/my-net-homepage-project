@@ -807,7 +807,8 @@ a, button, input, textarea,
   }
   
   .neon-border-rotate {
-    animation: neon-border-rotate 6s linear infinite;
+    /* animation: neon-border-rotate 6s linear infinite; */
+    /* 色変化アニメーションを無効化 */
   }
   
   .neon-border-breathe {
@@ -905,6 +906,8 @@ a, button, input, textarea,
   }
 }
 
+/* 色変化アニメーションを無効化 */
+/*
 @keyframes neon-border-rotate {
   0% {
     filter: hue-rotate(0deg);
@@ -913,6 +916,7 @@ a, button, input, textarea,
     filter: hue-rotate(360deg);
   }
 }
+*/
 
 @keyframes neon-border-breathe {
   0%, 100% {

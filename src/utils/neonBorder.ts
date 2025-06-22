@@ -9,7 +9,7 @@
 
 export type NeonBorderColor = 'cyan' | 'pink' | 'purple' | 'lime' | 'blue' | 'red' | 'orange' | 'yellow' | 'teal' | 'magenta';
 export type NeonBorderSize = 'sm' | 'md' | 'lg' | 'xl';
-export type NeonBorderAnimation = 'pulse' | 'glow' | 'flicker' | 'wave' | 'rotate' | 'breathe' | 'electric';
+export type NeonBorderAnimation = 'pulse' | 'glow' | 'flicker' | 'wave' | 'breathe' | 'electric';
 
 export interface NeonBorderOptions {
   /** アニメーション効果を指定 */
@@ -50,7 +50,10 @@ export function applyNeonBorder(
   if (animation) {
     const animations = Array.isArray(animation) ? animation : [animation];
     animations.forEach(anim => {
-      classes.push(`neon-border-${anim}`);
+      // 色変化アニメーション(rotate)を無効化
+      if (anim !== 'rotate') {
+        classes.push(`neon-border-${anim}`);
+      }
     });
   }
 
@@ -142,7 +145,7 @@ export const NEON_SIZES: NeonBorderSize[] = ['sm', 'md', 'lg', 'xl'];
  * 利用可能なアニメーションの一覧
  */
 export const NEON_ANIMATIONS: NeonBorderAnimation[] = [
-  'pulse', 'glow', 'flicker', 'wave', 'rotate', 'breathe', 'electric'
+  'pulse', 'glow', 'flicker', 'wave', 'breathe', 'electric'
 ];
 
 /**
