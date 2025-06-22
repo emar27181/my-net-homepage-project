@@ -54,30 +54,30 @@ export interface AmebloDekomeData {
   categories: Record<string, DekomeCategory>;
 }
 
-// アメブロ公式GIF URLマッピング（静的フォールバック）
+// アメブロ風動くGIF URLマッピング（利用可能フリー素材）
 const AMEBLO_DEKOME_URLS: Record<AmebloDekomeType, string> = {
-  'heart-pink': 'https://emoji.ameba.jp/img/user/de/decogirl/1150451.gif',
-  'heart-rainbow': 'https://emoji.ameba.jp/img/user/ka/kawaii-heart/789234.gif',
-  'heart-beating': 'https://emoji.ameba.jp/img/user/lo/love-emoji/456123.gif',
-  'star-twinkle': 'https://emoji.ameba.jp/img/user/ho/hoshi1124/312163.gif',
-  'star-shooting': 'https://emoji.ameba.jp/img/user/st/star-maker/987654.gif',
-  'sparkle-gold': 'https://emoji.ameba.jp/img/user/ki/kirakira-gold/654321.gif',
-  'sparkle-rainbow': 'https://emoji.ameba.jp/img/user/ra/rainbow-sparkle/135790.gif',
-  'cat-wink': 'https://emoji.ameba.jp/img/user/ne/neko-chan/567890.gif',
-  'cat-dance': 'https://emoji.ameba.jp/img/user/da/dance-cat/234567.gif',
-  'butterfly': 'https://emoji.ameba.jp/img/user/bu/butterfly-wing/345678.gif',
-  'flower-sakura': 'https://emoji.ameba.jp/img/user/sa/sakura-chan/876543.gif',
-  'flower-cute': 'https://emoji.ameba.jp/img/user/fl/flower-power/765432.gif',
-  'face-happy': 'https://emoji.ameba.jp/img/user/sm/smile-face/123789.gif',
-  'face-love': 'https://emoji.ameba.jp/img/user/lo/love-face/987123.gif',
-  'face-wink': 'https://emoji.ameba.jp/img/user/wi/wink-emoji/456789.gif',
-  'crown-princess': 'https://emoji.ameba.jp/img/user/pr/princess-crown/321654.gif',
-  'music-note': 'https://emoji.ameba.jp/img/user/mu/music-note/159753.gif',
-  'game-controller': 'https://emoji.ameba.jp/img/user/ga/game-master/741852.gif',
-  'computer': 'https://emoji.ameba.jp/img/user/pc/pc-master/963147.gif',
-  'coffee-steam': 'https://emoji.ameba.jp/img/user/co/coffee-time/852741.gif',
-  'clock': 'https://emoji.ameba.jp/img/user/cl/clock-time/147258.gif',
-  'thought-bubble': 'https://emoji.ameba.jp/img/user/th/think-bubble/369147.gif'
+  'heart-pink': 'https://media.giphy.com/media/3oKIPnAI0k3oztVvoI/giphy.gif',
+  'heart-rainbow': 'https://media.giphy.com/media/l0Exk8EUzhhMjzqWQ/giphy.gif',
+  'heart-beating': 'https://media.giphy.com/media/3oz8xJhJTB6pZ6TrIk/giphy.gif',
+  'star-twinkle': 'https://media.giphy.com/media/xT5LMzIK1AdZJ4cYW4/giphy.gif',
+  'star-shooting': 'https://media.giphy.com/media/3o7aCZDlmQZLe4Q8pO/giphy.gif',
+  'sparkle-gold': 'https://media.giphy.com/media/26FLgGTPUDH6UGAbm/giphy.gif',
+  'sparkle-rainbow': 'https://media.giphy.com/media/l0ExhcMymdL6TrZ84/giphy.gif',
+  'cat-wink': 'https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif',
+  'cat-dance': 'https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif',
+  'butterfly': 'https://media.giphy.com/media/26FeVHrCvkr4IBSuI/giphy.gif',
+  'flower-sakura': 'https://media.giphy.com/media/l46CsTPYZdJUOLjTW/giphy.gif',
+  'flower-cute': 'https://media.giphy.com/media/3o6fJrp8UNnSDTJ7oI/giphy.gif',
+  'face-happy': 'https://media.giphy.com/media/AeWoyE3ZT90YM/giphy.gif',
+  'face-love': 'https://media.giphy.com/media/3o6Ztb4VFHtAfPUl8c/giphy.gif',
+  'face-wink': 'https://media.giphy.com/media/3oxHQBKYmF9PKUa6wU/giphy.gif',
+  'crown-princess': 'https://media.giphy.com/media/3o6ZtecPIFKdCzP2Dm/giphy.gif',
+  'music-note': 'https://media.giphy.com/media/3oriO13KTkzPwTykp2/giphy.gif',
+  'game-controller': 'https://media.giphy.com/media/3o7aCSPqXE5C6T8tBC/giphy.gif',
+  'computer': 'https://media.giphy.com/media/3o6MbpOCVEOK5JHTBK/giphy.gif',
+  'coffee-steam': 'https://media.giphy.com/media/3o6ozDGSyL0vFJIrGU/giphy.gif',
+  'clock': 'https://media.giphy.com/media/3o6fJeAiIpk5EeoC8o/giphy.gif',
+  'thought-bubble': 'https://media.giphy.com/media/3o6QZhOe8CzZbzUwrS/giphy.gif'
 };
 
 // デフォルトalt文字列

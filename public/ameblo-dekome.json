@@ -12,21 +12,21 @@
       "name": "ハート系",
       "emojis": {
         "heart-pink": {
-          "url": "https://emoji.ameba.jp/img/user/de/decogirl/1150451.gif",
+          "url": "https://media.giphy.com/media/3oKIPnAI0k3oztVvoI/giphy.gif",
           "alt": "ピンクハート",
-          "author": "decogirl",
+          "author": "giphy",
           "description": "ピンク色の動くハート"
         },
         "heart-rainbow": {
-          "url": "https://emoji.ameba.jp/img/user/ka/kawaii-heart/789234.gif",
+          "url": "https://media.giphy.com/media/l0Exk8EUzhhMjzqWQ/giphy.gif",
           "alt": "レインボーハート",
-          "author": "kawaii-heart", 
+          "author": "giphy", 
           "description": "虹色に光るハート"
         },
         "heart-beating": {
-          "url": "https://emoji.ameba.jp/img/user/lo/love-emoji/456123.gif",
+          "url": "https://media.giphy.com/media/3oz8xJhJTB6pZ6TrIk/giphy.gif",
           "alt": "鼓動ハート",
-          "author": "love-emoji",
+          "author": "giphy",
           "description": "ドキドキと鼓動するハート"
         }
       }
@@ -35,9 +35,9 @@
       "name": "星・キラキラ系",
       "emojis": {
         "star-twinkle": {
-          "url": "https://emoji.ameba.jp/img/user/ho/hoshi1124/312163.gif",
+          "url": "https://media.giphy.com/media/xT5LMzIK1AdZJ4cYW4/giphy.gif",
           "alt": "キラキラ星",
-          "author": "hoshi1124",
+          "author": "giphy",
           "description": "キラキラと光る星"
         },
         "star-shooting": {
@@ -64,9 +64,9 @@
       "name": "動物系",
       "emojis": {
         "cat-wink": {
-          "url": "https://emoji.ameba.jp/img/user/ne/neko-chan/567890.gif",
+          "url": "https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif",
           "alt": "ウインク猫",
-          "author": "neko-chan",
+          "author": "giphy",
           "description": "ウインクする可愛い猫"
         },
         "cat-dance": {
@@ -104,9 +104,9 @@
       "name": "顔・表情系",
       "emojis": {
         "face-happy": {
-          "url": "https://emoji.ameba.jp/img/user/sm/smile-face/123789.gif",
+          "url": "https://media.giphy.com/media/AeWoyE3ZT90YM/giphy.gif",
           "alt": "笑顔",
-          "author": "smile-face",
+          "author": "giphy",
           "description": "にっこり笑顔"
         },
         "face-love": {
