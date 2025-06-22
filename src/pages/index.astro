@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import ProfileInfo from '../components/ProfileInfo.astro';
 import TodaysWord from '../components/TodaysWord.astro';
 import NeonLine from '../components/NeonLine.astro';
+import Dekome from '../components/Dekome.astro';
 import '../styles/global.css';
 import { applyTypographyPreset } from '../utils/typography';
 
@@ -16,7 +17,7 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
 <Layout title="nodoame's Homepage - レトロなポートフォリオ">
   <!-- 更新情報のマーキー -->
   <div class="marquee mb-6">
-    🌟 Welcome to nodoame's retro homepage! 🌟 最新情報: VALORANTランク更新中 | 新しいイラスト作品をギャラリーに追加しました! | ジェネラティブアート実験中... 🌟
+    <Dekome type="star-twinkle" size="sm" /> Welcome to nodoame's retro homepage! <Dekome type="heart-pink" size="sm" /> 最新情報: VALORANTランク更新中 | 新しいイラスト作品をギャラリーに追加しました! | ジェネラティブアート実験中... <Dekome type="sparkle-gold" size="sm" />
   </div>
 
   <!-- メインコンテンツ -->
@@ -28,11 +29,11 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
       <NeonLine lineId="primary" type="frame" size="md" rounded>
         <div class="text-center">
           <h2 class={applyTypographyPreset('sectionTitle')} style="margin-bottom: 10px;">
-            💫 Profile 💫
+            <Dekome type="crown-princess" size="sm" /> Profile <Dekome type="sparkle-rainbow" size="sm" />
           </h2>
           <div class="image-container">
             <img src="https://via.placeholder.com/120x120/FFB6C1/333333?text=nodoame" alt="nodoameのアバター" class="mx-auto" style="image-rendering: pixelated;">
-            <div class="image-title">nodoame 🐱</div>
+            <div class="image-title">nodoame <Dekome type="cat-wink" size="xs" /></div>
           </div>
           <ProfileInfo type="basic" />
         </div>
@@ -41,16 +42,16 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
       <!-- 最近の活動 -->
       <NeonLine lineId="primary" type="frame" size="sm" class="mb-4">
         <h3 class={applyTypographyPreset('subsectionTitle')} style="margin-bottom: 8px;">
-          📅 Recent Activity
+          <Dekome type="star-shooting" size="sm" /> Recent Activity <Dekome type="face-happy" size="sm" />
         </h3>
         <div class={applyTypographyPreset('subText')}>
-          <p>🎮 <span class={applyTypographyPreset('important')}>{currentDate}</span><br>
+          <p><Dekome type="game-controller" size="xs" /> <span class={applyTypographyPreset('important')}>{currentDate}</span><br>
           VALORANT オーメンでランク戦頑張ってます！</p>
           
-          <p>🎨 <span class={applyTypographyPreset('important')}>2024/06/15</span><br>
+          <p><Dekome type="cat-wink" size="xs" /> <span class={applyTypographyPreset('important')}>2024/06/15</span><br>
           新しい猫のイラストを描きました～</p>
           
-          <p>💻 <span class={applyTypographyPreset('important')}>2024/06/10</span><br>
+          <p><Dekome type="computer" size="xs" /> <span class={applyTypographyPreset('important')}>2024/06/10</span><br>
           ジェネラティブアート実験開始！</p>
         </div>
       </NeonLine>
@@ -64,25 +65,25 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
       <!-- 自己紹介 -->
       <NeonLine lineId="primary" type="frame" size="lg" rounded class="mb-6">
         <h2 class={applyTypographyPreset('pageTitle')} style="margin-bottom: 12px; text-align: center;">
-          🌟 Welcome to nodoame's Homepage! 🌟
+          <Dekome type="star-twinkle" size="md" /> Welcome to nodoame's Homepage! <Dekome type="heart-rainbow" size="md" />
         </h2>
         
         <div class={applyTypographyPreset('mainText')}>
-          <p>こんにちは！ネットネーム <span class={applyTypographyPreset('important')}>nodoame</span> です 😊</p>
+          <p>こんにちは！ネットネーム <span class={applyTypographyPreset('important')}>nodoame</span> です <Dekome type="face-happy" size="sm" /></p>
           
           <p>このサイトは2000年代初頭のレトロなホームページの雰囲気を再現して作りました。
           懐かしいHTML4時代のテーブルレイアウトやアニメーションGIF、ピクセルフォントなどを使って、
-          あの頃のインターネットの温かみを表現しています ✨</p>
+          あの頃のインターネットの温かみを表現しています <Dekome type="sparkle-gold" size="xs" /></p>
           
-          <p><span class={applyTypographyPreset('important')}>🎮 好きなゲーム:</span><br>
+          <p><span class={applyTypographyPreset('important')}><Dekome type="game-controller" size="xs" /> 好きなゲーム:</span><br>
           VALORANT（オーメン専、元アストラ専）でFPSを楽しんでいます！<br>
           ランク戦でコツコツ上達中... 頑張ります！</p>
           
-          <p><span class={applyTypographyPreset('important')}>🎨 イラスト・アート:</span><br>
+          <p><span class={applyTypographyPreset('important')}><Dekome type="palette-artist" size="xs" /> イラスト・アート:</span><br>
           猫のイラストや漫画の模写、ロゴ作成が得意です。<br>
           最近はジェネラティブアートにも挑戦中で、プログラムで生成するアートの面白さを探求しています。</p>
           
-          <p><span class={applyTypographyPreset('important')}>💻 Web制作・プログラミング:</span><br>
+          <p><span class={applyTypographyPreset('important')}><Dekome type="computer" size="xs" /> Web制作・プログラミング:</span><br>
           大学で情報科学を学びながら、Web制作の技術を身につけています。<br>
           このサイトもAstro + Tailwind CSSで作成しました！</p>
         </div>
@@ -94,30 +95,30 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
       <!-- お気に入りリンク -->
       <NeonLine lineId="primary" type="frame" size="md" class="mb-6">
         <h3 class={applyTypographyPreset('sectionTitle')} style="margin-bottom: 10px;">
-          🔗 Quick Links
+          <Dekome type="butterfly" size="sm" /> Quick Links <Dekome type="music-note" size="sm" />
         </h3>
         <table class="retro-table w-full">
           <tr>
             <td style="width: 50%;">
               <a href="/gallery" class="retro-button w-full block text-center">
-                🎨 作品ギャラリー
+                <Dekome type="palette-artist" size="xs" /> 作品ギャラリー
               </a>
             </td>
             <td style="width: 50%;">
               <a href="/game" class="retro-button w-full block text-center">
-                🎮 ゲーム情報
+                <Dekome type="game-controller" size="xs" /> ゲーム情報
               </a>
             </td>
           </tr>
           <tr>
             <td>
               <a href="/dev" class="retro-button w-full block text-center">
-                💻 開発・研究
+                <Dekome type="computer" size="xs" /> 開発・研究
               </a>
             </td>
             <td>
               <a href="/blog" class="retro-button w-full block text-center">
-                📝 日記・雑記
+                <Dekome type="notebook" size="xs" /> 日記・雑記
               </a>
             </td>
           </tr>
@@ -130,13 +131,13 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
       <!-- 訪問者カウンター風 -->
       <NeonLine lineId="primary" type="frame" size="sm" class="text-center">
         <h3 class={applyTypographyPreset('subsectionTitle')} style="margin-bottom: 8px;">
-          📊 Visitor Counter
+          <Dekome type="sparkle-gold" size="sm" /> Visitor Counter <Dekome type="computer" size="sm" />
         </h3>
         <div style="background-color: #000; color: #00d4ff; padding: 8px; border: 2px inset #ccc; font-family: monospace; font-size: 16px;">
-          👥 Total Visitors: 001337 
+          <Dekome type="crowd" size="xs" /> Total Visitors: 001337 
         </div>
         <p class={applyTypographyPreset('caption')} style="margin-top: 4px;">
-          ※ レトロな雰囲気作りのための演出です 😉
+          ※ レトロな雰囲気作りのための演出です <Dekome type="face-wink" size="xs" />
         </p>
       </NeonLine>
     </div>
@@ -145,7 +146,7 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
   <!-- フローティングアイコン（装飾用） -->
   <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
     <div style="background: linear-gradient(45deg, #ff6b9d, #4ecdc4); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border: 3px solid #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.3); animation: bounce 2s infinite;">
-      <span style="font-size: 24px;">🌟</span>
+      <Dekome type="star-twinkle" size="md" />
     </div>
   </div>
 

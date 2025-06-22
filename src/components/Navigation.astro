@@ -1,17 +1,18 @@
 ---
 // ナビゲーションコンポーネント
 import NeonLine from './NeonLine.astro';
+import Dekome from './Dekome.astro';
 
 const currentPath = Astro.url.pathname;
 
 const navItems = [
-  { href: '/', label: 'HOME', icon: '🏠' },
-  { href: '/about', label: 'ABOUT', icon: '😊' },
-  { href: '/gallery', label: 'GALLERY', icon: '🎨' },
-  { href: '/game', label: 'GAME', icon: '🎮' },
-  { href: '/dev', label: 'DEV', icon: '💾' },
-  { href: '/blog', label: 'BLOG', icon: '📡' },
-  { href: '/link', label: 'LINK', icon: '🔗' }
+  { href: '/', label: 'HOME', dekome: 'heart-pink' },
+  { href: '/about', label: 'ABOUT', dekome: 'face-happy' },
+  { href: '/gallery', label: 'GALLERY', dekome: 'star-twinkle' },
+  { href: '/game', label: 'GAME', dekome: 'music-note' },
+  { href: '/dev', label: 'DEV', dekome: 'computer' },
+  { href: '/blog', label: 'BLOG', dekome: 'sparkle-multi' },
+  { href: '/link', label: 'LINK', dekome: 'chain' }
 ];
 ---
 
@@ -31,7 +32,7 @@ const navItems = [
                 href={item.href} 
                 class="neon-nav-link"
               >
-                {item.icon} {item.label}
+                <Dekome type={item.dekome} size="xs" /> {item.label}
               </a>
             </NeonLine>
           </td>

@@ -2,12 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 import { applyTypographyPreset } from '../utils/typography';
+import Dekome from '../components/Dekome.astro';
 ---
 
 <Layout title="Dev - nodoameの開発・研究">
   <!-- ページタイトル -->
   <div class="marquee mb-6">
-    💻 nodoame's Development World - Web制作・プログラミング・研究活動を紹介します！ 💻
+    <Dekome type="computer" size="sm" /> nodoame's Development World - Web制作・プログラミング・研究活動を紹介します！ <Dekome type="sparkle-gold" size="sm" />
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -17,13 +18,13 @@ import { applyTypographyPreset } from '../utils/typography';
       <!-- 技術スタック -->
       <div class="retro-frame mb-6">
         <h2 class={applyTypographyPreset('sectionTitle')} style="margin-bottom: 10px; text-align: center;">
-          🛠️ Tech Stack
+          <Dekome type="game-controller" size="sm" /> Tech Stack <Dekome type="star-twinkle" size="sm" />
         </h2>
         
         <div class={applyTypographyPreset('subText')}>
           <div class="mb-3">
             <h4 class={applyTypographyPreset('tag')} style="margin-bottom: 4px;">
-              Frontend 🎨
+              Frontend <Dekome type="butterfly" size="xs" />
             </h4>
             <div class="flex flex-wrap gap-1">
               <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">HTML5</span>
@@ -37,7 +38,7 @@ import { applyTypographyPreset } from '../utils/typography';
 
           <div class="mb-3">
             <h4 class={applyTypographyPreset('tag')} style="margin-bottom: 4px;">
-              Backend & Tools 🔧
+              Backend & Tools <Dekome type="computer" size="xs" />
             </h4>
             <div class="flex flex-wrap gap-1">
               <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">Python</span>
@@ -50,7 +51,7 @@ import { applyTypographyPreset } from '../utils/typography';
 
           <div class="mb-3">
             <h4 class={applyTypographyPreset('tag')} style="margin-bottom: 4px;">
-              Design & Graphics 🎨
+              Design & Graphics <Dekome type="flower-cute" size="xs" />
             </h4>
             <div class="flex flex-wrap gap-1">
               <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">Photoshop</span>
@@ -65,7 +66,7 @@ import { applyTypographyPreset } from '../utils/typography';
       <!-- 現在学習中 -->
       <div class="retro-frame mb-6">
         <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
-          📚 Currently Learning
+          <Dekome type="sparkle-rainbow" size="sm" /> Currently Learning <Dekome type="face-happy" size="sm" />
         </h3>
         <div style="font-size: 11px;">
           <p><strong>🔥 優先度高:</strong></p>
@@ -112,7 +113,7 @@ import { applyTypographyPreset } from '../utils/typography';
       <!-- 主要プロジェクト -->
       <div class="retro-frame mb-6">
         <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
-          🚀 Featured Projects 🚀
+          <Dekome type="star-shooting" size="md" /> Featured Projects <Dekome type="crown-princess" size="md" />
         </h2>
 
         <!-- プロジェクト1：ポートフォリオサイト -->
@@ -124,7 +125,7 @@ import { applyTypographyPreset } from '../utils/typography';
             </div>
             <div class="flex-1">
               <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 6px;">
-                📱 レトロポートフォリオサイト
+                <Dekome type="computer" size="sm" /> レトロポートフォリオサイト <Dekome type="heart-pink" size="sm" />
               </h3>
               <p style="font-size: 11px; margin-bottom: 8px;">
                 <strong>技術:</strong> Astro + Tailwind CSS + TypeScript<br>
@@ -157,7 +158,7 @@ import { applyTypographyPreset } from '../utils/typography';
             </div>
             <div class="flex-1">
               <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 6px;">
-                🎨 ジェネラティブアート実験室
+                <Dekome type="butterfly" size="sm" /> ジェネラティブアート実験室 <Dekome type="sparkle-gold" size="sm" />
               </h3>
               <p style="font-size: 11px; margin-bottom: 8px;">
                 <strong>技術:</strong> Python + matplotlib + numpy<br>
@@ -190,7 +191,7 @@ import { applyTypographyPreset } from '../utils/typography';
             </div>
             <div class="flex-1">
               <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 6px;">
-                ✅ レトロ風タスク管理アプリ
+                <Dekome type="face-happy" size="sm" /> レトロ風タスク管理アプリ <Dekome type="star-twinkle" size="sm" />
               </h3>
               <p style="font-size: 11px; margin-bottom: 8px;">
                 <strong>技術:</strong> React + TypeScript + Local Storage<br>
