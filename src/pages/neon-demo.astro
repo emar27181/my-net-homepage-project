@@ -67,7 +67,7 @@ import {
 
       <!-- 基本的な使い方 -->
       <section class="mb-12">
-        <h2 class="text-xl font-semibold mb-6 text-center text-white" style="text-shadow: 0 0 10px #8000ff;">基本的な使い方</h2>
+        <h2 class="text-xl font-semibold mb-6 text-center text-white" style="text-shadow: 0 0 10px var(--neon-primary);">基本的な使い方</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div class={`p-6 bg-black text-white text-center rounded-lg ${applyNeonBorder('cyan', 'md')}`}>
             <h3 class="font-semibold text-lg">シアン・ミディアム</h3>
@@ -113,7 +113,7 @@ import {
 
       <!-- アニメーションバリエーション -->
       <section class="mb-12">
-        <h2 class="text-xl font-semibold mb-6 text-center text-white" style="text-shadow: 0 0 10px #ff1493;">アニメーションバリエーション</h2>
+        <h2 class="text-xl font-semibold mb-6 text-center text-white" style="text-shadow: 0 0 10px var(--neon-primary);">アニメーションバリエーション</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {NEON_ANIMATIONS.map(animation => (
             <div class={`p-6 bg-black text-white text-center rounded-lg transition-all hover:scale-105 ${applyNeonBorder('cyan', 'lg', { animation })}`}>
@@ -190,7 +190,7 @@ import {
                 <span class="text-2xl">👤</span>
               </div>
               <div class="flex-1">
-                <h4 class="font-semibold text-lg" style="text-shadow: 0 0 3px #ff1493;">サイバーネオン</h4>
+                <h4 class="font-semibold text-lg" style="text-shadow: 0 0 3px var(--neon-primary);">サイバーネオン</h4>
                 <p class="text-sm text-gray-300">ネオンボーダーで彩られたプロフィールカード</p>
                 <div class="mt-2 flex gap-2">
                   <span class={`px-2 py-1 text-xs rounded ${applyNeonBorder('purple', 'sm')}`}>Developer</span>
@@ -229,7 +229,7 @@ import {
               <div class="flex items-center gap-3">
                 <span class="text-xl">💾</span>
                 <div>
-                  <h4 class="font-semibold" style="text-shadow: 0 0 3px #8000ff;">データ保存完了</h4>
+                  <h4 class="font-semibold" style="text-shadow: 0 0 3px var(--neon-primary);">データ保存完了</h4>
                   <p class="text-sm text-gray-300">サイバーパンク風の成功通知</p>
                 </div>
               </div>

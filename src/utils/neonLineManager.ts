@@ -59,7 +59,7 @@ export const NEON_LINE_PRESETS: Record<string, NeonLineConfig> = {
   pink: {
     id: 'pink',
     name: 'ネオンピンク',
-    color: '#ff1493',
+    color: '#4d79ff',
     intensity: 'ultra',
     thickness: 'thick',
     animation: 'flicker',
