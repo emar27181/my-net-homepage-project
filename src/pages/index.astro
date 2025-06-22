@@ -6,6 +6,7 @@ import NeonLine from '../components/NeonLine.astro';
 import Dekome from '../components/Dekome.astro';
 import '../styles/global.css';
 import { applyTypographyPreset } from '../utils/typography';
+import { tPageTitle } from '../utils/textManager';
 
 const currentDate = new Date().toLocaleDateString('ja-JP', {
   year: 'numeric',
@@ -17,7 +18,7 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
 <Layout title="nodoame's Homepage - レトロなポートフォリオ">
   <!-- 更新情報のマーキー -->
   <div class="marquee mb-6">
-    <Dekome type="star-twinkle" size="sm" /> Welcome to nodoame's retro homepage! <Dekome type="heart-pink" size="sm" /> 最新情報: VALORANTランク更新中 | 新しいイラスト作品をギャラリーに追加しました! | ジェネラティブアート実験中... <Dekome type="sparkle-gold" size="sm" />
+    {tPageTitle('home')}
   </div>
 
   <!-- メインコンテンツ -->

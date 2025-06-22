@@ -1,5 +1,6 @@
 ---
 import { applyTypographyPreset } from '../utils/typography';
+import { tSite, tNav } from '../utils/textManager';
 import '../styles/global.css';
 import Dekome from '../components/Dekome.astro';
 
@@ -8,7 +9,7 @@ export interface Props {
   description?: string;
 }
 
-const { title, description = "nodoameのレトロなポートフォリオサイト" } = Astro.props;
+const { title, description = tSite('description') } = Astro.props;
 ---
 
 <!doctype html>
@@ -20,7 +21,7 @@ const { title, description = "nodoameのレトロなポートフォリオサイ�
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <meta name="keywords" content="nodoame,ポートフォリオ,レトロ,VALORANT,イラスト,ドット絵,Web制作" />
-    <meta name="author" content="nodoame" />
+    <meta name="author" content={tSite('author')} />
     
     <!-- レトロな雰囲気のためのメタタグ -->
     <meta name="generator" content="Astro v4.x" />
@@ -49,10 +50,10 @@ const { title, description = "nodoameのレトロなポートフォリオサイ�
       <!-- ネオンヘッダー -->
       <header class="retro-frame" style="background: var(--gradient-cyber); border-color: var(--neon-tertiary);">
         <h1 class={`${applyTypographyPreset('cyberTitle')} neon-glow`} style="text-align: center;">
-          <Dekome type="star-shooting" size="md" /> nodoame's Cyber Space <Dekome type="crown-princess" size="md" />
+          <Dekome type="star-shooting" size="md" /> {tSite('title')} <Dekome type="crown-princess" size="md" />
         </h1>
         <p class={applyTypographyPreset('subText')} style="text-align: center; margin-top: 8px;">
-          <Dekome type="sparkle-rainbow" size="sm" /> Welcome to Neo Tokyo Web <Dekome type="heart-rainbow" size="sm" />
+          <Dekome type="sparkle-rainbow" size="sm" /> {tSite('subtitle')} <Dekome type="heart-rainbow" size="sm" />
         </p>
       </header>
 
@@ -63,25 +64,25 @@ const { title, description = "nodoameのレトロなポートフォリオサイ�
           <table class="retro-table w-full">
             <tr>
               <td class="text-center">
-                <a href="/" class="retro-button"><Dekome type="heart-pink" size="xs" /> HOME</a>
+                <a href="/" class="retro-button"><Dekome type="heart-pink" size="xs" /> {tNav('home')}</a>
               </td>
               <td class="text-center">
-                <a href="/about" class="retro-button"><Dekome type="face-happy" size="xs" /> ABOUT</a>
+                <a href="/about" class="retro-button"><Dekome type="face-happy" size="xs" /> {tNav('about')}</a>
               </td>
               <td class="text-center">
-                <a href="/gallery" class="retro-button"><Dekome type="butterfly" size="xs" /> GALLERY</a>
+                <a href="/gallery" class="retro-button"><Dekome type="butterfly" size="xs" /> {tNav('gallery')}</a>
               </td>
               <td class="text-center">
-                <a href="/game" class="retro-button"><Dekome type="game-controller" size="xs" /> GAME</a>
+                <a href="/game" class="retro-button"><Dekome type="game-controller" size="xs" /> {tNav('game')}</a>
               </td>
               <td class="text-center">
-                <a href="/dev" class="retro-button"><Dekome type="computer" size="xs" /> DEV</a>
+                <a href="/dev" class="retro-button"><Dekome type="computer" size="xs" /> {tNav('dev')}</a>
               </td>
               <td class="text-center">
-                <a href="/blog" class="retro-button"><Dekome type="music-note" size="xs" /> BLOG</a>
+                <a href="/blog" class="retro-button"><Dekome type="music-note" size="xs" /> {tNav('blog')}</a>
               </td>
               <td class="text-center">
-                <a href="/link" class="retro-button"><Dekome type="star-twinkle" size="xs" /> LINK</a>
+                <a href="/link" class="retro-button"><Dekome type="star-twinkle" size="xs" /> {tNav('link')}</a>
               </td>
             </tr>
           </table>
@@ -90,15 +91,15 @@ const { title, description = "nodoameのレトロなポートフォリオサイ�
         <!-- モバイル表示 -->
         <div class="md:hidden">
           <div class="grid grid-cols-2 gap-2 p-2">
-            <a href="/" class="retro-button text-center block"><Dekome type="heart-pink" size="xs" /> HOME</a>
-            <a href="/about" class="retro-button text-center block"><Dekome type="face-happy" size="xs" /> ABOUT</a>
-            <a href="/gallery" class="retro-button text-center block"><Dekome type="butterfly" size="xs" /> GALLERY</a>
-            <a href="/game" class="retro-button text-center block"><Dekome type="game-controller" size="xs" /> GAME</a>
-            <a href="/dev" class="retro-button text-center block"><Dekome type="computer" size="xs" /> DEV</a>
-            <a href="/blog" class="retro-button text-center block"><Dekome type="music-note" size="xs" /> BLOG</a>
+            <a href="/" class="retro-button text-center block"><Dekome type="heart-pink" size="xs" /> {tNav('home')}</a>
+            <a href="/about" class="retro-button text-center block"><Dekome type="face-happy" size="xs" /> {tNav('about')}</a>
+            <a href="/gallery" class="retro-button text-center block"><Dekome type="butterfly" size="xs" /> {tNav('gallery')}</a>
+            <a href="/game" class="retro-button text-center block"><Dekome type="game-controller" size="xs" /> {tNav('game')}</a>
+            <a href="/dev" class="retro-button text-center block"><Dekome type="computer" size="xs" /> {tNav('dev')}</a>
+            <a href="/blog" class="retro-button text-center block"><Dekome type="music-note" size="xs" /> {tNav('blog')}</a>
           </div>
           <div class="px-2 pb-2">
-            <a href="/link" class="retro-button text-center block w-full"><Dekome type="star-twinkle" size="xs" /> LINK</a>
+            <a href="/link" class="retro-button text-center block w-full"><Dekome type="star-twinkle" size="xs" /> {tNav('link')}</a>
           </div>
         </div>
       </nav>
@@ -111,7 +112,7 @@ const { title, description = "nodoameのレトロなポートフォリオサイ�
       <!-- サイバーフッター -->
       <footer class="retro-frame text-center mt-8" style="background: var(--dark-bg-tertiary); border-color: var(--neon-secondary);">
         <p class={applyTypographyPreset('caption')}>
-          <Dekome type="sparkle-gold" size="xs" /> Created by nodoame | Powered by Astro + Tailwind CSS <Dekome type="coffee-steam" size="xs" />
+          <Dekome type="sparkle-gold" size="xs" /> {tSite('footer')} <Dekome type="coffee-steam" size="xs" />
         </p>
         <p class={applyTypographyPreset('timestamp')} style="margin-top: 4px;">
           <span><Dekome type="clock" size="xs" /> System Time: {new Date().toLocaleDateString('ja-JP')}</span>

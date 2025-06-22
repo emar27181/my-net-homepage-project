@@ -3,12 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import ProfileInfo from '../components/ProfileInfo.astro';
 import NeonLine from '../components/NeonLine.astro';
 import '../styles/global.css';
+import { tPageTitle, tUI, tStatus } from '../utils/textManager';
 ---
 
 <Layout title="About - nodoameの自己紹介">
   <!-- ページタイトル -->
   <div class="marquee mb-6">
-    🌟 About nodoame - Q&A形式でいろいろ答えちゃいます！ ✨
+    {tPageTitle('about')}
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -18,7 +19,7 @@ import '../styles/global.css';
       <!-- プロフィール詳細 -->
       <div class="retro-frame mb-6">
         <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
-          👤 Profile Details 📋
+          {tUI('profileDetails')}
         </h2>
         
         <div class="image-container mb-4">
@@ -35,7 +36,7 @@ import '../styles/global.css';
       <!-- スキル・得意なこと -->
       <div class="retro-frame">
         <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px;">
-          🎯 Skills & Abilities
+          {tUI('skillsAndAbilities')}
         </h3>
         
         <div style="font-size: 12px;">
@@ -113,7 +114,7 @@ import '../styles/global.css';
       <!-- 好きなもの・趣味 -->
       <div class="retro-frame">
         <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px;">
-          💖 Favorite Things
+          {tUI('favoriteThings')}
         </h3>
         
         <table class="retro-table w-full" style="font-size: 11px;">
@@ -149,7 +150,7 @@ import '../styles/global.css';
   <!-- 連絡先・SNS -->
   <div class="retro-frame mt-6 text-center">
     <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px;">
-      📞 Contact & Social Media
+      {tUI('contactAndSocial')}
     </h3>
     <p style="font-size: 12px; margin-bottom: 10px;">
       お仕事のご依頼や、同じ趣味の方との交流、お気軽にどうぞ！ 💌
@@ -157,13 +158,13 @@ import '../styles/global.css';
     
     <div class="flex justify-center items-center gap-4 flex-wrap">
       <span class="retro-button" style="opacity: 0.6; cursor: not-allowed;">
-        📧 Email (準備中)
+        📧 {tUI('email')} ({tStatus('preparing')})
       </span>
       <span class="retro-button" style="opacity: 0.6; cursor: not-allowed;">
-        🐦 Twitter (準備中)
+        🐦 {tUI('twitter')} ({tStatus('preparing')})
       </span>
       <span class="retro-button" style="opacity: 0.6; cursor: not-allowed;">
-        💻 GitHub (準備中)
+        💻 {tUI('github')} ({tStatus('preparing')})
       </span>
       <a href="/link" class="retro-button">
         🔗 More Links
@@ -171,7 +172,7 @@ import '../styles/global.css';
     </div>
     
     <p style="font-size: 10px; margin-top: 8px; color: #666;">
-      ※ SNS・連絡先は準備中です
+      ※ SNS・連絡先は{tStatus('preparing')}です
     </p>
   </div>
 
