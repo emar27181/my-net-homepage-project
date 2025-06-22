@@ -1132,13 +1132,34 @@ a:visited {
     --legacy-magenta: var(--neon-primary);    /* 旧マゼンタ色 → 青系 */
     --legacy-violet: var(--neon-primary);     /* 旧バイオレット色 → 青系 */
 
-    /* 要素別詳細色設定 */
-    --text-h1: var(--unified-text-accent);
-    --text-h2: var(--unified-text-primary);
-    --text-h3: var(--unified-text-primary);
-    --text-body: var(--unified-text-primary);
-    --text-link: var(--unified-highlight-color);
-    --text-button: var(--unified-text-accent);
+    /* タイポグラフィシステム - 一元管理 */
+    /* 基本文字設定 */
+    --text-font-primary: var(--font-mono);           /* メイン書体 */
+    --text-font-pixel: var(--font-pixel);            /* ピクセル書体 */
+    --text-font-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    
+    /* 文字色パターン */
+    --text-color-primary: var(--unified-text-primary);      /* メイン文字色 */
+    --text-color-secondary: var(--unified-text-secondary);  /* セカンダリ文字色 */
+    --text-color-accent: var(--unified-text-accent);        /* アクセント文字色 */
+    --text-color-highlight: var(--unified-highlight-color); /* ハイライト文字色 */
+    --text-color-muted: #7a8aa3;                           /* 控えめ文字色 */
+    --text-color-inverse: #ffffff;                         /* 反転文字色 */
+    
+    /* グロー効果設定 */
+    --text-glow-sm: 0 0 5px currentColor;                  /* 小グロー */
+    --text-glow-md: 0 0 10px currentColor;                 /* 中グロー */
+    --text-glow-lg: 0 0 15px currentColor;                 /* 大グロー */
+    --text-glow-xl: 0 0 20px currentColor, 0 0 30px currentColor; /* 特大グロー */
+    
+    /* サイズ設定 */
+    --text-size-xs: 9px;      /* 極小サイズ */
+    --text-size-sm: 11px;     /* 小サイズ */
+    --text-size-base: 12px;   /* 基本サイズ */
+    --text-size-md: 14px;     /* 中サイズ */
+    --text-size-lg: 16px;     /* 大サイズ */
+    --text-size-xl: 18px;     /* 特大サイズ */
+    --text-size-2xl: 20px;    /* 超大サイズ */
   }
 
   /* 一元管理カラー適用 */
@@ -1722,4 +1743,256 @@ a:visited {
   25% { filter: brightness(1.2); }
   50% { filter: brightness(1.4); }
   75% { filter: brightness(1.2); }
+}
+
+/* タイポグラフィクラスシステム（一元管理） */
+@layer typography {
+  /* 見出しスタイル */
+  .text-heading-primary {
+    font-family: var(--text-font-pixel);
+    font-size: var(--text-size-xl);
+    color: var(--text-color-accent);
+    text-shadow: var(--text-glow-lg);
+    font-weight: bold;
+    line-height: 1.3;
+  }
+  
+  .text-heading-secondary {
+    font-family: var(--text-font-pixel);
+    font-size: var(--text-size-lg);
+    color: var(--text-color-primary);
+    text-shadow: var(--text-glow-md);
+    font-weight: bold;
+    line-height: 1.4;
+  }
+  
+  .text-heading-tertiary {
+    font-family: var(--text-font-pixel);
+    font-size: var(--text-size-md);
+    color: var(--text-color-primary);
+    text-shadow: var(--text-glow-sm);
+    font-weight: bold;
+    line-height: 1.4;
+  }
+  
+  /* 本文スタイル */
+  .text-body-primary {
+    font-family: var(--text-font-primary);
+    font-size: var(--text-size-base);
+    color: var(--text-color-primary);
+    line-height: 1.6;
+  }
+  
+  .text-body-secondary {
+    font-family: var(--text-font-primary);
+    font-size: var(--text-size-sm);
+    color: var(--text-color-secondary);
+    line-height: 1.5;
+  }
+  
+  .text-body-small {
+    font-family: var(--text-font-primary);
+    font-size: var(--text-size-xs);
+    color: var(--text-color-muted);
+    line-height: 1.4;
+  }
+  
+  /* 強調・アクセントスタイル */
+  .text-emphasis-strong {
+    font-family: var(--text-font-primary);
+    font-size: var(--text-size-base);
+    color: var(--text-color-accent);
+    text-shadow: var(--text-glow-sm);
+    font-weight: bold;
+  }
+  
+  .text-emphasis-highlight {
+    font-family: var(--text-font-primary);
+    font-size: var(--text-size-base);
+    color: var(--text-color-highlight);
+    text-shadow: var(--text-glow-md);
+    font-weight: normal;
+  }
+  
+  .text-emphasis-glow {
+    font-family: var(--text-font-primary);
+    font-size: var(--text-size-base);
+    color: var(--text-color-primary);
+    text-shadow: var(--text-glow-xl);
+    animation: text-pulse 2s ease-in-out infinite alternate;
+  }
+  
+  /* ナビゲーション・UI要素 */
+  .text-nav-primary {
+    font-family: var(--text-font-pixel);
+    font-size: var(--text-size-sm);
+    color: var(--text-color-accent);
+    text-shadow: var(--text-glow-sm);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .text-nav-secondary {
+    font-family: var(--text-font-primary);
+    font-size: var(--text-size-xs);
+    color: var(--text-color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  
+  /* ボタン・インタラクティブ要素 */
+  .text-button-primary {
+    font-family: var(--text-font-primary);
+    font-size: var(--text-size-sm);
+    color: var(--text-color-inverse);
+    text-shadow: var(--text-glow-sm);
+    font-weight: bold;
+  }
+  
+  .text-button-secondary {
+    font-family: var(--text-font-primary);
+    font-size: var(--text-size-xs);
+    color: var(--text-color-accent);
+    text-shadow: var(--text-glow-sm);
+    font-weight: normal;
+  }
+  
+  /* ラベル・タグ */
+  .text-label-primary {
+    font-family: var(--text-font-pixel);
+    font-size: var(--text-size-xs);
+    color: var(--text-color-accent);
+    text-shadow: var(--text-glow-sm);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .text-label-secondary {
+    font-family: var(--text-font-primary);
+    font-size: var(--text-size-xs);
+    color: var(--text-color-primary);
+    font-weight: normal;
+  }
+  
+  /* メタ情報・キャプション */
+  .text-meta-primary {
+    font-family: var(--text-font-primary);
+    font-size: var(--text-size-xs);
+    color: var(--text-color-muted);
+    font-style: italic;
+    line-height: 1.3;
+  }
+  
+  .text-meta-timestamp {
+    font-family: var(--text-font-system);
+    font-size: var(--text-size-xs);
+    color: var(--text-color-muted);
+    font-weight: normal;
+  }
+  
+  /* 特殊効果 */
+  .text-cyber-glitch {
+    font-family: var(--text-font-pixel);
+    color: var(--text-color-primary);
+    text-shadow: 
+      2px 0 var(--text-color-accent),
+      -2px 0 var(--text-color-highlight),
+      0 0 var(--text-glow-lg);
+    animation: cyber-glitch 3s ease-in-out infinite;
+  }
+  
+  .text-neon-flicker {
+    color: var(--text-color-primary);
+    text-shadow: var(--text-glow-lg);
+    animation: text-flicker 2s linear infinite;
+  }
+  
+  /* ユーティリティ修飾子 */
+  .text-size-xs { font-size: var(--text-size-xs) !important; }
+  .text-size-sm { font-size: var(--text-size-sm) !important; }
+  .text-size-base { font-size: var(--text-size-base) !important; }
+  .text-size-md { font-size: var(--text-size-md) !important; }
+  .text-size-lg { font-size: var(--text-size-lg) !important; }
+  .text-size-xl { font-size: var(--text-size-xl) !important; }
+  .text-size-2xl { font-size: var(--text-size-2xl) !important; }
+  
+  .text-color-primary { color: var(--text-color-primary) !important; }
+  .text-color-secondary { color: var(--text-color-secondary) !important; }
+  .text-color-accent { color: var(--text-color-accent) !important; }
+  .text-color-highlight { color: var(--text-color-highlight) !important; }
+  .text-color-muted { color: var(--text-color-muted) !important; }
+  .text-color-inverse { color: var(--text-color-inverse) !important; }
+  
+  .text-glow-sm { text-shadow: var(--text-glow-sm) !important; }
+  .text-glow-md { text-shadow: var(--text-glow-md) !important; }
+  .text-glow-lg { text-shadow: var(--text-glow-lg) !important; }
+  .text-glow-xl { text-shadow: var(--text-glow-xl) !important; }
+  
+  .text-anim-pulse { animation: text-pulse 2s ease-in-out infinite alternate !important; }
+  .text-anim-flicker { animation: text-flicker 2s linear infinite !important; }
+  .text-anim-cyber-glitch { animation: cyber-glitch 3s ease-in-out infinite !important; }
+  
+  /* レスポンシブ調整 */
+  .text-responsive {
+    @media (max-width: 768px) {
+      &.text-heading-primary { font-size: var(--text-size-lg); }
+      &.text-heading-secondary { font-size: var(--text-size-md); }
+      &.text-heading-tertiary { font-size: var(--text-size-base); }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .text-heading-primary { font-size: var(--text-size-lg); }
+    .text-heading-secondary { font-size: var(--text-size-md); }
+    .text-heading-tertiary { font-size: var(--text-size-base); }
+  }
+}
+
+/* タイポグラフィアニメーション */
+@keyframes text-pulse {
+  0% { 
+    text-shadow: var(--text-glow-md);
+    filter: brightness(1);
+  }
+  100% { 
+    text-shadow: var(--text-glow-xl);
+    filter: brightness(1.3);
+  }
+}
+
+@keyframes text-flicker {
+  0%, 100% { opacity: 1; }
+  5% { opacity: 0.5; }
+  10% { opacity: 1; }
+  15% { opacity: 0.3; }
+  20% { opacity: 1; }
+  25% { opacity: 0.8; }
+  30% { opacity: 1; }
+  90% { opacity: 1; }
+  95% { opacity: 0.6; }
+}
+
+@keyframes cyber-glitch {
+  0%, 90%, 100% {
+    text-shadow: 
+      2px 0 var(--text-color-accent),
+      -2px 0 var(--text-color-highlight),
+      0 0 var(--text-glow-lg);
+  }
+  5% {
+    text-shadow: 
+      -2px 0 var(--text-color-accent),
+      2px 0 var(--text-color-highlight),
+      0 0 var(--text-glow-xl);
+    transform: translate(-1px, 1px);
+  }
+  10% {
+    text-shadow: 
+      0 0 var(--text-color-accent),
+      0 0 var(--text-color-highlight),
+      0 0 var(--text-glow-md);
+    transform: translate(1px, -1px);
+  }
 }

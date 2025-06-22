@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
+import { applyTypographyPreset } from '../utils/typography';
 ---
 
 <Layout title="Dev - nodoameの開発・研究">
@@ -15,13 +16,13 @@ import '../styles/global.css';
     <div class="lg:col-span-1">
       <!-- 技術スタック -->
       <div class="retro-frame mb-6">
-        <h2 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px; text-align: center;">
+        <h2 class={applyTypographyPreset('sectionTitle')} style="margin-bottom: 10px; text-align: center;">
           🛠️ Tech Stack
         </h2>
         
-        <div style="font-size: 11px;">
+        <div class={applyTypographyPreset('subText')}>
           <div class="mb-3">
-            <h4 style="font-family: var(--font-pixel); font-size: 10px; margin-bottom: 4px; color: var(--unified-text-primary);">
+            <h4 class={applyTypographyPreset('tag')} style="margin-bottom: 4px;">
               Frontend 🎨
             </h4>
             <div class="flex flex-wrap gap-1">
@@ -35,7 +36,7 @@ import '../styles/global.css';
           </div>
 
           <div class="mb-3">
-            <h4 style="font-family: var(--font-pixel); font-size: 10px; margin-bottom: 4px; color: var(--unified-text-primary);">
+            <h4 class={applyTypographyPreset('tag')} style="margin-bottom: 4px;">
               Backend & Tools 🔧
             </h4>
             <div class="flex flex-wrap gap-1">
@@ -48,7 +49,7 @@ import '../styles/global.css';
           </div>
 
           <div class="mb-3">
-            <h4 style="font-family: var(--font-pixel); font-size: 10px; margin-bottom: 4px; color: var(--unified-text-primary);">
+            <h4 class={applyTypographyPreset('tag')} style="margin-bottom: 4px;">
               Design & Graphics 🎨
             </h4>
             <div class="flex flex-wrap gap-1">

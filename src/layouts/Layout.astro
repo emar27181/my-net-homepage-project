@@ -1,4 +1,6 @@
 ---
+import { applyTypographyPreset } from '../utils/typography';
+
 export interface Props {
   title: string;
   description?: string;
@@ -45,10 +47,10 @@ const { title, description = "nodoameのレトロなポートフォリオサイ�
       
       <!-- ネオンヘッダー -->
       <header class="retro-frame" style="background: var(--gradient-cyber); border-color: var(--neon-tertiary);">
-        <h1 class="neon-glow" style="font-family: var(--font-pixel); font-size: 16px; text-align: center; color: var(--neon-primary); text-shadow: 0 0 10px var(--neon-primary), 0 0 20px var(--neon-primary), 0 0 30px var(--neon-primary);">
+        <h1 class={`${applyTypographyPreset('cyberTitle')} neon-glow`} style="text-align: center;">
           🌌 nodoame's Cyber Space 🌌
         </h1>
-        <p style="text-align: center; font-size: 12px; margin-top: 8px; color: var(--neon-tertiary); text-shadow: 0 0 5px var(--neon-tertiary);">
+        <p class={applyTypographyPreset('subText')} style="text-align: center; margin-top: 8px;">
           ⚡ Welcome to Neo Tokyo Web ⚡
         </p>
       </header>
@@ -89,10 +91,10 @@ const { title, description = "nodoameのレトロなポートフォリオサイ�
 
       <!-- サイバーフッター -->
       <footer class="retro-frame text-center mt-8" style="background: var(--dark-bg-tertiary); border-color: var(--neon-secondary);">
-        <p style="font-family: var(--font-pixel); font-size: 10px; color: var(--neon-primary); text-shadow: 0 0 5px var(--neon-primary);">
+        <p class={applyTypographyPreset('caption')}>
           ⚡ Created by nodoame | Powered by Astro + Tailwind CSS ⚡
         </p>
-        <p style="font-size: 10px; margin-top: 4px; color: var(--neon-violet); text-shadow: 0 0 3px var(--neon-violet);">
+        <p class={applyTypographyPreset('timestamp')} style="margin-top: 4px;">
           <span>🕒 System Time: {new Date().toLocaleDateString('ja-JP')}</span>
         </p>
         <div class="flex justify-center items-center gap-2 mt-2">
