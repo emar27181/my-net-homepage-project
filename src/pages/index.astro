@@ -28,7 +28,7 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
     <!-- 左サイドバー -->
     <div class="md:col-span-1">
       <!-- プロフィール写真 -->
-      <NeonLine lineId="primary" type="frame" size="md">
+      <div class="retro-frame mb-6">
         <div class="text-center">
           <h2 class={applyTypographyPreset('sectionTitle')} style="margin-bottom: 10px;">
             <Dekome type="crown-princess" size="sm" /> Profile <Dekome type="sparkle-rainbow" size="sm" />
@@ -39,10 +39,10 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
           </div>
           <ProfileInfo type="basic" />
         </div>
-      </NeonLine>
+      </div>
 
       <!-- 最近の活動 -->
-      <NeonLine lineId="primary" type="frame" size="sm" class="mb-4">
+      <div class="retro-frame mb-4">
         <h3 class={applyTypographyPreset('subsectionTitle')} style="margin-bottom: 8px;">
           <Dekome type="star-shooting" size="sm" /> Recent Activity <Dekome type="face-happy" size="sm" />
         </h3>
@@ -56,7 +56,7 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
           <p><Dekome type="computer" size="xs" /> <span class={applyTypographyPreset('important')}>2024/06/10</span><br>
           ジェネラティブアート実験開始！</p>
         </div>
-      </NeonLine>
+      </div>
 
       <!-- 今日の一言 -->
       <TodaysWord />
@@ -65,7 +65,7 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
     <!-- メインコンテンツエリア -->
     <div class="md:col-span-2">
       <!-- 自己紹介 -->
-      <NeonLine lineId="primary" type="frame" size="lg" class="mb-6">
+      <div class="retro-frame mb-6">
         <h2 class={applyTypographyPreset('pageTitle')} style="margin-bottom: 12px; text-align: center;">
           <Dekome type="star-twinkle" size="md" /> Welcome to nodoame's Homepage! <Dekome type="heart-rainbow" size="md" />
         </h2>
@@ -89,13 +89,10 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
           大学で情報科学を学びながら、Web制作の技術を身につけています。<br>
           このサイトもAstro + Tailwind CSSで作成しました！</p>
         </div>
-      </NeonLine>
-
-      <!-- ネオン区切り線 -->
-      <NeonLine lineId="primary" type="divider" width="100%" height="3px" />
+      </div>
 
       <!-- お気に入りリンク -->
-      <NeonLine lineId="primary" type="frame" size="md" class="mb-6">
+      <div class="retro-frame mb-6">
         <h3 class={applyTypographyPreset('sectionTitle')} style="margin-bottom: 10px;">
           <Dekome type="butterfly" size="sm" /> Quick Links <Dekome type="music-note" size="sm" />
         </h3>
@@ -125,13 +122,10 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
             </td>
           </tr>
         </table>
-      </NeonLine>
-
-      <!-- ネオン区切り線 -->
-      <NeonLine lineId="primary" type="divider" width="80%" height="2px" />
+      </div>
 
       <!-- 訪問者カウンター風 -->
-      <NeonLine lineId="primary" type="frame" size="sm" class="text-center">
+      <div class="retro-frame text-center">
         <h3 class={applyTypographyPreset('subsectionTitle')} style="margin-bottom: 8px;">
           <Dekome type="sparkle-gold" size="sm" /> Visitor Counter <Dekome type="computer" size="sm" />
         </h3>
@@ -141,7 +135,7 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
         <p class={applyTypographyPreset('caption')} style="margin-top: 4px;">
           ※ レトロな雰囲気作りのための演出です <Dekome type="face-happy" size="xs" />
         </p>
-      </NeonLine>
+      </div>
     </div>
   </div>
 
