@@ -1,0 +1,91 @@
+/* 8-bitゲーム風ナビゲーション（レスポンシブ統一デザイン） */
+.game-nav-frame {
+  background: var(--color-bg-secondary);
+  border: 3px solid var(--retro-primary);
+  padding: 8px;
+  box-shadow: 
+    inset 2px 2px 0px rgba(77, 121, 255, 0.3),
+    inset -2px -2px 0px rgba(0, 0, 0, 0.5),
+    0 0 0 2px var(--game-bg-primary);
+  image-rendering: pixelated;
+}
+
+/* デスクトップ用グリッド */
+.nav-grid-desktop {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+/* タブレット用グリッド */
+.nav-grid-tablet {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+}
+
+/* モバイル用グリッド */
+.nav-grid-mobile {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+
+/* 統一ナビボタンスタイル */
+.nav-button, .nav-button-compact, .nav-button-mobile {
+  background: var(--color-bg-tertiary);
+  border: 2px solid var(--retro-secondary);
+  color: var(--retro-tertiary);
+  font-family: var(--font-pixel-jp);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.1s ease;
+  box-shadow: 
+    inset 1px 1px 0px rgba(255, 255, 255, 0.3),
+    inset -1px -1px 0px rgba(0, 0, 0, 0.5),
+    1px 1px 0px var(--game-bg-primary);
+  text-shadow: 1px 1px 0px var(--game-bg-primary);
+  image-rendering: pixelated;
+  word-break: keep-all;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* デスクトップボタン */
+.nav-button {
+  padding: 8px 4px;
+  font-size: 11px;
+  min-height: 40px;
+  gap: 4px;
+}
+
+/* タブレットボタン */
+.nav-button-compact {
+  padding: 6px 3px;
+  font-size: 10px;
+  min-height: 35px;
+}
+
+/* モバイルボタン */
+.nav-button-mobile {
+  padding: 8px 2px;
+  font-size: 9px;
+  min-height: 32px;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ホバー効果統一 */
+.nav-button:hover, .nav-button-compact:hover, .nav-button-mobile:hover {
+  background: var(--retro-tertiary);
+  border-color: var(--retro-primary);
+  color: var(--game-bg-primary);
+  text-shadow: 1px 1px 0px var(--retro-primary);
+  box-shadow: 
+    inset 1px 1px 0px rgba(255, 255, 255, 0.5),
+    inset -1px -1px 0px rgba(0, 0, 0, 0.7);
+  transform: translate(1px, 1px);
+}

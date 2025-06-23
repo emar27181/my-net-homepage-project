@@ -91,29 +91,29 @@ export interface TextContent {
 // 日本語のテキスト内容
 export const jaTexts: TextContent = {
   site: {
-    title: "nodoame's Cyber Space",
-    subtitle: "Welcome to Neo Tokyo Web",
-    description: "大学生クリエイターnodoameのレトロ風ポートフォリオサイト",
-    author: "nodoame",
-    footer: "Created by nodoame | Powered by Astro + Tailwind CSS"
+    title: "nodoame's 8-bit Adventure",
+    subtitle: "◆ Welcome to the Pixel World ◆",
+    description: "レトロゲーム風ポートフォリオサイト - 8bitの冒険が始まる！",
+    author: "Player: nodoame",
+    footer: "◆ Game Created by nodoame ◆ Engine: Astro + CSS Magic ◆"
   },
   
   navigation: {
-    home: "HOME",
-    about: "ABOUT",
-    gallery: "GALLERY", 
-    game: "GAME",
-    dev: "DEV",
-    blog: "BLOG",
-    link: "LINK"
+    home: "◆ WORLD MAP ◆",
+    about: "◆ STATUS ◆",
+    gallery: "◆ GALLERY ◆", 
+    game: "◆ BATTLE ◆",
+    dev: "◆ SKILLS ◆",
+    blog: "◆ DIARY ◆",
+    link: "◆ GUILD ◆"
   },
 
   status: {
-    preparing: "準備中",
-    dataCollecting: "データ収集中",
-    comingSoon: "近日公開",
-    underConstruction: "工事中",
-    contact: "お問い合わせからどうぞ"
+    preparing: "◆ 準備中... ◆",
+    dataCollecting: "◆ データ収集中... ◆",
+    comingSoon: "◆ Coming Soon ◆",
+    underConstruction: "◆ Under Construction ◆",
+    contact: "◆ メッセージを送る ◆"
   },
 
   ui: {
@@ -131,42 +131,42 @@ export const jaTexts: TextContent = {
     aboutWriter: "About Writer",
     moreInfo: "More Info",
     visit: "Visit",
-    prev: "« Prev",
-    next: "Next »",
-    allWorks: "🖼️ All Works",
-    profileDetails: "👤 Profile Details 📋",
-    skillsAndAbilities: "🎯 Skills & Abilities",
-    favoriteThings: "💖 Favorite Things",
-    contactAndSocial: "📞 Contact & Social Media",
-    currentStatus: "🏆 Current Status",
-    favoriteMaps: "🗺️ Favorite Maps",
-    recentMatches: "📊 Recent Matches",
-    agentProfiles: "🌟 Agent Profiles 🌟",
-    playStyleTactics: "⚔️ Play Style & Tactics ⚔️",
-    settingsSetup: "⚙️ Settings & Setup ⚙️",
-    goalsObjectives: "🎯 Goals & Objectives 🎯",
-    galleryCategories: "🖼️ Gallery Categories 🖼️",
-    artistNote: "💭 Artist's Note",
-    commissionInfo: "📩 Commission Info",
-    welcomeToBlog: "✨ Welcome to nodoame's Blog! ✨",
-    subscribeUpdates: "📡 Subscribe & Updates",
-    pageNavigation: "📄 Page Navigation",
-    mutualLinks: "🤝 相互リンク・お友達サイト 🤝",
-    techSites: "💻 技術・学習サイト 💻",
-    designArt: "🎨 デザイン・アート・インスピレーション 🎨",
-    retroWeb: "📼 レトロWeb・懐かしのインターネット 📼",
-    linkPolicy: "📋 リンクについて・相互リンクのお誘い 📋",
-    linkApplication: "📧 リンク申請方法"
+    prev: "◄ PREV",
+    next: "NEXT ►",
+    allWorks: "◆ All Items ◆",
+    profileDetails: "◆ Player Status ◆",
+    skillsAndAbilities: "◆ Skill Tree ◆",
+    favoriteThings: "◆ Favorite Items ◆",
+    contactAndSocial: "◆ Communication ◆",
+    currentStatus: "◆ Battle Stats ◆",
+    favoriteMaps: "◆ Battle Fields ◆",
+    recentMatches: "◆ Battle Log ◆",
+    agentProfiles: "◆ Character Data ◆",
+    playStyleTactics: "◆ Battle Style ◆",
+    settingsSetup: "◆ Config Menu ◆",
+    goalsObjectives: "◆ Quest Log ◆",
+    galleryCategories: "◆ Item Categories ◆",
+    artistNote: "◆ Creator's Note ◆",
+    commissionInfo: "◆ Quest Request ◆",
+    welcomeToBlog: "◆ Welcome to Adventure Log ◆",
+    subscribeUpdates: "◆ News & Updates ◆",
+    pageNavigation: "◆ Page Select ◆",
+    mutualLinks: "◆ Party Members ◆",
+    techSites: "◆ Skill Learning ◆",
+    designArt: "◆ Art Gallery ◆",
+    retroWeb: "◆ Retro Zone ◆",
+    linkPolicy: "◆ Guild Rules ◆",
+    linkApplication: "◆ Join Request ◆"
   },
 
   pageTitles: {
-    home: "🌟 nodoame's Cyber Space - レトロな雰囲気のポートフォリオサイトへようこそ！ ✨",
-    about: "🌟 About nodoame - Q&A形式でいろいろ答えちゃいます！ ✨",
-    gallery: "🎨 Welcome to nodoame's Art Gallery! イラスト・ドット絵・ジェネラティブアート作品を展示中です 🖼️",
-    game: "🎮 nodoame's Gaming World - VALORANT中心にFPSゲームの戦績・情報をお届け！ 🕹️",
-    dev: "💻 nodoame's Development Space - プログラミング・研究・技術スタックを紹介！ ⚙️",
-    blog: "📖 nodoame's Digital Diary - 日常・技術・ゲーム・創作活動について気ままに書いてます 📝",
-    link: "🔗 nodoame's Link Collection - お気に入りサイト・相互リンク・懐かしのWebリング風リンク集！ 🌐"
+    home: "◆ 8-bit Adventure World Map ◆ レトロゲーム風ポートフォリオの世界へようこそ！ ◆",
+    about: "◆ Player Status Screen ◆ キャラクター情報とステータスを確認しよう！ ◆", 
+    gallery: "◆ Item Gallery ◆ 集めたアイテム・作品・ドット絵コレクションを展示中！ ◆",
+    game: "◆ Battle Arena ◆ VALORANT戦闘記録とゲーム攻略データベース！ ◆",
+    dev: "◆ Skill Tree ◆ プログラミングスキルと技術経験値を公開中！ ◆",
+    blog: "◆ Adventure Log ◆ 冒険日記・学習記録・日常クエストの記録帳！ ◆",
+    link: "◆ Guild Hall ◆ 仲間のサイト・お気に入りリンク・パーティメンバー募集！ ◆"
   }
 };
 
