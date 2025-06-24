@@ -1,0 +1,227 @@
+---
+export interface Props {
+  type: 'emoticon' | 'cat-aa' | 'simple-aa';
+  variant?: string;
+  size?: 'xs' | 'sm' | 'md' | 'lg';
+  inline?: boolean;
+}
+
+const { type, variant = 'default', size = 'md', inline = false } = Astro.props;
+
+// 定番顔文字
+const emoticons = {
+  shobon: '（´・ω・｀）',
+  smile: '（　＾ω＾）',
+  happy: '（・∀・）',
+  shocked: '（ﾟДﾟ）',
+  cool: '（　´_ゝ｀）',
+  excited: '（；´Д｀）'
+};
+
+// 猫のAA
+const catAA = {
+  giko: `　　　　　∧∧
+　　　　（,,ﾟДﾟ）
+　　　　　|つ∩
+　　　〜（　ノ
+　　　　　∪∪`,
+  shii: `　　　　　∧∧
+　　　　（,,・∀・）
+　　　　　|つ∩
+　　　〜（　ノ
+　　　　　∪∪`,
+  small_cat: `∧∧
+(ﾟДﾟ)`,
+  mini_cat: '(=^･ω･^=)'
+};
+
+// シンプルAA
+const simpleAA = {
+  kusa: 'ｗｗｗ',
+  otsu: '乙',
+  gj: 'GJ',
+  ktkr: 'ktkr',
+  orz: 'orz'
+};
+
+function getContent() {
+  switch (type) {
+    case 'emoticon':
+      return emoticons[variant as keyof typeof emoticons] || emoticons.smile;
+    case 'cat-aa':
+      return catAA[variant as keyof typeof catAA] || catAA.small_cat;
+    case 'simple-aa':
+      return simpleAA[variant as keyof typeof simpleAA] || simpleAA.kusa;
+    default:
+      return emoticons.smile;
+  }
+}
+
+const content = getContent();
+const isMultiLine = content.includes('\n');
+---
+
+{isMultiLine ? (
+  <div class={`ascii-content ${inline ? 'inline' : ''} size-${size}`}>
+    <pre class="ascii-art">{content}</pre>
+  </div>
+) : (
+  <span class={`emoticon-content ${inline ? 'inline' : ''} size-${size}`}>{content}</span>
+)}
+
+<style>
+  .ascii-content {
+    display: inline-block;
+    margin: 0.25rem;
+    background: transparent;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .ascii-content:hover {
+    background: transparent;
+    transform: scale(1.05);
+  }
+
+  .ascii-content.inline {
+    margin: 0 0.125rem;
+    padding: 0.125rem 0.25rem;
+  }
+
+  .ascii-art {
+    font-family: var(--font-pixel-jp), 'Press Start 2P', 'MS Gothic', 'Courier New', monospace;
+    font-size: var(--ascii-size);
+    line-height: 1;
+    margin: 0;
+    color: #ffffff;
+    white-space: pre;
+    text-align: left;
+    text-shadow: 1px 1px 0px #000000, 2px 2px 0px rgba(0,0,0,0.5);
+    image-rendering: pixelated;
+    font-weight: normal;
+    letter-spacing: 0;
+  }
+
+  .emoticon-content {
+    font-family: var(--font-pixel-jp), 'Press Start 2P', 'MS Gothic', 'Courier New', monospace;
+    font-size: var(--ascii-size);
+    color: #ffffff;
+    display: inline-block;
+    margin: 0 0.25rem;
+    background: transparent;
+    border: none;
+    padding: 0.125rem 0.375rem;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 0px #000000, 2px 2px 0px rgba(0,0,0,0.5);
+    image-rendering: pixelated;
+    font-weight: normal;
+    letter-spacing: 0;
+  }
+
+  .emoticon-content:hover {
+    background: transparent;
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+
+  .emoticon-content.inline {
+    margin: 0 0.125rem;
+    padding: 0.0625rem 0.25rem;
+    font-size: calc(var(--ascii-size) * 0.9);
+  }
+
+  /* サイズ設定 - ゲーム風サイズ体系 */
+  .size-xs {
+    --ascii-size: 0.625rem; /* 10px - 8bit風小サイズ */
+  }
+
+  .size-sm {
+    --ascii-size: 0.75rem; /* 12px - 8bit風標準サイズ */
+  }
+
+  .size-md {
+    --ascii-size: 1rem; /* 16px - 8bit風中サイズ */
+  }
+
+  .size-lg {
+    --ascii-size: 1.25rem; /* 20px - 8bit風大サイズ */
+  }
+
+  /* ネオングロー効果 */
+  .ascii-content:hover .ascii-art,
+  .emoticon-content:hover {
+    animation: neon-glow 1s ease-in-out infinite alternate;
+  }
+
+  @keyframes neon-glow {
+    from {
+      text-shadow: 
+        1px 1px 0px #000000,
+        2px 2px 0px rgba(0,0,0,0.5),
+        0 0 5px var(--retro-primary);
+    }
+    to {
+      text-shadow: 
+        1px 1px 0px #000000,
+        2px 2px 0px rgba(0,0,0,0.5),
+        0 0 10px var(--retro-primary),
+        0 0 15px var(--retro-secondary),
+        0 0 20px #ffffff;
+    }
+  }
+
+  /* 8-bit風ピクセル効果 */
+  .ascii-art,
+  .emoticon-content {
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  /* レスポンシブ対応 */
+  @media (max-width: 768px) {
+    .ascii-art {
+      font-size: calc(var(--ascii-size) * 0.8);
+    }
+    
+    .emoticon-content {
+      font-size: calc(var(--ascii-size) * 0.8);
+    }
+
+    .ascii-content,
+    .emoticon-content {
+      padding: 0.125rem 0.25rem;
+    }
+  }
+
+  /* アクセシビリティ対応 */
+  @media (prefers-reduced-motion: reduce) {
+    .ascii-content,
+    .emoticon-content {
+      transition: none !important;
+      animation: none !important;
+    }
+    
+    .ascii-content:hover,
+    .emoticon-content:hover {
+      transform: none !important;
+    }
+  }
+
+  /* 高コントラスト対応 */
+  @media (prefers-contrast: high) {
+    .ascii-content,
+    .emoticon-content {
+      background: transparent;
+      border: none;
+    }
+    
+    .ascii-art,
+    .emoticon-content {
+      color: #ffffff;
+      text-shadow: 2px 2px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
+    }
+  }
+</style>

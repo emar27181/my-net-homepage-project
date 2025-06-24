@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import ProfileInfo from '../components/ProfileInfo.astro';
 import NeonLine from '../components/NeonLine.astro';
+import AsciiEmoji from '../components/AsciiEmoji.astro';
 import '../styles/global.css';
 import { tPageTitle, tUI, tStatus } from '../utils/textManager';
 ---
@@ -9,7 +10,9 @@ import { tPageTitle, tUI, tStatus } from '../utils/textManager';
 <Layout title="About - nodoameの自己紹介">
   <!-- ページタイトル -->
   <div class="marquee mb-6">
+    <AsciiEmoji type="cat-aa" variant="giko" size="sm" inline />
     {tPageTitle('about')}
+    <AsciiEmoji type="emoticon" variant="shobon" size="sm" inline />
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">

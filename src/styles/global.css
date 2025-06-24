@@ -100,22 +100,22 @@ body {
 /* シンプルなレトロマーキー */
 .marquee {
   background: var(--color-bg-secondary);
-  color: var(--retro-secondary);
+  color: #ffffff;
   padding: 12px;
   border: 2px solid var(--retro-primary);
   border-radius: 4px;
   font-family: var(--font-pixel-jp);
   font-size: 13px;
-  text-shadow: 1px 1px 0px var(--game-bg-primary);
+  text-shadow: 1px 1px 0px #000000, 2px 2px 0px rgba(0,0,0,0.5);
 }
 
 /* シンプルなレトロアニメーション */
 @keyframes retro-blink {
   0%, 50% { 
-    color: var(--retro-secondary);
+    color: #ffffff;
   }
   51%, 100% { 
-    color: var(--retro-tertiary);
+    color: var(--retro-secondary);
   }
 }
 
@@ -267,6 +267,7 @@ a:visited {
   .marquee {
     font-size: 10px;
     padding: 6px;
+    color: #ffffff;
   }
   
   /* レトロフレーム調整 */

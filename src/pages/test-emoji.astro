@@ -1,0 +1,241 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { applyTypographyPreset } from '../utils/typography';
+---
+
+<Layout title="Unicode Emoji Test Field">
+  <div class="retro-frame p-6">
+    <h1 class={applyTypographyPreset('pageTitle')}>Unicode絵文字テストフィールド</h1>
+    
+    <!-- 基本的なドット絵風絵文字 -->
+    <section class="mb-8">
+      <h2 class={applyTypographyPreset('sectionTitle')}>基本ドット絵風絵文字</h2>
+      <div class="pixel-emoji-grid">
+        <div>⬛ 黒四角</div>
+        <div>⬜ 白四角</div>
+        <div>🟫 茶四角</div>
+        <div>🟪 紫四角</div>
+        <div>🟦 青四角</div>
+        <div>🟩 緑四角</div>
+        <div>🟨 黄四角</div>
+        <div>🟧 橙四角</div>
+        <div>🟥 赤四角</div>
+      </div>
+    </section>
+
+    <!-- ドット絵パターン例 -->
+    <section class="mb-8">
+      <h2 class={applyTypographyPreset('sectionTitle')}>ドット絵パターン例</h2>
+      
+      <!-- ハート -->
+      <div class="pixel-art mb-4">
+        <h3>ハート</h3>
+        <div class="pixel-pattern">
+          <div>⬜🟥🟥⬜🟥🟥⬜</div>
+          <div>🟥🟥🟥🟥🟥🟥🟥</div>
+          <div>🟥🟥🟥🟥🟥🟥🟥</div>
+          <div>⬜🟥🟥🟥🟥🟥⬜</div>
+          <div>⬜⬜🟥🟥🟥⬜⬜</div>
+          <div>⬜⬜⬜🟥⬜⬜⬜</div>
+        </div>
+      </div>
+
+      <!-- 星 -->
+      <div class="pixel-art mb-4">
+        <h3>星</h3>
+        <div class="pixel-pattern">
+          <div>⬜⬜⬜🟨⬜⬜⬜</div>
+          <div>⬜⬜🟨🟨🟨⬜⬜</div>
+          <div>🟨🟨🟨🟨🟨🟨🟨</div>
+          <div>⬜🟨🟨🟨🟨🟨⬜</div>
+          <div>⬜🟨⬜🟨⬜🟨⬜</div>
+          <div>🟨⬜⬜🟨⬜⬜🟨</div>
+        </div>
+      </div>
+
+      <!-- キノコ -->
+      <div class="pixel-art mb-4">
+        <h3>キノコ</h3>
+        <div class="pixel-pattern">
+          <div>⬜⬜🟥🟥🟥⬜⬜</div>
+          <div>⬜🟥⬜🟥⬜🟥⬜</div>
+          <div>🟥⬜🟥🟥🟥⬜🟥</div>
+          <div>🟥🟥🟥🟥🟥🟥🟥</div>
+          <div>⬜⬜🟫🟫🟫⬜⬜</div>
+          <div>⬜⬜🟫🟫🟫⬜⬜</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- アニメーション風効果 -->
+    <section class="mb-8">
+      <h2 class={applyTypographyPreset('sectionTitle')}>アニメーション効果テスト</h2>
+      <div class="animated-pixels">
+        <span class="pixel-bounce">🟦</span>
+        <span class="pixel-pulse">🟨</span>
+        <span class="pixel-spin">🟥</span>
+        <span class="pixel-glow">🟩</span>
+      </div>
+    </section>
+
+    <!-- 実用例 -->
+    <section class="mb-8">
+      <h2 class={applyTypographyPreset('sectionTitle')}>実用例</h2>
+      <div class="practical-examples">
+        <p>🟦 ロード中... ████░░░░ 50%</p>
+        <p>🟩 成功! ✓</p>
+        <p>🟥 エラー! ✗</p>
+        <p>🟨 警告 ⚠</p>
+        <p>🟪 INFO ℹ</p>
+      </div>
+    </section>
+
+    <!-- ナビゲーション用アイコン例 -->
+    <section class="mb-8">
+      <h2 class={applyTypographyPreset('sectionTitle')}>ナビゲーション用アイコン例</h2>
+      <div class="nav-icons-example">
+        <div>🟦 HOME</div>
+        <div>🟩 ABOUT</div>
+        <div>🟨 GALLERY</div>
+        <div>🟥 GAME</div>
+        <div>🟪 DEV</div>
+        <div>🟧 BLOG</div>
+        <div>🟫 LINK</div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .pixel-emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+
+  .pixel-emoji-grid > div {
+    padding: 0.5rem;
+    background: var(--color-bg-tertiary);
+    border: 2px solid var(--retro-primary);
+    text-align: center;
+    font-family: var(--font-pixel-jp);
+  }
+
+  .pixel-pattern {
+    font-family: monospace;
+    line-height: 1;
+    letter-spacing: 0;
+    font-size: 1.2rem;
+    background: var(--color-bg-secondary);
+    padding: 1rem;
+    border: 2px solid var(--retro-primary);
+    display: inline-block;
+    margin: 0.5rem 0;
+  }
+
+  .pixel-art h3 {
+    color: var(--retro-secondary);
+    font-family: var(--font-pixel-jp);
+    margin-bottom: 0.5rem;
+  }
+
+  .animated-pixels {
+    display: flex;
+    gap: 2rem;
+    font-size: 2rem;
+    margin: 1rem 0;
+  }
+
+  .pixel-bounce {
+    animation: bounce 1s infinite;
+  }
+
+  .pixel-pulse {
+    animation: pulse 2s infinite;
+  }
+
+  .pixel-spin {
+    animation: spin 2s linear infinite;
+  }
+
+  .pixel-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+  }
+
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes glow {
+    from { filter: brightness(1); }
+    to { filter: brightness(1.5) drop-shadow(0 0 5px currentColor); }
+  }
+
+  .practical-examples p {
+    font-family: var(--font-pixel-jp);
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    background: var(--color-bg-secondary);
+  }
+
+  .nav-icons-example {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .nav-icons-example > div {
+    padding: 1rem;
+    background: var(--color-bg-tertiary);
+    border: 2px solid var(--retro-primary);
+    text-align: center;
+    font-family: var(--font-pixel-jp);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .nav-icons-example > div:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+  }
+
+  /* レスポンシブ対応 */
+  @media (max-width: 768px) {
+    .pixel-pattern {
+      font-size: 0.8rem;
+    }
+    
+    .animated-pixels {
+      font-size: 1.5rem;
+    }
+  }
+
+  /* アクセシビリティ対応 */
+  @media (prefers-reduced-motion: reduce) {
+    .pixel-bounce,
+    .pixel-pulse,
+    .pixel-spin,
+    .pixel-glow {
+      animation: none !important;
+    }
+    
+    .nav-icons-example > div:hover {
+      transform: none !important;
+    }
+  }
+</style>

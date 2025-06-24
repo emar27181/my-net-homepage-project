@@ -5,6 +5,7 @@ import TodaysWord from '../components/TodaysWord.astro';
 import NeonLine from '../components/NeonLine.astro';
 import Dekome from '../components/Dekome.astro';
 import GameUI from '../components/GameUI.astro';
+import AsciiEmoji from '../components/AsciiEmoji.astro';
 import '../styles/global.css';
 import { applyTypographyPreset } from '../utils/typography';
 import { tPageTitle } from '../utils/textManager';
@@ -19,7 +20,11 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
 <Layout title="nodoame's Homepage - レトロなポートフォリオ">
   <!-- 更新情報のマーキー -->
   <div class="marquee mb-6">
+    <AsciiEmoji type="cat-aa" variant="small_cat" size="sm" inline />
     {tPageTitle('home')}
+    <AsciiEmoji type="emoticon" variant="smile" size="sm" inline />
+    ようこそ！
+    <AsciiEmoji type="simple-aa" variant="ktkr" size="sm" inline />
   </div>
 
   <!-- メインコンテンツ -->
@@ -48,13 +53,13 @@ const currentDate = new Date().toLocaleDateString('ja-JP', {
         </h3>
         <div class={applyTypographyPreset('subText')}>
           <p><Dekome type="game-controller" size="xs" /> <span class={applyTypographyPreset('important')}>{currentDate}</span><br>
-          VALORANT オーメンでランク戦頑張ってます！</p>
+          VALORANT オーメンでランク戦頑張ってます！<AsciiEmoji type="emoticon" variant="excited" size="xs" inline /></p>
           
           <p><Dekome type="cat-wink" size="xs" /> <span class={applyTypographyPreset('important')}>2024/06/15</span><br>
-          新しい猫のイラストを描きました～</p>
+          新しい猫のイラストを描きました～<AsciiEmoji type="cat-aa" variant="mini_cat" size="xs" inline /></p>
           
           <p><Dekome type="computer" size="xs" /> <span class={applyTypographyPreset('important')}>2024/06/10</span><br>
-          ジェネラティブアート実験開始！</p>
+          ジェネラティブアート実験開始！<AsciiEmoji type="simple-aa" variant="gj" size="xs" inline /></p>
         </div>
       </div>
 
