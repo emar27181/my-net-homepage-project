@@ -3,12 +3,18 @@ import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 import { applyTypographyPreset } from '../utils/typography';
 import Dekome from '../components/Dekome.astro';
+import AsciiEmoji from '../components/AsciiEmoji.astro';
+import { tPageTitle } from '../utils/textManager';
 ---
 
 <Layout title="Dev - nodoameの開発・研究">
   <!-- ページタイトル -->
   <div class="marquee mb-6">
-    <Dekome type="computer" size="sm" /> nodoame's Development World - Web制作・プログラミング・研究活動を紹介します！ <Dekome type="sparkle-gold" size="sm" />
+    <AsciiEmoji type="emoticon" variant="cool" size="sm" inline />
+    {tPageTitle('dev')}
+    <AsciiEmoji type="simple-aa" variant="gj" size="sm" inline />
+    Web制作・プログラミング・研究活動を紹介します！
+    <AsciiEmoji type="emoticon" variant="happy" size="sm" inline />
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

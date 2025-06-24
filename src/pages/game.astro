@@ -1,12 +1,18 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import AsciiEmoji from '../components/AsciiEmoji.astro';
 import '../styles/global.css';
+import { tPageTitle } from '../utils/textManager';
 ---
 
 <Layout title="Game - nodoameのゲーム情報">
   <!-- ページタイトル -->
   <div class="marquee mb-6">
-    🎮 nodoame's Gaming World - VALORANT中心にFPSゲームの戦績・情報をお届け！ 🕹️
+    <AsciiEmoji type="emoticon" variant="excited" size="sm" inline />
+    {tPageTitle('game')}
+    <AsciiEmoji type="simple-aa" variant="ktkr" size="sm" inline />
+    VALORANT中心にFPSゲームの戦績・情報をお届け！
+    <AsciiEmoji type="emoticon" variant="smile" size="sm" inline />
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

@@ -1,12 +1,18 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import AsciiEmoji from '../components/AsciiEmoji.astro';
 import '../styles/global.css';
+import { tPageTitle } from '../utils/textManager';
 ---
 
 <Layout title="Link - nodoameのお気に入りリンク集">
   <!-- ページタイトル -->
   <div class="marquee mb-6">
-    🔗 nodoame's Link Collection - お気に入りサイト・相互リンク・懐かしのWebリング風リンク集！ 🌐
+    <AsciiEmoji type="emoticon" variant="happy" size="sm" inline />
+    {tPageTitle('link')}
+    <AsciiEmoji type="simple-aa" variant="otsu" size="sm" inline />
+    お気に入りサイト・相互リンク・懐かしのWebリング風リンク集！
+    <AsciiEmoji type="cat-aa" variant="mini_cat" size="sm" inline />
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

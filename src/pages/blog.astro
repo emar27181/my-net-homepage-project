@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import AsciiEmoji from '../components/AsciiEmoji.astro';
 import '../styles/global.css';
+import { tPageTitle } from '../utils/textManager';
 
 // ブログ記事のデータ（実際の開発では外部ファイルやCMSから取得）
 const blogPosts = [
@@ -82,7 +84,11 @@ const blogPosts = [
 <Layout title="Blog - nodoameの日記・雑記">
   <!-- ページタイトル -->
   <div class="marquee mb-6">
-    📖 nodoame's Digital Diary - 日常・技術・ゲーム・創作活動について気ままに書いてます 📝
+    <AsciiEmoji type="cat-aa" variant="giko" size="sm" inline />
+    {tPageTitle('blog')}
+    <AsciiEmoji type="emoticon" variant="smile" size="sm" inline />
+    日常・技術・ゲーム・創作活動について気ままに書いてます
+    <AsciiEmoji type="simple-aa" variant="kusa" size="sm" inline />
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">

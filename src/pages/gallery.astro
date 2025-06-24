@@ -1,18 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import AsciiEmoji from '../components/AsciiEmoji.astro';
 import '../styles/global.css';
+import { tPageTitle } from '../utils/textManager';
 ---
 
 <Layout title="Gallery - nodoameの作品ギャラリー">
   <!-- ページタイトル -->
   <div class="marquee mb-6">
-    🎨 Welcome to nodoame's Art Gallery! イラスト・ドット絵・ジェネラティブアート作品を展示中です 🖼️
+    <AsciiEmoji type="cat-aa" variant="shii" size="sm" inline />
+    {tPageTitle('gallery')}
+    <AsciiEmoji type="emoticon" variant="happy" size="sm" inline />
+    イラスト・ドット絵・ジェネラティブアート作品を展示中です
+    <AsciiEmoji type="simple-aa" variant="gj" size="sm" inline />
   </div>
 
   <!-- ギャラリーナビゲーション -->
   <div class="retro-frame mb-6">
     <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 10px; text-align: center;">
-      🖼️ Gallery Categories 🖼️
+      <AsciiEmoji type="emoticon" variant="smile" size="xs" inline />
+      Gallery Categories
+      <AsciiEmoji type="simple-aa" variant="kusa" size="xs" inline />
     </h2>
     <div class="flex justify-center gap-2 flex-wrap">
       <button class="retro-button category-btn active" data-category="all">
@@ -48,7 +56,7 @@ import '../styles/global.css';
       <div style="padding: 8px; font-size: 11px;">
         <p><strong>制作日:</strong> 2024/06/15</p>
         <p><strong>使用ソフト:</strong> Clip Studio Paint</p>
-        <p><strong>コメント:</strong> うちの近所でよく見かける白い猫ちゃんをモデルに描きました。気持ちよさそうに眠る姿が可愛くて...</p>
+        <p><strong>コメント:</strong> うちの近所でよく見かける白い猫ちゃんをモデルに描きました。気持ちよさそうに眠る姿が可愛くて...<AsciiEmoji type="cat-aa" variant="mini_cat" size="xs" inline /></p>
       </div>
     </div>
 
