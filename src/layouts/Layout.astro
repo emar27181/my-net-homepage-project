@@ -1,6 +1,6 @@
 ---
 import { applyTypographyPreset } from '../utils/typography';
-import { tSite, tNav } from '../utils/textManager';
+import { tSite, tNav, tPageTitle } from '../utils/textManager';
 import '../styles/global.css';
 import '../styles/navigation.css';
 import Dekome from '../components/Dekome.astro';
@@ -63,39 +63,39 @@ const { title, description = tSite('description') } = Astro.props;
         <!-- デスクトップ表示 -->
         <div class="hidden lg:block">
           <div class="nav-grid-desktop">
-            <a href="/" class="nav-button"><Dekome type="heart-pink" size="xs" /> {tNav('home')}</a>
-            <a href="/about" class="nav-button"><Dekome type="face-happy" size="xs" /> {tNav('about')}</a>
-            <a href="/gallery" class="nav-button"><Dekome type="butterfly" size="xs" /> {tNav('gallery')}</a>
-            <a href="/game" class="nav-button"><Dekome type="game-controller" size="xs" /> {tNav('game')}</a>
-            <a href="/dev" class="nav-button"><Dekome type="computer" size="xs" /> {tNav('dev')}</a>
-            <a href="/blog" class="nav-button"><Dekome type="music-note" size="xs" /> {tNav('blog')}</a>
-            <a href="/link" class="nav-button"><Dekome type="star-twinkle" size="xs" /> {tNav('link')}</a>
+            <a href="/" class="nav-button">{tPageTitle('home')}</a>
+            <a href="/about" class="nav-button">{tPageTitle('about')}</a>
+            <a href="/gallery" class="nav-button">{tPageTitle('gallery')}</a>
+            <a href="/game" class="nav-button">{tPageTitle('game')}</a>
+            <a href="/dev" class="nav-button">{tPageTitle('dev')}</a>
+            <a href="/blog" class="nav-button">{tPageTitle('blog')}</a>
+            <a href="/link" class="nav-button">{tPageTitle('link')}</a>
           </div>
         </div>
         
         <!-- タブレット表示 -->
         <div class="hidden md:block lg:hidden">
           <div class="nav-grid-tablet">
-            <a href="/" class="nav-button-compact">{tNav('home')}</a>
-            <a href="/about" class="nav-button-compact">{tNav('about')}</a>
-            <a href="/gallery" class="nav-button-compact">{tNav('gallery')}</a>
-            <a href="/game" class="nav-button-compact">{tNav('game')}</a>
-            <a href="/dev" class="nav-button-compact">{tNav('dev')}</a>
-            <a href="/blog" class="nav-button-compact">{tNav('blog')}</a>
-            <a href="/link" class="nav-button-compact">{tNav('link')}</a>
+            <a href="/" class="nav-button-compact">{tPageTitle('home')}</a>
+            <a href="/about" class="nav-button-compact">{tPageTitle('about')}</a>
+            <a href="/gallery" class="nav-button-compact">{tPageTitle('gallery')}</a>
+            <a href="/game" class="nav-button-compact">{tPageTitle('game')}</a>
+            <a href="/dev" class="nav-button-compact">{tPageTitle('dev')}</a>
+            <a href="/blog" class="nav-button-compact">{tPageTitle('blog')}</a>
+            <a href="/link" class="nav-button-compact">{tPageTitle('link')}</a>
           </div>
         </div>
         
         <!-- モバイル表示 -->
         <div class="md:hidden">
           <div class="nav-grid-mobile">
-            <a href="/" class="nav-button-mobile">{tNav('home')}</a>
-            <a href="/about" class="nav-button-mobile">{tNav('about')}</a>
-            <a href="/gallery" class="nav-button-mobile">{tNav('gallery')}</a>
-            <a href="/game" class="nav-button-mobile">{tNav('game')}</a>
-            <a href="/dev" class="nav-button-mobile">{tNav('dev')}</a>
-            <a href="/blog" class="nav-button-mobile">{tNav('blog')}</a>
-            <a href="/link" class="nav-button-mobile">{tNav('link')}</a>
+            <a href="/" class="nav-button-mobile">{tPageTitle('home')}</a>
+            <a href="/about" class="nav-button-mobile">{tPageTitle('about')}</a>
+            <a href="/gallery" class="nav-button-mobile">{tPageTitle('gallery')}</a>
+            <a href="/game" class="nav-button-mobile">{tPageTitle('game')}</a>
+            <a href="/dev" class="nav-button-mobile">{tPageTitle('dev')}</a>
+            <a href="/blog" class="nav-button-mobile">{tPageTitle('blog')}</a>
+            <a href="/link" class="nav-button-mobile">{tPageTitle('link')}</a>
           </div>
         </div>
       </nav>

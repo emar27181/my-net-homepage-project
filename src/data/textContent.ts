@@ -93,7 +93,7 @@ export const jaTexts: TextContent = {
   site: {
     title: "nodoame's 8-bit Adventure",
     subtitle: "◆ Welcome to the Pixel World ◆",
-    description: "レトロゲーム風ポートフォリオサイト - 8bitの冒険が始まる！",
+    description: "8bitの冒険が始まる！",
     author: "Player: nodoame",
     footer: "◆ Game Created by nodoame ◆ Engine: Astro + CSS Magic ◆"
   },
@@ -160,13 +160,13 @@ export const jaTexts: TextContent = {
   },
 
   pageTitles: {
-    home: "◆ 8-bit Adventure World Map ◆ レトロゲーム風ポートフォリオの世界へようこそ！ ◆",
-    about: "◆ Player Status Screen ◆ キャラクター情報とステータスを確認しよう！ ◆", 
-    gallery: "◆ Item Gallery ◆ 集めたアイテム・作品・ドット絵コレクションを展示中！ ◆",
-    game: "◆ Battle Arena ◆ VALORANT戦闘記録とゲーム攻略データベース！ ◆",
-    dev: "◆ Skill Tree ◆ プログラミングスキルと技術経験値を公開中！ ◆",
-    blog: "◆ Adventure Log ◆ 冒険日記・学習記録・日常クエストの記録帳！ ◆",
-    link: "◆ Guild Hall ◆ 仲間のサイト・お気に入りリンク・パーティメンバー募集！ ◆"
+    home: "HOME",
+    about: "ABOUT", 
+    gallery: "GALLERY",
+    game: "GAME",
+    dev: "DEV",
+    blog: "BLOG",
+    link: "LINK"
   }
 };
 
@@ -175,7 +175,7 @@ export const enTexts: TextContent = {
   site: {
     title: "nodoame's Cyber Space",
     subtitle: "Welcome to Neo Tokyo Web", 
-    description: "Retro-style portfolio site by nodoame, a university student creator",
+    description: "nodoame, a university student creator",
     author: "nodoame",
     footer: "Created by nodoame | Powered by Astro + Tailwind CSS"
   },
@@ -242,12 +242,12 @@ export const enTexts: TextContent = {
   },
 
   pageTitles: {
-    home: "🌟 nodoame's Cyber Space - Welcome to the retro-style portfolio site! ✨",
-    about: "🌟 About nodoame - I'll answer various questions in Q&A format! ✨",
-    gallery: "🎨 Welcome to nodoame's Art Gallery! Exhibiting illustrations, pixel art, and generative art works 🖼️",
-    game: "🎮 nodoame's Gaming World - Delivering VALORANT-centered FPS game records and information! 🕹️",
-    dev: "💻 nodoame's Development Space - Introducing programming, research, and tech stack! ⚙️",
-    blog: "📖 nodoame's Digital Diary - Writing freely about daily life, technology, games, and creative activities 📝",
-    link: "🔗 nodoame's Link Collection - Favorite sites, mutual links, nostalgic web ring-style link collection! 🌐"
+    home: "HOME",
+    about: "ABOUT",
+    gallery: "GALLERY",
+    game: "GAME",
+    dev: "DEV",
+    blog: "BLOG",
+    link: "LINK"
   }
 };
