@@ -5,6 +5,7 @@ import NeonLine from '../components/NeonLine.astro';
 import AsciiEmoji from '../components/AsciiEmoji.astro';
 import '../styles/global.css';
 import { tPageTitle, tUI, tStatus } from '../utils/textManager';
+import { getPixelEmoji } from '../utils/pixelEmoji';
 ---
 
 <Layout title="About - nodoameの自己紹介">
@@ -43,14 +44,14 @@ import { tPageTitle, tUI, tStatus } from '../utils/textManager';
         </h3>
         
         <div style="font-size: 12px;">
-          <p><strong>🎮 ゲーム:</strong></p>
+          <p><strong>{getPixelEmoji('GAME')} ゲーム:</strong></p>
           <ul style="margin-left: 20px; margin-bottom: 10px;">
             <li>VALORANT（オーメン・アストラ使い）</li>
             <li>FPS全般（Apex Legends経験あり）</li>
             <li>ゲーム戦略・チーム連携が得意</li>
           </ul>
 
-          <p><strong>🎨 イラスト・デザイン:</strong></p>
+          <p><strong>{getPixelEmoji('ART')} イラスト・デザイン:</strong></p>
           <ul style="margin-left: 20px; margin-bottom: 10px;">
             <li>デジタルイラスト（Photoshop, Clip Studio）</li>
             <li>猫のイラスト・キャラクター模写</li>
@@ -58,7 +59,7 @@ import { tPageTitle, tUI, tStatus } from '../utils/textManager';
             <li>ドット絵・ピクセルアート</li>
           </ul>
 
-          <p><strong>💻 プログラミング・Web制作:</strong></p>
+          <p><strong>{getPixelEmoji('COMPUTER')} プログラミング・Web制作:</strong></p>
           <ul style="margin-left: 20px;">
             <li>HTML/CSS/JavaScript</li>
             <li>Python（ジェネラティブアート）</li>
@@ -74,7 +75,7 @@ import { tPageTitle, tUI, tStatus } from '../utils/textManager';
       <!-- Q&A セクション -->
       <div class="retro-frame mb-6">
         <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
-          ❓ Q&A Corner ❓
+          ◆ Q&A Corner ◆
         </h2>
 
         <div style="font-size: 12px;">
@@ -122,27 +123,27 @@ import { tPageTitle, tUI, tStatus } from '../utils/textManager';
         
         <table class="retro-table w-full" style="font-size: 11px;">
           <tr>
-            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">🎵 音楽</td>
+            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">{getPixelEmoji('MUSIC')} 音楽</td>
             <td class="profile-value">J-POP、ボカロ、ゲーム音楽</td>
           </tr>
           <tr>
-            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">📚 読書</td>
+            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">{getPixelEmoji('BOOK')} 読書</td>
             <td class="profile-value">ファンタジー小説、技術書</td>
           </tr>
           <tr>
-            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">🍰 食べ物</td>
+            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">{getPixelEmoji('COFFEE')} 食べ物</td>
             <td class="profile-value">スイーツ全般、特にプリン！</td>
           </tr>
           <tr>
-            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">🌸 季節</td>
+            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">{getPixelEmoji('SPARKLE')} 季節</td>
             <td class="profile-value">春（桜の季節が一番好き）</td>
           </tr>
           <tr>
-            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">🎬 映画</td>
+            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">{getPixelEmoji('PICTURE')} 映画</td>
             <td class="profile-value">ジブリ作品、SF映画</td>
           </tr>
           <tr>
-            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">🔍 その他</td>
+            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">{getPixelEmoji('INFO')} その他</td>
             <td class="profile-value">星空観察、カフェ巡り、文房具集め</td>
           </tr>
         </table>
@@ -161,13 +162,13 @@ import { tPageTitle, tUI, tStatus } from '../utils/textManager';
     
     <div class="flex justify-center items-center gap-4 flex-wrap">
       <span class="retro-button" style="opacity: 0.6; cursor: not-allowed;">
-        📧 {tUI('email')} ({tStatus('preparing')})
+        ◆ {tUI('email')} ({tStatus('preparing')})
       </span>
       <span class="retro-button" style="opacity: 0.6; cursor: not-allowed;">
-        🐦 {tUI('twitter')} ({tStatus('preparing')})
+        ◈ {tUI('twitter')} ({tStatus('preparing')})
       </span>
       <span class="retro-button" style="opacity: 0.6; cursor: not-allowed;">
-        💻 {tUI('github')} ({tStatus('preparing')})
+        ■ {tUI('github')} ({tStatus('preparing')})
       </span>
       <a href="/link" class="retro-button">
         🔗 More Links
@@ -182,7 +183,7 @@ import { tPageTitle, tUI, tStatus } from '../utils/textManager';
   <!-- フローティング猫 -->
   <div style="position: fixed; bottom: 100px; left: 20px; z-index: 1000;">
     <div style="font-size: 32px; animation: wiggle 3s ease-in-out infinite;">
-      🐱
+      ◇
     </div>
   </div>
 

@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import AsciiEmoji from '../components/AsciiEmoji.astro';
 import '../styles/global.css';
 import { tPageTitle } from '../utils/textManager';
+import { getPixelEmoji } from '../utils/pixelEmoji';
 ---
 
 <Layout title="Game - nodoameのゲーム情報">
@@ -22,7 +23,7 @@ import { tPageTitle } from '../utils/textManager';
       <!-- 現在のランク -->
       <div class="retro-frame mb-6">
         <h2 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px; text-align: center;">
-          🏆 Current Status
+          ★ Current Status
         </h2>
         
         <div class="text-center mb-4">
@@ -44,11 +45,11 @@ import { tPageTitle } from '../utils/textManager';
           </tr>
           <tr>
             <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">メインエージェント</td>
-            <td class="profile-value">オーメン 🌫️</td>
+            <td class="profile-value">オーメン {getPixelEmoji('SPARKLE')}</td>
           </tr>
           <tr>
             <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">サブエージェント</td>
-            <td class="profile-value">アストラ ⭐</td>
+            <td class="profile-value">アストラ {getPixelEmoji('SPARKLE')}</td>
           </tr>
           <tr>
             <td class="profile-label">総プレイ時間</td>
@@ -64,16 +65,16 @@ import { tPageTitle } from '../utils/textManager';
       <!-- お気に入りマップ -->
       <div class="retro-frame mb-6">
         <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
-          🗺️ Favorite Maps
+          ■ Favorite Maps
         </h3>
         <div style="font-size: 11px;">
-          <p><strong>1位:</strong> Split 🏢<br>
+          <p><strong>1位:</strong> Split {getPixelEmoji('MAP')}<br>
           <span style="color: #666;">🚧 統計収集中 - 狭いマップでスモーク活かしやすい</span></p>
           
-          <p><strong>2位:</strong> Bind 🚂<br>
+          <p><strong>2位:</strong> Bind {getPixelEmoji('MAP')}<br>
           <span style="color: #666;">🚧 統計収集中 - テレポータとの相性が良い</span></p>
           
-          <p><strong>3位:</strong> Haven ⛪<br>
+          <p><strong>3位:</strong> Haven {getPixelEmoji('MAP')}<br>
           <span style="color: #666;">🚧 統計収集中 - 3サイトの守り方が楽しい</span></p>
         </div>
       </div>
@@ -81,11 +82,11 @@ import { tPageTitle } from '../utils/textManager';
       <!-- 最近の戦績 -->
       <div class="retro-frame">
         <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
-          📊 Recent Matches
+          ▣ Recent Matches
         </h3>
         <div style="font-size: 10px; text-align: center; color: #666;">
           <div class="mb-4 p-4 profile-section" style="border: 2px dashed var(--text-accessible-blue);">
-            🚧 <strong>戦績データを収集中です</strong> 🚧<br><br>
+            ◎ <strong>戦績データを収集中です</strong> ◎<br><br>
             <span style="font-size: 9px;">リアルタイム戦績表示機能を実装予定です。<br>
             VALORANT APIと連携して自動更新する予定！</span>
           </div>
@@ -98,7 +99,7 @@ import { tPageTitle } from '../utils/textManager';
       <!-- エージェント情報 -->
       <div class="retro-frame mb-6">
         <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
-          🌟 Agent Profiles 🌟
+          ★ Agent Profiles ★
         </h2>
 
         <!-- オーメン -->
@@ -115,7 +116,7 @@ import { tPageTitle } from '../utils/textManager';
           </div>
           
           <div class="profile-qa-section" style="font-size: 12px;">
-            <p><strong>💪 得意なプレイ:</strong></p>
+            <p><strong>{getPixelEmoji('TROPHY')} 得意なプレイ:</strong></p>
             <ul style="margin-left: 15px; margin-bottom: 8px;">
               <li>スモークでの味方サポート・視界封じ</li>
               <li>フロムザシャドウズでの予想外な位置取り</li>
@@ -123,7 +124,7 @@ import { tPageTitle } from '../utils/textManager';
               <li>ダークカバーでのサイト執行サポート</li>
             </ul>
             
-            <p><strong>🎯 プレイスタイル:</strong></p>
+            <p><strong>{getPixelEmoji('TARGET')} プレイスタイル:</strong></p>
             <p>攻めよりも守りが得意。チームの動きに合わせたスモーク配置を心がけて、
             味方が有利なポジションを取れるようサポートしています。
             テレポートは奇襲よりも安全な退避に使うことが多いかな 🌫️</p>
@@ -144,12 +145,12 @@ import { tPageTitle } from '../utils/textManager';
           </div>
           
           <div class="profile-qa-section" style="font-size: 12px;">
-            <p><strong>💫 思い出:</strong></p>
+            <p><strong>{getPixelEmoji('SPARKLE')} 思い出:</strong></p>
             <p>VALORANTを始めた頃からずっと使っていたエージェント。
             アストラルフォームでマップ全体を見渡しながら戦略を立てるのがとても楽しかったです。
             ただ、操作が複雑で味方との連携が難しく、最近はオーメンの方をメインにしています ⭐</p>
             
-            <p style="margin-top: 8px;"><strong>🌟 得意だったスキル:</strong></p>
+            <p style="margin-top: 8px;"><strong>{getPixelEmoji('TROPHY')} 得意だったスキル:</strong></p>
             <ul style="margin-left: 15px;">
               <li>グラビティウェルでの敵の動き制限</li>
               <li>ノヴァパルスでのダメージ・情報取り</li>
@@ -162,13 +163,13 @@ import { tPageTitle } from '../utils/textManager';
       <!-- プレイスタイル・戦術 -->
       <div class="retro-frame mb-6">
         <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
-          ⚔️ Play Style & Tactics ⚔️
+          ◈ Play Style & Tactics ◈
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
-              🛡️ 守備時の戦術
+              ◆ 守備時の戦術
             </h3>
             <div class="profile-section" style="font-size: 11px;">
               <ul style="margin-left: 15px;">
@@ -182,7 +183,7 @@ import { tPageTitle } from '../utils/textManager';
           
           <div>
             <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
-              ⚡ 攻撃時の戦術
+              ◇ 攻撃時の戦術
             </h3>
             <div class="profile-section" style="font-size: 11px;">
               <ul style="margin-left: 15px;">
@@ -197,7 +198,7 @@ import { tPageTitle } from '../utils/textManager';
 
         <div class="mt-4 p-3 profile-qa-section">
           <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 6px;">
-            💭 プレイで意識していること
+            ◆ プレイで意識していること
           </h4>
           <p style="font-size: 11px;">
             「チームの勝利」を最優先に考えています。キル数よりもチームへの貢献度を重視し、
@@ -210,13 +211,13 @@ import { tPageTitle } from '../utils/textManager';
       <!-- 設定・デバイス情報 -->
       <div class="retro-frame">
         <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
-          ⚙️ Settings & Setup ⚙️
+          ◎ Settings & Setup ◎
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
-              🖱️ デバイス情報
+              ◆ デバイス情報
             </h3>
             <table class="profile-table" style="font-size: 10px;">
               <tr>
@@ -240,7 +241,7 @@ import { tPageTitle } from '../utils/textManager';
 
           <div>
             <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
-              ⚙️ ゲーム設定
+              ◎ ゲーム設定
             </h3>
             <table class="profile-table" style="font-size: 10px;">
               <tr>
@@ -269,7 +270,7 @@ import { tPageTitle } from '../utils/textManager';
   <!-- 今後の目標 -->
   <div class="retro-frame mt-6">
     <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
-      🎯 Goals & Objectives 🎯
+      ◉ Goals & Objectives ◉
     </h2>
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -305,7 +306,7 @@ import { tPageTitle } from '../utils/textManager';
   <!-- フローティングコントローラー -->
   <div style="position: fixed; bottom: 220px; left: 20px; z-index: 1000;">
     <div style="font-size: 24px; animation: gamepad-bounce 2s ease-in-out infinite;">
-      🎮
+      ▢
     </div>
   </div>
 
