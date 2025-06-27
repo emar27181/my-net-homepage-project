@@ -1,6 +1,6 @@
 ---
 export interface Props {
-  type: 'emoticon' | 'cat-aa' | 'simple-aa';
+  type: 'emoticon' | 'cat-aa';
   variant?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg';
   inline?: boolean;
@@ -35,14 +35,6 @@ const catAA = {
   mini_cat: '(=^･ω･^=)'
 };
 
-// シンプルAA
-const simpleAA = {
-  kusa: 'ｗｗｗ',
-  otsu: '乙',
-  gj: 'GJ',
-  ktkr: 'ktkr',
-  orz: 'orz'
-};
 
 function getContent() {
   switch (type) {
@@ -50,8 +42,6 @@ function getContent() {
       return emoticons[variant as keyof typeof emoticons] || emoticons.smile;
     case 'cat-aa':
       return catAA[variant as keyof typeof catAA] || catAA.small_cat;
-    case 'simple-aa':
-      return simpleAA[variant as keyof typeof simpleAA] || simpleAA.kusa;
     default:
       return emoticons.smile;
   }
