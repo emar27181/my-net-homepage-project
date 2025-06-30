@@ -153,3 +153,29 @@
 - **再利用可能コンポーネント重視**  
   → 同じパターンの表示は必ずコンポーネント化
   → インライン背景色指定は禁止、クラス使用を徹底
+
+### 動画ビューアーシステム
+- **YouTubeClipViewer標準仕様**  
+  → `clipUrl`, `title`, `description`, `autoplay`プロパティを標準とする
+  → `youtu.be`形式と`youtube.com`形式の両方に対応必須
+  → 16:9アスペクト比の動画コンテナを維持
+
+- **URL解析・埋め込み処理の統一**  
+  → `getVideoId()`関数でyoutu.be/youtube.com形式を統一処理
+  → `getEmbedUrl()`関数でmodestbranding=1, rel=0, fs=1等のパラメータを標準設定
+  → cc_load_policy=0, enablejsapi=1を必須パラメータとして追加
+
+- **ローディング・オーバーレイシステム**  
+  → 初期表示時は青色再生ボタン（▶）とLoading...テキストを表示
+  → iframe読み込み完了1秒後にオーバーレイをフェードアウト（opacity: 0）
+  → エラー時は⚠️アイコンと「読み込みエラー」表示に切り替え
+
+- **アニメーション・エフェクト統一**  
+  → 再生ボタンはpulse-playアニメーション（2秒周期、scale 1.0⇔1.1）
+  → ネオングロー効果（text-shadow: 0 0 15px⇔35px var(--text-accessible-blue)）
+  → pointer-events: noneでオーバーレイ下のiframeへのアクセスを確保
+
+- **レスポンシブ・アクセシビリティ対応**  
+  → prefers-reduced-motion: reduceでアニメーション無効化
+  → モバイル対応でフォントサイズ・padding値の段階調整
+  → YouTube外部リンクボタンを必ず配置（「📺 YouTubeで見る」）

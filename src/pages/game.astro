@@ -1,6 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import AsciiEmoji from '../components/AsciiEmoji.astro';
+import SimpleClipViewer from '../components/SimpleClipViewer.astro';
+import EmbeddedVideoViewer from '../components/EmbeddedVideoViewer.astro';
+import ThreeVideoViewer from '../components/ThreeVideoViewer.astro';
+import YouTubeClipViewer from '../components/YouTubeClipViewer.astro';
 import '../styles/global.css';
 import { tPageTitle } from '../utils/textManager';
 import { getPixelEmoji } from '../utils/pixelEmoji';
@@ -11,7 +15,7 @@ import { getPixelEmoji } from '../utils/pixelEmoji';
   <div class="marquee mb-6">
     <AsciiEmoji type="emoticon" variant="excited" size="sm" inline />
     {tPageTitle('game')}
-    <AsciiEmoji type="simple-aa" variant="ktkr" size="sm" inline />
+    <AsciiEmoji type="emoticon" variant="excited" size="sm" inline />
     VALORANT中心にFPSゲームの戦績・情報をお届け！
     <AsciiEmoji type="emoticon" variant="smile" size="sm" inline />
   </div>
@@ -262,6 +266,63 @@ import { getPixelEmoji } from '../utils/pixelEmoji';
               </tr>
             </table>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YouTube動画セクション -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6 mb-6">
+    <YouTubeClipViewer 
+      clipUrl="https://youtu.be/KTwFA1jQgFY"
+      title="VALORANT Gameplay #1"
+      description="オーメンでのスモーク展開とチームプレイの一場面。実際のランク戦での立ち回りをご覧いただけます。"
+      autoplay={false}
+    />
+    
+    <YouTubeClipViewer 
+      clipUrl="https://youtu.be/ERb40ovB060"
+      title="VALORANT Gameplay #2"
+      description="ランク戦での戦術的プレイと連携。スモークを活用したサポートプレイが中心です。"
+      autoplay={false}
+    />
+    
+    <YouTubeClipViewer 
+      clipUrl="https://youtu.be/oos2PYWiRGM"
+      title="VALORANT Gameplay #3"
+      description="印象的なクラッチシーンとスキル活用。チーム勝利を意識した戦術的プレイを紹介します。"
+      autoplay={false}
+    />
+  </div>
+
+  <!-- 動画説明セクション -->
+  <div class="retro-frame mt-6">
+    <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+      🎬 Game Highlights 🎬
+    </h2>
+    
+    <div class="flex justify-center">
+      <div class="profile-section p-4 max-w-2xl">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px; text-align: center;">
+          📹 動画について
+        </h3>
+        <div style="font-size: 11px; line-height: 1.4;">
+          <p class="mb-3">
+            <strong>🎯 動画の見どころ:</strong><br>
+            チームでの連携プレイとスモーク使いに注目してください。
+            個人技よりもチーム全体の勝利を意識した立ち回りを重視しています。
+          </p>
+          
+          <p class="mb-3">
+            <strong>⚡ プレイスタイル:</strong><br>
+            オーメンのスモークを活用した味方サポートと、
+            フロムザシャドウズでの安全な退避・ポジション取りが中心です。
+          </p>
+          
+          <p style="color: var(--retro-secondary); font-size: 10px;">
+            ※ 今後も印象的なプレイシーンがあれば、
+            このセクションに追加していく予定です！
+          </p>
         </div>
       </div>
     </div>
