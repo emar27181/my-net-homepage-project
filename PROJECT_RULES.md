@@ -180,3 +180,28 @@
   → prefers-reduced-motion: reduceでアニメーション無効化
   → モバイル対応でフォントサイズ・padding値の段階調整
   → YouTube外部リンクボタンを必ず配置（「📺 YouTubeで見る」）
+
+### ピクセルフォント統一管理システム
+- **pixelFontClasses.ts による一元管理**  
+  → すべてのテキスト要素はpixelTextStylesクラスを使用必須
+  → インラインfont-family指定は完全禁止
+  → commonTextsで定型メッセージを統一管理
+
+- **フォント階層とクラス体系**  
+  → `pixelTextStyles.sectionTitle`: セクションタイトル（h2レベル）
+  → `pixelTextStyles.subTitle`: サブタイトル（h3レベル）  
+  → `pixelTextStyles.bodyText`: 本文テキスト
+  → `pixelTextStyles.dataValue`: データ値・ステータス表示
+  → `pixelTextStyles.loadingText`: ローディング・統計収集中表示
+  → `pixelTextStyles.label`: テーブルラベル・項目名
+
+- **テキスト簡素化原則**  
+  → 冗長な説明文は要点のみに集約
+  → 重複する「🚧 データ収集中... 🚧」は`commonTexts.loading`に統一
+  → エージェント説明・動画説明は2行以内に簡潔化
+  → 具体的な数値やデータが不明な項目は`DATA LOADING...`表示
+
+- **ピクセルフォント適用範囲**  
+  → ページ内すべてのテキスト要素（見出し・本文・ラベル・値）
+  → テーブル内データも含む完全統一
+  → `getPixelEmoji()`と組み合わせた8-bit風デザイン維持

@@ -8,6 +8,7 @@ import YouTubeClipViewer from '../components/YouTubeClipViewer.astro';
 import '../styles/global.css';
 import { tPageTitle } from '../utils/textManager';
 import { getPixelEmoji } from '../utils/pixelEmoji';
+import { pixelTextStyles, commonTexts, pixelFontCSS } from '../utils/pixelFontClasses';
 ---
 
 <Layout title="Game - nodoameのゲーム情報">
@@ -25,21 +26,21 @@ import { getPixelEmoji } from '../utils/pixelEmoji';
     <YouTubeClipViewer 
       clipUrl="https://youtu.be/KTwFA1jQgFY"
       title="VALORANT Gameplay #1"
-      description="オーメンでのスモーク展開とチームプレイの一場面。実際のランク戦での立ち回りをご覧いただけます。"
+      description="ランク戦プレイ - オーメン使用"
       autoplay={false}
     />
     
     <YouTubeClipViewer 
       clipUrl="https://youtu.be/ERb40ovB060"
       title="VALORANT Gameplay #2"
-      description="ランク戦での戦術的プレイと連携。スモークを活用したサポートプレイが中心です。"
+      description="チーム連携・スモーク戦術"
       autoplay={false}
     />
     
     <YouTubeClipViewer 
       clipUrl="https://youtu.be/oos2PYWiRGM"
       title="VALORANT Gameplay #3"
-      description="印象的なクラッチシーンとスキル活用。チーム勝利を意識した戦術的プレイを紹介します。"
+      description="クラッチシーン・戦術プレイ"
       autoplay={false}
     />
   </div>
@@ -50,7 +51,7 @@ import { getPixelEmoji } from '../utils/pixelEmoji';
     <div class="lg:col-span-1">
       <!-- 現在のランク -->
       <div class="retro-frame mb-6">
-        <h2 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px; text-align: center;">
+        <h2 class="{pixelTextStyles.sectionTitle}">
           ★ Current Status
         </h2>
         
@@ -64,59 +65,52 @@ import { getPixelEmoji } from '../utils/pixelEmoji';
 
         <table class="profile-table" style="font-size: 11px;">
           <tr>
-            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">現在ランク</td>
-            <td class="profile-value">🚧 データ収集中... 🚧</td>
+            <td class="{pixelTextStyles.label}">現在ランク</td>
+            <td class="{pixelTextStyles.loadingText}">{commonTexts.loading}</td>
           </tr>
           <tr>
-            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">最高ランク</td>
-            <td class="profile-value">🚧 データ収集中... 🚧</td>
+            <td class="{pixelTextStyles.label}">最高ランク</td>
+            <td class="{pixelTextStyles.loadingText}">{commonTexts.loading}</td>
           </tr>
           <tr>
-            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">メインエージェント</td>
-            <td class="profile-value">オーメン {getPixelEmoji('SPARKLE')}</td>
+            <td class="{pixelTextStyles.label}">メインエージェント</td>
+            <td class="{pixelTextStyles.dataValue}">オーメン {getPixelEmoji('SPARKLE')}</td>
           </tr>
           <tr>
-            <td style="background-color: var(--color-bg-tertiary); color: var(--color-text); font-weight: bold;">サブエージェント</td>
-            <td class="profile-value">アストラ {getPixelEmoji('SPARKLE')}</td>
+            <td class="{pixelTextStyles.label}">サブエージェント</td>
+            <td class="{pixelTextStyles.dataValue}">アストラ {getPixelEmoji('SPARKLE')}</td>
           </tr>
           <tr>
-            <td class="profile-label">総プレイ時間</td>
-            <td class="profile-value">🚧 データ収集中... 🚧</td>
+            <td class="{pixelTextStyles.label}">総プレイ時間</td>
+            <td class="{pixelTextStyles.loadingText}">{commonTexts.loading}</td>
           </tr>
           <tr>
-            <td class="profile-label">勝率</td>
-            <td class="profile-value">🚧 データ収集中... 🚧</td>
+            <td class="{pixelTextStyles.label}">勝率</td>
+            <td class="{pixelTextStyles.loadingText}">{commonTexts.loading}</td>
           </tr>
         </table>
       </div>
 
       <!-- お気に入りマップ -->
       <div class="retro-frame mb-6">
-        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+        <h3 class="{pixelTextStyles.subTitle}">
           ■ Favorite Maps
         </h3>
-        <div style="font-size: 11px;">
-          <p><strong>1位:</strong> Split {getPixelEmoji('MAP')}<br>
-          <span style="color: #666;">🚧 統計収集中 - 狭いマップでスモーク活かしやすい</span></p>
-          
-          <p><strong>2位:</strong> Bind {getPixelEmoji('MAP')}<br>
-          <span style="color: #666;">🚧 統計収集中 - テレポータとの相性が良い</span></p>
-          
-          <p><strong>3位:</strong> Haven {getPixelEmoji('MAP')}<br>
-          <span style="color: #666;">🚧 統計収集中 - 3サイトの守り方が楽しい</span></p>
+        <div class="{pixelTextStyles.bodyText}">
+          <p class="{pixelTextStyles.dataValue}">1位: Split {getPixelEmoji('MAP')}</p>
+          <p class="{pixelTextStyles.dataValue}">2位: Bind {getPixelEmoji('MAP')}</p>
+          <p class="{pixelTextStyles.dataValue}">3位: Haven {getPixelEmoji('MAP')}</p>
         </div>
       </div>
 
       <!-- 最近の戦績 -->
       <div class="retro-frame">
-        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+        <h3 class="{pixelTextStyles.subTitle}">
           ▣ Recent Matches
         </h3>
-        <div style="font-size: 10px; text-align: center; color: #666;">
-          <div class="mb-4 p-4 profile-section" style="border: 2px dashed var(--text-accessible-blue);">
-            ◎ <strong>戦績データを収集中です</strong> ◎<br><br>
-            <span style="font-size: 9px;">リアルタイム戦績表示機能を実装予定です。<br>
-            VALORANT APIと連携して自動更新する予定！</span>
+        <div class="{pixelTextStyles.loadingText} text-center">
+          <div class="mb-4 p-4 profile-section">
+            <span class="{pixelTextStyles.accentText}">{commonTexts.loading}</span>
           </div>
         </div>
       </div>
@@ -126,7 +120,7 @@ import { getPixelEmoji } from '../utils/pixelEmoji';
     <div class="lg:col-span-2">
       <!-- エージェント情報 -->
       <div class="retro-frame mb-6">
-        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+        <h2 class="{pixelTextStyles.sectionTitle}">
           ★ Agent Profiles ★
         </h2>
 
@@ -138,24 +132,14 @@ import { getPixelEmoji } from '../utils/pixelEmoji';
               <div class="image-title">Omen 🌫️</div>
             </div>
             <div>
-              <h3 style="font-family: var(--font-pixel); font-size: 14px;">OMEN (メイン)</h3>
-              <p style="font-size: 11px; color: #666;">🚧 統計収集中... 🚧</p>
+              <h3 class="{pixelTextStyles.subTitle}">OMEN (メイン)</h3>
+              <p class="{pixelTextStyles.loadingText}">{commonTexts.loading}</p>
             </div>
           </div>
           
-          <div class="profile-qa-section" style="font-size: 12px;">
-            <p><strong>{getPixelEmoji('TROPHY')} 得意なプレイ:</strong></p>
-            <ul style="margin-left: 15px; margin-bottom: 8px;">
-              <li>スモークでの味方サポート・視界封じ</li>
-              <li>フロムザシャドウズでの予想外な位置取り</li>
-              <li>パラノイアでの敵妨害・情報収集</li>
-              <li>ダークカバーでのサイト執行サポート</li>
-            </ul>
-            
-            <p><strong>{getPixelEmoji('TARGET')} プレイスタイル:</strong></p>
-            <p>攻めよりも守りが得意。チームの動きに合わせたスモーク配置を心がけて、
-            味方が有利なポジションを取れるようサポートしています。
-            テレポートは奇襲よりも安全な退避に使うことが多いかな 🌫️</p>
+          <div class="{pixelTextStyles.bodyText}">
+            <p><strong>{getPixelEmoji('TROPHY')} 得意:</strong> スモーク・テレポート・サポート</p>
+            <p><strong>{getPixelEmoji('TARGET')} スタイル:</strong> 守備重視・チーム連携</p>
           </div>
         </div>
 
@@ -167,126 +151,103 @@ import { getPixelEmoji } from '../utils/pixelEmoji';
               <div class="image-title">Astra ⭐</div>
             </div>
             <div>
-              <h3 style="font-family: var(--font-pixel); font-size: 14px;">ASTRA (元メイン)</h3>
-              <p style="font-size: 11px; color: #666;">🚧 統計収集中... 🚧</p>
+              <h3 class="{pixelTextStyles.subTitle}">ASTRA (元メイン)</h3>
+              <p class="{pixelTextStyles.loadingText}">{commonTexts.loading}</p>
             </div>
           </div>
           
-          <div class="profile-qa-section" style="font-size: 12px;">
-            <p><strong>{getPixelEmoji('SPARKLE')} 思い出:</strong></p>
-            <p>VALORANTを始めた頃からずっと使っていたエージェント。
-            アストラルフォームでマップ全体を見渡しながら戦略を立てるのがとても楽しかったです。
-            ただ、操作が複雑で味方との連携が難しく、最近はオーメンの方をメインにしています ⭐</p>
-            
-            <p style="margin-top: 8px;"><strong>{getPixelEmoji('TROPHY')} 得意だったスキル:</strong></p>
-            <ul style="margin-left: 15px;">
-              <li>グラビティウェルでの敵の動き制限</li>
-              <li>ノヴァパルスでのダメージ・情報取り</li>
-              <li>ネビュラでの広範囲スモーク</li>
-            </ul>
+          <div class="{pixelTextStyles.bodyText}">
+            <p><strong>{getPixelEmoji('SPARKLE')} 元メイン:</strong> 操作複雑だがマップ全体戦略可能</p>
+            <p><strong>{getPixelEmoji('TROPHY')} 得意:</strong> グラビティ・ノヴァ・ネビュラ</p>
           </div>
         </div>
       </div>
 
       <!-- プレイスタイル・戦術 -->
       <div class="retro-frame mb-6">
-        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+        <h2 class="{pixelTextStyles.sectionTitle}">
           ◈ Play Style & Tactics ◈
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+            <h3 class="{pixelTextStyles.subTitle}">
               ◆ 守備時の戦術
             </h3>
-            <div class="profile-section" style="font-size: 11px;">
-              <ul style="margin-left: 15px;">
-                <li>早めのスモーク展開で敵の視界を遮断</li>
-                <li>音を聞いて適切なローテーション</li>
-                <li>パラノイアで敵の位置を探る</li>
-                <li>スパイクタイムでのワンウェイスモーク</li>
-              </ul>
+            <div class="{pixelTextStyles.bodyText}">
+              <p>スモーク展開・ローテ・情報収集・ワンウェイ</p>
             </div>
           </div>
           
           <div>
-            <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+            <h3 class="{pixelTextStyles.subTitle}">
               ◇ 攻撃時の戦術
             </h3>
-            <div class="profile-section" style="font-size: 11px;">
-              <ul style="margin-left: 15px;">
-                <li>デュエリストのエントリーをスモークでサポート</li>
-                <li>複数方向からの挟み撃ちを支援</li>
-                <li>リテイクでのフロムザシャドウズ活用</li>
-                <li>味方との連携を重視した立ち回り</li>
-              </ul>
+            <div class="{pixelTextStyles.bodyText}">
+              <p>エントリサポート・挟み撃ち・テレポリテイク・連携重視</p>
             </div>
           </div>
         </div>
 
-        <div class="mt-4 p-3 profile-qa-section">
-          <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 6px;">
-            ◆ プレイで意識していること
+        <div class="{pixelTextStyles.bodyText}">
+          <h4 class="{pixelTextStyles.subTitle}">
+            ◆ プレイ意識
           </h4>
-          <p style="font-size: 11px;">
-            「チームの勝利」を最優先に考えています。キル数よりもチームへの貢献度を重視し、
-            味方が活躍できる環境を作ることを心がけています。コミュニケーションも大切にしていて、
-            敵の位置情報や戦術の提案を積極的に行うようにしています 🤝
-          </p>
+          <p>チーム勝利優先・サポート重視・コミュニケーション積極的 {getPixelEmoji('HANDSHAKE')}</p>
         </div>
       </div>
 
       <!-- 設定・デバイス情報 -->
       <div class="retro-frame">
-        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+        <h2 class="{pixelTextStyles.sectionTitle}">
           ◎ Settings & Setup ◎
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+            <h3 class="{pixelTextStyles.subTitle}">
               ◆ デバイス情報
             </h3>
-            <table class="profile-table" style="font-size: 10px;">
+            <table class="profile-table">
               <tr>
-                <td class="profile-label">マウス</td>
-                <td class="profile-value">Logicool G Pro X</td>
+                <td class="{pixelTextStyles.label}">マウス</td>
+                <td class="{pixelTextStyles.dataValue}">Logicool G Pro X</td>
               </tr>
               <tr>
-                <td class="profile-label">キーボード</td>
-                <td class="profile-value">HyperX Alloy</td>
+                <td class="{pixelTextStyles.label}">キーボード</td>
+                <td class="{pixelTextStyles.dataValue}">HyperX Alloy</td>
               </tr>
               <tr>
-                <td class="profile-label">ヘッドセット</td>
-                <td class="profile-value">SteelSeries Arctis 7</td>
+                <td class="{pixelTextStyles.label}">ヘッドセット</td>
+                <td class="{pixelTextStyles.dataValue}">SteelSeries Arctis 7</td>
               </tr>
               <tr>
-                <td class="profile-label">モニター</td>
-                <td class="profile-value">144Hz 24インチ</td>
+                <td class="{pixelTextStyles.label}">モニター</td>
+                <td class="{pixelTextStyles.dataValue}">144Hz 24インチ</td>
               </tr>
             </table>
           </div>
 
           <div>
-            <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+            <h3 class="{pixelTextStyles.subTitle}">
               ◎ ゲーム設定
             </h3>
-            <table class="profile-table" style="font-size: 10px;">
+            <table class="profile-table">
               <tr>
-                <td class="profile-label">感度</td>
-                <td class="profile-value">0.35 (800 DPI)</td>
+                <td class="{pixelTextStyles.label}">感度</td>
+                <td class="{pixelTextStyles.dataValue}">0.35 (800 DPI)</td>
               </tr>
               <tr>
-                <td class="profile-label">クロスヘア</td>
-                <td class="profile-value">青色・アウトライン有</td>
+                <td class="{pixelTextStyles.label}">クロスヘア</td>
+                <td class="{pixelTextStyles.dataValue}">青色・アウトライン有</td>
               </tr>
               <tr>
-                <td class="profile-label">解像度</td>
-                <td class="profile-value">1920×1080</td>
+                <td class="{pixelTextStyles.label}">解像度</td>
+                <td class="{pixelTextStyles.dataValue}">1920×1080</td>
               </tr>
               <tr>
-                <td class="profile-label">FPS制限</td>
-                <td class="profile-value">144fps固定</td>
+                <td class="{pixelTextStyles.label}">FPS制限</td>
+                <td class="{pixelTextStyles.dataValue}">144fps固定</td>
               </tr>
             </table>
           </div>
@@ -298,69 +259,48 @@ import { getPixelEmoji } from '../utils/pixelEmoji';
 
   <!-- 動画説明セクション -->
   <div class="retro-frame mt-6">
-    <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
-      🎬 Game Highlights 🎬
+    <h2 class="{pixelTextStyles.sectionTitle}">
+      {getPixelEmoji('MOVIE')} Game Highlights {getPixelEmoji('MOVIE')}
     </h2>
     
-    <div class="flex justify-center">
-      <div class="profile-section p-4 max-w-2xl">
-        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px; text-align: center;">
-          📹 動画について
-        </h3>
-        <div style="font-size: 11px; line-height: 1.4;">
-          <p class="mb-3">
-            <strong>🎯 動画の見どころ:</strong><br>
-            チームでの連携プレイとスモーク使いに注目してください。
-            個人技よりもチーム全体の勝利を意識した立ち回りを重視しています。
-          </p>
-          
-          <p class="mb-3">
-            <strong>⚡ プレイスタイル:</strong><br>
-            オーメンのスモークを活用した味方サポートと、
-            フロムザシャドウズでの安全な退避・ポジション取りが中心です。
-          </p>
-          
-          <p style="color: var(--retro-secondary); font-size: 10px;">
-            ※ 今後も印象的なプレイシーンがあれば、
-            このセクションに追加していく予定です！
-          </p>
-        </div>
-      </div>
+    <div class="{pixelTextStyles.bodyText} text-center">
+      <p><strong>{getPixelEmoji('TARGET')} 見どころ:</strong> チーム連携・スモーク戦術</p>
+      <p><strong>{getPixelEmoji('SPARKLE')} スタイル:</strong> オーメンサポート・安全重視</p>
     </div>
   </div>
 
   <!-- 今後の目標 -->
   <div class="retro-frame mt-6">
-    <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
-      ◉ Goals & Objectives ◉
+    <h2 class="{pixelTextStyles.sectionTitle}">
+      {getPixelEmoji('TARGET')} Goals & Objectives {getPixelEmoji('TARGET')}
     </h2>
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div class="text-center p-4 profile-section">
-        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
-          短期目標 (1ヶ月)
+        <h3 class="{pixelTextStyles.subTitle}">
+          短期 (1M)
         </h3>
-        <p style="font-size: 11px;">Platinumランクへの復帰 💎<br>
-        スモーク投げの精度向上<br>
-        コミュニケーション強化</p>
+        <p class="{pixelTextStyles.bodyText}">Platinum復帰 {getPixelEmoji('DIAMOND')}<br>
+        スモーク精度UP<br>
+        コミュ強化</p>
       </div>
       
       <div class="text-center p-4 profile-section">
-        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
-          中期目標 (3ヶ月)
+        <h3 class="{pixelTextStyles.subTitle}">
+          中期 (3M)
         </h3>
-        <p style="font-size: 11px;">Diamondランク到達 💎<br>
-        複数エージェント習得<br>
-        チーム戦術の理解向上</p>
+        <p class="{pixelTextStyles.bodyText}">Diamond到達 {getPixelEmoji('DIAMOND')}<br>
+        複数エージェント<br>
+        戦術理解向上</p>
       </div>
       
       <div class="text-center p-4 profile-section">
-        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
-          長期目標 (1年)
+        <h3 class="{pixelTextStyles.subTitle}">
+          長期 (1Y)
         </h3>
-        <p style="font-size: 11px;">Immortalランク挑戦 ⚡<br>
-        大会・コミュニティ参加<br>
-        ゲーム配信活動開始？</p>
+        <p class="{pixelTextStyles.bodyText}">Immortal挑戦 {getPixelEmoji('LIGHTNING')}<br>
+        大会参加<br>
+        配信活動開始？</p>
       </div>
     </div>
   </div>
@@ -373,6 +313,71 @@ import { getPixelEmoji } from '../utils/pixelEmoji';
   </div>
 
   <style>
+    /* ピクセルフォント統一CSS */
+    .font-pixel-primary {
+      font-family: var(--font-pixel), 'Press Start 2P', monospace;
+    }
+    
+    .font-pixel-secondary {
+      font-family: var(--font-pixel-jp), 'Press Start 2P', monospace;
+    }
+    
+    .font-pixel-tertiary {
+      font-family: var(--font-pixel-jp), 'Press Start 2P', monospace;
+    }
+    
+    .font-pixel-body {
+      font-family: var(--font-pixel-jp), 'Press Start 2P', monospace;
+    }
+    
+    .font-pixel-small {
+      font-family: var(--font-pixel-jp), 'Press Start 2P', monospace;
+    }
+    
+    .font-pixel-label {
+      font-family: var(--font-pixel), 'Press Start 2P', monospace;
+    }
+    
+    .font-pixel-data {
+      font-family: var(--font-pixel), 'Press Start 2P', monospace;
+    }
+    
+    .font-pixel-loading {
+      font-family: var(--font-pixel), 'Press Start 2P', monospace;
+    }
+    
+    .font-pixel-error {
+      font-family: var(--font-pixel), 'Press Start 2P', monospace;
+    }
+    
+    .font-pixel-marquee {
+      font-family: var(--font-pixel-jp), 'Press Start 2P', monospace;
+    }
+    
+    .font-pixel-button {
+      font-family: var(--font-pixel), 'Press Start 2P', monospace;
+    }
+    
+    .font-pixel-accent {
+      font-family: var(--font-pixel), 'Press Start 2P', monospace;
+    }
+    
+    .text-shadow-retro {
+      text-shadow: 1px 1px 0px #000000, 2px 2px 0px rgba(0,0,0,0.5);
+    }
+    
+    .text-shadow-glow {
+      text-shadow: 1px 1px 0px #000000, 0 0 10px var(--text-accessible-blue);
+    }
+    
+    .text-blue-retro {
+      color: var(--text-accessible-blue);
+    }
+    
+    .text-red-retro {
+      color: #ff4444;
+    }
+    
     @keyframes gamepad-bounce {
       0%, 100% { transform: translateY(0px) rotate(-5deg); }
       50% { transform: translateY(-10px) rotate(5deg); }
