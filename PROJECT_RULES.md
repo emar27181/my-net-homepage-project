@@ -174,6 +174,7 @@
   → 再生ボタンはpulse-playアニメーション（2秒周期、scale 1.0⇔1.1）
   → ネオングロー効果（text-shadow: 0 0 15px⇔35px var(--text-accessible-blue)）
   → pointer-events: noneでオーバーレイ下のiframeへのアクセスを確保
+  → **スキャンライン・移動バーエフェクトは使用禁止**（視覚的ノイズを避けるため）
 
 - **レスポンシブ・アクセシビリティ対応**  
   → prefers-reduced-motion: reduceでアニメーション無効化

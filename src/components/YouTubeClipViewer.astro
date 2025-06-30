@@ -58,7 +58,7 @@ function getEmbedUrl(url: string, auto: boolean = false): string {
 const embedUrl = getEmbedUrl(clipUrl, autoplay);
 ---
 
-<div class="youtube-clip-viewer retro-frame">
+<div class="youtube-clip-viewer">
   {title && (
     <h3 class="clip-title">
       🎮 {title}
@@ -96,10 +96,10 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
 <style>
   .youtube-clip-viewer {
     margin: 1rem 0;
-    padding: 0.75rem;
-    background: var(--color-bg-secondary);
-    border: 2px solid var(--retro-primary);
-    border-radius: 8px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
     position: relative;
   }
 
@@ -278,26 +278,6 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
     }
   }
 
-  /* 8-bit風エフェクト */
-  .youtube-clip-viewer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, 
-      var(--retro-primary) 0%, 
-      var(--retro-secondary) 50%, 
-      var(--retro-primary) 100%);
-    opacity: 0.7;
-    animation: retro-scan 3s linear infinite;
-  }
-
-  @keyframes retro-scan {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
 
   /* コントラスト調整 */
   .youtube-clip-viewer {

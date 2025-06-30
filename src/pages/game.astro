@@ -20,6 +20,30 @@ import { getPixelEmoji } from '../utils/pixelEmoji';
     <AsciiEmoji type="emoticon" variant="smile" size="sm" inline />
   </div>
 
+  <!-- YouTube動画セクション -->
+  <div class="grid grid-cols-1 gap-6 mb-6">
+    <YouTubeClipViewer 
+      clipUrl="https://youtu.be/KTwFA1jQgFY"
+      title="VALORANT Gameplay #1"
+      description="オーメンでのスモーク展開とチームプレイの一場面。実際のランク戦での立ち回りをご覧いただけます。"
+      autoplay={false}
+    />
+    
+    <YouTubeClipViewer 
+      clipUrl="https://youtu.be/ERb40ovB060"
+      title="VALORANT Gameplay #2"
+      description="ランク戦での戦術的プレイと連携。スモークを活用したサポートプレイが中心です。"
+      autoplay={false}
+    />
+    
+    <YouTubeClipViewer 
+      clipUrl="https://youtu.be/oos2PYWiRGM"
+      title="VALORANT Gameplay #3"
+      description="印象的なクラッチシーンとスキル活用。チーム勝利を意識した戦術的プレイを紹介します。"
+      autoplay={false}
+    />
+  </div>
+
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     
     <!-- 左サイドバー：現在のステータス -->
@@ -271,29 +295,6 @@ import { getPixelEmoji } from '../utils/pixelEmoji';
     </div>
   </div>
 
-  <!-- YouTube動画セクション -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6 mb-6">
-    <YouTubeClipViewer 
-      clipUrl="https://youtu.be/KTwFA1jQgFY"
-      title="VALORANT Gameplay #1"
-      description="オーメンでのスモーク展開とチームプレイの一場面。実際のランク戦での立ち回りをご覧いただけます。"
-      autoplay={false}
-    />
-    
-    <YouTubeClipViewer 
-      clipUrl="https://youtu.be/ERb40ovB060"
-      title="VALORANT Gameplay #2"
-      description="ランク戦での戦術的プレイと連携。スモークを活用したサポートプレイが中心です。"
-      autoplay={false}
-    />
-    
-    <YouTubeClipViewer 
-      clipUrl="https://youtu.be/oos2PYWiRGM"
-      title="VALORANT Gameplay #3"
-      description="印象的なクラッチシーンとスキル活用。チーム勝利を意識した戦術的プレイを紹介します。"
-      autoplay={false}
-    />
-  </div>
 
   <!-- 動画説明セクション -->
   <div class="retro-frame mt-6">
