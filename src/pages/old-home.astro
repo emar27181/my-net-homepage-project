@@ -1,0 +1,260 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProfileInfo from '../components/ProfileInfo.astro';
+import TodaysWord from '../components/TodaysWord.astro';
+import NeonLine from '../components/NeonLine.astro';
+import Dekome from '../components/Dekome.astro';
+import GameUI from '../components/GameUI.astro';
+import AsciiEmoji from '../components/AsciiEmoji.astro';
+import '../styles/global.css';
+import { applyTypographyPreset } from '../utils/typography';
+import { tPageTitle } from '../utils/textManager';
+
+const currentDate = new Date().toLocaleDateString('ja-JP', {
+  year: 'numeric',
+  month: 'long', 
+  day: 'numeric'
+});
+---
+
+<Layout title="nodoame's Homepage - レトロなポートフォリオ">
+  <!-- 更新情報のマーキー -->
+  <div class="marquee mb-6">
+    <AsciiEmoji type="cat-aa" variant="small_cat" size="sm" inline />
+    {tPageTitle('home')}
+    <AsciiEmoji type="emoticon" variant="smile" size="sm" inline />
+    ようこそ！
+    <AsciiEmoji type="simple-aa" variant="ktkr" size="sm" inline />
+  </div>
+
+  <!-- メインコンテンツ -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    
+    <!-- 左サイドバー -->
+    <div class="md:col-span-1">
+      <!-- プロフィール写真 -->
+      <div class="retro-frame mb-6">
+        <div class="text-center">
+          <h2 class={applyTypographyPreset('sectionTitle')} style="margin-bottom: 10px;">
+            <Dekome type="crown-princess" size="sm" /> Profile <Dekome type="sparkle-rainbow" size="sm" />
+          </h2>
+          <div class="image-container">
+            <img src="https://via.placeholder.com/120x120/FFB6C1/333333?text=nodoame" alt="nodoameのアバター" class="mx-auto" style="image-rendering: pixelated;">
+            <div class="image-title">nodoame <Dekome type="cat-wink" size="xs" /></div>
+          </div>
+          <ProfileInfo type="basic" />
+        </div>
+      </div>
+
+      <!-- 最近の活動 -->
+      <div class="retro-frame mb-4">
+        <h3 class={applyTypographyPreset('subsectionTitle')} style="margin-bottom: 8px;">
+          <Dekome type="star-shooting" size="sm" /> Recent Activity <Dekome type="face-happy" size="sm" />
+        </h3>
+        <div class={applyTypographyPreset('subText')}>
+          <p><Dekome type="game-controller" size="xs" /> <span class={applyTypographyPreset('important')}>{currentDate}</span><br>
+          VALORANT オーメンでランク戦頑張ってます！<AsciiEmoji type="emoticon" variant="excited" size="xs" inline /></p>
+          
+          <p><Dekome type="cat-wink" size="xs" /> <span class={applyTypographyPreset('important')}>2024/06/15</span><br>
+          新しい猫のイラストを描きました～<AsciiEmoji type="cat-aa" variant="mini_cat" size="xs" inline /></p>
+          
+          <p><Dekome type="computer" size="xs" /> <span class={applyTypographyPreset('important')}>2024/06/10</span><br>
+          ジェネラティブアート実験開始！<AsciiEmoji type="simple-aa" variant="gj" size="xs" inline /></p>
+        </div>
+      </div>
+
+      <!-- 今日の一言 -->
+      <TodaysWord />
+    </div>
+
+    <!-- メインコンテンツエリア -->
+    <div class="md:col-span-2">
+      <!-- 自己紹介 -->
+      <div class="retro-frame mb-6">
+        <h2 class={applyTypographyPreset('pageTitle')} style="margin-bottom: 12px; text-align: center;">
+          <Dekome type="star-twinkle" size="md" /> Welcome to nodoame's Homepage! <Dekome type="heart-rainbow" size="md" />
+        </h2>
+        
+        <div class={applyTypographyPreset('mainText')}>
+          <p>こんにちは！ネットネーム <span class={applyTypographyPreset('important')}>nodoame</span> です <Dekome type="face-happy" size="sm" /> <AsciiEmoji type="emoticon" variant="smile" size="xs" inline /></p>
+          
+          <p>このサイトは2000年代初頭のレトロなホームページの雰囲気を再現して作りました。
+          懐かしいHTML4時代のテーブルレイアウトやアニメーションGIF、ピクセルフォントなどを使って、
+          あの頃のインターネットの温かみを表現しています <Dekome type="sparkle-gold" size="xs" /> <AsciiEmoji type="simple-aa" variant="kusa" size="xs" inline /></p>
+          
+          <p><span class={applyTypographyPreset('important')}><Dekome type="game-controller" size="xs" /> 好きなゲーム:</span><br>
+          VALORANT（オーメン専、元アストラ専）でFPSを楽しんでいます！<br>
+          ランク戦でコツコツ上達中... 頑張ります！<AsciiEmoji type="emoticon" variant="excited" size="xs" inline /></p>
+          
+          <p><span class={applyTypographyPreset('important')}><Dekome type="butterfly" size="xs" /> イラスト・アート:</span><br>
+          猫のイラストや漫画の模写、ロゴ作成が得意です。<AsciiEmoji type="cat-aa" variant="mini_cat" size="xs" inline /><br>
+          最近はジェネラティブアートにも挑戦中で、プログラムで生成するアートの面白さを探求しています。<AsciiEmoji type="simple-aa" variant="gj" size="xs" inline /></p>
+          
+          <p><span class={applyTypographyPreset('important')}><Dekome type="computer" size="xs" /> Web制作・プログラミング:</span><br>
+          大学で情報科学を学びながら、Web制作の技術を身につけています。<br>
+          このサイトもAstro + Tailwind CSSで作成しました！<AsciiEmoji type="emoticon" variant="cool" size="xs" inline /></p>
+        </div>
+      </div>
+
+      <!-- お気に入りリンク -->
+      <div class="retro-frame mb-6">
+        <h3 class={applyTypographyPreset('sectionTitle')} style="margin-bottom: 10px;">
+          <Dekome type="butterfly" size="sm" /> Quick Links <Dekome type="music-note" size="sm" />
+        </h3>
+        <table class="retro-table w-full">
+          <tr>
+            <td style="width: 50%;">
+              <a href="/gallery" class="retro-button w-full block text-center">
+                <Dekome type="butterfly" size="xs" /> 作品ギャラリー
+              </a>
+            </td>
+            <td style="width: 50%;">
+              <a href="/game" class="retro-button w-full block text-center">
+                <Dekome type="game-controller" size="xs" /> ゲーム情報
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/dev" class="retro-button w-full block text-center">
+                <Dekome type="computer" size="xs" /> 開発・研究
+              </a>
+            </td>
+            <td>
+              <a href="/blog" class="retro-button w-full block text-center">
+                <Dekome type="sparkle-gold" size="xs" /> 日記・雑記
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- 訪問者カウンター風 -->
+      <div class="retro-frame text-center">
+        <h3 class={applyTypographyPreset('subsectionTitle')} style="margin-bottom: 8px;">
+          <Dekome type="sparkle-gold" size="sm" /> Visitor Counter <Dekome type="computer" size="sm" />
+        </h3>
+        <div style="background-color: var(--game-bg-primary); color: var(--retro-secondary); padding: 8px; border: 3px solid var(--game-border); font-family: var(--font-pixel-jp); font-size: 16px; box-shadow: inset 2px 2px 0px rgba(255,255,255,0.3), inset -2px -2px 0px rgba(0,0,0,0.5);">
+          <Dekome type="heart-rainbow" size="xs" /> Total Visitors: 001337 
+        </div>
+        <p class={applyTypographyPreset('caption')} style="margin-top: 4px;">
+          ※ レトロな雰囲気作りのための演出です <Dekome type="face-happy" size="xs" />
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ゲームUI統計パネル -->
+  <GameUI playerLevel={42} health={88} mana={74} experience={65} coins={2048} showBars={true} className="mb-6" />
+
+  <!-- フローティングアイコン（DP風クリスタル装飾） -->
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+    <div style="background: var(--gradient-crystal); width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; border: 2px solid var(--retro-diamond); border-radius: 12px; box-shadow: inset 3px 3px 6px rgba(164,211,226,0.4), inset -3px -3px 6px rgba(44,95,138,0.6), 0 0 30px rgba(74,127,199,0.4), 0 8px 16px rgba(116,169,207,0.3); animation: float64bit 4s ease-in-out infinite; backdrop-filter: blur(1px);">
+      <div style="animation: diamond-sparkle 2s ease-in-out infinite;">
+        <Dekome type="star-twinkle" size="md" />
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    @keyframes float64bit {
+      0%, 100% {
+        transform: translateY(0) scale(1) rotate(0deg);
+        box-shadow: 
+          inset 3px 3px 6px rgba(164,211,226,0.4), 
+          inset -3px -3px 6px rgba(44,95,138,0.6), 
+          0 0 25px rgba(74,127,199,0.4);
+      }
+      25% {
+        transform: translateY(-10px) scale(1.03) rotate(1deg);
+        box-shadow: 
+          inset 3px 3px 8px rgba(184,230,255,0.6), 
+          inset -3px -3px 8px rgba(26,70,104,0.8), 
+          0 0 35px rgba(116,169,207,0.6);
+      }
+      50% {
+        transform: translateY(-15px) scale(1.05) rotate(0deg);
+        box-shadow: 
+          inset 3px 3px 10px rgba(184,230,255,0.8), 
+          inset -3px -3px 10px rgba(26,70,104,0.9), 
+          0 0 45px rgba(184,230,255,0.7);
+      }
+      75% {
+        transform: translateY(-10px) scale(1.03) rotate(-1deg);
+        box-shadow: 
+          inset 3px 3px 8px rgba(184,230,255,0.6), 
+          inset -3px -3px 8px rgba(26,70,104,0.8), 
+          0 0 35px rgba(116,169,207,0.6);
+      }
+    }
+
+    @keyframes diamond-sparkle {
+      0%, 100% { opacity: 0.6; }
+      25% { opacity: 0.8; }
+      50% { opacity: 1; }
+      75% { opacity: 0.8; }
+    }
+  </style>
+
+  <script>
+    // ネオンライン管理システムとカラー管理システムの初期化
+    import { neonLineManager } from '../utils/neonLineManager';
+    import { colorManager } from '../utils/colorManager';
+
+    // ページロード時にCSS変数を適用
+    document.addEventListener('DOMContentLoaded', () => {
+      // ネオンライン管理システム初期化
+      neonLineManager.applyToDOM();
+      console.log('ネオンライン管理システムが初期化されました');
+
+      // カラー管理システム初期化（8-bitゲームテーマ）
+      colorManager.setColorScheme('retro');
+      colorManager.applyToDOM();
+      console.log('カラー管理システムが初期化されました（水色テーマ）');
+      console.log('現在の色設定:', colorManager.getColorInfo());
+    });
+
+    // 開発時用のカラー変更関数
+    if (import.meta.env.DEV) {
+      (window as any).colorDemo = {
+        // 色スキーム変更
+        setScheme: (schemeId: string) => {
+          colorManager.setColorScheme(schemeId);
+          colorManager.applyToDOM();
+          console.log(`カラースキームを ${schemeId} に変更しました`);
+        },
+        
+        // 特定色変更
+        updateColor: (colorType: string, color: string) => {
+          colorManager.updateColor(colorType as any, color);
+          colorManager.applyToDOM();
+          console.log(`${colorType} を ${color} に変更しました`);
+        },
+        
+        // 現在の色情報表示
+        showColors: () => {
+          console.table(colorManager.getColorInfo());
+        },
+        
+        // 利用可能なスキーム表示
+        showSchemes: () => {
+          console.table(colorManager.getAvailableSchemes());
+        }
+      };
+      
+      console.log('開発モード: window.colorDemo でカラー管理関数にアクセスできます');
+    }
+  </script>
+</Layout>

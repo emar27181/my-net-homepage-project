@@ -64,7 +64,17 @@ const { title, description = tSite('description') } = Astro.props;
       </header>
 
       <!-- 8-bitゲーム風ナビゲーション -->
-      <nav class="game-nav-frame">
+      <nav class="game-nav-frame relative">
+        <!-- ハンバーガーメニュー（右上） -->
+        <div class="absolute top-2 right-2 z-50">
+          <button id="hamburger-menu" class="nav-button" style="font-size: 12px; padding: 4px 8px;">
+            ≡ Menu
+          </button>
+          <div id="hamburger-dropdown" class="hidden absolute right-0 top-full mt-2 bg-[var(--color-bg-tertiary)] border-2 border-[var(--retro-primary)] shadow-lg" style="min-width: 120px;">
+            <a href="/old-home" class="block px-3 py-2 nav-button-mobile text-xs">旧ホーム</a>
+          </div>
+        </div>
+
         <!-- デスクトップ表示 -->
         <div class="hidden lg:block">
           <div class="nav-grid-desktop">
@@ -103,6 +113,27 @@ const { title, description = tSite('description') } = Astro.props;
             <a href="/link" class="nav-button-mobile">{tPageTitle('link')}</a>
           </div>
         </div>
+
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+            const hamburgerBtn = document.getElementById('hamburger-menu');
+            const hamburgerDropdown = document.getElementById('hamburger-dropdown');
+            
+            if (hamburgerBtn && hamburgerDropdown) {
+              hamburgerBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                hamburgerDropdown.classList.toggle('hidden');
+              });
+              
+              // クリック外しで閉じる
+              document.addEventListener('click', (e) => {
+                if (!hamburgerBtn.contains(e.target as Node) && !hamburgerDropdown.contains(e.target as Node)) {
+                  hamburgerDropdown.classList.add('hidden');
+                }
+              });
+            }
+          });
+        </script>
       </nav>
 
       <!-- メインコンテンツエリア -->
