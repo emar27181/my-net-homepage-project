@@ -1,0 +1,252 @@
+---
+export interface Props {
+  clipUrl: string;
+  title?: string;
+  description?: string;
+}
+
+const { 
+  clipUrl, 
+  title = "Game Clip", 
+  description = ""
+} = Astro.props;
+---
+
+<div class="simple-clip-viewer retro-frame">
+  {title && (
+    <h3 class="clip-title">
+      🎮 {title}
+    </h3>
+  )}
+  
+  <div class="clip-card">
+    <div class="clip-thumbnail">
+      <div class="play-indicator">
+        <div class="play-btn">▶</div>
+        <p class="clip-label">YouTube Clip</p>
+      </div>
+    </div>
+    
+    <div class="clip-info">
+      {description && (
+        <p class="clip-desc">{description}</p>
+      )}
+      
+      <div class="clip-actions">
+        <a 
+          href={clipUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="watch-btn"
+        >
+          📺 YouTubeで視聴する
+        </a>
+        
+        <button 
+          class="copy-btn"
+          onclick={`navigator.clipboard.writeText('${clipUrl}').then(() => { 
+            this.textContent = '✓ コピー完了!'; 
+            setTimeout(() => this.textContent = '🔗 URLをコピー', 2000); 
+          })`}
+        >
+          🔗 URLをコピー
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .simple-clip-viewer {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--color-bg-secondary);
+    border: 2px solid var(--text-accessible-blue);
+    border-radius: 8px;
+  }
+
+  .clip-title {
+    font-family: var(--font-pixel-jp), 'Press Start 2P', monospace;
+    font-size: 14px;
+    color: var(--text-accessible-blue);
+    text-align: center;
+    margin-bottom: 1rem;
+    text-shadow: 1px 1px 0px #000000, 0 0 5px var(--text-accessible-blue);
+    letter-spacing: 1px;
+  }
+
+  .clip-card {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .clip-thumbnail {
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    border: 2px solid var(--text-accessible-blue);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .clip-thumbnail:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(77, 121, 255, 0.5);
+  }
+
+  .play-indicator {
+    text-align: center;
+    color: #ffffff;
+  }
+
+  .play-btn {
+    font-size: 2rem;
+    color: var(--text-accessible-blue);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px var(--text-accessible-blue);
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .clip-label {
+    font-family: var(--font-pixel-jp);
+    font-size: 10px;
+    margin: 0;
+    text-shadow: 1px 1px 0px #000000;
+    opacity: 0.8;
+  }
+
+  .clip-info {
+    padding: 0.5rem 0;
+  }
+
+  .clip-desc {
+    font-family: var(--font-pixel-jp);
+    font-size: 11px;
+    color: #ffffff;
+    text-shadow: 1px 1px 0px #000000;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+
+  .clip-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .watch-btn, .copy-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--color-bg-primary);
+    border: 2px solid var(--text-accessible-blue);
+    border-radius: 4px;
+    color: var(--text-accessible-blue);
+    text-decoration: none;
+    font-family: var(--font-pixel-jp);
+    font-size: 10px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0px #000000, 0 0 5px var(--text-accessible-blue);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .watch-btn:hover, .copy-btn:hover {
+    background: var(--text-accessible-blue);
+    color: var(--color-bg-primary);
+    text-shadow: none;
+    transform: translateY(-2px);
+  }
+
+  .copy-btn {
+    background: var(--color-bg-tertiary);
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { 
+      transform: scale(1); 
+      text-shadow: 0 0 10px var(--text-accessible-blue);
+    }
+    50% { 
+      transform: scale(1.1); 
+      text-shadow: 0 0 20px var(--text-accessible-blue), 0 0 30px var(--text-accessible-blue);
+    }
+  }
+
+  /* レスポンシブ対応 */
+  @media (max-width: 768px) {
+    .clip-card {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .clip-thumbnail {
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    
+    .clip-actions {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .clip-actions {
+      flex-direction: column;
+    }
+    
+    .watch-btn, .copy-btn {
+      font-size: 9px;
+      padding: 0.4rem 0.8rem;
+    }
+  }
+
+  /* アクセシビリティ対応 */
+  @media (prefers-reduced-motion: reduce) {
+    .clip-thumbnail:hover {
+      transform: none !important;
+    }
+    
+    .play-btn {
+      animation: none !important;
+    }
+    
+    .watch-btn:hover, .copy-btn:hover {
+      transform: none !important;
+    }
+  }
+
+  /* クリック可能なサムネイル */
+  .clip-thumbnail {
+    position: relative;
+  }
+
+  .clip-thumbnail::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  // サムネイルクリックでYouTubeを開く
+  document.querySelectorAll('.clip-thumbnail').forEach(thumbnail => {
+    thumbnail.addEventListener('click', function() {
+      const clipUrl = this.closest('.simple-clip-viewer').querySelector('.watch-btn').href;
+      window.open(clipUrl, '_blank');
+    });
+  });
+</script>

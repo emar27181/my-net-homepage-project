@@ -1,0 +1,552 @@
+---
+export interface Props {
+  videoUrls: string[];
+  titles?: string[];
+  descriptions?: string[];
+  autoplay?: boolean;
+}
+
+const { 
+  videoUrls,
+  titles = [],
+  descriptions = [],
+  autoplay = false
+} = Astro.props;
+
+// 3つの動画URLを確保
+const videos = [
+  "https://youtu.be/KTwFA1jQgFY",
+  "https://youtu.be/ERb40ovB060", 
+  "https://youtu.be/oos2PYWiRGM"
+];
+
+// YouTubeURLから動画IDを抽出
+function getVideoId(url: string): string {
+  try {
+    const urlObj = new URL(url);
+    
+    // youtu.be形式
+    if (urlObj.hostname === 'youtu.be') {
+      return urlObj.pathname.slice(1);
+    }
+    
+    // youtube.com形式
+    if (urlObj.hostname.includes('youtube.com')) {
+      return urlObj.searchParams.get('v') || '';
+    }
+    
+    return '';
+  } catch (error) {
+    console.error('Invalid YouTube URL:', error);
+    return '';
+  }
+}
+
+// 埋め込みURL生成
+function getEmbedUrl(url: string, auto: boolean = false): string {
+  const videoId = getVideoId(url);
+  if (!videoId) return '';
+  
+  const params = new URLSearchParams();
+  if (auto) params.set('autoplay', '1');
+  params.set('modestbranding', '1');
+  params.set('rel', '0');
+  params.set('fs', '1');
+  params.set('cc_load_policy', '0');
+  params.set('enablejsapi', '1');
+  
+  return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+}
+---
+
+<div class="three-video-viewer retro-frame">
+  <h2 class="viewer-title">
+    🎮 Video Collection 🎬
+  </h2>
+  
+  <div class="video-grid">
+    {videos.map((url, index) => (
+      <div class="video-slot">
+        <div class="slot-header">
+          <span class="slot-number">#{index + 1}</span>
+          <h3 class="slot-title">
+            {titles[index] || `Video ${index + 1}`}
+          </h3>
+        </div>
+        
+        <div class="video-frame">
+          <div class="video-container">
+            <iframe
+              src={getEmbedUrl(url, autoplay && index === 0)}
+              title={titles[index] || `Video ${index + 1}`}
+              width="100%"
+              height="100%"
+              frameborder="0"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              loading={index === 0 ? "eager" : "lazy"}
+            ></iframe>
+            
+            <div class="video-overlay">
+              <div class="play-indicator">
+                <div class="play-btn">▶</div>
+                <p class="loading-text">Loading...</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 8-bit風フレーム装飾 -->
+          <div class="frame-corners">
+            <div class="corner tl"></div>
+            <div class="corner tr"></div>
+            <div class="corner bl"></div>
+            <div class="corner br"></div>
+          </div>
+        </div>
+        
+        {descriptions[index] && (
+          <div class="slot-description">
+            <p>{descriptions[index]}</p>
+          </div>
+        )}
+        
+        <div class="slot-controls">
+          <a 
+            href={url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="external-link"
+          >
+            📺 YouTubeで見る
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .three-video-viewer {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--color-bg-secondary);
+    border: 3px solid var(--text-accessible-blue);
+    border-radius: 12px;
+    position: relative;
+  }
+
+  .viewer-title {
+    font-family: var(--font-pixel-jp), 'Press Start 2P', monospace;
+    font-size: 16px;
+    color: var(--text-accessible-blue);
+    text-align: center;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 0px #000000, 0 0 10px var(--text-accessible-blue);
+    letter-spacing: 2px;
+    animation: title-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes title-glow {
+    0%, 100% { 
+      text-shadow: 1px 1px 0px #000000, 0 0 10px var(--text-accessible-blue);
+    }
+    50% { 
+      text-shadow: 1px 1px 0px #000000, 0 0 20px var(--text-accessible-blue), 0 0 30px var(--text-accessible-blue);
+    }
+  }
+
+  .video-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .video-slot {
+    background: var(--color-bg-primary);
+    border: 2px solid var(--text-accessible-blue);
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .video-slot:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(77, 121, 255, 0.3);
+    border-color: #ffffff;
+  }
+
+  .slot-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(77, 121, 255, 0.3);
+  }
+
+  .slot-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--text-accessible-blue);
+    color: var(--color-bg-primary);
+    font-family: var(--font-pixel-jp);
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    text-shadow: none;
+  }
+
+  .slot-title {
+    font-family: var(--font-pixel-jp);
+    font-size: 12px;
+    color: #ffffff;
+    text-shadow: 1px 1px 0px #000000;
+    margin: 0;
+    letter-spacing: 1px;
+  }
+
+  .video-frame {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .video-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border: 2px solid var(--text-accessible-blue);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .video-container iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+    z-index: 2;
+  }
+
+  .video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+
+  .play-indicator {
+    text-align: center;
+  }
+
+  .play-btn {
+    font-size: 3rem;
+    color: var(--text-accessible-blue);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 15px var(--text-accessible-blue);
+    animation: pulse-play 2s ease-in-out infinite;
+  }
+
+  .loading-text {
+    font-family: var(--font-pixel-jp);
+    font-size: 11px;
+    margin: 0;
+    text-shadow: 1px 1px 0px #000000;
+    opacity: 0.8;
+  }
+
+  @keyframes pulse-play {
+    0%, 100% { 
+      transform: scale(1); 
+      text-shadow: 0 0 15px var(--text-accessible-blue);
+    }
+    50% { 
+      transform: scale(1.1); 
+      text-shadow: 0 0 25px var(--text-accessible-blue), 0 0 35px var(--text-accessible-blue);
+    }
+  }
+
+  /* 8-bit風フレーム装飾 */
+  .frame-corners {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .corner {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 3px solid var(--text-accessible-blue);
+    box-shadow: 0 0 8px rgba(77, 121, 255, 0.5);
+  }
+
+  .corner.tl {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+    border-top-left-radius: 4px;
+  }
+
+  .corner.tr {
+    top: 0;
+    right: 0;
+    border-left: none;
+    border-bottom: none;
+    border-top-right-radius: 4px;
+  }
+
+  .corner.bl {
+    bottom: 0;
+    left: 0;
+    border-right: none;
+    border-top: none;
+    border-bottom-left-radius: 4px;
+  }
+
+  .corner.br {
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: none;
+    border-bottom-right-radius: 4px;
+  }
+
+  .slot-description {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: var(--color-bg-tertiary);
+    border: 1px solid rgba(77, 121, 255, 0.3);
+    border-radius: 4px;
+    font-family: var(--font-pixel-jp);
+    font-size: 10px;
+    color: #ffffff;
+    text-shadow: 1px 1px 0px #000000;
+    line-height: 1.4;
+  }
+
+  .slot-description p {
+    margin: 0;
+  }
+
+  .slot-controls {
+    text-align: center;
+  }
+
+  .external-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--color-bg-primary);
+    border: 2px solid var(--text-accessible-blue);
+    border-radius: 4px;
+    color: var(--text-accessible-blue);
+    text-decoration: none;
+    font-family: var(--font-pixel-jp);
+    font-size: 9px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0px #000000, 0 0 5px var(--text-accessible-blue);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .external-link:hover {
+    background: var(--text-accessible-blue);
+    color: var(--color-bg-primary);
+    text-shadow: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(77, 121, 255, 0.4);
+  }
+
+  /* レスポンシブ対応 */
+  @media (max-width: 1024px) {
+    .video-slot {
+      max-width: 600px;
+    }
+    
+    .video-grid {
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .three-video-viewer {
+      padding: 1rem;
+    }
+    
+    .viewer-title {
+      font-size: 14px;
+      margin-bottom: 1.5rem;
+    }
+    
+    .video-grid {
+      gap: 1.5rem;
+    }
+    
+    .video-slot {
+      max-width: 100%;
+    }
+    
+    .slot-title {
+      font-size: 11px;
+    }
+    
+    .external-link {
+      font-size: 8px;
+      padding: 0.4rem 0.8rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .three-video-viewer {
+      padding: 0.75rem;
+    }
+    
+    .viewer-title {
+      font-size: 12px;
+    }
+    
+    .video-grid {
+      gap: 1rem;
+    }
+    
+    .video-slot {
+      padding: 0.75rem;
+    }
+  }
+
+  /* アクセシビリティ対応 */
+  @media (prefers-reduced-motion: reduce) {
+    .viewer-title {
+      animation: none !important;
+    }
+    
+    .play-btn {
+      animation: none !important;
+    }
+    
+    .video-slot:hover {
+      transform: none !important;
+    }
+    
+    .external-link:hover {
+      transform: none !important;
+    }
+  }
+
+  /* 高コントラスト対応 */
+  @media (prefers-contrast: high) {
+    .three-video-viewer {
+      border-width: 4px;
+    }
+    
+    .video-slot {
+      border-width: 3px;
+    }
+    
+    .corner {
+      border-width: 4px;
+    }
+  }
+
+  /* ダークモード最適化 */
+  @media (prefers-color-scheme: dark) {
+    .video-container {
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  /* フォーカス対応 */
+  .external-link:focus {
+    outline: 2px solid var(--text-accessible-blue);
+    outline-offset: 2px;
+  }
+
+  /* 動画読み込み完了時のオーバーレイ非表示 */
+  .video-container iframe:not([src=""]) ~ .video-overlay {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* スキャンライン効果 */
+  .three-video-viewer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      var(--text-accessible-blue) 50%, 
+      transparent 100%);
+    opacity: 0.6;
+    animation: scan-line 4s linear infinite;
+    z-index: 1;
+  }
+
+  @keyframes scan-line {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+</style>
+
+<script>
+  // 動画読み込み状態管理
+  document.addEventListener('DOMContentLoaded', function() {
+    const videoContainers = document.querySelectorAll('.three-video-viewer .video-container');
+    
+    videoContainers.forEach(container => {
+      const iframe = container.querySelector('iframe');
+      const overlay = container.querySelector('.video-overlay');
+      
+      if (iframe && overlay) {
+        // iframe読み込み完了時にオーバーレイを非表示
+        iframe.addEventListener('load', function() {
+          setTimeout(() => {
+            overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
+          }, 1000);
+        });
+        
+        // エラー時の処理
+        iframe.addEventListener('error', function() {
+          const playBtn = overlay.querySelector('.play-btn');
+          const loadingText = overlay.querySelector('.loading-text');
+          
+          if (playBtn) playBtn.textContent = '⚠️';
+          if (loadingText) loadingText.textContent = '読み込みエラー';
+        });
+      }
+    });
+  });
+
+  // 外部リンククリック時のアナリティクス（オプション）
+  document.querySelectorAll('.three-video-viewer .external-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const videoNumber = this.closest('.video-slot').querySelector('.slot-number').textContent;
+      console.log(`Video ${videoNumber} link clicked:`, this.href);
+    });
+  });
+</script>
