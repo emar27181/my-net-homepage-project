@@ -80,6 +80,29 @@ const { title, description = "nodoameのポートフォリオサイト" } = Astr
         font-smooth: never !important;
         font-family: var(--font-pixel-jp) !important;
       }
+
+      /* 動画グリッドのデフォルトスタイル（デスクトップ） */
+      .video-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      /* タブレット表示 */
+      @media screen and (max-width: 768px) {
+        .video-grid {
+          grid-template-columns: 1fr !important;
+          gap: 20px !important;
+        }
+      }
+
+      /* スマホ表示 */
+      @media screen and (max-width: 480px) {
+        .video-grid {
+          grid-template-columns: 1fr !important;
+          gap: 15px !important;
+        }
+      }
     </style>
   </body>
 </html>
