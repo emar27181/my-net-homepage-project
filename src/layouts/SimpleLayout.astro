@@ -27,6 +27,7 @@ const { title, description = "nodoameのポートフォリオサイト" } = Astr
   </head>
   <body
     style="margin: 0; padding: 0; background-color: #1a1a1a; color: white; font-family: 'Press Start 2P', monospace; image-rendering: pixelated;"
+    class="mobile-body"
   >
     <slot />
 
@@ -104,10 +105,55 @@ const { title, description = "nodoameのポートフォリオサイト" } = Astr
         }
         
         .main-container {
-          padding: 5px !important;
-          border-width: 2px !important;
-          margin: 5px !important;
-          border-radius: 8px !important;
+          padding: 0 !important;
+          border-width: 0 !important;
+          margin: 0 !important;
+          border-radius: 0 !important;
+          background: transparent !important;
+          box-shadow: none !important;
+        }
+        
+        .mobile-main {
+          max-width: 100% !important;
+          width: 100vw !important;
+          min-height: 100vh !important;
+        }
+        
+        /* スマホでのタイトルセクション最小化 */
+        @media screen and (max-width: 480px) {
+          .mobile-body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+          }
+          
+          .title-section {
+            margin-bottom: 2px !important;
+            padding: 1px !important;
+          }
+          
+          .title-section h1 {
+            font-size: 10px !important;
+            margin: 0 !important;
+          }
+          
+          .title-section p {
+            font-size: 7px !important;
+            margin: 0 !important;
+          }
+          
+          .video-section {
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+            background: transparent !important;
+          }
+          
+          .video-section h2 {
+            font-size: 8px !important;
+            margin: 0 0 1px 0 !important;
+            padding: 0 !important;
+          }
         }
       }
     </style>
