@@ -1,71 +1,99 @@
 ---
-import SimpleLayout from '../layouts/SimpleLayout.astro';
-import YouTubeClipViewer from '../components/YouTubeClipViewer.astro';
-import '../styles/global.css';
+import SimpleLayout from "../layouts/SimpleLayout.astro";
+import YouTubeClipViewer from "../components/YouTubeClipViewer.astro";
+import { applyTypographyPreset } from "../utils/typography";
+import "../styles/global.css";
 ---
 
 <SimpleLayout title="nodoame's Portfolio">
   <div style="max-width: 800px; margin: 0 auto; padding: 20px;">
     <!-- タイトル -->
     <div style="text-align: center; margin-bottom: 40px;">
-      <h1 style="color: #4d79ff; font-size: 24px; margin-bottom: 10px; text-shadow: 2px 2px 0px #000000;">
+      <h1
+        style="color: #4d79ff; font-size: 24px; margin-bottom: 10px; text-shadow: 2px 2px 0px #000000;"
+      >
         nodoame's Portfolio
       </h1>
-      <p style="color: #ffffff; font-size: 12px; margin: 0;">
-        VALORANT・ゲーム・開発・アートのポートフォリオ
+      <p
+        style="color: #ffffff; font-size: 12px; margin: 0;"
+        ,
+        class={applyTypographyPreset("mainText")}
+      >
+        nodoame27181 のポートフォリオ
       </p>
     </div>
 
     <!-- YouTube動画セクション -->
-    <div style="margin-bottom: 40px;">
-      <YouTubeClipViewer 
-        clipUrl="https://youtu.be/KTwFA1jQgFY"
-        title="VALORANT Gameplay #1"
-        description="ランク戦プレイ - オーメン使用"
-        autoplay={false}
-      />
-    </div>
-    
-    <div style="margin-bottom: 40px;">
-      <YouTubeClipViewer 
-        clipUrl="https://youtu.be/ERb40ovB060"
-        title="VALORANT Gameplay #2"
-        description="チーム連携・スモーク戦術"
-        autoplay={false}
-      />
-    </div>
-    
-    <div style="margin-bottom: 40px;">
-      <YouTubeClipViewer 
-        clipUrl="https://youtu.be/oos2PYWiRGM"
-        title="VALORANT Gameplay #3"
-        description="クラッチシーン・戦術プレイ"
-        autoplay={false}
-      />
+    <div
+      style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px;"
+    >
+      <div>
+        <YouTubeClipViewer
+          clipUrl="https://youtu.be/KTwFA1jQgFY"
+          title="VALORANT Gameplay #1"
+          autoplay={false}
+        />
+      </div>
+
+      <div>
+        <YouTubeClipViewer
+          clipUrl="https://youtu.be/ERb40ovB060"
+          title="VALORANT Gameplay #2"
+          autoplay={false}
+        />
+      </div>
+
+      <div>
+        <YouTubeClipViewer
+          clipUrl="https://youtu.be/oos2PYWiRGM"
+          title="VALORANT Gameplay #3"
+          autoplay={false}
+        />
+      </div>
+
+      <div style="opacity: 0; pointer-events: none;">
+        <!-- 空のスペースを確保するためのプレースホルダー -->
+      </div>
     </div>
 
     <!-- プロフィール情報 -->
-    <div style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;">
-      <h2 style="color: #4d79ff; font-size: 16px; margin-bottom: 20px; text-align: center;">
+    <div
+      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
+    >
+      <h2
+        style="color: #4d79ff; font-size: 14px; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;"
+      >
         ★ Player Info ★
       </h2>
-      
+
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         <div>
-          <h3 style="color: #ffffff; font-size: 12px; margin-bottom: 10px;">基本情報</h3>
-          <p style="color: #cccccc; font-size: 10px; line-height: 1.6;">
-            名前: nodoame<br>
-            メインエージェント: オーメン<br>
-            サブエージェント: アストラ<br>
+          <h3
+            style="color: #ffffff; font-size: 10px; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          >
+            基本情報
+          </h3>
+          <p
+            style="color: #cccccc; font-size: 8px; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          >
+            名前: nodoame<br />
+            メインエージェント: オーメン<br />
+            サブエージェント: アストラ<br />
             プレイスタイル: サポート重視
           </p>
         </div>
-        
+
         <div>
-          <h3 style="color: #ffffff; font-size: 12px; margin-bottom: 10px;">お気に入りマップ</h3>
-          <p style="color: #cccccc; font-size: 10px; line-height: 1.6;">
-            1位: Split<br>
-            2位: Bind<br>
+          <h3
+            style="color: #ffffff; font-size: 10px; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          >
+            お気に入りマップ
+          </h3>
+          <p
+            style="color: #cccccc; font-size: 8px; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          >
+            1位: Split<br />
+            2位: Bind<br />
             3位: Haven
           </p>
         </div>
@@ -73,28 +101,44 @@ import '../styles/global.css';
     </div>
 
     <!-- デバイス情報 -->
-    <div style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;">
-      <h2 style="color: #4d79ff; font-size: 16px; margin-bottom: 20px; text-align: center;">
+    <div
+      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
+    >
+      <h2
+        style="color: #4d79ff; font-size: 14px; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;"
+      >
         ◎ Setup & Settings ◎
       </h2>
-      
+
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         <div>
-          <h3 style="color: #ffffff; font-size: 12px; margin-bottom: 10px;">デバイス</h3>
-          <p style="color: #cccccc; font-size: 10px; line-height: 1.6;">
-            マウス: Logicool G Pro X<br>
-            キーボード: HyperX Alloy<br>
-            ヘッドセット: SteelSeries Arctis 7<br>
+          <h3
+            style="color: #ffffff; font-size: 10px; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          >
+            デバイス
+          </h3>
+          <p
+            style="color: #cccccc; font-size: 8px; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          >
+            マウス: Logicool G Pro X<br />
+            キーボード: HyperX Alloy<br />
+            ヘッドセット: SteelSeries Arctis 7<br />
             モニター: 144Hz 24インチ
           </p>
         </div>
-        
+
         <div>
-          <h3 style="color: #ffffff; font-size: 12px; margin-bottom: 10px;">ゲーム設定</h3>
-          <p style="color: #cccccc; font-size: 10px; line-height: 1.6;">
-            感度: 0.35 (800 DPI)<br>
-            クロスヘア: 青色・アウトライン有<br>
-            解像度: 1920×1080<br>
+          <h3
+            style="color: #ffffff; font-size: 10px; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          >
+            ゲーム設定
+          </h3>
+          <p
+            style="color: #cccccc; font-size: 8px; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          >
+            感度: 0.35 (800 DPI)<br />
+            クロスヘア: 青色・アウトライン有<br />
+            解像度: 1920×1080<br />
             FPS制限: 144fps固定
           </p>
         </div>
@@ -102,50 +146,95 @@ import '../styles/global.css';
     </div>
 
     <!-- プレイスタイル -->
-    <div style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;">
-      <h2 style="color: #4d79ff; font-size: 16px; margin-bottom: 20px; text-align: center;">
+    <div
+      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
+    >
+      <h2
+        style="color: #4d79ff; font-size: 14px; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;"
+      >
         ◈ Play Style ◈
       </h2>
-      
+
       <div style="text-align: center;">
-        <p style="color: #cccccc; font-size: 10px; line-height: 1.8;">
-          <strong style="color: #ffffff;">守備時:</strong> スモーク展開・ローテ・情報収集・ワンウェイ<br>
-          <strong style="color: #ffffff;">攻撃時:</strong> エントリサポート・挟み撃ち・テレポリテイク・連携重視<br>
-          <strong style="color: #ffffff;">プレイ意識:</strong> チーム勝利優先・サポート重視・コミュニケーション積極的
+        <p
+          style="color: #cccccc; font-size: 8px; line-height: 2.0; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+        >
+          <strong
+            style="color: #ffffff; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;"
+            >守備時:</strong
+          > スモーク展開・ローテ・情報収集・ワンウェイ<br />
+          <strong
+            style="color: #ffffff; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;"
+            >攻撃時:</strong
+          > エントリサポート・挟み撃ち・テレポリテイク・連携重視<br />
+          <strong
+            style="color: #ffffff; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;"
+            >プレイ意識:</strong
+          > チーム勝利優先・サポート重視・コミュニケーション積極的
         </p>
       </div>
     </div>
 
     <!-- 目標 -->
-    <div style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;">
-      <h2 style="color: #4d79ff; font-size: 16px; margin-bottom: 20px; text-align: center;">
+    <div
+      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
+    >
+      <h2
+        style="color: #4d79ff; font-size: 14px; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;"
+      >
         ★ Goals ★
       </h2>
-      
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-        <div style="text-align: center; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 4px;">
-          <h3 style="color: #ffffff; font-size: 10px; margin-bottom: 8px;">短期 (1M)</h3>
-          <p style="color: #cccccc; font-size: 8px; line-height: 1.4;">
-            Platinum復帰<br>
-            スモーク精度UP<br>
+
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;"
+      >
+        <div
+          style="text-align: center; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 4px;"
+        >
+          <h3
+            style="color: #ffffff; font-size: 8px; margin-bottom: 8px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          >
+            短期 (1M)
+          </h3>
+          <p
+            style="color: #cccccc; font-size: 6px; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          >
+            Platinum復帰<br />
+            スモーク精度UP<br />
             コミュ強化
           </p>
         </div>
-        
-        <div style="text-align: center; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 4px;">
-          <h3 style="color: #ffffff; font-size: 10px; margin-bottom: 8px;">中期 (3M)</h3>
-          <p style="color: #cccccc; font-size: 8px; line-height: 1.4;">
-            Diamond到達<br>
-            複数エージェント<br>
+
+        <div
+          style="text-align: center; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 4px;"
+        >
+          <h3
+            style="color: #ffffff; font-size: 8px; margin-bottom: 8px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          >
+            中期 (3M)
+          </h3>
+          <p
+            style="color: #cccccc; font-size: 6px; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          >
+            Diamond到達<br />
+            複数エージェント<br />
             戦術理解向上
           </p>
         </div>
-        
-        <div style="text-align: center; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 4px;">
-          <h3 style="color: #ffffff; font-size: 10px; margin-bottom: 8px;">長期 (1Y)</h3>
-          <p style="color: #cccccc; font-size: 8px; line-height: 1.4;">
-            Immortal挑戦<br>
-            大会参加<br>
+
+        <div
+          style="text-align: center; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 4px;"
+        >
+          <h3
+            style="color: #ffffff; font-size: 8px; margin-bottom: 8px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          >
+            長期 (1Y)
+          </h3>
+          <p
+            style="color: #cccccc; font-size: 6px; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          >
+            Immortal挑戦<br />
+            大会参加<br />
             配信活動開始？
           </p>
         </div>
@@ -153,10 +242,14 @@ import '../styles/global.css';
     </div>
 
     <!-- フッター -->
-    <div style="text-align: center; padding: 20px 0; border-top: 1px solid #333333;">
-      <p style="color: #666666; font-size: 8px; margin: 0;">
+    <div
+      style="text-align: center; padding: 20px 0; border-top: 1px solid #333333;"
+    >
+      <p
+        style="color: #666666; font-size: 6px; margin: 0; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+      >
         © 2024 nodoame's Portfolio - Made with passion for gaming
       </p>
     </div>
-  </div>
-</SimpleLayout>
+  </div></SimpleLayout
+>

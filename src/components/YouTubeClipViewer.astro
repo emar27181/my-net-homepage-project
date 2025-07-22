@@ -51,6 +51,7 @@ function getEmbedUrl(url: string, auto: boolean = false): string {
   params.set('fs', '1');
   params.set('cc_load_policy', '0');
   params.set('enablejsapi', '1');
+  params.set('loop', '0'); // 繰り返し再生を無効化
   
   return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
 }
@@ -104,13 +105,14 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
   }
 
   .clip-title {
-    font-family: var(--font-pixel-jp), 'Press Start 2P', monospace;
-    font-size: 12px;
-    color: var(--retro-secondary);
+    font-family: 'Press Start 2P', monospace !important;
+    font-size: 10px;
+    color: #4d79ff;
     text-align: center;
     margin-bottom: 0.75rem;
-    text-shadow: 1px 1px 0px #000000, 0 0 5px var(--retro-secondary);
+    text-shadow: 1px 1px 0px #000000;
     letter-spacing: 1px;
+    image-rendering: pixelated;
   }
 
   .video-container {

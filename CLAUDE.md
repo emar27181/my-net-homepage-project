@@ -184,10 +184,23 @@
   → YouTube外部リンクボタンを必ず配置（「📺 YouTubeで見る」）
 
 #### ピクセルフォント統一管理システム
-- **pixelFontClasses.ts による一元管理**  
-  → すべてのテキスト要素はpixelTextStylesクラスを使用必須
-  → インラインfont-family指定は完全禁止
-  → commonTextsで定型メッセージを統一管理
+- **Google Fonts読み込み必須**  
+  → `DotGothic16`: 日本語ピクセルフォント（最優先）
+  → `BIZ UDPGothic`: 日本語フォールバック（400, 700ウェイト）
+  → `Press Start 2P`: 英数字ピクセルフォント
+  → `VT323`: モノスペースフォント
+
+- **CSS変数による統一管理**  
+  → `--font-pixel`: 'Press Start 2P', cursive
+  → `--font-mono`: 'VT323', monospace  
+  → `--font-pixel-jp`: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace
+  → `--font-main-jp`: 'DotGothic16', 'BIZ UDPGothic', sans-serif
+
+- **フォント適用ルール**  
+  → 日本語テキスト: `var(--font-pixel-jp)`を使用（DotGothic16優先）
+  → 英数字メイン: `var(--font-pixel)`を使用（Press Start 2P）
+  → 全テキストに `text-shadow: 1px 1px 0px #000000` で輪郭強化
+  → `image-rendering: pixelated` でピクセル感維持
 
 - **フォント階層とクラス体系**  
   → `pixelTextStyles.sectionTitle`: セクションタイトル（h2レベル）
@@ -207,6 +220,7 @@
   → ページ内すべてのテキスト要素（見出し・本文・ラベル・値）
   → テーブル内データも含む完全統一
   → `getPixelEmoji()`と組み合わせた8-bit風デザイン維持
+  → SimpleLayoutで全体に強制適用（`* { font-family: var(--font-pixel-jp) !important; }`）
 
 ---
 

@@ -15,10 +15,71 @@ const { title, description = "nodoameのポートフォリオサイト" } = Astr
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
-    <meta name="keywords" content="nodoame,ポートフォリオ,VALORANT,ゲーム,動画" />
+    <meta
+      name="keywords"
+      content="nodoame,ポートフォリオ,VALORANT,ゲーム,動画"
+    />
     <meta name="author" content="nodoame" />
+    <meta
+      name="google-site-verification"
+      content="uyjBT9z6vOnpxn6lM6YnxbI6R4jLSDIAboC8zo1slhM"
+    />
   </head>
-  <body style="margin: 0; padding: 0; background-color: #1a1a1a; color: white; font-family: 'Press Start 2P', monospace;">
+  <body
+    style="margin: 0; padding: 0; background-color: #1a1a1a; color: white; font-family: 'Press Start 2P', monospace; image-rendering: pixelated;"
+  >
     <slot />
+
+    <!-- ドットフォントのGoogle Fonts読み込み -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DotGothic16&family=BIZ+UDPGothic:wght@400;700&family=VT323&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* CSS変数定義 */
+      :root {
+        --font-pixel: "Press Start 2P", cursive;
+        --font-mono: "VT323", monospace;
+        --font-pixel-jp: "DotGothic16", "BIZ UDPGothic", "Press Start 2P",
+          monospace;
+        --font-main-jp: "DotGothic16", "BIZ UDPGothic", sans-serif;
+      }
+
+      /* 全体的なドットフォント適用 */
+      * {
+        font-family: var(--font-pixel-jp) !important;
+        image-rendering: pixelated !important;
+        text-rendering: optimizeSpeed !important;
+      }
+
+      /* 英数字はPress Start 2P、日本語はDotGothic16 */
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: var(--font-pixel-jp) !important;
+        text-shadow: 1px 1px 0px #000000 !important;
+      }
+
+      p,
+      span,
+      div {
+        font-family: var(--font-pixel-jp) !important;
+        text-shadow: 1px 1px 0px #000000 !important;
+      }
+
+      /* ピクセル感を強調 */
+      body {
+        -webkit-font-smoothing: none !important;
+        -moz-osx-font-smoothing: unset !important;
+        font-smooth: never !important;
+        font-family: var(--font-pixel-jp) !important;
+      }
+    </style>
   </body>
 </html>
