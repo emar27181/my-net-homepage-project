@@ -238,7 +238,7 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
   /* レスポンシブ対応 */
   @media (max-width: 768px) {
     .youtube-clip-viewer {
-      padding: 0.75rem;
+      padding: 0.5rem;
     }
     
     .clip-title {
@@ -256,13 +256,30 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
   }
 
   @media (max-width: 480px) {
+    .youtube-clip-viewer {
+      padding: 0;
+      margin: 0.25rem 0;
+    }
+    
     .clip-title {
       font-size: 11px;
+      margin-bottom: 0.25rem;
+      padding: 0 0.25rem;
     }
     
     .external-link {
       font-size: 8px;
       padding: 0.3rem 0.6rem;
+    }
+    
+    .clip-description {
+      padding: 0.25rem;
+      margin-top: 0.25rem;
+    }
+    
+    .video-container {
+      border-width: 1px;
+      border-radius: 2px;
     }
   }
 
