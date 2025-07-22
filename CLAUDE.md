@@ -222,6 +222,44 @@
   → `getPixelEmoji()`と組み合わせた8-bit風デザイン維持
   → SimpleLayoutで全体に強制適用（`* { font-family: var(--font-pixel-jp) !important; }`）
 
+#### フォントサイズ管理システム
+- **FONT_SIZES定数による一元管理**  
+  → ファイル先頭に固定値オブジェクトを定義
+  → 全てのフォントサイズをテンプレートリテラルで呼び出し
+  → ハードコード値の完全排除で保守性向上
+
+- **標準フォントサイズ階層**  
+  → `title: '24px'`: メインタイトル
+  → `subtitle: '16px'`: サブタイトル・説明文
+  → `sectionTitle: '18px'`: セクション見出し（h2レベル）
+  → `subTitle: '14px'`: 小見出し（h3レベル）
+  → `bodyText: '12px'`: 本文テキスト・データ値
+  → `smallText: '10px'`: 補足情報・目標詳細
+  → `footer: '10px'`: フッター・コピーライト
+
+- **テンプレートリテラル統一記法**  
+  → `style={\`font-size: ${FONT_SIZES.bodyText};\`}` 形式で統一
+  → インラインstyle属性の動的値参照
+  → サイズ変更時は1箇所の修正で全体に反映
+
+#### シンプルレイアウト背景システム
+- **レトロゲーム風メインコンテナ**  
+  → SimpleLayoutベースのシンプル構成
+  → ナビゲーション・ヘッダーなしの純粋コンテンツ表示
+  → `max-width: 800px` の中央寄せレイアウト
+
+- **背景・ボーダー統一デザイン**  
+  → `background: var(--color-bg-secondary)`: old-home準拠の背景色
+  → `border: 4px solid var(--retro-primary)`: レトロゲーム風ボーダー
+  → `box-shadow: inset 2px 2px 0px rgba(255,255,255,0.3), inset -2px -2px 0px rgba(0,0,0,0.5)`: 8-bit立体感
+  → `0 0 20px rgba(77,121,255,0.3)`: 外側ネオングロー効果
+
+- **統一コンテナスタイル**  
+  → 各セクション: `background: rgba(77,121,255,0.1); border: 2px solid #4d79ff`
+  → `border-radius: 8px`: 適度な角丸
+  → `padding: 20px; margin-bottom: 40px`: 統一余白
+  → レトロ感を保持しつつモダンな可読性確保
+
 ---
 
 ## 📋 サイト情報整理
