@@ -3,6 +3,17 @@ import SimpleLayout from "../layouts/SimpleLayout.astro";
 import YouTubeClipViewer from "../components/YouTubeClipViewer.astro";
 import { applyTypographyPreset } from "../utils/typography";
 import "../styles/global.css";
+
+// フォントサイズ設定
+const FONT_SIZES = {
+  title: '24px',        // メインタイトル
+  subtitle: '16px',     // サブタイトル
+  sectionTitle: '18px', // セクション見出し
+  subTitle: '14px',     // 小見出し
+  bodyText: '12px',     // 本文テキスト
+  smallText: '10px',    // 小さいテキスト
+  footer: '10px'        // フッター
+};
 ---
 
 <SimpleLayout title="nodoame's Portfolio">
@@ -10,13 +21,12 @@ import "../styles/global.css";
     <!-- タイトル -->
     <div style="text-align: center; margin-bottom: 40px;">
       <h1
-        style="color: #4d79ff; font-size: 24px; margin-bottom: 10px; text-shadow: 2px 2px 0px #000000;"
+        style={`color: #4d79ff; font-size: ${FONT_SIZES.title}; margin-bottom: 10px; text-shadow: 2px 2px 0px #000000;`}
       >
         nodoame's Portfolio
       </h1>
       <p
-        style="color: #ffffff; font-size: 12px; margin: 0;"
-        ,
+        style={`color: #ffffff; font-size: ${FONT_SIZES.subtitle}; margin: 0;`}
         class={applyTypographyPreset("mainText")}
       >
         nodoame27181 のポートフォリオ
@@ -61,7 +71,7 @@ import "../styles/global.css";
       style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
     >
       <h2
-        style="color: #4d79ff; font-size: 14px; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;"
+        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
       >
         ★ Player Info ★
       </h2>
@@ -69,12 +79,12 @@ import "../styles/global.css";
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         <div>
           <h3
-            style="color: #ffffff; font-size: 10px; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+            style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             基本情報
           </h3>
           <p
-            style="color: #cccccc; font-size: 8px; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+            style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             名前: nodoame<br />
             メインエージェント: オーメン<br />
@@ -85,12 +95,12 @@ import "../styles/global.css";
 
         <div>
           <h3
-            style="color: #ffffff; font-size: 10px; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+            style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             お気に入りマップ
           </h3>
           <p
-            style="color: #cccccc; font-size: 8px; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+            style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             1位: Split<br />
             2位: Bind<br />
@@ -105,7 +115,7 @@ import "../styles/global.css";
       style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
     >
       <h2
-        style="color: #4d79ff; font-size: 14px; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;"
+        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
       >
         ◎ Setup & Settings ◎
       </h2>
@@ -113,12 +123,12 @@ import "../styles/global.css";
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         <div>
           <h3
-            style="color: #ffffff; font-size: 10px; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+            style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             デバイス
           </h3>
           <p
-            style="color: #cccccc; font-size: 8px; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+            style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             マウス: Logicool G Pro X<br />
             キーボード: HyperX Alloy<br />
@@ -129,12 +139,12 @@ import "../styles/global.css";
 
         <div>
           <h3
-            style="color: #ffffff; font-size: 10px; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+            style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             ゲーム設定
           </h3>
           <p
-            style="color: #cccccc; font-size: 8px; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+            style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             感度: 0.35 (800 DPI)<br />
             クロスヘア: 青色・アウトライン有<br />
@@ -150,14 +160,14 @@ import "../styles/global.css";
       style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
     >
       <h2
-        style="color: #4d79ff; font-size: 14px; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;"
+        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
       >
         ◈ Play Style ◈
       </h2>
 
       <div style="text-align: center;">
         <p
-          style="color: #cccccc; font-size: 8px; line-height: 2.0; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+          style="color: #cccccc; font-size: 12px; line-height: 2.0; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
         >
           <strong
             style="color: #ffffff; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;"
@@ -180,7 +190,7 @@ import "../styles/global.css";
       style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
     >
       <h2
-        style="color: #4d79ff; font-size: 14px; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;"
+        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
       >
         ★ Goals ★
       </h2>
@@ -192,12 +202,12 @@ import "../styles/global.css";
           style="text-align: center; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 4px;"
         >
           <h3
-            style="color: #ffffff; font-size: 8px; margin-bottom: 8px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+            style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 8px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             短期 (1M)
           </h3>
           <p
-            style="color: #cccccc; font-size: 6px; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+            style={`color: #cccccc; font-size: ${FONT_SIZES.smallText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             Platinum復帰<br />
             スモーク精度UP<br />
@@ -209,12 +219,12 @@ import "../styles/global.css";
           style="text-align: center; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 4px;"
         >
           <h3
-            style="color: #ffffff; font-size: 8px; margin-bottom: 8px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+            style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 8px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             中期 (3M)
           </h3>
           <p
-            style="color: #cccccc; font-size: 6px; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+            style={`color: #cccccc; font-size: ${FONT_SIZES.smallText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             Diamond到達<br />
             複数エージェント<br />
@@ -226,12 +236,12 @@ import "../styles/global.css";
           style="text-align: center; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 4px;"
         >
           <h3
-            style="color: #ffffff; font-size: 8px; margin-bottom: 8px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+            style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 8px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             長期 (1Y)
           </h3>
           <p
-            style="color: #cccccc; font-size: 6px; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+            style={`color: #cccccc; font-size: ${FONT_SIZES.smallText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             Immortal挑戦<br />
             大会参加<br />
@@ -246,7 +256,7 @@ import "../styles/global.css";
       style="text-align: center; padding: 20px 0; border-top: 1px solid #333333;"
     >
       <p
-        style="color: #666666; font-size: 6px; margin: 0; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
+        style={`color: #666666; font-size: ${FONT_SIZES.footer}; margin: 0; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
       >
         © 2024 nodoame's Portfolio - Made with passion for gaming
       </p>
