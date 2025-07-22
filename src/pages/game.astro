@@ -22,27 +22,33 @@ import { pixelTextStyles, commonTexts, pixelFontCSS } from '../utils/pixelFontCl
   </div>
 
   <!-- YouTube動画セクション -->
-  <div class="grid grid-cols-1 gap-6 mb-6">
-    <YouTubeClipViewer 
-      clipUrl="https://youtu.be/KTwFA1jQgFY"
-      title="VALORANT Gameplay #1"
-      description="ランク戦プレイ - オーメン使用"
-      autoplay={false}
-    />
+  <div class="video-grid" style="margin-bottom: 1.5rem;">
+    <div>
+      <YouTubeClipViewer 
+        clipUrl="https://youtu.be/KTwFA1jQgFY"
+        title="VALORANT Gameplay #1"
+        description="ランク戦プレイ - オーメン使用"
+        autoplay={false}
+      />
+    </div>
     
-    <YouTubeClipViewer 
-      clipUrl="https://youtu.be/ERb40ovB060"
-      title="VALORANT Gameplay #2"
-      description="チーム連携・スモーク戦術"
-      autoplay={false}
-    />
+    <div>
+      <YouTubeClipViewer 
+        clipUrl="https://youtu.be/ERb40ovB060"
+        title="VALORANT Gameplay #2"
+        description="チーム連携・スモーク戦術"
+        autoplay={false}
+      />
+    </div>
     
-    <YouTubeClipViewer 
-      clipUrl="https://youtu.be/oos2PYWiRGM"
-      title="VALORANT Gameplay #3"
-      description="クラッチシーン・戦術プレイ"
-      autoplay={false}
-    />
+    <div>
+      <YouTubeClipViewer 
+        clipUrl="https://youtu.be/oos2PYWiRGM"
+        title="VALORANT Gameplay #3"
+        description="クラッチシーン・戦術プレイ"
+        autoplay={false}
+      />
+    </div>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -381,6 +387,30 @@ import { pixelTextStyles, commonTexts, pixelFontCSS } from '../utils/pixelFontCl
     @keyframes gamepad-bounce {
       0%, 100% { transform: translateY(0px) rotate(-5deg); }
       50% { transform: translateY(-10px) rotate(5deg); }
+    }
+    
+    /* 動画グリッドのレスポンシブ対応 */
+    .video-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 20px !important;
+      width: 100% !important;
+    }
+
+    /* タブレット表示 */
+    @media screen and (max-width: 768px) {
+      .video-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+      }
+    }
+
+    /* スマホ表示 */
+    @media screen and (max-width: 480px) {
+      .video-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+      }
     }
   </style>
 </Layout>
