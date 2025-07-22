@@ -262,7 +262,7 @@
 - **レトロゲーム風メインコンテナ**  
   → SimpleLayoutベースのシンプル構成
   → ナビゲーション・ヘッダーなしの純粋コンテンツ表示
-  → `max-width: 800px` の中央寄せレイアウト
+  → `max-width: 1000px` の中央寄せレイアウト
 
 - **背景・ボーダー統一デザイン**  
   → `background: var(--color-bg-secondary)`: old-home準拠の背景色
