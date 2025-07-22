@@ -6,18 +6,21 @@ import "../styles/global.css";
 
 // フォントサイズ設定
 const FONT_SIZES = {
-  title: '24px',        // メインタイトル
-  subtitle: '16px',     // サブタイトル
-  sectionTitle: '18px', // セクション見出し
-  subTitle: '14px',     // 小見出し
-  bodyText: '12px',     // 本文テキスト
-  smallText: '10px',    // 小さいテキスト
-  footer: '10px'        // フッター
+  title: "24px", // メインタイトル
+  subtitle: "16px", // サブタイトル
+  sectionTitle: "18px", // セクション見出し
+  subTitle: "14px", // 小見出し
+  bodyText: "12px", // 本文テキスト
+  smallText: "10px", // 小さいテキスト
+  footer: "10px", // フッター
 };
 ---
 
 <SimpleLayout title="nodoame's Portfolio">
-  <div style="max-width: 1000px; margin: 0 auto; padding: 20px; background: var(--color-bg-secondary); border: 4px solid var(--retro-primary); border-radius: 12px; box-shadow: inset 2px 2px 0px rgba(255,255,255,0.3), inset -2px -2px 0px rgba(0,0,0,0.5), 0 0 20px rgba(77,121,255,0.3); min-height: 100vh;" class="main-container mobile-main">
+  <div
+    style="max-width: 1000px; margin: 0 auto; padding: 20px; background: var(--color-bg-secondary); border: 4px solid var(--retro-primary); border-radius: 12px; box-shadow: inset 2px 2px 0px rgba(255,255,255,0.3), inset -2px -2px 0px rgba(0,0,0,0.5), 0 0 20px rgba(77,121,255,0.3); min-height: 100vh;"
+    class="main-container mobile-main"
+  >
     <!-- タイトル -->
     <div style="text-align: center; margin-bottom: 40px;" class="title-section">
       <h1
@@ -44,29 +47,29 @@ const FONT_SIZES = {
         ★ VALORANT Gameplay ★
       </h2>
       <div class="video-grid">
-      <div>
-        <YouTubeClipViewer
-          clipUrl="https://youtu.be/KTwFA1jQgFY"
-          title="VALORANT Gameplay #1"
-          autoplay={false}
-        />
-      </div>
+        <div>
+          <YouTubeClipViewer
+            clipUrl="https://youtu.be/KTwFA1jQgFY"
+            title="VALORANT Gameplay #1"
+            autoplay={false}
+          />
+        </div>
 
-      <div>
-        <YouTubeClipViewer
-          clipUrl="https://youtu.be/ERb40ovB060"
-          title="VALORANT Gameplay #2"
-          autoplay={false}
-        />
-      </div>
+        <div>
+          <YouTubeClipViewer
+            clipUrl="https://youtu.be/ERb40ovB060"
+            title="VALORANT Gameplay #2"
+            autoplay={false}
+          />
+        </div>
 
-      <div>
-        <YouTubeClipViewer
-          clipUrl="https://youtu.be/oos2PYWiRGM"
-          title="VALORANT Gameplay #3"
-          autoplay={false}
-        />
-      </div>
+        <div>
+          <YouTubeClipViewer
+            clipUrl="https://youtu.be/oos2PYWiRGM"
+            title="VALORANT Gameplay #3"
+            autoplay={false}
+          />
+        </div>
 
         <div style="opacity: 0; pointer-events: none;">
           <!-- 空のスペースを確保するためのプレースホルダー -->
@@ -138,9 +141,9 @@ const FONT_SIZES = {
           <p
             style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
-            マウス: Logicool G Pro X<br />
-            キーボード: HyperX Alloy<br />
-            ヘッドセット: SteelSeries Arctis 7<br />
+            マウス: Logicool G Pro Wireless<br />
+            キーボード: - <br />
+            ヘッドセット: - <br />
             モニター: 144Hz 24インチ
           </p>
         </div>
@@ -154,106 +157,10 @@ const FONT_SIZES = {
           <p
             style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
-            感度: 0.35 (800 DPI)<br />
+            感度: 0.20 (800 DPI)<br />
             クロスヘア: 青色・アウトライン有<br />
             解像度: 1920×1080<br />
-            FPS制限: 144fps固定
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- プレイスタイル -->
-    <div
-      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
-    >
-      <h2
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
-      >
-        ◈ Play Style ◈
-      </h2>
-
-      <div style="text-align: center;">
-        <p
-          style="color: #cccccc; font-size: 12px; line-height: 2.0; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;"
-        >
-          <strong
-            style="color: #ffffff; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;"
-            >守備時:</strong
-          > スモーク展開・ローテ・情報収集・ワンウェイ<br />
-          <strong
-            style="color: #ffffff; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;"
-            >攻撃時:</strong
-          > エントリサポート・挟み撃ち・テレポリテイク・連携重視<br />
-          <strong
-            style="color: #ffffff; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;"
-            >プレイ意識:</strong
-          > チーム勝利優先・サポート重視・コミュニケーション積極的
-        </p>
-      </div>
-    </div>
-
-    <!-- 目標 -->
-    <div
-      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
-    >
-      <h2
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
-      >
-        ★ Goals ★
-      </h2>
-
-      <div
-        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;"
-      >
-        <div
-          style="text-align: center; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 4px;"
-        >
-          <h3
-            style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 8px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
-          >
-            短期 (1M)
-          </h3>
-          <p
-            style={`color: #cccccc; font-size: ${FONT_SIZES.smallText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
-          >
-            Platinum復帰<br />
-            スモーク精度UP<br />
-            コミュ強化
-          </p>
-        </div>
-
-        <div
-          style="text-align: center; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 4px;"
-        >
-          <h3
-            style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 8px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
-          >
-            中期 (3M)
-          </h3>
-          <p
-            style={`color: #cccccc; font-size: ${FONT_SIZES.smallText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
-          >
-            Diamond到達<br />
-            複数エージェント<br />
-            戦術理解向上
-          </p>
-        </div>
-
-        <div
-          style="text-align: center; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 4px;"
-        >
-          <h3
-            style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 8px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
-          >
-            長期 (1Y)
-          </h3>
-          <p
-            style={`color: #cccccc; font-size: ${FONT_SIZES.smallText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
-          >
-            Immortal挑戦<br />
-            大会参加<br />
-            配信活動開始？
+            FPS: 144fps
           </p>
         </div>
       </div>
