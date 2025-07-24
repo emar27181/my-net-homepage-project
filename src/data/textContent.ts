@@ -13,6 +13,7 @@ export interface NavigationTexts {
   home: string;
   about: string;
   gallery: string;
+  works: string;
   game: string;
   dev: string;
   blog: string;
@@ -74,6 +75,7 @@ export interface PageTitles {
   home: string;
   about: string;
   gallery: string;
+  works: string;
   game: string;
   dev: string;
   blog: string;
@@ -101,7 +103,8 @@ export const jaTexts: TextContent = {
   navigation: {
     home: "◆ WORLD MAP ◆",
     about: "◆ STATUS ◆",
-    gallery: "◆ GALLERY ◆", 
+    gallery: "◆ GALLERY ◆",
+    works: "◆ WORKS ◆", 
     game: "◆ BATTLE ◆",
     dev: "◆ SKILLS ◆",
     blog: "◆ DIARY ◆",
@@ -163,6 +166,7 @@ export const jaTexts: TextContent = {
     home: "HOME",
     about: "ABOUT", 
     gallery: "GALLERY",
+    works: "WORKS",
     game: "GAME",
     dev: "DEV",
     blog: "BLOG",
@@ -184,6 +188,7 @@ export const enTexts: TextContent = {
     home: "HOME",
     about: "ABOUT", 
     gallery: "GALLERY",
+    works: "WORKS",
     game: "GAME",
     dev: "DEV",
     blog: "BLOG",
@@ -245,6 +250,7 @@ export const enTexts: TextContent = {
     home: "HOME",
     about: "ABOUT",
     gallery: "GALLERY",
+    works: "WORKS",
     game: "GAME",
     dev: "DEV",
     blog: "BLOG",

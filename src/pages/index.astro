@@ -36,6 +36,32 @@ const FONT_SIZES = {
       </p>
     </div>
 
+    <!-- About Me -->
+    <div
+      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
+    >
+      <h2
+        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
+      >
+        ◆ About Me ◆
+      </h2>
+
+      <div style="text-align: center; margin-bottom: 15px;">
+        <p
+          style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+        >
+          こんにちは！nodoameです。<br />
+          VALORANTをメインにプレイしているゲーマーです。<br />
+          コントローラーエージェント（オーメン・クローブ・アストラ）を使って<br />
+          チームをサポートするプレイスタイルが得意です。<br />
+          <br />
+          ゲーム以外にもWeb制作やプログラミングに興味があり、<br />
+          このポートフォリオサイトも自分で制作しました！<br />
+          最近はVALORANTの戦略研究やマップ分析にも力を入れています。
+        </p>
+      </div>
+    </div>
+
     <!-- プロフィール情報 -->
     <div
       style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
@@ -82,6 +108,55 @@ const FONT_SIZES = {
               rel="noopener"
               style="color: #4d79ff;">@nodoame27181</a
             ><br />
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Works -->
+    <div
+      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
+    >
+      <h2
+        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
+      >
+        ◆ My Works ◆
+      </h2>
+
+      <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+        <!-- VALORANT Point Viewer -->
+        <div style="background: rgba(77,121,255,0.05); border: 1px solid #4d79ff; padding: 15px; border-radius: 6px;">
+          <h3
+            style={`color: #4d79ff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+          >
+            🎯 VALORANT Point Viewer
+          </h3>
+          <p
+            style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.6; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; margin-bottom: 10px;`}
+          >
+            VALORANTの各マップの定点動画をマップ上で確認できるWebサイトです。<br />
+            プレイヤーがマップを理解し、戦略を練るためのツールとして制作しました。
+          </p>
+          <div style="text-align: center;">
+            <a 
+              href="https://valorant-point-viewer.netlify.app/" 
+              target="_blank"
+              rel="noopener"
+              style={`display: inline-block; padding: 6px 12px; background: #4d79ff; color: #ffffff; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
+              onmouseover="this.style.background='transparent'; this.style.color='#4d79ff'; this.style.border='1px solid #4d79ff';"
+              onmouseout="this.style.background='#4d79ff'; this.style.color='#ffffff'; this.style.border='none';"
+            >
+              サイトを見る →
+            </a>
+          </div>
+        </div>
+
+        <!-- 今後の作品用プレースホルダー -->
+        <div style="background: rgba(128,128,128,0.05); border: 1px dashed #666666; padding: 15px; border-radius: 6px; text-align: center;">
+          <p
+            style={`color: #888888; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+          >
+            🚧 次のプロジェクト準備中... 🚧
           </p>
         </div>
       </div>
