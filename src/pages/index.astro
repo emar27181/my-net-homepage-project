@@ -36,47 +36,6 @@ const FONT_SIZES = {
       </p>
     </div>
 
-    <!-- YouTube動画セクション -->
-    <div
-      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
-      class="video-section"
-    >
-      <h2
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
-      >
-        ★ VALORANT Gameplay ★
-      </h2>
-      <div class="video-grid">
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://youtu.be/KTwFA1jQgFY"
-            title="VALORANT Gameplay #1"
-            autoplay={false}
-          />
-        </div>
-
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://youtu.be/ERb40ovB060"
-            title="VALORANT Gameplay #2"
-            autoplay={false}
-          />
-        </div>
-
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://youtu.be/oos2PYWiRGM"
-            title="VALORANT Gameplay #3"
-            autoplay={false}
-          />
-        </div>
-
-        <div style="opacity: 0; pointer-events: none;">
-          <!-- 空のスペースを確保するためのプレースホルダー -->
-        </div>
-      </div>
-    </div>
-
     <!-- プロフィール情報 -->
     <div
       style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
@@ -98,9 +57,7 @@ const FONT_SIZES = {
             style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
             名前: nodoame<br />
-            メインエージェント: オーメン<br />
-            サブエージェント: アストラ<br />
-            プレイスタイル: サポート重視
+            メインロール: コントローラー(オーメン/クローブ/アストラ) <br />
           </p>
         </div>
 
@@ -108,15 +65,65 @@ const FONT_SIZES = {
           <h3
             style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
-            お気に入りマップ
+            外部リンク
           </h3>
           <p
             style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
           >
-            1位: Split<br />
-            2位: Bind<br />
-            3位: Haven
+            Twitter: <a
+              href="https://twitter.com/nodoame27181"
+              target="_blank"
+              rel="noopener"
+              style="color: #4d79ff;">@nodoame27181</a
+            ><br />
+            Youtube: <a
+              href="https://www.youtube.com/@nodoame27181"
+              target="_blank"
+              rel="noopener"
+              style="color: #4d79ff;">@nodoame27181</a
+            ><br />
           </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- YouTube動画セクション -->
+    <div
+      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
+      class="video-section"
+    >
+      <h2
+        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
+      >
+        ★ VALORANT Gameplay ★
+      </h2>
+      <div class="video-grid">
+        <div>
+          <YouTubeClipViewer
+            clipUrl="https://youtu.be/ERb40ovB060"
+            title="VALORANT Clip #1"
+            autoplay={false}
+          />
+        </div>
+
+        <div>
+          <YouTubeClipViewer
+            clipUrl="https://youtu.be/KTwFA1jQgFY"
+            title="VALORANT Clip #2"
+            autoplay={false}
+          />
+        </div>
+
+        <div>
+          <YouTubeClipViewer
+            clipUrl="https://youtu.be/oos2PYWiRGM"
+            title="VALORANT Clip #3"
+            autoplay={false}
+          />
+        </div>
+
+        <div style="opacity: 0; pointer-events: none;">
+          <!-- 空のスペースを確保するためのプレースホルダー -->
         </div>
       </div>
     </div>
