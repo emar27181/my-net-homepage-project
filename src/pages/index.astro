@@ -41,10 +41,15 @@ const FONT_SIZES = {
       style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
     >
       <h2
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
+        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
       >
         ◆ About Me ◆
       </h2>
+
+      <!-- 横線 -->
+      <hr
+        style="border: none; height: 1px; background-color: #4d79ff; margin: 0 auto 20px auto; width: 100%;"
+      />
 
       <div style="text-align: center; margin-bottom: 15px;">
         <p
@@ -52,7 +57,8 @@ const FONT_SIZES = {
         >
           こんにちは！nodoameです。<br />
           VALORANTをメインにプレイしているゲーマーです。<br />
-          コントローラーエージェント（オーメン・クローブ・アストラ）を使って<br />
+          コントローラーエージェント（オーメン・クローブ・アストラ）を使って<br
+          />
           チームをサポートするプレイスタイルが得意です。<br />
           <br />
           ゲーム以外にもWeb制作やプログラミングに興味があり、<br />
@@ -67,10 +73,15 @@ const FONT_SIZES = {
       style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
     >
       <h2
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
+        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
       >
         ★ Player Info ★
       </h2>
+
+      <!-- 横線 -->
+      <hr
+        style="border: none; height: 1px; background-color: #4d79ff; margin: 0 auto 20px auto; width: 100%;"
+      />
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         <div>
@@ -118,16 +129,26 @@ const FONT_SIZES = {
       style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
     >
       <h2
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
+        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
       >
         ◆ My Works ◆
       </h2>
 
+      <!-- 横線 -->
+      <hr
+        style="border: none; height: 1px; background-color: #4d79ff; margin: 0 auto 20px auto; width: 100%;"
+      />
+
       <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
         <!-- VALORANT Point Viewer -->
-        <div style="background: rgba(77,121,255,0.05); border: 1px solid #4d79ff; padding: 15px; border-radius: 6px;">
+        <div
+          style="background: rgba(77,121,255,0.05); border: 1px solid #4d79ff; padding: 15px; border-radius: 6px;"
+        >
           <!-- デスクトップ: 左右レイアウト -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;" class="desktop-layout">
+          <div
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;"
+            class="desktop-layout"
+          >
             <!-- 左側: 説明とリンク -->
             <div>
               <h3
@@ -138,13 +159,14 @@ const FONT_SIZES = {
               <p
                 style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.6; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; margin-bottom: 15px;`}
               >
-                VALORANTの各マップの定点動画をマップ上で確認できるWebサイトです。<br />
+                VALORANTの各マップの定点動画をマップ上で確認できるWebサイトです。<br
+                />
                 プレイヤーがマップを理解し、戦略を練るためのツールとして制作しました。
               </p>
-              
+
               <div style="text-align: left;">
-                <a 
-                  href="https://valorant-point-viewer.netlify.app/" 
+                <a
+                  href="https://valorant-point-viewer.netlify.app/"
                   target="_blank"
                   rel="noopener"
                   style={`display: inline-block; padding: 6px 12px; background: #4d79ff; color: #ffffff; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
@@ -155,23 +177,24 @@ const FONT_SIZES = {
                 </a>
               </div>
             </div>
-            
+
             <!-- 右側: 実際のサイト埋め込み -->
             <div style="text-align: center;">
-              <div style="position: relative; width: 100%; aspect-ratio: 4 / 5;">
-                <iframe 
+              <div
+                style="position: relative; width: 100%; aspect-ratio: 4 / 5;"
+              >
+                <iframe
                   src="https://valorant-point-viewer.netlify.app/"
-                  width="100%" 
+                  width="100%"
                   height="100%"
                   frameborder="0"
                   style={`border: 2px solid #4d79ff; border-radius: 6px; box-shadow: 0 4px 8px rgba(77,121,255,0.3); background: #ffffff; position: absolute; top: 0; left: 0;`}
                   title="VALORANT Point Viewer - Live Demo"
-                  loading="lazy"
-                ></iframe>
+                  loading="lazy"></iframe>
               </div>
             </div>
           </div>
-          
+
           <!-- モバイル: 縦レイアウト -->
           <div style="display: none;" class="mobile-layout">
             <h3
@@ -182,27 +205,29 @@ const FONT_SIZES = {
             <p
               style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.6; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; margin-bottom: 15px;`}
             >
-              VALORANTの各マップの定点動画をマップ上で確認できるWebサイトです。<br />
+              VALORANTの各マップの定点動画をマップ上で確認できるWebサイトです。<br
+              />
               プレイヤーがマップを理解し、戦略を練るためのツールとして制作しました。
             </p>
-            
+
             <div style="margin-bottom: 15px; text-align: center;">
-              <div style="position: relative; width: 100%; max-width: 350px; aspect-ratio: 3 / 4; margin: 0 auto;">
-                <iframe 
+              <div
+                style="position: relative; width: 100%; max-width: 350px; aspect-ratio: 3 / 4; margin: 0 auto;"
+              >
+                <iframe
                   src="https://valorant-point-viewer.netlify.app/"
-                  width="100%" 
+                  width="100%"
                   height="100%"
                   frameborder="0"
                   style={`border: 2px solid #4d79ff; border-radius: 6px; box-shadow: 0 4px 8px rgba(77,121,255,0.3); background: #ffffff; position: absolute; top: 0; left: 0;`}
                   title="VALORANT Point Viewer - Live Demo (Mobile)"
-                  loading="lazy"
-                ></iframe>
+                  loading="lazy"></iframe>
               </div>
             </div>
-            
+
             <div style="text-align: center;">
-              <a 
-                href="https://valorant-point-viewer.netlify.app/" 
+              <a
+                href="https://valorant-point-viewer.netlify.app/"
                 target="_blank"
                 rel="noopener"
                 style={`display: inline-block; padding: 6px 12px; background: #4d79ff; color: #ffffff; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
@@ -223,10 +248,16 @@ const FONT_SIZES = {
       class="video-section"
     >
       <h2
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
+        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
       >
         ★ VALORANT Gameplay ★
       </h2>
+
+      <!-- 横線 -->
+      <hr
+        style="border: none; height: 1px; background-color: #4d79ff; margin: 0 auto 20px auto; width: 100%;"
+      />
+
       <div class="video-grid">
         <div>
           <YouTubeClipViewer
@@ -267,10 +298,15 @@ const FONT_SIZES = {
       style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
     >
       <h2
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 20px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
+        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
       >
         ◎ Setup & Settings ◎
       </h2>
+
+      <!-- 横線 -->
+      <hr
+        style="border: none; height: 1px; background-color: #4d79ff; margin: 0 auto 20px auto; width: 100%;"
+      />
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         <div>
@@ -350,17 +386,17 @@ const FONT_SIZES = {
     .desktop-layout {
       display: none !important;
     }
-    
+
     .mobile-layout {
       display: block !important;
     }
   }
-  
+
   @media screen and (min-width: 769px) {
     .desktop-layout {
       display: grid !important;
     }
-    
+
     .mobile-layout {
       display: none !important;
     }
