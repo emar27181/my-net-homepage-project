@@ -126,38 +126,81 @@ const FONT_SIZES = {
       <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
         <!-- VALORANT Point Viewer -->
         <div style="background: rgba(77,121,255,0.05); border: 1px solid #4d79ff; padding: 15px; border-radius: 6px;">
-          <h3
-            style={`color: #4d79ff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
-          >
-            🎯 VALORANT Point Viewer
-          </h3>
-          <p
-            style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.6; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; margin-bottom: 10px;`}
-          >
-            VALORANTの各マップの定点動画をマップ上で確認できるWebサイトです。<br />
-            プレイヤーがマップを理解し、戦略を練るためのツールとして制作しました。
-          </p>
-          <div style="text-align: center;">
-            <a 
-              href="https://valorant-point-viewer.netlify.app/" 
-              target="_blank"
-              rel="noopener"
-              style={`display: inline-block; padding: 6px 12px; background: #4d79ff; color: #ffffff; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
-              onmouseover="this.style.background='transparent'; this.style.color='#4d79ff'; this.style.border='1px solid #4d79ff';"
-              onmouseout="this.style.background='#4d79ff'; this.style.color='#ffffff'; this.style.border='none';"
-            >
-              サイトを見る →
-            </a>
+          <!-- デスクトップ: 左右レイアウト -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;" class="desktop-layout">
+            <!-- 左側: 説明とリンク -->
+            <div>
+              <h3
+                style={`color: #4d79ff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+              >
+                🎯 VALORANT Point Viewer
+              </h3>
+              <p
+                style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.6; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; margin-bottom: 15px;`}
+              >
+                VALORANTの各マップの定点動画をマップ上で確認できるWebサイトです。<br />
+                プレイヤーがマップを理解し、戦略を練るためのツールとして制作しました。
+              </p>
+              
+              <div style="text-align: left;">
+                <a 
+                  href="https://valorant-point-viewer.netlify.app/" 
+                  target="_blank"
+                  rel="noopener"
+                  style={`display: inline-block; padding: 6px 12px; background: #4d79ff; color: #ffffff; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
+                  onmouseover="this.style.background='transparent'; this.style.color='#4d79ff'; this.style.border='1px solid #4d79ff';"
+                  onmouseout="this.style.background='#4d79ff'; this.style.color='#ffffff'; this.style.border='none';"
+                >
+                  サイトを見る →
+                </a>
+              </div>
+            </div>
+            
+            <!-- 右側: 画像 -->
+            <div style="text-align: center;">
+              <img 
+                src="/valo_point_viewer_screenshot.png" 
+                alt="VALORANT Point Viewer スクリーンショット"
+                style={`width: 100%; height: auto; border: 2px solid #4d79ff; border-radius: 6px; box-shadow: 0 4px 8px rgba(77,121,255,0.3);`}
+              />
+            </div>
           </div>
-        </div>
-
-        <!-- 今後の作品用プレースホルダー -->
-        <div style="background: rgba(128,128,128,0.05); border: 1px dashed #666666; padding: 15px; border-radius: 6px; text-align: center;">
-          <p
-            style={`color: #888888; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
-          >
-            🚧 次のプロジェクト準備中... 🚧
-          </p>
+          
+          <!-- モバイル: 縦レイアウト -->
+          <div style="display: none;" class="mobile-layout">
+            <h3
+              style={`color: #4d79ff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+            >
+              🎯 VALORANT Point Viewer
+            </h3>
+            <p
+              style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.6; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; margin-bottom: 15px;`}
+            >
+              VALORANTの各マップの定点動画をマップ上で確認できるWebサイトです。<br />
+              プレイヤーがマップを理解し、戦略を練るためのツールとして制作しました。
+            </p>
+            
+            <div style="margin-bottom: 15px; text-align: center;">
+              <img 
+                src="/valo_point_viewer_screenshot.png" 
+                alt="VALORANT Point Viewer スクリーンショット"
+                style={`width: 100%; max-width: 350px; height: auto; border: 2px solid #4d79ff; border-radius: 6px; box-shadow: 0 4px 8px rgba(77,121,255,0.3);`}
+              />
+            </div>
+            
+            <div style="text-align: center;">
+              <a 
+                href="https://valorant-point-viewer.netlify.app/" 
+                target="_blank"
+                rel="noopener"
+                style={`display: inline-block; padding: 6px 12px; background: #4d79ff; color: #ffffff; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
+                onmouseover="this.style.background='transparent'; this.style.color='#4d79ff'; this.style.border='1px solid #4d79ff';"
+                onmouseout="this.style.background='#4d79ff'; this.style.color='#ffffff'; this.style.border='none';"
+              >
+                サイトを見る →
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -287,6 +330,27 @@ const FONT_SIZES = {
     .video-grid {
       grid-template-columns: 1fr !important;
       gap: 25px !important;
+    }
+  }
+
+  /* My Works レスポンシブ対応 */
+  @media screen and (max-width: 768px) {
+    .desktop-layout {
+      display: none !important;
+    }
+    
+    .mobile-layout {
+      display: block !important;
+    }
+  }
+  
+  @media screen and (min-width: 769px) {
+    .desktop-layout {
+      display: grid !important;
+    }
+    
+    .mobile-layout {
+      display: none !important;
     }
   }
 </style>
