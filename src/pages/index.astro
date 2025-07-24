@@ -24,10 +24,16 @@ const FONT_SIZES = {
     <!-- タイトル -->
     <div style="text-align: center; margin-bottom: 40px;" class="title-section">
       <h1
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.title}; margin-bottom: 10px; text-shadow: 2px 2px 0px #000000;`}
+        style={`color: #4d79ff; font-size: ${FONT_SIZES.title}; margin-bottom: 15px; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
       >
-        nodoame's Portfolio
+        Nodoame's Portfolio
       </h1>
+      
+      <!-- 横線 -->
+      <hr
+        style="border: none; height: 1px; background-color: #4d79ff; margin: 0 auto 15px auto; width: 100%;"
+      />
+      
       <p
         style={`color: #ffffff; font-size: ${FONT_SIZES.subtitle}; margin: 0;`}
         class={applyTypographyPreset("mainText")}
