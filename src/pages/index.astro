@@ -14,35 +14,61 @@ const FONT_SIZES = {
   smallText: "10px", // 小さいテキスト
   footer: "10px", // フッター
 };
+
+// 固定カラー設定
+const COLORS = {
+  // メインカラー
+  primary: "#4d79ff", // ネオンブルー
+  primaryAlpha10: "rgba(77,121,255,0.1)", // 10%透明度
+  primaryAlpha5: "rgba(77,121,255,0.05)", // 5%透明度
+  primaryShadow: "rgba(77,121,255,0.3)", // シャドウ用
+  
+  // タイトル・見出しカラー
+  heading: "#A6F7FF", // ライトシアン（タイトル・見出し専用）
+  
+  // テキストカラー
+  textWhite: "#ffffff", // 白文字
+  textGray: "#cccccc", // グレー文字
+  textDarkGray: "#666666", // ダークグレー文字
+  textBlack: "#000000", // 黒文字（シャドウ用）
+  
+  // 背景・ボーダー
+  bgWhite: "#ffffff", // 白背景
+  bgTransparent: "transparent", // 透明
+  
+  // エフェクト
+  shadowWhite: "rgba(255,255,255,0.3)", // 白シャドウ
+  shadowBlack: "rgba(0,0,0,0.5)", // 黒シャドウ
+};
 ---
 
 <SimpleLayout title="nodoame's Portfolio">
   <div
-    style="max-width: 1000px; margin: 0 auto; padding: 20px; background: var(--color-bg-secondary); border: 4px solid var(--retro-primary); border-radius: 12px; box-shadow: inset 2px 2px 0px rgba(255,255,255,0.3), inset -2px -2px 0px rgba(0,0,0,0.5), 0 0 20px rgba(77,121,255,0.3); min-height: 100vh;"
+    style={`max-width: 1000px; margin: 0 auto; padding: 20px; background: var(--color-bg-secondary); border: 4px solid ${COLORS.primary}; border-radius: 12px; box-shadow: inset 2px 2px 0px ${COLORS.shadowWhite}, inset -2px -2px 0px ${COLORS.shadowBlack}, 0 0 20px ${COLORS.primaryShadow}; min-height: 100vh;`}
     class="main-container mobile-main"
   >
     <!-- タイトル -->
     <div style="text-align: center; margin-bottom: 40px;" class="title-section">
       <h1
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.title}; margin-bottom: 15px; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
+        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.title}; margin-bottom: 15px; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
       >
         Nodoame's Portfolio
       </h1>
 
       <!-- 横線 -->
       <hr
-        style="border: none; height: 1px; background-color: #4d79ff; margin: 0 auto 15px auto; width: 100%;"
+        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 15px auto; width: 100%;`}
       />
 
       <!-- プロフィール画像 -->
       <img
         src="/icon_omencat_transparent.png"
         alt="nodoame profile"
-        style="width: 120px; height: 120px; margin: 0 auto 15px auto; display: block; border-radius: 8px; border: 2px solid #4d79ff; background-color: rgba(77,121,255,0.1); padding: 5px;"
+        style={`width: 120px; height: 120px; margin: 0 auto 15px auto; display: block; border-radius: 8px; border: 2px solid ${COLORS.primary}; background-color: ${COLORS.primaryAlpha10}; padding: 5px;`}
       />
 
       <p
-        style={`color: #ffffff; font-size: ${FONT_SIZES.subtitle}; margin: 0;`}
+        style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subtitle}; margin: 0;`}
         class={applyTypographyPreset("mainText")}
       >
         @nodoame27181 のポートフォリオ
@@ -51,22 +77,22 @@ const FONT_SIZES = {
 
     <!-- About Me -->
     <div
-      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
     >
       <h2
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
+        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
       >
         ◆ About Me ◆
       </h2>
 
       <!-- 横線 -->
       <hr
-        style="border: none; height: 1px; background-color: #4d79ff; margin: 0 auto 20px auto; width: 100%;"
+        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
       />
 
       <div style="text-align: center; margin-bottom: 15px;">
         <p
-          style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+          style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
         >
           VALORANTをメインにプレイしている猫好きなゲーマーです。<br />
           <br />
@@ -81,28 +107,28 @@ const FONT_SIZES = {
 
     <!-- プロフィール情報 -->
     <div
-      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
     >
       <h2
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
+        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
       >
         ★ Player Info ★
       </h2>
 
       <!-- 横線 -->
       <hr
-        style="border: none; height: 1px; background-color: #4d79ff; margin: 0 auto 20px auto; width: 100%;"
+        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
       />
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         <div>
           <h3
-            style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
           >
             基本情報
           </h3>
           <p
-            style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
           >
             名前: nodoame<br />
             メインロール: コントローラー(オーメン/クローブ/アストラ) <br />
@@ -111,24 +137,24 @@ const FONT_SIZES = {
 
         <div>
           <h3
-            style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
           >
             外部リンク
           </h3>
           <p
-            style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
           >
             Twitter: <a
               href="https://twitter.com/nodoame27181"
               target="_blank"
               rel="noopener"
-              style="color: #4d79ff;">@nodoame27181</a
+              style={`color: ${COLORS.primary};`}>@nodoame27181</a
             ><br />
             Youtube: <a
               href="https://www.youtube.com/@nodoame27181"
               target="_blank"
               rel="noopener"
-              style="color: #4d79ff;">@nodoame27181</a
+              style={`color: ${COLORS.primary};`}>@nodoame27181</a
             ><br />
           </p>
         </div>
@@ -137,23 +163,23 @@ const FONT_SIZES = {
 
     <!-- Works -->
     <div
-      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
     >
       <h2
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
+        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
       >
         ◆ My Works ◆
       </h2>
 
       <!-- 横線 -->
       <hr
-        style="border: none; height: 1px; background-color: #4d79ff; margin: 0 auto 20px auto; width: 100%;"
+        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
       />
 
       <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
         <!-- VALORANT Point Viewer -->
         <div
-          style="background: rgba(77,121,255,0.05); border: 1px solid #4d79ff; padding: 15px; border-radius: 6px;"
+          style={`background: ${COLORS.primaryAlpha5}; border: 1px solid ${COLORS.primary}; padding: 15px; border-radius: 6px;`}
         >
           <!-- デスクトップ: 左右レイアウト -->
           <div
@@ -179,9 +205,9 @@ const FONT_SIZES = {
                   href="https://valorant-point-viewer.netlify.app/"
                   target="_blank"
                   rel="noopener"
-                  style={`display: inline-block; padding: 6px 12px; background: #4d79ff; color: #ffffff; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
-                  onmouseover="this.style.background='transparent'; this.style.color='#4d79ff'; this.style.border='1px solid #4d79ff';"
-                  onmouseout="this.style.background='#4d79ff'; this.style.color='#ffffff'; this.style.border='none';"
+                  style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
+                  onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='1px solid ${COLORS.primary}';`}
+                  onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
                 >
                   サイトを見る →
                 </a>
@@ -198,7 +224,7 @@ const FONT_SIZES = {
                   width="100%"
                   height="100%"
                   frameborder="0"
-                  style={`border: 2px solid #4d79ff; border-radius: 6px; box-shadow: 0 4px 8px rgba(77,121,255,0.3); background: #ffffff; position: absolute; top: 0; left: 0;`}
+                  style={`border: 2px solid ${COLORS.primary}; border-radius: 6px; box-shadow: 0 4px 8px ${COLORS.primaryShadow}; background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0;`}
                   title="VALORANT Point Viewer - Live Demo"
                   loading="lazy"></iframe>
               </div>
@@ -229,7 +255,7 @@ const FONT_SIZES = {
                   width="100%"
                   height="100%"
                   frameborder="0"
-                  style={`border: 2px solid #4d79ff; border-radius: 6px; box-shadow: 0 4px 8px rgba(77,121,255,0.3); background: #ffffff; position: absolute; top: 0; left: 0;`}
+                  style={`border: 2px solid ${COLORS.primary}; border-radius: 6px; box-shadow: 0 4px 8px ${COLORS.primaryShadow}; background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0;`}
                   title="VALORANT Point Viewer - Live Demo (Mobile)"
                   loading="lazy"></iframe>
               </div>
@@ -240,7 +266,7 @@ const FONT_SIZES = {
                 href="https://valorant-point-viewer.netlify.app/"
                 target="_blank"
                 rel="noopener"
-                style={`display: inline-block; padding: 6px 12px; background: #4d79ff; color: #ffffff; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
+                style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
                 onmouseover="this.style.background='transparent'; this.style.color='#4d79ff'; this.style.border='1px solid #4d79ff';"
                 onmouseout="this.style.background='#4d79ff'; this.style.color='#ffffff'; this.style.border='none';"
               >
@@ -254,18 +280,18 @@ const FONT_SIZES = {
 
     <!-- YouTube動画セクション -->
     <div
-      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
       class="video-section"
     >
       <h2
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
+        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
       >
         ★ VALORANT Gameplay ★
       </h2>
 
       <!-- 横線 -->
       <hr
-        style="border: none; height: 1px; background-color: #4d79ff; margin: 0 auto 20px auto; width: 100%;"
+        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
       />
 
       <div class="video-grid">
@@ -305,28 +331,28 @@ const FONT_SIZES = {
 
     <!-- デバイス情報 -->
     <div
-      style="background: rgba(77,121,255,0.1); border: 2px solid #4d79ff; padding: 20px; margin-bottom: 40px; border-radius: 8px;"
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
     >
       <h2
-        style={`color: #4d79ff; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; letter-spacing: 1px;`}
+        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
       >
         ◎ Setup & Settings ◎
       </h2>
 
       <!-- 横線 -->
       <hr
-        style="border: none; height: 1px; background-color: #4d79ff; margin: 0 auto 20px auto; width: 100%;"
+        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
       />
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         <div>
           <h3
-            style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
           >
             デバイス
           </h3>
           <p
-            style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
           >
             マウス: Logicool G Pro Wireless<br />
             キーボード: - <br />
@@ -337,12 +363,12 @@ const FONT_SIZES = {
 
         <div>
           <h3
-            style={`color: #ffffff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
           >
             ゲーム設定
           </h3>
           <p
-            style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
           >
             感度: 0.20 (800 DPI)<br />
             クロスヘア: 青色・アウトライン有<br />
@@ -358,7 +384,7 @@ const FONT_SIZES = {
       style="text-align: center; padding: 20px 0; border-top: 1px solid #333333;"
     >
       <p
-        style={`color: #666666; font-size: ${FONT_SIZES.footer}; margin: 0; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+        style={`color: ${COLORS.textDarkGray}; font-size: ${FONT_SIZES.footer}; margin: 0; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
       >
         © 2024 nodoame's Portfolio - Made with passion for gaming
       </p>
