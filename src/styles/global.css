@@ -74,18 +74,12 @@
 /* ポケモンDP風背景（コントラスト強化・より深い洞窟感） */
 body {
   background-image: 
-    /* より控えめなダイヤモンド・パールのきらめきパターン */
-    radial-gradient(circle at 12% 20%, var(--retro-diamond) 1.5px, transparent 4px),
-    radial-gradient(circle at 88% 30%, var(--retro-pearl) 1px, transparent 3px),
-    radial-gradient(circle at 35% 70%, var(--retro-electric) 1.2px, transparent 3.5px),
-    radial-gradient(circle at 65% 15%, var(--retro-cyber) 0.8px, transparent 2.5px),
-    radial-gradient(circle at 20% 85%, var(--retro-secondary) 0.8px, transparent 2px),
     /* より控えめなクリスタルグリッド */
     linear-gradient(0deg, transparent 23px, rgba(74, 127, 199, 0.12) 24px, rgba(74, 127, 199, 0.12) 25px, transparent 26px),
     linear-gradient(90deg, transparent 23px, rgba(116, 169, 207, 0.1) 24px, rgba(116, 169, 207, 0.1) 25px, transparent 26px),
     /* より微細なクリスタルハニカム */
     radial-gradient(circle at 50% 50%, transparent 10px, rgba(184, 230, 255, 0.05) 11px, rgba(184, 230, 255, 0.05) 12px, transparent 13px);
-  background-size: 140px 140px, 110px 110px, 130px 130px, 95px 95px, 105px 105px, 24px 24px, 24px 24px, 48px 48px;
+  background-size: 24px 24px, 24px 24px, 48px 48px;
   background-color: var(--color-bg-primary);
   font-family: var(--font-main-jp);
   font-size: 14px;
