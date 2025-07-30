@@ -1,0 +1,160 @@
+---
+import { applyTypographyPreset } from '../utils/typography';
+import { tSite, tNav, tPageTitle } from '../utils/textManager';
+import '../styles/global.css';
+import '../styles/navigation.css';
+import Dekome from '../components/Dekome.astro';
+import SidebarAA from '../components/SidebarAA.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = tSite('description') } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="keywords" content="nodoame,ポートフォリオ,レトロ,VALORANT,イラスト,ドット絵,Web制作" />
+    <meta name="author" content={tSite('author')} />
+    
+    <!-- レトロな雰囲気のためのメタタグ -->
+    <meta name="generator" content="Astro v4.x" />
+    
+    <!-- カスタムスタイル -->
+    <style>
+      
+      /* HTMLファイルでmarqueeタグを使用するためのポリフィル */
+      marquee {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        animation: marquee 15s linear infinite;
+      }
+      
+      @keyframes marquee {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- サイドバーAA -->
+    <SidebarAA side="left" />
+    <SidebarAA side="right" />
+    
+    <!-- 8-bitレトロゲーム風メインコンテナ -->
+    <div class="min-h-screen max-w-4xl mx-auto border-4 md:border-4 border-2" style="background: var(--color-bg-secondary); border-color: var(--retro-primary); border-style: solid; box-shadow: inset 2px 2px 0px rgba(255,255,255,0.3), inset -2px -2px 0px rgba(0,0,0,0.5);">
+      
+      <!-- 8-bitゲーム風ヘッダー -->
+      <header class="retro-frame" style="background: var(--color-bg-tertiary); border-color: var(--retro-primary); border: 3px solid var(--retro-primary);">
+        <h1 class={`${applyTypographyPreset('cyberTitle')}`} style="text-align: center; color: var(--retro-secondary); text-shadow: 2px 2px 0px var(--game-bg-primary); font-family: var(--font-pixel-jp);">
+          <Dekome type="star-shooting" size="md" /> {tSite('title')} <Dekome type="crown-princess" size="md" />
+        </h1>
+        <p class={applyTypographyPreset('subText')} style="text-align: center; margin-top: 8px;">
+          <Dekome type="sparkle-rainbow" size="sm" /> {tSite('subtitle')} <Dekome type="heart-rainbow" size="sm" />
+        </p>
+      </header>
+
+      <!-- 8-bitゲーム風ナビゲーション -->
+      <nav class="game-nav-frame relative">
+        <!-- ハンバーガーメニュー（右上） -->
+        <div class="absolute top-2 right-2 z-50">
+          <button id="hamburger-menu" class="nav-button" style="font-size: 12px; padding: 4px 8px;">
+            ≡ Menu
+          </button>
+          <div id="hamburger-dropdown" class="hidden absolute right-0 top-full mt-2 bg-[var(--color-bg-tertiary)] border-2 border-[var(--retro-primary)] shadow-lg" style="min-width: 120px;">
+            <a href="/old-home" class="block px-3 py-2 nav-button-mobile text-xs">旧ホーム</a>
+          </div>
+        </div>
+
+        <!-- デスクトップ表示 -->
+        <div class="hidden lg:block">
+          <div class="nav-grid-desktop">
+            <a href="/" class="nav-button">{tPageTitle('home')}</a>
+            <a href="/about" class="nav-button">{tPageTitle('about')}</a>
+            <a href="/gallery" class="nav-button">{tPageTitle('gallery')}</a>
+            <a href="/game" class="nav-button">{tPageTitle('game')}</a>
+            <a href="/dev" class="nav-button">{tPageTitle('dev')}</a>
+            <a href="/blog" class="nav-button">{tPageTitle('blog')}</a>
+            <a href="/link" class="nav-button">{tPageTitle('link')}</a>
+          </div>
+        </div>
+        
+        <!-- タブレット表示 -->
+        <div class="hidden md:block lg:hidden">
+          <div class="nav-grid-tablet">
+            <a href="/" class="nav-button-compact">{tPageTitle('home')}</a>
+            <a href="/about" class="nav-button-compact">{tPageTitle('about')}</a>
+            <a href="/gallery" class="nav-button-compact">{tPageTitle('gallery')}</a>
+            <a href="/game" class="nav-button-compact">{tPageTitle('game')}</a>
+            <a href="/dev" class="nav-button-compact">{tPageTitle('dev')}</a>
+            <a href="/blog" class="nav-button-compact">{tPageTitle('blog')}</a>
+            <a href="/link" class="nav-button-compact">{tPageTitle('link')}</a>
+          </div>
+        </div>
+        
+        <!-- モバイル表示 -->
+        <div class="md:hidden">
+          <div class="nav-grid-mobile">
+            <a href="/" class="nav-button-mobile">{tPageTitle('home')}</a>
+            <a href="/about" class="nav-button-mobile">{tPageTitle('about')}</a>
+            <a href="/gallery" class="nav-button-mobile">{tPageTitle('gallery')}</a>
+            <a href="/game" class="nav-button-mobile">{tPageTitle('game')}</a>
+            <a href="/dev" class="nav-button-mobile">{tPageTitle('dev')}</a>
+            <a href="/blog" class="nav-button-mobile">{tPageTitle('blog')}</a>
+            <a href="/link" class="nav-button-mobile">{tPageTitle('link')}</a>
+          </div>
+        </div>
+
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+            const hamburgerBtn = document.getElementById('hamburger-menu');
+            const hamburgerDropdown = document.getElementById('hamburger-dropdown');
+            
+            if (hamburgerBtn && hamburgerDropdown) {
+              hamburgerBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                hamburgerDropdown.classList.toggle('hidden');
+              });
+              
+              // クリック外しで閉じる
+              document.addEventListener('click', (e) => {
+                if (!hamburgerBtn.contains(e.target as Node) && !hamburgerDropdown.contains(e.target as Node)) {
+                  hamburgerDropdown.classList.add('hidden');
+                }
+              });
+            }
+          });
+        </script>
+      </nav>
+
+      <!-- メインコンテンツエリア -->
+      <main class="p-4">
+        <slot />
+      </main>
+
+      <!-- 8-bitゲーム風フッター -->
+      <footer class="retro-frame text-center mt-8" style="background: var(--color-bg-tertiary); border: 3px solid var(--retro-primary); box-shadow: inset 2px 2px 0px rgba(255,255,255,0.3), inset -2px -2px 0px rgba(0,0,0,0.5);">
+        <p class={applyTypographyPreset('caption')}>
+          <Dekome type="sparkle-gold" size="xs" /> {tSite('footer')} <Dekome type="coffee-steam" size="xs" />
+        </p>
+        <p class={applyTypographyPreset('timestamp')} style="margin-top: 4px;">
+          <span><Dekome type="clock" size="xs" /> System Time: {new Date().toLocaleDateString('ja-JP')}</span>
+        </p>
+        <div class="flex justify-center items-center gap-2 mt-2">
+          <img src="https://via.placeholder.com/31x15/4D79FF/000000?text=8BIT+LOVE" alt="Made with 8-bit Love" style="image-rendering: pixelated;" />
+          <img src="https://via.placeholder.com/80x15/4D79FF/000000?text=RETRO+GAME" alt="Retro Game Powered" style="image-rendering: pixelated;" />
+        </div>
+      </footer>
+    </div>
+
+  </body>
+</html>

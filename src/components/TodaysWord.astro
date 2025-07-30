@@ -1,0 +1,59 @@
+---
+// Today's Word コンポーネント - 一元管理
+import Dekome from './Dekome.astro';
+
+// 今日の言葉の配列（日替わりで表示）- デコメ対応
+const todaysWords = [
+  {
+    text: "レトロなWebサイトって見てるだけで癒される～\n昔のインターネットの温かみを大切にしたいな",
+    dekomes: ["computer", "heart-pink"]
+  },
+  {
+    text: "継続は力なり...毎日少しずつでも前進していこう\nコードも絵も、積み重ねが大事だよね",
+    dekomes: ["clock", "star-shooting"]
+  },
+  {
+    text: "猫のイラストを描いてる時が一番幸せ\nふわふわな毛玉に包まれたい気持ち",
+    dekomes: ["cat-dance", "heart-beating"]
+  },
+  {
+    text: "VALORANTでオーメンのスモーク決まった時の快感\nチームプレイって最高だなあ",
+    dekomes: ["game-controller", "face-happy"]
+  },
+  {
+    text: "新しい技術を学ぶワクワク感が止まらない\n情報科学って本当に面白い世界だな",
+    dekomes: ["computer", "sparkle-gold"]
+  }
+];
+
+// 日付ベースで今日の言葉を選択
+const today = new Date();
+const dayIndex = today.getDate() % todaysWords.length;
+const todaysWordData = todaysWords[dayIndex];
+
+export interface Props {
+  className?: string;
+  showTitle?: boolean;
+}
+
+const { 
+  className = '',
+  showTitle = true
+} = Astro.props;
+---
+
+<div class={`retro-frame ${className}`}>
+  {showTitle && (
+    <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px; color: var(--profile-text-secondary);">
+      <Dekome type="thought-bubble" size="xs" /> Today's Word
+    </h3>
+  )}
+  <div class="profile-quote">
+    {todaysWordData.text.split('\n').map((line, index) => (
+      <span>
+        <Dekome type={todaysWordData.dekomes[index] || todaysWordData.dekomes[0]} size="xs" />
+        {line}<br/>
+      </span>
+    ))}
+  </div>
+</div>

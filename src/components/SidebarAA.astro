@@ -1,0 +1,199 @@
+---
+import AsciiEmoji from './AsciiEmoji.astro';
+
+export interface Props {
+  side: 'left' | 'right';
+}
+
+const { side } = Astro.props;
+
+// 左右で異なるAAを表示
+const leftContent = [
+  { type: 'cat-aa', variant: 'giko', size: 'lg' },
+  { type: 'cat-aa', variant: 'small_cat', size: 'lg' },
+  { type: 'cat-aa', variant: 'mini_cat', size: 'lg' }
+];
+
+const rightContent = [
+  { type: 'cat-aa', variant: 'shii', size: 'lg' },
+  { type: 'cat-aa', variant: 'mini_cat', size: 'lg' },
+  { type: 'cat-aa', variant: 'small_cat', size: 'lg' }
+];
+
+const content = side === 'left' ? leftContent : rightContent;
+---
+
+<div class={`sidebar-aa sidebar-${side}`}>
+  {content.map((item, index) => (
+    <div class="aa-item" style={`animation-delay: ${index * 0.5}s`}>
+      <AsciiEmoji 
+        type={item.type as any} 
+        variant={item.variant} 
+        size={item.size as any} 
+      />
+    </div>
+  ))}
+</div>
+
+<style>
+  .sidebar-aa {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    z-index: 10;
+    pointer-events: auto;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 1rem 0.5rem;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .sidebar-left {
+    left: 0.5rem;
+    border: none;
+    border-radius: 0;
+  }
+
+  .sidebar-right {
+    right: 0.5rem;
+    border: none;
+    border-radius: 0;
+  }
+
+  .aa-item {
+    opacity: 1;
+    animation: float 4s ease-in-out infinite, glow-pulse 3s ease-in-out infinite;
+    transition: all 0.3s ease;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0.5rem;
+    box-shadow: none;
+    min-width: 60px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .aa-item:hover {
+    opacity: 1;
+    background: transparent;
+    border: none;
+    transform: scale(1.1);
+    box-shadow: none;
+    filter: brightness(1.3);
+  }
+
+  /* 8-bit風フローティングアニメーション */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-8px) rotate(1deg);
+    }
+    50% {
+      transform: translateY(-15px) rotate(0deg);
+    }
+    75% {
+      transform: translateY(-8px) rotate(-1deg);
+    }
+  }
+
+  /* ネオングロー効果 */
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: none;
+    }
+    50% {
+      box-shadow: none;
+    }
+  }
+
+  /* サイドバー全体のグロー効果 */
+  .sidebar-aa::before {
+    display: none;
+  }
+
+  @keyframes border-glow {
+    from {
+      opacity: 0.3;
+    }
+    to {
+      opacity: 0.7;
+    }
+  }
+
+  /* デスクトップでのみ表示 */
+  @media (max-width: 1200px) {
+    .sidebar-aa {
+      display: none;
+    }
+  }
+
+  /* アクセシビリティ対応 */
+  @media (prefers-reduced-motion: reduce) {
+    .aa-item {
+      animation: none !important;
+    }
+    
+    .sidebar-aa::before {
+      animation: none !important;
+    }
+    
+    .aa-item:hover {
+      transform: none !important;
+    }
+  }
+
+  /* 高コントラスト対応 */
+  @media (prefers-contrast: high) {
+    .sidebar-aa {
+      border: none;
+      background: transparent;
+    }
+    
+    .aa-item {
+      border: none;
+      background: transparent;
+    }
+  }
+
+  /* 大画面での調整 */
+  @media (min-width: 1400px) {
+    .sidebar-left {
+      left: 1rem;
+    }
+    
+    .sidebar-right {
+      right: 1rem;
+    }
+    
+    .sidebar-aa {
+      gap: 2.5rem;
+      padding: 1.5rem 0.75rem;
+    }
+  }
+
+  /* 超大画面での調整 */
+  @media (min-width: 1600px) {
+    .sidebar-left {
+      left: 1.5rem;
+    }
+    
+    .sidebar-right {
+      right: 1.5rem;
+    }
+    
+    .sidebar-aa {
+      gap: 3rem;
+      padding: 2rem 1rem;
+    }
+  }
+</style>

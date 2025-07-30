@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&family=BIZ+UDPGothic:wght@400;700&family=DotGothic16&display=swap');
+@import "tailwindcss";
+
+/* 8-bit レトロゲームテーマ設定 */
+:root {
+  --font-pixel: 'Press Start 2P', cursive;
+  --font-mono: 'VT323', monospace;
+  --font-pixel-jp: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;
+  --font-main-jp: 'DotGothic16', 'BIZ UDPGothic', sans-serif;
+  
+  /* ポケモンDP風カラーパレット（青系統一・クリスタル調） */
+  --retro-primary: #4a7fc7;     /* ダイヤモンドブルー（DP風） */
+  --retro-secondary: #6ba6cd;   /* パールブルー（DP風） */
+  --retro-tertiary: #8ec5d6;    /* ライトクリスタルブルー（DP風） */
+  --retro-accent: #2c5f8a;      /* ディープオーシャンブルー（DP風） */
+  --retro-blue: #357abd;        /* シンオウブルー（DP風） */
+  --retro-light: #a4d3e2;       /* アイスブルー（DP風） */
+  --retro-dark: #1a4668;        /* ミッドナイトブルー（DP風） */
+  --retro-electric: #5dade2;    /* エレクトリックタイプブルー（DP風） */
+  --retro-cyber: #48cae4;       /* サイバーパールブルー（DP風） */
+  --retro-diamond: #b8e6ff;     /* ダイヤモンドダスト（DP新色） */
+  --retro-pearl: #74a9cf;       /* パールラスター（DP新色） */
+  
+  /* ポケモンDP風背景色（コントラスト強化版） */
+  --game-bg-primary: #000914;          /* より深いディープクリスタルブルー（コントラスト強化） */
+  --game-bg-secondary: #0f1f35;        /* より濃いクリスタルケーブブルー（UI背景） */
+  --game-bg-tertiary: #1d3452;         /* より濃いジュエルパネルブルー（パネル背景） */
+  --game-border: #74a9cf;               /* パールラスター枠線（DP風） */
+  --game-text: #ffffff;                 /* 白文字 */
+  --game-text-dim: #e8f4f8;             /* より明るいクリスタル文字（コントラスト強化） */
+  
+  /* ポケモンDP風テキスト色（コントラスト強化版） */
+  --text-high-contrast: #ffffff;       /* 純白文字（最高コントラスト） */
+  --text-medium-contrast: #e8f4f8;     /* より明るいクリスタル文字（コントラスト強化） */
+  --text-accessible-blue: #a8d5e6;     /* より明るいアクセシブルクリスタルブルー */
+  --text-accessible-light: #c4e3f2;    /* より明るいアクセシブルアイスブルー */
+  --text-accessible-dark: #6a9fd7;     /* より明るいアクセシブルダイヤモンドブルー */
+  --text-accessible-purple: #8bc6dd;   /* より明るいアクセシブルパールブルー */
+  --text-electric-glow: #7dcdf2;       /* より明るいエレクトリック発光 */
+  --text-diamond-shine: #d8f6ff;       /* より明るいダイヤモンドシャイン */
+  
+  /* ポケモンDP風グラデーション（コントラスト強化版） */
+  --gradient-health: linear-gradient(90deg, var(--retro-accent), var(--retro-electric));
+  --gradient-mana: linear-gradient(90deg, var(--retro-blue), var(--retro-pearl));
+  --gradient-exp: linear-gradient(90deg, var(--retro-secondary), var(--retro-diamond));
+  --gradient-rare: linear-gradient(45deg, var(--retro-dark), var(--retro-light));
+  --gradient-diamond: linear-gradient(135deg, #0a1c33, var(--retro-primary), var(--retro-diamond));
+  --gradient-pearl: linear-gradient(135deg, #122844, var(--retro-secondary), var(--retro-pearl));
+  --gradient-crystal: linear-gradient(45deg, #0f243d 0%, var(--retro-primary) 20%, var(--retro-diamond) 40%, var(--retro-secondary) 60%, var(--retro-pearl) 80%, var(--retro-tertiary) 100%);
+  
+  /* ゲームUI表示テーマ変数（一元管理） */
+  --ui-theme: 'retro-game'; /* 'cyber' | 'retro-game' | 'pixel' */
+  --ui-bg-primary: var(--game-bg-secondary);
+  --ui-bg-secondary: var(--game-bg-tertiary);
+  --ui-text-primary: var(--game-text);
+  --ui-text-secondary: var(--game-text-dim);
+  --ui-border-primary: var(--retro-primary);
+  --ui-border-secondary: var(--retro-secondary);
+  
+  /* レトロゲーム統一色設定 */
+  --color-bg-primary: var(--game-bg-primary);
+  --color-bg-secondary: var(--game-bg-secondary);
+  --color-bg-tertiary: var(--game-bg-tertiary);
+  --color-accent: var(--retro-primary);
+  --color-link: var(--retro-secondary);
+  --color-link-visited: var(--text-accessible-purple);
+  --color-border: var(--game-border);
+  --color-text: var(--game-text);
+  --color-text-dim: var(--game-text-dim);
+  --color-button-text: var(--game-text);
+  --color-button-accent: var(--retro-primary);
+}
+
+/* ポケモンDP風背景（コントラスト強化・より深い洞窟感） */
+body {
+  background-image: 
+    /* より控えめなクリスタルグリッド */
+    linear-gradient(0deg, transparent 23px, rgba(74, 127, 199, 0.12) 24px, rgba(74, 127, 199, 0.12) 25px, transparent 26px),
+    linear-gradient(90deg, transparent 23px, rgba(116, 169, 207, 0.1) 24px, rgba(116, 169, 207, 0.1) 25px, transparent 26px),
+    /* より微細なクリスタルハニカム */
+    radial-gradient(circle at 50% 50%, transparent 10px, rgba(184, 230, 255, 0.05) 11px, rgba(184, 230, 255, 0.05) 12px, transparent 13px);
+  background-size: 24px 24px, 24px 24px, 48px 48px;
+  background-color: var(--color-bg-primary);
+  font-family: var(--font-main-jp);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text);
+  
+  /* DP風効果（より深いコントラストで洞窟感を演出） */
+  position: relative;
+  background-attachment: fixed;
+}
+
+/* シンプルなレトロマーキー */
+.marquee {
+  background: var(--color-bg-secondary);
+  color: #ffffff;
+  padding: 12px;
+  border: 2px solid var(--retro-primary);
+  border-radius: 4px;
+  font-family: var(--font-pixel-jp);
+  font-size: 13px;
+  text-shadow: 1px 1px 0px #000000, 2px 2px 0px rgba(0,0,0,0.5);
+}
+
+/* シンプルなレトロアニメーション */
+@keyframes retro-blink {
+  0%, 50% { 
+    color: #ffffff;
+  }
+  51%, 100% { 
+    color: var(--retro-secondary);
+  }
+}
+
+
+@keyframes pixel-glow {
+  0%, 100% { 
+    box-shadow: 
+      inset 2px 2px 0px rgba(255, 255, 255, 0.3),
+      inset -2px -2px 0px rgba(0, 0, 0, 0.5);
+  }
+  50% { 
+    box-shadow: 
+      inset 3px 3px 0px rgba(255, 255, 255, 0.5),
+      inset -3px -3px 0px rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* シンプルなレトロテーブル */
+.retro-table {
+  border-collapse: separate;
+  border-spacing: 3px;
+  background: var(--color-bg-tertiary);
+  border: 2px solid var(--retro-primary);
+  border-radius: 4px;
+  
+  /* モバイル対応 */
+  @media (max-width: 768px) {
+    border-spacing: 2px;
+    font-size: 10px;
+    border-width: 2px;
+  }
+}
+
+
+.retro-table td {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--retro-secondary);
+  border-radius: 2px;
+  padding: 8px;
+  vertical-align: top;
+  color: var(--color-text);
+}
+
+/* シンプルなレトロボタンスタイル */
+.retro-button {
+  background: var(--retro-primary);
+  border: 2px solid var(--retro-secondary);
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-family: var(--font-pixel-jp);
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--color-button-text);
+  display: inline-block;
+  text-shadow: 1px 1px 0px var(--game-bg-primary);
+  transition: all 0.1s ease;
+  position: relative;
+  white-space: nowrap;
+  
+  /* モバイル対応 */
+  @media (max-width: 768px) {
+    padding: 8px 6px;
+    font-size: 10px;
+    white-space: normal;
+    word-break: keep-all;
+    line-height: 1.2;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.retro-button:hover {
+  background: var(--retro-secondary);
+  border: 2px solid var(--retro-tertiary);
+  color: var(--game-bg-primary);
+  text-shadow: 1px 1px 0px var(--retro-light);
+  transform: translateY(-1px);
+}
+
+
+/* シンプルなレトロリンクスタイル */
+a {
+  color: var(--retro-secondary);
+  text-decoration: none;
+  text-shadow: 1px 1px 0px var(--game-bg-primary);
+  transition: all 0.1s ease;
+  font-family: var(--font-pixel-jp);
+}
+
+a:hover {
+  color: var(--retro-tertiary);
+  text-shadow: 1px 1px 0px var(--game-bg-primary);
+  text-decoration: underline;
+}
+
+a:visited {
+  color: var(--retro-light);
+  text-shadow: 1px 1px 0px var(--game-bg-primary);
+}
+
+/* シンプルな画像コンテナ */
+.image-container {
+  text-align: center;
+  margin: 10px;
+  border: 2px solid var(--retro-primary);
+  background: var(--color-bg-secondary);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.image-title {
+  font-family: var(--font-pixel-jp);
+  font-size: 10px;
+  margin-top: 5px;
+  color: var(--retro-secondary);
+  text-shadow: 1px 1px 0px var(--game-bg-primary);
+}
+
+/* シンプルなレトロフレーム */
+.retro-frame {
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--retro-primary);
+  border-radius: 6px;
+  padding: 16px;
+  margin: 10px 0;
+  position: relative;
+}
+
+
+/* モバイル専用スタイル */
+@media (max-width: 768px) {
+  /* 余白調整 */
+  .p-4 { padding: 0.75rem; }
+  
+  /* ボタンのパディング調整 */
+  .retro-button {
+    padding: 6px 4px !important;
+    font-size: 9px !important;
+  }
+  
+  /* グリッド調整 */
+  .grid {
+    gap: 0.75rem;
+  }
+  
+  /* マーキー文字サイズ */
+  .marquee {
+    font-size: 10px;
+    padding: 6px;
+    color: #ffffff;
+  }
+  
+  /* レトロフレーム調整 */
+  .retro-frame {
+    padding: 10px;
+    margin: 6px 0;
+  }
+}

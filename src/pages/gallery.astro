@@ -1,0 +1,279 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AsciiEmoji from '../components/AsciiEmoji.astro';
+import '../styles/global.css';
+import { tPageTitle } from '../utils/textManager';
+import { getPixelEmoji } from '../utils/pixelEmoji';
+---
+
+<Layout title="Gallery - nodoameの作品ギャラリー">
+  <!-- ページタイトル -->
+  <div class="marquee mb-6">
+    <AsciiEmoji type="cat-aa" variant="shii" size="sm" inline />
+    {tPageTitle('gallery')}
+    <AsciiEmoji type="emoticon" variant="happy" size="sm" inline />
+    イラスト・ドット絵・ジェネラティブアート作品を展示中です
+    <AsciiEmoji type="simple-aa" variant="gj" size="sm" inline />
+  </div>
+
+  <!-- ギャラリーナビゲーション -->
+  <div class="retro-frame mb-6">
+    <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 10px; text-align: center;">
+      <AsciiEmoji type="emoticon" variant="smile" size="xs" inline />
+      Gallery Categories
+      <AsciiEmoji type="simple-aa" variant="kusa" size="xs" inline />
+    </h2>
+    <div class="flex justify-center gap-2 flex-wrap">
+      <button class="retro-button category-btn active" data-category="all">
+        ▢ All Works
+      </button>
+      <button class="retro-button category-btn" data-category="cats">
+        ◇ Cat Illustrations
+      </button>
+      <button class="retro-button category-btn" data-category="manga">
+        ▦ Manga Copies
+      </button>
+      <button class="retro-button category-btn" data-category="logos">
+        ◉ Logo Design
+      </button>
+      <button class="retro-button category-btn" data-category="pixel">
+        ▢ Pixel Art
+      </button>
+      <button class="retro-button category-btn" data-category="generative">
+        ◈ Generative Art
+      </button>
+    </div>
+  </div>
+
+  <!-- 作品展示エリア -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    
+    <!-- 猫のイラスト作品 -->
+    <div class="retro-frame artwork cats" data-category="cats">
+      <div class="image-container">
+        <img src="https://via.placeholder.com/250x200/FFB6C1/333333?text=Sleepy+Cat" alt="眠っている猫のイラスト" style="image-rendering: pixelated;">
+        <div class="image-title">眠り猫 {getPixelEmoji('SPARKLE')}</div>
+      </div>
+      <div style="padding: 8px; font-size: 11px;">
+        <p><strong>制作日:</strong> 2024/06/15</p>
+        <p><strong>使用ソフト:</strong> Clip Studio Paint</p>
+        <p><strong>コメント:</strong> うちの近所でよく見かける白い猫ちゃんをモデルに描きました。気持ちよさそうに眠る姿が可愛くて...<AsciiEmoji type="cat-aa" variant="mini_cat" size="xs" inline /></p>
+      </div>
+    </div>
+
+    <div class="retro-frame artwork cats" data-category="cats">
+      <div class="image-container">
+        <img src="https://via.placeholder.com/250x200/87CEEB/333333?text=Cat+Family" alt="猫の家族イラスト" style="image-rendering: pixelated;">
+        <div class="image-title">にゃんこファミリー {getPixelEmoji('CAT')}</div>
+      </div>
+      <div style="padding: 8px; font-size: 11px;">
+        <p><strong>制作日:</strong> 2024/06/08</p>
+        <p><strong>使用ソフト:</strong> Photoshop</p>
+        <p><strong>コメント:</strong> 猫の家族をテーマに描いた作品。お父さん、お母さん、子猫ちゃんたちの幸せな日常を表現しました {getPixelEmoji('CAT')}</p>
+      </div>
+    </div>
+
+    <!-- 漫画模写作品 -->
+    <div class="retro-frame artwork manga" data-category="manga">
+      <div class="image-container">
+        <img src="https://via.placeholder.com/250x200/FFE4B5/333333?text=Anime+Character" alt="アニメキャラ模写" style="image-rendering: pixelated;">
+        <div class="image-title">お気に入りキャラ模写 {getPixelEmoji('SPARKLE')}</div>
+      </div>
+      <div style="padding: 8px; font-size: 11px;">
+        <p><strong>制作日:</strong> 2024/05/28</p>
+        <p><strong>使用ソフト:</strong> Clip Studio Paint</p>
+        <p><strong>コメント:</strong> 大好きなアニメのキャラクターを模写しました。髪の毛の質感を表現するのに苦労しましたが、満足のいく仕上がりに！</p>
+      </div>
+    </div>
+
+    <div class="retro-frame artwork manga" data-category="manga">
+      <div class="image-container">
+        <img src="https://via.placeholder.com/250x200/DDA0DD/333333?text=Manga+Style" alt="漫画風イラスト" style="image-rendering: pixelated;">
+        <div class="image-title">漫画風オリキャラ {getPixelEmoji('BOOK')}</div>
+      </div>
+      <div style="padding: 8px; font-size: 11px;">
+        <p><strong>制作日:</strong> 2024/05/15</p>
+        <p><strong>使用ソフト:</strong> Clip Studio Paint</p>
+        <p><strong>コメント:</strong> 漫画の表現技法を勉強しながら描いたオリジナルキャラクター。スクリーントーンの使い方を練習中です</p>
+      </div>
+    </div>
+
+    <!-- ロゴデザイン作品 -->
+    <div class="retro-frame artwork logos" data-category="logos">
+      <div class="image-container">
+        <img src="https://via.placeholder.com/250x150/32CD32/333333?text=LOGO+DESIGN" alt="ロゴデザイン1" style="image-rendering: pixelated;">
+        <div class="image-title">カフェのロゴ {getPixelEmoji('COFFEE')}</div>
+      </div>
+      <div style="padding: 8px; font-size: 11px;">
+        <p><strong>制作日:</strong> 2024/06/01</p>
+        <p><strong>使用ソフト:</strong> Illustrator</p>
+        <p><strong>コメント:</strong> 架空のカフェ「Cozy Corner」のロゴデザイン。温かみのある色合いと手書き風フォントで親しみやすさを表現</p>
+      </div>
+    </div>
+
+    <div class="retro-frame artwork logos" data-category="logos">
+      <div class="image-container">
+        <img src="https://via.placeholder.com/250x150/FF6347/333333?text=TECH+LOGO" alt="テックロゴ" style="image-rendering: pixelated;">
+        <div class="image-title">テック系ロゴ {getPixelEmoji('COMPUTER')}</div>
+      </div>
+      <div style="padding: 8px; font-size: 11px;">
+        <p><strong>制作日:</strong> 2024/05/20</p>
+        <p><strong>使用ソフト:</strong> Figma</p>
+        <p><strong>コメント:</strong> IT企業向けのシンプルでモダンなロゴデザイン。幾何学的な形状で技術力と信頼性をアピール</p>
+      </div>
+    </div>
+
+    <!-- ピクセルアート作品 -->
+    <div class="retro-frame artwork pixel" data-category="pixel">
+      <div class="image-container">
+        <img src="https://via.placeholder.com/200x200/8B4513/FFFF00?text=16bit+Tree" alt="ドット絵の木" style="image-rendering: pixelated;">
+        <div class="image-title">ピクセル大樹 {getPixelEmoji('SPARKLE')}</div>
+      </div>
+      <div style="padding: 8px; font-size: 11px;">
+        <p><strong>制作日:</strong> 2024/06/12</p>
+        <p><strong>使用ソフト:</strong> Aseprite</p>
+        <p><strong>コメント:</strong> 16x16ピクセルの制限の中で表現した大きな木。ゲームのタイルセットとして使えそうな感じに仕上げました {getPixelEmoji('GAME')}</p>
+      </div>
+    </div>
+
+    <div class="retro-frame artwork pixel" data-category="pixel">
+      <div class="image-container">
+        <img src="https://via.placeholder.com/200x200/4169E1/FFFFFF?text=Pixel+Cat" alt="ドット絵の猫" style="image-rendering: pixelated;">
+        <div class="image-title">8bit にゃんこ {getPixelEmoji('CAT')}</div>
+      </div>
+      <div style="padding: 8px; font-size: 11px;">
+        <p><strong>制作日:</strong> 2024/06/05</p>
+        <p><strong>使用ソフト:</strong> Aseprite</p>
+        <p><strong>コメント:</strong> レトロゲーム風の猫キャラクター。歩行アニメーションも作ってみました。8bitの制限が逆に楽しい！</p>
+      </div>
+    </div>
+
+    <!-- ジェネラティブアート作品 -->
+    <div class="retro-frame artwork generative" data-category="generative">
+      <div class="image-container">
+        <img src="https://via.placeholder.com/250x250/9932CC/FFFF00?text=Math+Art" alt="数学的アート" style="image-rendering: pixelated;">
+        <div class="image-title">フラクタル実験 #1 {getPixelEmoji('NUMBER')}</div>
+      </div>
+      <div style="padding: 8px; font-size: 11px;">
+        <p><strong>制作日:</strong> 2024/06/18</p>
+        <p><strong>使用技術:</strong> Python + matplotlib</p>
+        <p><strong>コメント:</strong> フラクタル図形を生成するアルゴリズムを実装。数学の美しさをビジュアルで表現する実験第1弾</p>
+      </div>
+    </div>
+
+    <div class="retro-frame artwork generative" data-category="generative">
+      <div class="image-container">
+        <img src="https://via.placeholder.com/250x250/FF1493/00FFFF?text=Random+Colors" alt="ランダムカラーパターン" style="image-rendering: pixelated;">
+        <div class="image-title">Color Chaos {getPixelEmoji('SPARKLE')}</div>
+      </div>
+      <div style="padding: 8px; font-size: 11px;">
+        <p><strong>制作日:</strong> 2024/06/10</p>
+        <p><strong>使用技術:</strong> p5.js</p>
+        <p><strong>コメント:</strong> ランダムな色と図形を組み合わせて生成するアート。毎回違うパターンが生まれるのが面白い！</p>
+      </div>
+    </div>
+
+    <div class="retro-frame artwork generative" data-category="generative">
+      <div class="image-container">
+        <img src="https://via.placeholder.com/250x250/FF8C00/8A2BE2?text=AI+Collab" alt="AI協働作品" style="image-rendering: pixelated;">
+        <div class="image-title">AI Collaboration {getPixelEmoji('COMPUTER')}</div>
+      </div>
+      <div style="padding: 8px; font-size: 11px;">
+        <p><strong>制作日:</strong> 2024/06/03</p>
+        <p><strong>使用技術:</strong> Python + Stable Diffusion</p>
+        <p><strong>コメント:</strong> AIが生成した基本形状を、プログラムで後処理して独自のアート作品に。人間とAIのコラボレーション実験</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 制作過程・コメント -->
+  <div class="retro-frame mt-8">
+    <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px; text-align: center;">
+      ◆ Artist's Note
+    </h3>
+    <div style="font-size: 12px; padding: 10px; background-color: var(--color-bg-secondary); color: var(--unified-text-primary); border: 2px dashed var(--neon-primary);">
+      <p><strong>作品づくりへの想い:</strong></p>
+      <p>子供の頃から絵を描くことが大好きで、デジタルツールを覚えてからはますます創作の幅が広がりました。
+      特に猫のイラストは描いていて一番楽しく、見る人にも癒しを与えられたらいいなと思っています {getPixelEmoji('CAT')}</p>
+      
+      <p style="margin-top: 10px;"><strong>技術的な挑戦:</strong></p>
+      <p>最近はジェネラティブアートにハマっていて、プログラミングとアートの融合にとても興味があります。
+      数学的な美しさをコードで表現できた時の達成感は格別です！まだまだ勉強中ですが、どんどん新しい作品を作っていきたいです {getPixelEmoji('SPARKLE')}</p>
+      
+      <p style="margin-top: 10px;"><strong>今後の目標:</strong></p>
+      <p>いつかオリジナルキャラクターでショートアニメーションを作ってみたいです。
+      また、展示会やネット上での作品発表も積極的にやっていきたいと思っています {getPixelEmoji('ART')}</p>
+    </div>
+  </div>
+
+  <!-- 作品依頼について -->
+  <div class="retro-frame mt-6 text-center">
+    <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 10px;">
+      ◆ Commission Info
+    </h3>
+    <p style="font-size: 12px; margin-bottom: 10px;">
+      イラスト制作のご依頼も承っています！お気軽にご相談ください {getPixelEmoji('SPARKLE')}
+    </p>
+    <div class="flex justify-center gap-3">
+      <span class="retro-button">◇ ペットイラスト</span>
+      <span class="retro-button">◉ ロゴ・アイコン</span>
+      <span class="retro-button">▢ ドット絵</span>
+      <span class="retro-button">◆ お問い合わせ</span>
+    </div>
+  </div>
+
+  <!-- フローティングパレット -->
+  <div style="position: fixed; bottom: 160px; right: 20px; z-index: 1000;">
+    <div style="font-size: 28px; animation: palette-spin 4s linear infinite;">
+      ▨
+    </div>
+  </div>
+
+  <style>
+    .category-btn.active {
+      background: linear-gradient(to bottom, var(--neon-primary) 0%, var(--neon-deep-blue) 100%);
+      color: white;
+      border: 2px inset var(--neon-primary);
+    }
+
+    .artwork {
+      transition: opacity 0.3s ease;
+    }
+
+    .artwork.hidden {
+      display: none;
+    }
+
+    @keyframes palette-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+
+  <script>
+    // カテゴリーフィルター機能
+    document.addEventListener('DOMContentLoaded', function() {
+      const categoryBtns = document.querySelectorAll('.category-btn');
+      const artworks = document.querySelectorAll('.artwork');
+
+      categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const category = this.dataset.category;
+          
+          // アクティブボタンの切り替え
+          categoryBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          // 作品の表示/非表示
+          artworks.forEach(artwork => {
+            if (category === 'all' || artwork.dataset.category === category) {
+              artwork.classList.remove('hidden');
+            } else {
+              artwork.classList.add('hidden');
+            }
+          });
+        });
+      });
+    });
+  </script>
+</Layout>

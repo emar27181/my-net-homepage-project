@@ -1,0 +1,196 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "nodoameのポートフォリオサイト" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/icon_omencat_transparent.png" />
+    <title>{title}</title>
+    <meta
+      name="keywords"
+      content="nodoame,ポートフォリオ,VALORANT,ゲーム,動画"
+    />
+    <meta name="author" content="nodoame" />
+    <meta
+      name="google-site-verification"
+      content="uyjBT9z6vOnpxn6lM6YnxbI6R4jLSDIAboC8zo1slhM"
+    />
+  </head>
+  <body
+    style="margin: 0; padding: 0; background-color: #1a1a1a; color: white; font-family: 'Press Start 2P', monospace; image-rendering: pixelated;"
+    class="mobile-body"
+  >
+    <slot />
+
+    <!-- ドットフォントのGoogle Fonts読み込み -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DotGothic16&family=BIZ+UDPGothic:wght@400;700&family=VT323&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* CSS変数定義 */
+      :root {
+        --font-pixel: "Press Start 2P", cursive;
+        --font-mono: "VT323", monospace;
+        --font-pixel-jp: "DotGothic16", "BIZ UDPGothic", "Press Start 2P",
+          monospace;
+        --font-main-jp: "DotGothic16", "BIZ UDPGothic", sans-serif;
+      }
+
+      /* 全体的なドットフォント適用 */
+      * {
+        font-family: var(--font-pixel-jp) !important;
+        image-rendering: pixelated !important;
+        text-rendering: optimizeSpeed !important;
+      }
+
+      /* 英数字はPress Start 2P、日本語はDotGothic16 */
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: var(--font-pixel-jp) !important;
+        text-shadow: 1px 1px 0px #000000 !important;
+      }
+
+      p,
+      span,
+      div {
+        font-family: var(--font-pixel-jp) !important;
+        text-shadow: 1px 1px 0px #000000 !important;
+      }
+
+      /* ピクセル感を強調 */
+      body {
+        -webkit-font-smoothing: none !important;
+        -moz-osx-font-smoothing: unset !important;
+        font-smooth: never !important;
+        font-family: var(--font-pixel-jp) !important;
+      }
+
+      /* 動画グリッドのデフォルトスタイル（デスクトップ） */
+      .main-container .video-grid,
+      .video-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+        width: 100% !important;
+      }
+
+      /* タブレット表示 */
+      @media screen and (max-width: 768px) {
+        .main-container .video-grid,
+        .video-grid {
+          grid-template-columns: 1fr !important;
+          gap: 20px !important;
+        }
+      }
+
+      /* スマホ表示 */
+      @media screen and (max-width: 480px) {
+        .main-container .video-grid,
+        .video-grid {
+          grid-template-columns: 1fr !important;
+          gap: 0 !important;
+        }
+        
+        .main-container {
+          padding: 0 !important;
+          border-width: 0 !important;
+          margin: 0 !important;
+          border-radius: 0 !important;
+          background: transparent !important;
+          box-shadow: none !important;
+        }
+        
+        .mobile-main {
+          max-width: 100% !important;
+          width: 100vw !important;
+          min-height: 100vh !important;
+        }
+        
+        /* スマホでのタイトルセクション最小化 */
+        @media screen and (max-width: 480px) {
+          .mobile-body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+          }
+          
+          /* 全てのpaddingとmarginを0pxに */
+          .main-container {
+            padding: 0px !important;
+            margin: 0px !important;
+            max-width: 100vw !important;
+            border: none !important;
+            border-radius: 0px !important;
+          }
+          
+          /* 各セクションのpaddingとmarginを0px */
+          .main-container > div {
+            padding: 0px !important;
+            margin: 0px !important;
+            margin-bottom: 2px !important;
+            border-radius: 0px !important;
+          }
+          
+          /* My Works内部の全ての余白を0px */
+          .main-container > div > div > div[style*="padding: 15px"] {
+            padding: 0px !important;
+            margin: 0px !important;
+          }
+          
+          /* 全てのdivの余白を強制的に削除 */
+          .main-container * {
+            margin-left: 0px !important;
+            margin-right: 0px !important;
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+          }
+          
+          .title-section {
+            margin-bottom: 2px !important;
+            padding: 1px !important;
+          }
+          
+          .title-section h1 {
+            font-size: 10px !important;
+            margin: 0 !important;
+          }
+          
+          .title-section p {
+            font-size: 7px !important;
+            margin: 0 !important;
+          }
+          
+          .video-section {
+            padding: 0px !important;
+            margin: 0 !important;
+            border: none !important;
+            background: transparent !important;
+          }
+          
+          .video-section h2 {
+            font-size: 8px !important;
+            margin: 0 0 1px 0 !important;
+            padding: 0 !important;
+          }
+        }
+      }
+    </style>
+  </body>
+</html>

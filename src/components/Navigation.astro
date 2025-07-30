@@ -1,0 +1,89 @@
+---
+// ナビゲーションコンポーネント
+import NeonLine from './NeonLine.astro';
+import Dekome from './Dekome.astro';
+
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { href: '/', label: 'HOME', dekome: 'heart-pink' },
+  { href: '/about', label: 'ABOUT', dekome: 'face-happy' },
+  { href: '/gallery', label: 'GALLERY', dekome: 'star-twinkle' },
+  { href: '/game', label: 'GAME', dekome: 'music-note' },
+  { href: '/dev', label: 'DEV', dekome: 'computer' },
+  { href: '/blog', label: 'BLOG', dekome: 'sparkle-rainbow' },
+  { href: '/link', label: 'LINK', dekome: 'butterfly' }
+];
+---
+
+<NeonLine lineId="primary" type="frame" size="md">
+  <nav>
+    <table class="retro-table w-full">
+      <tr>
+        {navItems.map(item => (
+          <td class="text-center">
+            <NeonLine 
+              lineId="primary" 
+              type="border" 
+              size="sm" 
+              class={`neon-nav-item ${currentPath === item.href ? 'active' : ''}`}
+            >
+              <a 
+                href={item.href} 
+                class="neon-nav-link"
+              >
+                <Dekome type={item.dekome} size="xs" /> {item.label}
+              </a>
+            </NeonLine>
+          </td>
+        ))}
+      </tr>
+    </table>
+  </nav>
+</NeonLine>
+
+<style>
+  .neon-nav-item {
+    margin: 0.25rem;
+    transition: all 0.3s ease;
+  }
+
+  .neon-nav-item.active {
+    filter: brightness(1.3);
+    transform: scale(1.05);
+  }
+
+  .neon-nav-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    color: var(--neon-line-primary-color);
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .neon-nav-link:hover {
+    color: #ffffff;
+    text-shadow: 0 0 10px var(--neon-line-primary-color);
+    transform: scale(1.02);
+  }
+
+  /* レスポンシブ対応 */
+  @media (max-width: 768px) {
+    .neon-nav-link {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  /* アクセシビリティ対応 */
+  @media (prefers-reduced-motion: reduce) {
+    .neon-nav-item,
+    .neon-nav-link {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+</style>

@@ -1,0 +1,60 @@
+---
+/**
+ * アメブロ公式デコメ（動くGIF絵文字）コンポーネント
+ * 2000年代アメブロ風の動く絵文字を表示
+ * アメブロ公式GIF URLを使用した本格的なデコメシステム
+ */
+
+import { 
+  getAmebloDekomeUrl, 
+  getDekomeAlt, 
+  getDekomeSize,
+  type AmebloDekomeType,
+  type DekomeSize
+} from '../utils/ameblo-dekome.ts';
+
+interface Props {
+  /** アメブロ公式デコメの種類 */
+  type: AmebloDekomeType;
+  /** サイズ（xs, sm, md, lg, xl） */
+  size?: DekomeSize;
+  /** カスタムクラス */
+  class?: string;
+  /** alt属性（省略時は自動設定） */
+  alt?: string;
+  /** カスタムURL（アメブロ公式以外を使用する場合） */
+  customUrl?: string;
+  /** 画像読み込み方式 */
+  loading?: 'lazy' | 'eager';
+  /** デコード方式 */
+  decoding?: 'async' | 'sync' | 'auto';
+}
+
+const { 
+  type, 
+  size = 'sm', 
+  class: className = '', 
+  alt, 
+  customUrl,
+  loading = 'lazy',
+  decoding = 'async'
+} = Astro.props;
+
+// アメブロ公式GIF URLまたはカスタムURLを使用
+const imageUrl = customUrl || getAmebloDekomeUrl(type);
+const imageAlt = alt || getDekomeAlt(type);
+const sizeClass = getDekomeSize(size);
+
+// アメブロ風スタイリング用クラス
+const combinedClasses = `ameblo-dekome inline align-middle ${sizeClass} ${className}`.trim();
+---
+
+<img 
+  src={imageUrl} 
+  alt={imageAlt}
+  class={combinedClasses}
+  loading={loading}
+  decoding={decoding}
+  style="image-rendering: pixelated;"
+  referrerpolicy="no-referrer"
+/>

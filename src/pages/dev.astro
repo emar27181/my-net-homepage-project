@@ -1,0 +1,396 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+import { applyTypographyPreset } from '../utils/typography';
+import Dekome from '../components/Dekome.astro';
+import AsciiEmoji from '../components/AsciiEmoji.astro';
+import { tPageTitle } from '../utils/textManager';
+---
+
+<Layout title="Dev - nodoameの開発・研究">
+  <!-- ページタイトル -->
+  <div class="marquee mb-6">
+    <AsciiEmoji type="emoticon" variant="cool" size="sm" inline />
+    {tPageTitle('dev')}
+    <AsciiEmoji type="simple-aa" variant="gj" size="sm" inline />
+    Web制作・プログラミング・研究活動を紹介します！
+    <AsciiEmoji type="emoticon" variant="happy" size="sm" inline />
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    
+    <!-- 左サイドバー：スキル・技術スタック -->
+    <div class="lg:col-span-1">
+      <!-- 技術スタック -->
+      <div class="retro-frame mb-6">
+        <h2 class={applyTypographyPreset('sectionTitle')} style="margin-bottom: 10px; text-align: center;">
+          <Dekome type="game-controller" size="sm" /> Tech Stack <Dekome type="star-twinkle" size="sm" />
+        </h2>
+        
+        <div class={applyTypographyPreset('subText')}>
+          <div class="mb-3">
+            <h4 class={applyTypographyPreset('tag')} style="margin-bottom: 4px;">
+              Frontend <Dekome type="butterfly" size="xs" />
+            </h4>
+            <div class="flex flex-wrap gap-1">
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">HTML5</span>
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">CSS3</span>
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">JavaScript</span>
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">React</span>
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">Astro</span>
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">Tailwind</span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <h4 class={applyTypographyPreset('tag')} style="margin-bottom: 4px;">
+              Backend & Tools <Dekome type="computer" size="xs" />
+            </h4>
+            <div class="flex flex-wrap gap-1">
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">Python</span>
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">Node.js</span>
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">Git</span>
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">VSCode</span>
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">GitHub</span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <h4 class={applyTypographyPreset('tag')} style="margin-bottom: 4px;">
+              Design & Graphics <Dekome type="flower-cute" size="xs" />
+            </h4>
+            <div class="flex flex-wrap gap-1">
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">Photoshop</span>
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">Illustrator</span>
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">Figma</span>
+              <span class="px-2 py-1 neon-border-sm" style="font-size: 9px; background: var(--color-bg-secondary); color: var(--unified-text-primary); border-color: var(--neon-primary);">Clip Studio</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 現在学習中 -->
+      <div class="retro-frame mb-6">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          <Dekome type="sparkle-rainbow" size="sm" /> Currently Learning <Dekome type="face-happy" size="sm" />
+        </h3>
+        <div style="font-size: 11px;">
+          <p><strong>🔥 優先度高:</strong></p>
+          <ul style="margin-left: 15px; margin-bottom: 8px;">
+            <li>TypeScript（型安全性の向上）</li>
+            <li>Three.js（3Dグラフィックス）</li>
+            <li>p5.js（ジェネラティブアート）</li>
+          </ul>
+
+          <p><strong>📖 興味あり:</strong></p>
+          <ul style="margin-left: 15px;">
+            <li>WebGL・シェーダー</li>
+            <li>機械学習基礎（Python）</li>
+            <li>UI/UXデザイン理論</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- GitHub統計風 -->
+      <div class="retro-frame">
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          ▣ Code Stats
+        </h3>
+        <div style="font-size: 10px;">
+          <div class="mb-2 p-2 profile-section">
+            <strong>◎ データ収集中... ◎</strong><br>
+            GitHub統計の自動取得機能を実装予定
+          </div>
+          <div class="mb-2 p-2 profile-section">
+            <strong>実装予定項目:</strong><br>
+            リポジトリ数・言語使用率・コントリビューション
+          </div>
+          <div class="p-2 profile-section">
+            <strong>GitHub API連携:</strong><br>
+            ▣ 準備中 | ◈ 自動更新システム構築中
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- メインコンテンツ：プロジェクト紹介 -->
+    <div class="lg:col-span-2">
+      <!-- 主要プロジェクト -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          <Dekome type="star-shooting" size="md" /> Featured Projects <Dekome type="crown-princess" size="md" />
+        </h2>
+
+        <!-- プロジェクト1：ポートフォリオサイト -->
+        <div class="mb-6 p-4 profile-qa-section">
+          <div class="flex items-start gap-4">
+            <div class="image-container">
+              <img src="https://via.placeholder.com/120x90/FF69B4/FFFFFF?text=Portfolio" alt="ポートフォリオサイト" style="image-rendering: pixelated;">
+              <div class="image-title">This Site! 🌟</div>
+            </div>
+            <div class="flex-1">
+              <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 6px;">
+                <Dekome type="computer" size="sm" /> レトロポートフォリオサイト <Dekome type="heart-pink" size="sm" />
+              </h3>
+              <p style="font-size: 11px; margin-bottom: 8px;">
+                <strong>技術:</strong> Astro + Tailwind CSS + TypeScript<br>
+                <strong>制作期間:</strong> 2024/06 (約2週間)<br>
+                <strong>デプロイ:</strong> Netlify
+              </p>
+              <p style="font-size: 12px; line-height: 1.4;">
+                2000年代初頭のレトロなホームページの雰囲気を現代の技術で再現。
+                テーブルレイアウト風のデザイン、ピクセルフォント、アニメーション等で
+                懐かしいWeb空間を表現しました ✨
+              </p>
+              <div class="mt-2">
+                <span class="retro-button mr-2" style="opacity: 0.6; cursor: not-allowed;">
+                  💻 GitHub (準備中)
+                </span>
+                <span class="retro-button" style="opacity: 0.6; cursor: not-allowed;">
+                  🌐 Live Demo (準備中)
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- プロジェクト2：ジェネラティブアート -->
+        <div class="mb-6 p-4 profile-qa-section">
+          <div class="flex items-start gap-4">
+            <div class="image-container">
+              <img src="https://via.placeholder.com/120x90/9932CC/FFFF00?text=Gen+Art" alt="ジェネラティブアート" style="image-rendering: pixelated;">
+              <div class="image-title">Art Generator ⚡</div>
+            </div>
+            <div class="flex-1">
+              <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 6px;">
+                <Dekome type="butterfly" size="sm" /> ジェネラティブアート実験室 <Dekome type="sparkle-gold" size="sm" />
+              </h3>
+              <p style="font-size: 11px; margin-bottom: 8px;">
+                <strong>技術:</strong> Python + matplotlib + numpy<br>
+                <strong>制作期間:</strong> 2024/05〜継続中<br>
+                <strong>アートワーク数:</strong> 50+ 作品
+              </p>
+              <p style="font-size: 12px; line-height: 1.4;">
+                数学的アルゴリズムを使用してアート作品を自動生成。
+                フラクタル、ノイズ、ランダムウォークなど様々な手法を実験中。
+                毎回予想できない美しい作品が生まれるのが面白い！
+              </p>
+              <div class="mt-2">
+                <span class="retro-button mr-2" style="opacity: 0.6; cursor: not-allowed;">
+                  💻 Code (準備中)
+                </span>
+                <a href="/gallery" class="retro-button">
+                  🖼️ Gallery
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- プロジェクト3：Webアプリ -->
+        <div class="mb-6 p-4 profile-qa-section">
+          <div class="flex items-start gap-4">
+            <div class="image-container">
+              <img src="https://via.placeholder.com/120x90/32CD32/333333?text=Task+App" alt="タスク管理アプリ" style="image-rendering: pixelated;">
+              <div class="image-title">Todo Manager 📝</div>
+            </div>
+            <div class="flex-1">
+              <h3 style="font-family: var(--font-pixel); font-size: 14px; margin-bottom: 6px;">
+                <Dekome type="face-happy" size="sm" /> レトロ風タスク管理アプリ <Dekome type="star-twinkle" size="sm" />
+              </h3>
+              <p style="font-size: 11px; margin-bottom: 8px;">
+                <strong>技術:</strong> React + TypeScript + Local Storage<br>
+                <strong>制作期間:</strong> 2024/04 (約1週間)<br>
+                <strong>機能:</strong> CRUD操作、フィルター、ドラッグ&ドロップ
+              </p>
+              <p style="font-size: 12px; line-height: 1.4;">
+                レトロなデザインのタスク管理アプリ。90年代のソフトウェアUIを
+                モチーフにしたボタンやウィンドウスタイルで、
+                機能性と懐かしさを両立させました 🖥️
+              </p>
+              <div class="mt-2">
+                <span class="retro-button mr-2" style="opacity: 0.6; cursor: not-allowed;">
+                  💻 Source (準備中)
+                </span>
+                <span class="retro-button" style="opacity: 0.6; cursor: not-allowed;">
+                  🚀 Demo (準備中)
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 研究・学習活動 -->
+      <div class="retro-frame mb-6">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          ◈ Research & Learning ◈
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 大学での研究 -->
+          <div>
+            <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+              ◇ 大学での研究活動
+            </h3>
+            <div class="profile-section" style="font-size: 11px;">
+              <p><strong>研究テーマ:</strong><br>
+              「Web技術を活用したインタラクティブアート表現の研究」</p>
+              
+              <p style="margin-top: 6px;"><strong>研究内容:</strong></p>
+              <ul style="margin-left: 15px;">
+                <li>ブラウザ上での実時間グラフィックス生成</li>
+                <li>ユーザーインタラクションとビジュアル表現の関係</li>
+                <li>WebGL・Canvas APIの活用手法</li>
+                <li>レスポンシブデザインとアート表現の両立</li>
+              </ul>
+              
+              <p style="margin-top: 6px;"><strong>成果物:</strong><br>
+              学会発表予定（2024年秋）、デモアプリ3つ制作済み</p>
+            </div>
+          </div>
+
+          <!-- 個人学習 -->
+          <div>
+            <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+              ▦ 個人学習・実験
+            </h3>
+            <div class="profile-section" style="font-size: 11px;">
+              <p><strong>最近の学習トピック:</strong></p>
+              <ul style="margin-left: 15px; margin-bottom: 8px;">
+                <li>Three.js でのシェーダープログラミング</li>
+                <li>p5.js を使った参加型アート作品</li>
+                <li>Web Audio API での音声ビジュアライザー</li>
+                <li>機械学習による画像生成（Python）</li>
+              </ul>
+              
+              <p><strong>参加しているコミュニティ:</strong></p>
+              <ul style="margin-left: 15px;">
+                <li>Creative Coding Japan (Discord)</li>
+                <li>Web制作者交流会（月1回参加）</li>
+                <li>ジェネラティブアート勉強会</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 技術記事・ブログ -->
+      <div class="retro-frame">
+        <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+          ▦ Tech Articles & Blog ▦
+        </h2>
+
+        <div style="font-size: 12px;">
+          <div class="mb-4 p-3 profile-section">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 4px;">
+              ▦ 「Astroで作るレトロWebサイト」
+            </h4>
+            <p style="font-size: 10px; color: #666; margin-bottom: 4px;">2024/06/20 | 執筆準備中</p>
+            <p>このポートフォリオサイトの制作過程をまとめた技術記事を準備中。
+            Astroの静的サイト生成機能とTailwind CSSを使ったレトロスタイルの実装方法を詳しく解説予定</p>
+          </div>
+
+          <div class="mb-4 p-3 profile-section">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 4px;">
+              ▦ 「p5.jsで始めるジェネラティブアート」
+            </h4>
+            <p style="font-size: 10px; color: #666; margin-bottom: 4px;">2024/06/05 | 執筆準備中</p>
+            <p>ジェネラティブアート初心者向けのチュートリアル記事を準備中。
+            基本的な図形描画からランダム要素を使った作品制作まで、実際のコード例と共に説明予定</p>
+          </div>
+
+          <div class="mb-4 p-3 profile-section">
+            <h4 style="font-family: var(--font-pixel); font-size: 11px; margin-bottom: 4px;">
+              ▦ 「CSS Grid vs Flexbox 使い分けガイド」
+            </h4>
+            <p style="font-size: 10px; color: #666; margin-bottom: 4px;">2024/05/15 | 下書き作成中</p>
+            <p>レスポンシブレイアウト設計でのCSS GridとFlexboxの
+            適材適所な使い分けについて、実例を交えて比較検討する記事を準備中</p>
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <a href="/blog" class="retro-button mr-2">▦ More Articles</a>
+          <span class="retro-button" style="opacity: 0.6; cursor: not-allowed;">▦ Zenn (準備中)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 連絡・コラボレーション -->
+  <div class="retro-frame mt-6">
+    <h2 style="font-family: var(--font-pixel); font-size: 16px; margin-bottom: 12px; text-align: center;">
+      ◇ Collaboration & Contact ◇
+    </h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          ◆ お仕事・プロジェクト依頼
+        </h3>
+        <div class="profile-qa-section" style="font-size: 12px;">
+          <p><strong>対応可能な案件:</strong></p>
+          <ul style="margin-left: 15px; margin-bottom: 8px;">
+            <li>レスポンシブWebサイト制作</li>
+            <li>フロントエンド開発（React/Astro）</li>
+            <li>UI/UXデザイン</li>
+            <li>ジェネラティブアート制作</li>
+            <li>技術記事・チュートリアル執筆</li>
+          </ul>
+          <p style="font-size: 11px; color: #666;">
+            ※ 学業と両立しながらの活動のため、規模や納期はご相談ください
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-family: var(--font-pixel); font-size: 12px; margin-bottom: 8px;">
+          ◇ コラボレーション・交流
+        </h3>
+        <div class="profile-qa-section" style="font-size: 12px;">
+          <p><strong>興味があること:</strong></p>
+          <ul style="margin-left: 15px; margin-bottom: 8px;">
+            <li>クリエイティブコーディング勉強会</li>
+            <li>ハッカソン・アイデアソン参加</li>
+            <li>オープンソースプロジェクト貢献</li>
+            <li>アート×テクノロジー企画</li>
+            <li>学生開発者コミュニティ活動</li>
+          </ul>
+          <p style="font-size: 11px;">
+            同じ興味を持つ方、一緒に何か作りませんか？ 🚀
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-6">
+      <div class="flex justify-center gap-3 flex-wrap">
+        <span class="retro-button" style="opacity: 0.6; cursor: not-allowed;">◆ Email (準備中)</span>
+        <span class="retro-button" style="opacity: 0.6; cursor: not-allowed;">■ GitHub (準備中)</span>
+        <span class="retro-button" style="opacity: 0.6; cursor: not-allowed;">◈ Twitter (準備中)</span>
+        <span class="retro-button" style="opacity: 0.6; cursor: not-allowed;">◆ Discord (準備中)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- フローティングコード -->
+  <div style="position: fixed; bottom: 280px; right: 20px; z-index: 1000;">
+    <div style="font-size: 20px; animation: code-glow 3s ease-in-out infinite;">
+      ■
+    </div>
+  </div>
+
+  <style>
+    @keyframes code-glow {
+      0%, 100% { 
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px #4ecdc4);
+      }
+      50% { 
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 15px #ff6b9d);
+      }
+    }
+  </style>
+</Layout>
