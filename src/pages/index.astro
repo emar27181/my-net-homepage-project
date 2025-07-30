@@ -22,20 +22,20 @@ const COLORS = {
   primaryAlpha10: "rgba(77,121,255,0.1)", // 10%透明度
   primaryAlpha5: "rgba(77,121,255,0.05)", // 5%透明度
   primaryShadow: "rgba(77,121,255,0.3)", // シャドウ用
-  
+
   // タイトル・見出しカラー
   heading: "#A6F7FF", // ライトシアン（タイトル・見出し専用）
-  
+
   // テキストカラー
   textWhite: "#ffffff", // 白文字
   textGray: "#cccccc", // グレー文字
   textDarkGray: "#666666", // ダークグレー文字
   textBlack: "#000000", // 黒文字（シャドウ用）
-  
+
   // 背景・ボーダー
   bgWhite: "#ffffff", // 白背景
   bgTransparent: "transparent", // 透明
-  
+
   // エフェクト
   shadowWhite: "rgba(255,255,255,0.3)", // 白シャドウ
   shadowBlack: "rgba(0,0,0,0.5)", // 黒シャドウ
@@ -217,7 +217,7 @@ const COLORS = {
             <!-- 右側: 実際のサイト埋め込み -->
             <div style="text-align: center;">
               <div
-                style="position: relative; width: 100%; aspect-ratio: 4 / 5;"
+                style="position: relative; width: 100%; aspect-ratio: 2 / 3;"
               >
                 <iframe
                   src="https://valorant-point-viewer.netlify.app/"
@@ -249,7 +249,7 @@ const COLORS = {
 
             <div style="margin-bottom: 15px; text-align: center;">
               <div
-                style="position: relative; width: 100%; max-width: 350px; aspect-ratio: 3 / 4; margin: 0 auto;"
+                style="position: relative; width: 100%; max-width: 350px; height: calc((350px * 4 / 3) + 20px); margin: 0 auto;"
               >
                 <iframe
                   src="https://valorant-point-viewer.netlify.app/"
