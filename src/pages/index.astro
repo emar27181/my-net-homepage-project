@@ -386,6 +386,24 @@ const COLORS = {
           >
             感度: 0.20 (800 DPI)<br />
             クロスヘア: 青色・アウトライン有<br />
+            クロスヘアコード: 
+            <span id="copy-crosshair-container" style="display: inline-block;">
+              <svg 
+                id="copy-crosshair-icon"
+                style="display: inline-block; width: 14px; height: 14px; vertical-align: middle; margin-right: 5px; cursor: pointer; fill: #4d79ff;"
+                title="クリックでコピー"
+                viewBox="0 0 24 24"
+              >
+                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+              </svg>
+              <svg 
+                id="check-crosshair-icon"
+                style="display: none; width: 14px; height: 14px; vertical-align: middle; margin-right: 5px; fill: #4d79ff;"
+                viewBox="0 0 24 24"
+              >
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+              </svg>
+            </span>0;s;1;P;c;1;o;0.3;f;0;0t;4;0l;1;0o;2;0a;1;0f;0;1b;0;S;c;1<br />
             解像度: 1920×1080<br />
             FPS: 144fps
           </p>
@@ -460,3 +478,32 @@ const COLORS = {
     }
   }
 </style>
+
+<script>
+  function copyCrosshairCode() {
+    navigator.clipboard.writeText('0;s;1;P;c;1;o;0.3;f;0;0t;4;0l;1;0o;2;0a;1;0f;0;1b;0;S;c;1');
+    
+    // アイコンを切り替え
+    const copyIcon = document.getElementById('copy-crosshair-icon');
+    const checkIcon = document.getElementById('check-crosshair-icon');
+    
+    if (copyIcon && checkIcon) {
+      copyIcon.style.display = 'none';
+      checkIcon.style.display = 'inline-block';
+      
+      // 2秒後に元に戻す
+      setTimeout(() => {
+        checkIcon.style.display = 'none';
+        copyIcon.style.display = 'inline-block';
+      }, 2000);
+    }
+  }
+  
+  // DOM読み込み完了後に実行
+  document.addEventListener('DOMContentLoaded', function() {
+    const copyIcon = document.getElementById('copy-crosshair-icon');
+    if (copyIcon) {
+      copyIcon.addEventListener('click', copyCrosshairCode);
+    }
+  });
+</script>
