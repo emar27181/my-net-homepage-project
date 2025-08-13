@@ -51,8 +51,9 @@ const COLORS = {
     <div style="text-align: center; margin-bottom: 40px;" class="title-section">
       <h1
         style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.title}; margin-bottom: 15px; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+        class="main-title"
       >
-        Nodoame's Portfolio
+        <span class="title-first-line">Nodoame's</span> <span class="title-second-line">Portfolio</span>
       </h1>
 
       <!-- 横線 -->
@@ -120,7 +121,7 @@ const COLORS = {
         style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
       />
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" class="profile-info-grid">
         <div>
           <h3
             style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
@@ -374,7 +375,7 @@ const COLORS = {
         style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
       />
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" class="device-settings-grid">
         <div>
           <h3
             style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
@@ -419,7 +420,7 @@ const COLORS = {
               >
                 <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
               </svg>
-            </span>0;s;1;P;c;1;o;0.3;f;0;0t;4;0l;1;0o;2;0a;1;0f;0;1b;0;S;c;1<br />
+            </span><span class="crosshair-code">0;s;1;P;c;1;o;0.3;f;0;0t;4;0l;1;0o;2;0a;1;0f;0;1b;0;S;c;1</span><br />
             解像度: 1920×1080<br />
             FPS: 144fps
           </p>
@@ -441,6 +442,72 @@ const COLORS = {
 </SimpleLayout>
 
 <style>
+  /* 文字溢れ防止 - ページ全体の自動改行ルール */
+  * {
+    word-wrap: break-word !important;
+    word-break: break-all !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* 長い文字列（クロスヘアコードなど）の特別対応 */
+  p, span, div {
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+  }
+
+  /* クロスヘアコード専用スタイル */
+  .crosshair-code {
+    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    word-break: break-all !important;
+    overflow-wrap: break-word !important;
+    display: inline-block !important;
+    image-rendering: pixelated !important;
+    text-shadow: 1px 1px 0px #000000 !important;
+  }
+
+  /* スマートフォン向け追加改行ルール */
+  @media screen and (max-width: 768px) {
+    * {
+      word-break: break-all !important;
+      overflow-wrap: anywhere !important;
+      line-break: anywhere !important;
+    }
+    
+    /* 長いコード文字列用の強制改行 */
+    span, code {
+      white-space: pre-wrap !important;
+      word-break: break-all !important;
+    }
+
+    /* クロスヘアコードのモバイル対応 */
+    .crosshair-code {
+      display: block !important;
+      margin: 5px 0 !important;
+      white-space: pre-wrap !important;
+      word-break: break-all !important;
+      overflow-wrap: anywhere !important;
+      max-width: 100% !important;
+    }
+
+    /* グリッドレイアウトを1列に変更 */
+    .profile-info-grid,
+    .device-settings-grid {
+      grid-template-columns: 1fr !important;
+      gap: 15px !important;
+    }
+
+    /* タイトルの改行対応 */
+    .title-second-line {
+      display: block !important;
+      margin-top: 10px !important;
+    }
+  }
+
   /* 動画グリッドのレスポンシブ対応 */
   .video-grid {
     display: grid !important;
