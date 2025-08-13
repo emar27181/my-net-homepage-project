@@ -256,6 +256,12 @@
   → `getPixelEmoji()`と組み合わせた8-bit風デザイン維持
   → SimpleLayoutで全体に強制適用（`* { font-family: var(--font-pixel-jp) !important; }`）
 
+- **コードテキスト統一ルール**  
+  → クロスヘアコード・設定値等もピクセルフォント統一必須
+  → `font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace`
+  → Courier New等のシステムフォント使用禁止
+  → コード系要素も`text-shadow: 1px 1px 0px #000000`と`image-rendering: pixelated`適用
+
 #### フォントサイズ管理システム
 - **FONT_SIZES定数による一元管理**  
   → ファイル先頭に固定値オブジェクトを定義
