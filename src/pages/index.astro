@@ -79,6 +79,7 @@ const COLORS = {
     <!-- About Me -->
     <div
       style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="about-section"
     >
       <h2
         style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
@@ -109,6 +110,7 @@ const COLORS = {
     <!-- プロフィール情報 -->
     <div
       style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="profile-section"
     >
       <h2
         style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
@@ -169,6 +171,7 @@ const COLORS = {
     <!-- Works -->
     <div
       style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="works-section"
     >
       <h2
         style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
@@ -363,6 +366,7 @@ const COLORS = {
     <!-- デバイス情報 -->
     <div
       style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="device-section"
     >
       <h2
         style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
@@ -505,6 +509,47 @@ const COLORS = {
     .title-second-line {
       display: block !important;
       margin-top: 10px !important;
+    }
+
+    /* スマートフォン向け余白調整 */
+    .main-container {
+      padding: 10px !important;
+      margin: 5px !important;
+    }
+
+    /* 各セクションの余白を減少 */
+    .title-section {
+      margin-bottom: 25px !important;
+      padding: 10px !important;
+    }
+
+    .about-section,
+    .profile-section,
+    .works-section,
+    .video-section,
+    .device-section {
+      padding: 12px !important;
+      margin-bottom: 25px !important;
+    }
+
+    /* グリッド内の個別要素の余白調整 */
+    .profile-info-grid > div,
+    .device-settings-grid > div {
+      padding: 0 3px !important;
+      margin: 0 !important;
+    }
+
+    /* テキスト要素の余白調整 */
+    .about-section p,
+    .profile-section p,
+    .device-section p {
+      padding: 0 5px !important;
+      margin: 10px 0 !important;
+    }
+
+    /* Works セクション内の特別調整 */
+    .works-section > div > div {
+      padding: 10px !important;
     }
   }
 
