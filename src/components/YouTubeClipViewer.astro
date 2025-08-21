@@ -125,7 +125,7 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
     aspect-ratio: 16 / 9;
     background: #000;
     border: 2px solid var(--retro-primary);
-    border-radius: 4px;
+    border-radius: 8px;
     overflow: hidden;
     box-shadow: inset 2px 2px 0px rgba(0,0,0,0.3);
   }
@@ -258,6 +258,12 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
       font-size: 9px;
       padding: 0.4rem 0.8rem;
     }
+    
+    .video-container {
+      border: 2px solid #4d79ff !important;
+      border-radius: 6px;
+      box-shadow: 0 0 8px rgba(77, 121, 255, 0.2) !important;
+    }
   }
 
   @media (max-width: 480px) {
@@ -286,9 +292,10 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
     }
     
     .video-container {
-      border-width: 0;
-      border-radius: 0;
+      border: 2px solid #4d79ff !important;
+      border-radius: 4px;
       margin: 0;
+      box-shadow: 0 0 10px rgba(77, 121, 255, 0.3) !important;
     }
   }
 
