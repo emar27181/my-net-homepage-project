@@ -577,7 +577,7 @@ const COLORS = {
   /* 動画グリッドのレスポンシブ対応 */
   .video-grid {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: 1fr !important;
     gap: 20px !important;
     width: 100% !important;
   }
@@ -585,7 +585,7 @@ const COLORS = {
   /* デスクトップ表示（769px以上） */
   @media screen and (min-width: 769px) {
     .video-grid {
-      grid-template-columns: repeat(2, 1fr) !important;
+      grid-template-columns: 1fr !important;
       gap: 20px !important;
     }
   }
@@ -593,7 +593,7 @@ const COLORS = {
   /* タブレット表示（481px-768px） */
   @media screen and (min-width: 481px) and (max-width: 768px) {
     .video-grid {
-      grid-template-columns: repeat(2, 1fr) !important;
+      grid-template-columns: 1fr !important;
       gap: 15px !important;
     }
   }
