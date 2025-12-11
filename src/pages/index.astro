@@ -314,11 +314,11 @@ const COLORS = {
 
       <!-- カルーセル表示（折りたたみ時） -->
       <div id="video-carousel" style="position: relative;">
-        <div style="display: flex; align-items: stretch; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
           <!-- 左矢印ボタン -->
           <button
             id="prev-video-btn"
-            style={`flex-shrink: 0; width: 50px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 24px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
+            style={`flex-shrink: 0; width: 40px; height: 40px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 20px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
             onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
             onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
           >
@@ -326,7 +326,7 @@ const COLORS = {
           </button>
 
           <!-- 動画表示エリア -->
-          <div style="flex: 1; position: relative;">
+          <div style="flex: 1;">
             <div class="carousel-video" data-index="0">
               <YouTubeClipViewer
                 clipUrl="https://youtu.be/ERb40ovB060"
@@ -388,7 +388,7 @@ const COLORS = {
           <!-- 右矢印ボタン -->
           <button
             id="next-video-btn"
-            style={`flex-shrink: 0; width: 50px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 24px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
+            style={`flex-shrink: 0; width: 40px; height: 40px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 20px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
             onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
             onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
           >
@@ -711,9 +711,9 @@ const COLORS = {
     /* 矢印ボタンのモバイル対応 */
     #prev-video-btn,
     #next-video-btn {
-      width: 40px !important;
-      height: 40px !important;
-      font-size: 18px !important;
+      width: 35px !important;
+      height: 35px !important;
+      font-size: 16px !important;
     }
   }
 
