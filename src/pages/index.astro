@@ -677,6 +677,12 @@ const COLORS = {
     }
   }
 
+  /* カルーセルボタンの中央配置 */
+  #prev-video-btn,
+  #next-video-btn {
+    align-self: center;
+  }
+
   /* 動画グリッドのレスポンシブ対応 */
   .video-grid {
     display: grid !important;
@@ -767,7 +773,21 @@ const COLORS = {
     const counter = document.getElementById('video-counter');
 
     videos.forEach((video, i) => {
-      video.style.display = i === index ? 'block' : 'none';
+      if (i === index) {
+        video.style.display = 'block';
+      } else {
+        video.style.display = 'none';
+        // 非表示にする動画のiframeを停止
+        const iframe = video.querySelector('iframe');
+        if (iframe && iframe.src) {
+          const currentSrc = iframe.src;
+          iframe.src = '';
+          // 即座にsrcを戻す（これによりiframeがリセットされて動画が停止）
+          setTimeout(() => {
+            iframe.src = currentSrc;
+          }, 10);
+        }
+      }
     });
 
     if (counter) {
