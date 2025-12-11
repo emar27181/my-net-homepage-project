@@ -490,7 +490,7 @@ const COLORS = {
       <h2
         style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
       >
-        ◎ Setup & Settings ◎
+        ◎ Setup ◎
       </h2>
 
       <!-- 横線 -->
@@ -720,6 +720,19 @@ const COLORS = {
       width: 35px !important;
       height: 35px !important;
       font-size: 16px !important;
+    }
+
+    /* スマホではカルーセルを非表示にして全動画を表示 */
+    #video-carousel {
+      display: none !important;
+    }
+
+    #all-videos-grid {
+      display: block !important;
+    }
+
+    #toggle-videos-btn {
+      display: none !important;
     }
   }
 
