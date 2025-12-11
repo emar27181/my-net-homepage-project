@@ -313,6 +313,7 @@ const COLORS = {
       />
 
       <div class="video-grid">
+        <!-- 先頭の動画（常に表示） -->
         <div>
           <YouTubeClipViewer
             clipUrl="https://youtu.be/ERb40ovB060"
@@ -321,61 +322,76 @@ const COLORS = {
           />
         </div>
 
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://youtu.be/KTwFA1jQgFY"
-            title="VALORANT Clip #2"
-            autoplay={false}
-          />
-        </div>
+        <!-- 折りたたみ可能な動画セクション -->
+        <div id="collapsed-videos" style="display: none;">
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/KTwFA1jQgFY"
+              title="VALORANT Clip #2"
+              autoplay={false}
+            />
+          </div>
 
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://youtu.be/oos2PYWiRGM"
-            title="VALORANT Clip #3"
-            autoplay={false}
-          />
-        </div>
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/oos2PYWiRGM"
+              title="VALORANT Clip #3"
+              autoplay={false}
+            />
+          </div>
 
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://www.youtube.com/watch?v=5IET-4mL9pA"
-            title="VALORANT Clip #4"
-            autoplay={false}
-          />
-        </div>
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://www.youtube.com/watch?v=5IET-4mL9pA"
+              title="VALORANT Clip #4"
+              autoplay={false}
+            />
+          </div>
 
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://youtu.be/46a0f7dNVW4?si=FjCr_YPa35-guCZX"
-            title="VALORANT Clip #5"
-            autoplay={false}
-          />
-        </div>
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/46a0f7dNVW4?si=FjCr_YPa35-guCZX"
+              title="VALORANT Clip #5"
+              autoplay={false}
+            />
+          </div>
 
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://youtu.be/Yznxiz_tS4g?si=sWJFRV_vB95mkJNl"
-            title="VALORANT Clip #6"
-            autoplay={false}
-          />
-        </div>
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/Yznxiz_tS4g?si=sWJFRV_vB95mkJNl"
+              title="VALORANT Clip #6"
+              autoplay={false}
+            />
+          </div>
 
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://youtu.be/ooJdHWZ3KyU?si=pS2rqHsxPnuRqmEV"
-            title="VALORANT Clip #7"
-            autoplay={false}
-          />
-        </div>
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/ooJdHWZ3KyU?si=pS2rqHsxPnuRqmEV"
+              title="VALORANT Clip #7"
+              autoplay={false}
+            />
+          </div>
 
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://youtu.be/Aazj-kAuxdY"
-            title="VALORANT Clip #8"
-            autoplay={false}
-          />
+          <div>
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/Aazj-kAuxdY"
+              title="VALORANT Clip #8"
+              autoplay={false}
+            />
+          </div>
         </div>
+      </div>
+
+      <!-- 展開/折りたたみボタン -->
+      <div style="text-align: center; margin-top: 20px;">
+        <button
+          id="toggle-videos-btn"
+          style={`padding: 10px 20px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease;`}
+          onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
+          onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
+        >
+          ▼ もっと見る (7)
+        </button>
       </div>
     </div>
 
@@ -631,15 +647,15 @@ const COLORS = {
 <script>
   function copyCrosshairCode() {
     navigator.clipboard.writeText('0;p;0;s;1;P;c;8;u;0077FFFF;o;0.3;b;1;f;0;0t;1;0l;5;0v;5;0o;2;0a;1;0f;0;1t;3;1o;2;1a;1;1m;0;1f;0;A;c;5;u;0077FFFF;o;0.2;0t;3;0l;1;0v;1;0o;1;0a;1;0f;0;1b;0;S;c;5');
-    
+
     // アイコンを切り替え
     const copyIcon = document.getElementById('copy-crosshair-icon');
     const checkIcon = document.getElementById('check-crosshair-icon');
-    
+
     if (copyIcon && checkIcon) {
       copyIcon.style.display = 'none';
       checkIcon.style.display = 'inline-block';
-      
+
       // 2秒後に元に戻す
       setTimeout(() => {
         checkIcon.style.display = 'none';
@@ -647,12 +663,34 @@ const COLORS = {
       }, 2000);
     }
   }
-  
+
+  function toggleVideos() {
+    const collapsedVideos = document.getElementById('collapsed-videos');
+    const toggleBtn = document.getElementById('toggle-videos-btn');
+
+    if (collapsedVideos && toggleBtn) {
+      if (collapsedVideos.style.display === 'none') {
+        // 展開する
+        collapsedVideos.style.display = 'block';
+        toggleBtn.textContent = '▲ 閉じる';
+      } else {
+        // 折りたたむ
+        collapsedVideos.style.display = 'none';
+        toggleBtn.textContent = '▼ もっと見る (7)';
+      }
+    }
+  }
+
   // DOM読み込み完了後に実行
   document.addEventListener('DOMContentLoaded', function() {
     const copyIcon = document.getElementById('copy-crosshair-icon');
     if (copyIcon) {
       copyIcon.addEventListener('click', copyCrosshairCode);
+    }
+
+    const toggleBtn = document.getElementById('toggle-videos-btn');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', toggleVideos);
     }
   });
 </script>
