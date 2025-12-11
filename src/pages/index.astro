@@ -312,18 +312,111 @@ const COLORS = {
         style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
       />
 
-      <div class="video-grid">
-        <!-- 先頭の動画（常に表示） -->
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://youtu.be/ERb40ovB060"
-            title="VALORANT Clip #1"
-            autoplay={false}
-          />
+      <!-- カルーセル表示（折りたたみ時） -->
+      <div id="video-carousel" style="position: relative;">
+        <div style="display: flex; align-items: stretch; gap: 10px;">
+          <!-- 左矢印ボタン -->
+          <button
+            id="prev-video-btn"
+            style={`flex-shrink: 0; width: 50px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 24px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
+            onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
+            onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
+          >
+            ◀
+          </button>
+
+          <!-- 動画表示エリア -->
+          <div style="flex: 1; position: relative;">
+            <div class="carousel-video" data-index="0">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/ERb40ovB060"
+                title="VALORANT Clip #1"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="1" style="display: none;">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/KTwFA1jQgFY"
+                title="VALORANT Clip #2"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="2" style="display: none;">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/oos2PYWiRGM"
+                title="VALORANT Clip #3"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="3" style="display: none;">
+              <YouTubeClipViewer
+                clipUrl="https://www.youtube.com/watch?v=5IET-4mL9pA"
+                title="VALORANT Clip #4"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="4" style="display: none;">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/46a0f7dNVW4?si=FjCr_YPa35-guCZX"
+                title="VALORANT Clip #5"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="5" style="display: none;">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/Yznxiz_tS4g?si=sWJFRV_vB95mkJNl"
+                title="VALORANT Clip #6"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="6" style="display: none;">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/ooJdHWZ3KyU?si=pS2rqHsxPnuRqmEV"
+                title="VALORANT Clip #7"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="7" style="display: none;">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/Aazj-kAuxdY"
+                title="VALORANT Clip #8"
+                autoplay={false}
+              />
+            </div>
+          </div>
+
+          <!-- 右矢印ボタン -->
+          <button
+            id="next-video-btn"
+            style={`flex-shrink: 0; width: 50px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 24px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
+            onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
+            onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
+          >
+            ▶
+          </button>
         </div>
 
-        <!-- 折りたたみ可能な動画セクション -->
-        <div id="collapsed-videos" style="display: none;">
+        <!-- 現在位置インジケーター -->
+        <div style="text-align: center; margin-top: 15px;">
+          <p
+            id="video-counter"
+            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+          >
+            1 / 8
+          </p>
+        </div>
+      </div>
+
+      <!-- 全動画一覧表示（展開時） -->
+      <div id="all-videos-grid" style="display: none;">
+        <div class="video-grid">
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/ERb40ovB060"
+              title="VALORANT Clip #1"
+              autoplay={false}
+            />
+          </div>
           <div style="margin-bottom: 20px;">
             <YouTubeClipViewer
               clipUrl="https://youtu.be/KTwFA1jQgFY"
@@ -331,7 +424,6 @@ const COLORS = {
               autoplay={false}
             />
           </div>
-
           <div style="margin-bottom: 20px;">
             <YouTubeClipViewer
               clipUrl="https://youtu.be/oos2PYWiRGM"
@@ -339,7 +431,6 @@ const COLORS = {
               autoplay={false}
             />
           </div>
-
           <div style="margin-bottom: 20px;">
             <YouTubeClipViewer
               clipUrl="https://www.youtube.com/watch?v=5IET-4mL9pA"
@@ -347,7 +438,6 @@ const COLORS = {
               autoplay={false}
             />
           </div>
-
           <div style="margin-bottom: 20px;">
             <YouTubeClipViewer
               clipUrl="https://youtu.be/46a0f7dNVW4?si=FjCr_YPa35-guCZX"
@@ -355,7 +445,6 @@ const COLORS = {
               autoplay={false}
             />
           </div>
-
           <div style="margin-bottom: 20px;">
             <YouTubeClipViewer
               clipUrl="https://youtu.be/Yznxiz_tS4g?si=sWJFRV_vB95mkJNl"
@@ -363,7 +452,6 @@ const COLORS = {
               autoplay={false}
             />
           </div>
-
           <div style="margin-bottom: 20px;">
             <YouTubeClipViewer
               clipUrl="https://youtu.be/ooJdHWZ3KyU?si=pS2rqHsxPnuRqmEV"
@@ -371,7 +459,6 @@ const COLORS = {
               autoplay={false}
             />
           </div>
-
           <div>
             <YouTubeClipViewer
               clipUrl="https://youtu.be/Aazj-kAuxdY"
@@ -390,7 +477,7 @@ const COLORS = {
           onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
           onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
         >
-          ▼ もっと見る (7)
+          ▼ 全て表示
         </button>
       </div>
     </div>
@@ -620,6 +707,14 @@ const COLORS = {
       grid-template-columns: 1fr !important;
       gap: 20px !important;
     }
+
+    /* 矢印ボタンのモバイル対応 */
+    #prev-video-btn,
+    #next-video-btn {
+      width: 40px !important;
+      height: 40px !important;
+      font-size: 18px !important;
+    }
   }
 
   /* My Works レスポンシブ対応 */
@@ -664,19 +759,50 @@ const COLORS = {
     }
   }
 
+  let currentVideoIndex = 0;
+  const totalVideos = 8;
+
+  function showVideo(index) {
+    const videos = document.querySelectorAll('.carousel-video');
+    const counter = document.getElementById('video-counter');
+
+    videos.forEach((video, i) => {
+      video.style.display = i === index ? 'block' : 'none';
+    });
+
+    if (counter) {
+      counter.textContent = `${index + 1} / ${totalVideos}`;
+    }
+
+    currentVideoIndex = index;
+  }
+
+  function nextVideo() {
+    const nextIndex = (currentVideoIndex + 1) % totalVideos;
+    showVideo(nextIndex);
+  }
+
+  function prevVideo() {
+    const prevIndex = (currentVideoIndex - 1 + totalVideos) % totalVideos;
+    showVideo(prevIndex);
+  }
+
   function toggleVideos() {
-    const collapsedVideos = document.getElementById('collapsed-videos');
+    const carousel = document.getElementById('video-carousel');
+    const allVideosGrid = document.getElementById('all-videos-grid');
     const toggleBtn = document.getElementById('toggle-videos-btn');
 
-    if (collapsedVideos && toggleBtn) {
-      if (collapsedVideos.style.display === 'none') {
-        // 展開する
-        collapsedVideos.style.display = 'block';
-        toggleBtn.textContent = '▲ 閉じる';
+    if (carousel && allVideosGrid && toggleBtn) {
+      if (allVideosGrid.style.display === 'none') {
+        // 全動画を展開
+        carousel.style.display = 'none';
+        allVideosGrid.style.display = 'block';
+        toggleBtn.textContent = '▲ カルーセル表示';
       } else {
-        // 折りたたむ
-        collapsedVideos.style.display = 'none';
-        toggleBtn.textContent = '▼ もっと見る (7)';
+        // カルーセルに戻す
+        carousel.style.display = 'block';
+        allVideosGrid.style.display = 'none';
+        toggleBtn.textContent = '▼ 全て表示';
       }
     }
   }
@@ -691,6 +817,16 @@ const COLORS = {
     const toggleBtn = document.getElementById('toggle-videos-btn');
     if (toggleBtn) {
       toggleBtn.addEventListener('click', toggleVideos);
+    }
+
+    const prevBtn = document.getElementById('prev-video-btn');
+    if (prevBtn) {
+      prevBtn.addEventListener('click', prevVideo);
+    }
+
+    const nextBtn = document.getElementById('next-video-btn');
+    if (nextBtn) {
+      nextBtn.addEventListener('click', nextVideo);
     }
   });
 </script>
