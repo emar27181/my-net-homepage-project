@@ -767,6 +767,17 @@ const COLORS = {
 
   let currentVideoIndex = 0;
   const totalVideos = 8;
+  let videoSources = []; // 各動画のオリジナルsrcを保存
+
+  function initializeVideoSources() {
+    const videos = document.querySelectorAll('.carousel-video');
+    videos.forEach((video, i) => {
+      const iframe = video.querySelector('iframe');
+      if (iframe && iframe.src) {
+        videoSources[i] = iframe.src;
+      }
+    });
+  }
 
   function showVideo(index) {
     const videos = document.querySelectorAll('.carousel-video');
@@ -775,17 +786,17 @@ const COLORS = {
     videos.forEach((video, i) => {
       if (i === index) {
         video.style.display = 'block';
+        // 表示する動画のsrcを復元（黒画面を防ぐ）
+        const iframe = video.querySelector('iframe');
+        if (iframe && videoSources[i] && iframe.src !== videoSources[i]) {
+          iframe.src = videoSources[i];
+        }
       } else {
         video.style.display = 'none';
-        // 非表示にする動画のiframeを停止
+        // 非表示にする動画のiframeを停止（srcを空にするのみ）
         const iframe = video.querySelector('iframe');
         if (iframe && iframe.src) {
-          const currentSrc = iframe.src;
           iframe.src = '';
-          // 即座にsrcを戻す（これによりiframeがリセットされて動画が停止）
-          setTimeout(() => {
-            iframe.src = currentSrc;
-          }, 10);
         }
       }
     });
@@ -848,5 +859,8 @@ const COLORS = {
     if (nextBtn) {
       nextBtn.addEventListener('click', nextVideo);
     }
+
+    // 動画のオリジナルsrcを保存
+    initializeVideoSources();
   });
 </script>
