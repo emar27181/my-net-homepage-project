@@ -7,6 +7,12 @@
   --font-mono: 'VT323', monospace;
   --font-pixel-jp: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;
   --font-main-jp: 'DotGothic16', 'BIZ UDPGothic', sans-serif;
+
+  /* テーマカラー（src/config/themeConfig.ts から動的に設定される） */
+  /* コンポーネント用の統一変数 */
+  --theme-primary: #4d79ff;        /* メインカラー */
+  --theme-primary-rgb: 77, 121, 255; /* RGB形式 */
+  --theme-shadow: rgba(77, 121, 255, 0.3); /* シャドウ用 */
   
   /* ポケモンDP風カラーパレット（青系統一・クリスタル調） */
   --retro-primary: #4a7fc7;     /* ダイヤモンドブルー（DP風） */

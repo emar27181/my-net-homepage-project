@@ -2,6 +2,7 @@
 import SimpleLayout from "../layouts/SimpleLayout.astro";
 import YouTubeClipViewer from "../components/YouTubeClipViewer.astro";
 import { applyTypographyPreset } from "../utils/typography";
+import { THEME_CONFIG, getCurrentThemeColors, FIXED_COLORS } from "../config/themeConfig";
 import "../styles/global.css";
 
 // フォントサイズ設定
@@ -16,35 +17,15 @@ const FONT_SIZES = {
 };
 
 // ========================================
-// テーマカラー設定（ここを変更するだけで全体の色が変わります）
+// テーマカラー設定（src/config/themeConfig.ts で一元管理）
 // ========================================
-const THEME_HUE = 225; // 色相 (0-360): 0=赤, 120=緑, 240=青, 225=ネオンブルー
-// 例: 0=赤, 30=オレンジ, 60=黄色, 120=緑, 180=シアン, 225=青, 270=紫, 300=マゼンタ
-
-// HSL色空間でテーマカラーを生成
+const themeColors = getCurrentThemeColors();
 const COLORS = {
-  // メインカラー
-  primary: `hsl(${THEME_HUE}, 100%, 65%)`, // ベースカラー
-  primaryAlpha10: `hsla(${THEME_HUE}, 100%, 65%, 0.1)`, // 10%透明度
-  primaryAlpha5: `hsla(${THEME_HUE}, 100%, 65%, 0.05)`, // 5%透明度
-  primaryShadow: `hsla(${THEME_HUE}, 100%, 65%, 0.3)`, // シャドウ用
+  // メインカラー（テーマ設定から生成）
+  ...themeColors,
 
-  // タイトル・見出しカラー（少し明るく）
-  heading: `hsl(${THEME_HUE + 15}, 100%, 82%)`, // ライトカラー（タイトル・見出し専用）
-
-  // テキストカラー（色相に依存しない固定色）
-  textWhite: "#ffffff", // 白文字
-  textGray: "#cccccc", // グレー文字
-  textDarkGray: "#666666", // ダークグレー文字
-  textBlack: "#000000", // 黒文字（シャドウ用）
-
-  // 背景・ボーダー
-  bgWhite: "#ffffff", // 白背景
-  bgTransparent: "transparent", // 透明
-
-  // エフェクト
-  shadowWhite: "rgba(255,255,255,0.3)", // 白シャドウ
-  shadowBlack: "rgba(0,0,0,0.5)", // 黒シャドウ
+  // 固定カラー
+  ...FIXED_COLORS,
 };
 ---
 
@@ -211,7 +192,7 @@ const COLORS = {
             <!-- 左側: 説明とリンク -->
             <div>
               <h3
-                style={`color: #4d79ff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+                style={`color: var(--theme-primary); font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
               >
                 VALORANT Point Viewer (現在作成途中)
               </h3>
@@ -257,7 +238,7 @@ const COLORS = {
           <!-- モバイル: 縦レイアウト -->
           <div style="display: none;" class="mobile-layout">
             <h3
-              style={`color: #4d79ff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+              style={`color: var(--theme-primary); font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
             >
               🎯 VALORANT Point Viewer
             </h3>
@@ -291,8 +272,8 @@ const COLORS = {
                 target="_blank"
                 rel="noopener"
                 style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
-                onmouseover="this.style.background='transparent'; this.style.color='#4d79ff'; this.style.border='1px solid #4d79ff';"
-                onmouseout="this.style.background='#4d79ff'; this.style.color='#ffffff'; this.style.border='none';"
+                onmouseover="this.style.background='transparent'; this.style.color='var(--theme-primary)'; this.style.border='1px solid var(--theme-primary)';"
+                onmouseout="this.style.background='var(--theme-primary)'; this.style.color='#ffffff'; this.style.border='none';"
               >
                 サイトを見る →
               </a>
@@ -536,7 +517,7 @@ const COLORS = {
             <span id="copy-crosshair-container" style="display: inline-block;">
               <svg
                 id="copy-crosshair-icon"
-                style="display: inline-block; width: 14px; height: 14px; vertical-align: middle; margin-right: 5px; cursor: pointer; fill: #4d79ff;"
+                style="display: inline-block; width: 14px; height: 14px; vertical-align: middle; margin-right: 5px; cursor: pointer; fill: var(--theme-primary);"
                 title="クリックでコピー"
                 viewBox="0 0 24 24"
               >
@@ -544,7 +525,7 @@ const COLORS = {
               </svg>
               <svg
                 id="check-crosshair-icon"
-                style="display: none; width: 14px; height: 14px; vertical-align: middle; margin-right: 5px; fill: #4d79ff;"
+                style="display: none; width: 14px; height: 14px; vertical-align: middle; margin-right: 5px; fill: var(--theme-primary);"
                 viewBox="0 0 24 24"
               >
                 <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
