@@ -22,7 +22,7 @@ export const NEON_LINE_PRESETS: Record<string, NeonLineConfig> = {
   primary: {
     id: 'primary',
     name: 'プライマリーブルー',
-    color: '#4d79ff',
+    color: '#ff4d4d',
     intensity: 'high',
     thickness: 'normal',
     animation: 'pulse',
@@ -59,7 +59,7 @@ export const NEON_LINE_PRESETS: Record<string, NeonLineConfig> = {
   pink: {
     id: 'pink',
     name: 'ネオンピンク',
-    color: '#4d79ff',
+    color: '#ff4d4d',
     intensity: 'ultra',
     thickness: 'thick',
     animation: 'flicker',
@@ -265,13 +265,13 @@ export class NeonLineManager {
     const baseColor = config.color;
     
     // インナーシャドウ
-    shadows.push(`inset 0 0 ${config.blur}px ${baseColor.includes('gradient') ? '#4d79ff' : baseColor}${Math.round(config.opacity * 51).toString(16)}`);
+    shadows.push(`inset 0 0 ${config.blur}px ${baseColor.includes('gradient') ? '#ff4d4d' : baseColor}${Math.round(config.opacity * 51).toString(16)}`);
     
     // アウターシャドウ（複数層）
     for (let i = 1; i <= intensity.shadowCount; i++) {
       const blur = (config.blur * i);
       const spread = i === 1 ? 0 : Math.floor(blur * 0.1);
-      shadows.push(`0 0 ${blur}px ${spread}px ${baseColor.includes('gradient') ? '#4d79ff' : baseColor}`);
+      shadows.push(`0 0 ${blur}px ${spread}px ${baseColor.includes('gradient') ? '#ff4d4d' : baseColor}`);
     }
 
     return shadows.join(', ');
@@ -281,7 +281,7 @@ export class NeonLineManager {
    * 完全なボーダースタイルを生成
    */
   private generateBorderStyle(config: NeonLineConfig, intensity: any, thickness: number): string {
-    const color = config.color.includes('gradient') ? '#4d79ff' : config.color;
+    const color = config.color.includes('gradient') ? '#ff4d4d' : config.color;
     return `${thickness}px solid ${color}`;
   }
 

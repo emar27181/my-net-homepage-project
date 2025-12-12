@@ -153,10 +153,10 @@ export const NEON_ANIMATIONS: NeonBorderAnimation[] = [
  */
 const COLOR_MAP = {
   cyan: { hex: '#00d4ff', rgba: '0, 212, 255' },
-  pink: { hex: '#4d79ff', rgba: '77, 121, 255' },
-  purple: { hex: '#4d79ff', rgba: '77, 121, 255' },
+  pink: { hex: '#ff4d4d', rgba: '255, 77, 77' },
+  purple: { hex: '#ff4d4d', rgba: '255, 77, 77' },
   lime: { hex: '#32ff32', rgba: '50, 255, 50' },
-  blue: { hex: '#4d79ff', rgba: '77, 121, 255' },
+  blue: { hex: '#ff4d4d', rgba: '255, 77, 77' },
   red: { hex: '#ff3333', rgba: '255, 51, 51' },
   orange: { hex: '#ff6600', rgba: '255, 102, 0' },
   yellow: { hex: '#ffff00', rgba: '255, 255, 0' },
