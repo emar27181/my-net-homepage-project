@@ -24,7 +24,7 @@ export const COLOR_PRESETS: Record<string, ColorConfig> = {
     primary: '#00d4ff',      // メインテキスト - 明るい水色
     secondary: '#7ae7ff',    // セカンダリテキスト - より明るい水色
     accent: '#00b8e6',       // アクセント - 濃い水色
-    border: '#ff4d4d',       // 枠線 - 青
+    border: '#4d79ff',       // 枠線 - 青
     background: 'rgba(0, 212, 255, 0.05)', // 背景 - 薄い水色
     highlight: '#33ddff',    // ハイライト - 中間の水色
     enabled: true
@@ -33,11 +33,11 @@ export const COLOR_PRESETS: Record<string, ColorConfig> = {
   red: {
     id: 'red',
     name: '赤統一',
-    primary: '#ff4d4d',
+    primary: '#4d79ff',
     secondary: '#ff7a7a',
     accent: '#e63946',
-    border: '#ff4d4d',
-    background: 'rgba(255, 77, 77, 0.05)',
+    border: '#4d79ff',
+    background: 'rgba(77, 121, 255, 0.05)',
     highlight: '#ff6b6b',
     enabled: false
   },
@@ -45,11 +45,11 @@ export const COLOR_PRESETS: Record<string, ColorConfig> = {
   blue: {
     id: 'blue',
     name: '青統一',
-    primary: '#ff4d4d',
+    primary: '#4d79ff',
     secondary: '#7a99ff',
     accent: '#2952cc',
-    border: '#ff4d4d',
-    background: 'rgba(255, 77, 77, 0.05)',
+    border: '#4d79ff',
+    background: 'rgba(77, 121, 255, 0.05)',
     highlight: '#6b8fff',
     enabled: false
   },
@@ -60,7 +60,7 @@ export const COLOR_PRESETS: Record<string, ColorConfig> = {
     primary: '#32ff32',
     secondary: '#66ff66',
     accent: '#28a745',
-    border: '#ff4d4d',
+    border: '#4d79ff',
     background: 'rgba(50, 255, 50, 0.05)',
     highlight: '#4dff4d',
     enabled: false
@@ -72,7 +72,7 @@ export const COLOR_PRESETS: Record<string, ColorConfig> = {
     primary: '#8000ff',
     secondary: '#a033ff',
     accent: '#6610f2',
-    border: '#ff4d4d',
+    border: '#4d79ff',
     background: 'rgba(128, 0, 255, 0.05)',
     highlight: '#9933ff',
     enabled: false
@@ -84,7 +84,7 @@ export const COLOR_PRESETS: Record<string, ColorConfig> = {
     primary: '#ff6600',
     secondary: '#ff8533',
     accent: '#e55100',
-    border: '#ff4d4d',
+    border: '#4d79ff',
     background: 'rgba(255, 102, 0, 0.05)',
     highlight: '#ff7a1a',
     enabled: false

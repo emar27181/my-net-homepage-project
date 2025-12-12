@@ -8,45 +8,45 @@
   --font-pixel-jp: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;
   --font-main-jp: 'DotGothic16', 'BIZ UDPGothic', sans-serif;
   
-  /* レトロカラーパレット（赤系統一） */
-  --retro-primary: #c74a4a;     /* ルビーレッド */
-  --retro-secondary: #cd6b6b;   /* コーラルレッド */
-  --retro-tertiary: #d68e8e;    /* ライトクリムゾン */
-  --retro-accent: #8a2c2c;      /* ディープレッド */
-  --retro-blue: #bd3535;        /* ブラッドレッド */
-  --retro-light: #e2a4a4;       /* ローズピンク */
-  --retro-dark: #681a1a;        /* ダークレッド */
-  --retro-electric: #e25d5d;    /* エレクトリックレッド */
-  --retro-cyber: #e44848;       /* サイバーレッド */
-  --retro-diamond: #ffb8b8;     /* ダイヤモンドピンク */
-  --retro-pearl: #cf7474;       /* パールピンク */
+  /* ポケモンDP風カラーパレット（青系統一・クリスタル調） */
+  --retro-primary: #4a7fc7;     /* ダイヤモンドブルー（DP風） */
+  --retro-secondary: #6ba6cd;   /* パールブルー（DP風） */
+  --retro-tertiary: #8ec5d6;    /* ライトクリスタルブルー（DP風） */
+  --retro-accent: #2c5f8a;      /* ディープオーシャンブルー（DP風） */
+  --retro-blue: #357abd;        /* シンオウブルー（DP風） */
+  --retro-light: #a4d3e2;       /* アイスブルー（DP風） */
+  --retro-dark: #1a4668;        /* ミッドナイトブルー（DP風） */
+  --retro-electric: #5dade2;    /* エレクトリックタイプブルー（DP風） */
+  --retro-cyber: #48cae4;       /* サイバーパールブルー（DP風） */
+  --retro-diamond: #b8e6ff;     /* ダイヤモンドダスト（DP新色） */
+  --retro-pearl: #74a9cf;       /* パールラスター（DP新色） */
   
-  /* レトロ背景色（赤系・コントラスト強化版） */
-  --game-bg-primary: #140000;          /* ディープレッドブラック（コントラスト強化） */
-  --game-bg-secondary: #350f0f;        /* ダークレッドケーブ（UI背景） */
-  --game-bg-tertiary: #521d1d;         /* レッドパネル（パネル背景） */
-  --game-border: #cf7474;               /* パールピンク枠線 */
+  /* ポケモンDP風背景色（コントラスト強化版） */
+  --game-bg-primary: #000914;          /* より深いディープクリスタルブルー（コントラスト強化） */
+  --game-bg-secondary: #0f1f35;        /* より濃いクリスタルケーブブルー（UI背景） */
+  --game-bg-tertiary: #1d3452;         /* より濃いジュエルパネルブルー（パネル背景） */
+  --game-border: #74a9cf;               /* パールラスター枠線（DP風） */
   --game-text: #ffffff;                 /* 白文字 */
-  --game-text-dim: #f8e8e8;             /* 明るいクリスタル文字（コントラスト強化） */
+  --game-text-dim: #e8f4f8;             /* より明るいクリスタル文字（コントラスト強化） */
   
-  /* レトロテキスト色（赤系・コントラスト強化版） */
+  /* ポケモンDP風テキスト色（コントラスト強化版） */
   --text-high-contrast: #ffffff;       /* 純白文字（最高コントラスト） */
-  --text-medium-contrast: #f8e8e8;     /* 明るいクリスタル文字（コントラスト強化） */
-  --text-accessible-blue: #e6a8a8;     /* アクセシブルクリスタルレッド */
-  --text-accessible-light: #f2c4c4;    /* アクセシブルローズピンク */
-  --text-accessible-dark: #d76a6a;     /* アクセシブルダークレッド */
-  --text-accessible-purple: #dd8b8b;   /* アクセシブルパールレッド */
-  --text-electric-glow: #f27d7d;       /* エレクトリック発光レッド */
-  --text-diamond-shine: #ffd8d8;       /* ダイヤモンドシャインピンク */
+  --text-medium-contrast: #e8f4f8;     /* より明るいクリスタル文字（コントラスト強化） */
+  --text-accessible-blue: #a8d5e6;     /* より明るいアクセシブルクリスタルブルー */
+  --text-accessible-light: #c4e3f2;    /* より明るいアクセシブルアイスブルー */
+  --text-accessible-dark: #6a9fd7;     /* より明るいアクセシブルダイヤモンドブルー */
+  --text-accessible-purple: #8bc6dd;   /* より明るいアクセシブルパールブルー */
+  --text-electric-glow: #7dcdf2;       /* より明るいエレクトリック発光 */
+  --text-diamond-shine: #d8f6ff;       /* より明るいダイヤモンドシャイン */
   
-  /* レトロ赤グラデーション（コントラスト強化版） */
+  /* ポケモンDP風グラデーション（コントラスト強化版） */
   --gradient-health: linear-gradient(90deg, var(--retro-accent), var(--retro-electric));
   --gradient-mana: linear-gradient(90deg, var(--retro-blue), var(--retro-pearl));
   --gradient-exp: linear-gradient(90deg, var(--retro-secondary), var(--retro-diamond));
   --gradient-rare: linear-gradient(45deg, var(--retro-dark), var(--retro-light));
-  --gradient-diamond: linear-gradient(135deg, #330a0a, var(--retro-primary), var(--retro-diamond));
-  --gradient-pearl: linear-gradient(135deg, #441212, var(--retro-secondary), var(--retro-pearl));
-  --gradient-crystal: linear-gradient(45deg, #3d0f0f 0%, var(--retro-primary) 20%, var(--retro-diamond) 40%, var(--retro-secondary) 60%, var(--retro-pearl) 80%, var(--retro-tertiary) 100%);
+  --gradient-diamond: linear-gradient(135deg, #0a1c33, var(--retro-primary), var(--retro-diamond));
+  --gradient-pearl: linear-gradient(135deg, #122844, var(--retro-secondary), var(--retro-pearl));
+  --gradient-crystal: linear-gradient(45deg, #0f243d 0%, var(--retro-primary) 20%, var(--retro-diamond) 40%, var(--retro-secondary) 60%, var(--retro-pearl) 80%, var(--retro-tertiary) 100%);
   
   /* ゲームUI表示テーマ変数（一元管理） */
   --ui-theme: 'retro-game'; /* 'cyber' | 'retro-game' | 'pixel' */
@@ -71,14 +71,14 @@
   --color-button-accent: var(--retro-primary);
 }
 
-/* レトロ赤背景（コントラスト強化） */
+/* ポケモンDP風背景（コントラスト強化・より深い洞窟感） */
 body {
   background-image:
-    /* 控えめなレッドグリッド */
-    linear-gradient(0deg, transparent 23px, rgba(199, 74, 74, 0.12) 24px, rgba(199, 74, 74, 0.12) 25px, transparent 26px),
-    linear-gradient(90deg, transparent 23px, rgba(207, 116, 116, 0.1) 24px, rgba(207, 116, 116, 0.1) 25px, transparent 26px),
-    /* 微細なレッドハニカム */
-    radial-gradient(circle at 50% 50%, transparent 10px, rgba(255, 184, 184, 0.05) 11px, rgba(255, 184, 184, 0.05) 12px, transparent 13px);
+    /* より控えめなクリスタルグリッド */
+    linear-gradient(0deg, transparent 23px, rgba(74, 127, 199, 0.12) 24px, rgba(74, 127, 199, 0.12) 25px, transparent 26px),
+    linear-gradient(90deg, transparent 23px, rgba(116, 169, 207, 0.1) 24px, rgba(116, 169, 207, 0.1) 25px, transparent 26px),
+    /* より微細なクリスタルハニカム */
+    radial-gradient(circle at 50% 50%, transparent 10px, rgba(184, 230, 255, 0.05) 11px, rgba(184, 230, 255, 0.05) 12px, transparent 13px);
   background-size: 24px 24px, 24px 24px, 48px 48px;
   background-color: var(--color-bg-primary);
   font-family: var(--font-main-jp);
@@ -86,7 +86,7 @@ body {
   line-height: 1.6;
   color: var(--color-text);
 
-  /* レトロ赤効果（深いコントラスト） */
+  /* DP風効果（より深いコントラストで洞窟感を演出） */
   position: relative;
   background-attachment: fixed;
 }
