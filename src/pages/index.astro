@@ -2,7 +2,11 @@
 import SimpleLayout from "../layouts/SimpleLayout.astro";
 import YouTubeClipViewer from "../components/YouTubeClipViewer.astro";
 import { applyTypographyPreset } from "../utils/typography";
-import { THEME_CONFIG, getCurrentThemeColors, FIXED_COLORS } from "../config/themeConfig";
+import {
+  THEME_CONFIG,
+  getCurrentThemeColors,
+  FIXED_COLORS,
+} from "../config/themeConfig";
 import "../styles/global.css";
 
 // フォントサイズ設定
@@ -40,7 +44,8 @@ const COLORS = {
         style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.title}; margin-bottom: 15px; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
         class="main-title"
       >
-        <span class="title-first-line">Nodoame's</span> <span class="title-second-line">Portfolio</span>
+        <span class="title-first-line">Nodoame's</span>
+        <span class="title-second-line">Portfolio</span>
       </h1>
 
       <!-- 横線 -->
@@ -110,7 +115,10 @@ const COLORS = {
         style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
       />
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" class="profile-info-grid">
+      <div
+        style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;"
+        class="profile-info-grid"
+      >
         <div>
           <h3
             style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
@@ -134,164 +142,68 @@ const COLORS = {
           <p
             style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
           >
-            <svg style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            <svg
+              style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+              ></path>
             </svg>Twitter: <a
               href="https://twitter.com/nodoame27181"
               target="_blank"
               rel="noopener"
               style={`color: ${COLORS.primary};`}>@nodoame27181</a
             ><br />
-            <svg style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            <svg
+              style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+              ></path>
             </svg>Youtube: <a
               href="https://www.youtube.com/@nodoame27181"
               target="_blank"
               rel="noopener"
               style={`color: ${COLORS.primary};`}>@nodoame27181</a
             ><br />
-            <svg style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M3 3v18h18V3H3zm16 16H5V5h14v14zM7 10h2v7H7v-7zm4-3h2v10h-2V7zm4 6h2v4h-2v-4z"/>
+            <svg
+              style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M3 3v18h18V3H3zm16 16H5V5h14v14zM7 10h2v7H7v-7zm4-3h2v10h-2V7zm4 6h2v4h-2v-4z"
+              ></path>
             </svg>TRN:<br />
-            <span style="margin-left: 24px;">Valorant: <a
-              href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview?platform=pc&playlist=competitive&season=4c4b8cff-43eb-13d3-8f14-96b783c90cd2"
-              target="_blank"
-              rel="noopener"
-              style={`color: ${COLORS.primary};`}>Valorant Profile</a
-            ></span><br />
-            <span style="margin-left: 24px;">Fortnite: <a
-              href="https://fortnitetracker.com/profile/kbm/nodoamen/events?region=GLOBAL&sortBy=placement"
-              target="_blank"
-              rel="noopener"
-              style={`color: ${COLORS.primary};`}>Fortnite Profile</a
-            ></span><br />
-            <span style="margin-left: 24px;">Apex: <a
-              href="https://apex.tracker.gg/apex/profile/origin/nodoamen/performance"
-              target="_blank"
-              rel="noopener"
-              style={`color: ${COLORS.primary};`}>Apex Profile</a
-            ></span><br />
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Works -->
-    <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="works-section"
-    >
-      <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
-      >
-        ◆ My Works ◆
-      </h2>
-
-      <!-- 横線 -->
-      <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
-      />
-
-      <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
-        <!-- VALORANT Point Viewer -->
-        <div
-          style={`background: ${COLORS.primaryAlpha5}; border: 1px solid ${COLORS.primary}; padding: 15px; border-radius: 6px;`}
-        >
-          <!-- デスクトップ: 左右レイアウト -->
-          <div
-            style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;"
-            class="desktop-layout"
-          >
-            <!-- 左側: 説明とリンク -->
-            <div>
-              <h3
-                style={`color: var(--theme-primary); font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
-              >
-                VALORANT Point Viewer (現在作成途中)
-              </h3>
-              <p
-                style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.6; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; margin-bottom: 15px;`}
-              >
-                YouTubeショートやリールで見つけた定点動画を試合中に再現したいのに、別マップや別エリアの動画が混ざっていて探しにくい…。それを解消するために、マップ上に定点動画のリンクを直接プロットし、必要な場所の動画だけを素早く確認できるようにしたサイトです。<br
-                />
-              </p>
-
-              <div style="text-align: left;">
-                <a
-                  href="https://valorant-point-viewer.netlify.app/"
-                  target="_blank"
-                  rel="noopener"
-                  style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
-                  onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='1px solid ${COLORS.primary}';`}
-                  onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
-                >
-                  サイトを見る →
-                </a>
-              </div>
-            </div>
-
-            <!-- 右側: 実際のサイト埋め込み -->
-            <div style="text-align: center;">
-              <div
-                style="position: relative; width: 100%; aspect-ratio: 2 / 3;"
-              >
-                <iframe
-                  src="https://valorant-point-viewer.netlify.app/"
-                  width="100%"
-                  height="100%"
-                  frameborder="0"
-                  scrolling="no"
-                  style={`border: 2px solid ${COLORS.primary}; border-radius: 6px; box-shadow: 0 4px 8px ${COLORS.primaryShadow}; background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0; overflow: hidden;`}
-                  title="VALORANT Point Viewer - Live Demo"
-                  loading="lazy"></iframe>
-              </div>
-            </div>
-          </div>
-
-          <!-- モバイル: 縦レイアウト -->
-          <div style="display: none;" class="mobile-layout">
-            <h3
-              style={`color: var(--theme-primary); font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
-            >
-              🎯 VALORANT Point Viewer
-            </h3>
-            <p
-              style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.6; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; margin-bottom: 15px;`}
-            >
-              VALORANTの各マップの定点動画をマップ上で確認できるWebサイトです。<br
-              />
-              プレイヤーがマップを理解し、戦略を練るためのツールとして制作しました。
-            </p>
-
-            <div style="margin-bottom: 15px; text-align: center;">
-              <div
-                style="position: relative; width: 100%; max-width: 350px; height: calc((350px * 4 / 3) + 20px); margin: 0 auto;"
-              >
-                <iframe
-                  src="https://valorant-point-viewer.netlify.app/"
-                  width="100%"
-                  height="100%"
-                  frameborder="0"
-                  scrolling="no"
-                  style={`border: 2px solid ${COLORS.primary}; border-radius: 6px; box-shadow: 0 4px 8px ${COLORS.primaryShadow}; background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0; overflow: hidden;`}
-                  title="VALORANT Point Viewer - Live Demo (Mobile)"
-                  loading="lazy"></iframe>
-              </div>
-            </div>
-
-            <div style="text-align: center;">
-              <a
-                href="https://valorant-point-viewer.netlify.app/"
+            <span style="margin-left: 24px;"
+              >Valorant: <a
+                href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview?platform=pc&playlist=competitive&season=4c4b8cff-43eb-13d3-8f14-96b783c90cd2"
                 target="_blank"
                 rel="noopener"
-                style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
-                onmouseover="this.style.background='transparent'; this.style.color='var(--theme-primary)'; this.style.border='1px solid var(--theme-primary)';"
-                onmouseout="this.style.background='var(--theme-primary)'; this.style.color='#ffffff'; this.style.border='none';"
-              >
-                サイトを見る →
-              </a>
-            </div>
-          </div>
+                style={`color: ${COLORS.primary};`}>Valorant Profile</a
+              ></span
+            ><br />
+            <span style="margin-left: 24px;"
+              >Fortnite: <a
+                href="https://fortnitetracker.com/profile/kbm/nodoamen/events?region=GLOBAL&sortBy=placement"
+                target="_blank"
+                rel="noopener"
+                style={`color: ${COLORS.primary};`}>Fortnite Profile</a
+              ></span
+            ><br />
+            <span style="margin-left: 24px;"
+              >Apex: <a
+                href="https://apex.tracker.gg/apex/profile/origin/nodoamen/performance"
+                target="_blank"
+                rel="noopener"
+                style={`color: ${COLORS.primary};`}>Apex Profile</a
+              ></span
+            ><br />
+          </p>
         </div>
       </div>
     </div>
@@ -490,7 +402,7 @@ const COLORS = {
       <h2
         style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
       >
-        ◎ Setup ◎
+        ◎ Valorant Setup ◎
       </h2>
 
       <!-- 横線 -->
@@ -498,7 +410,10 @@ const COLORS = {
         style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
       />
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" class="device-settings-grid">
+      <div
+        style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;"
+        class="device-settings-grid"
+      >
         <div>
           <h3
             style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
@@ -511,7 +426,7 @@ const COLORS = {
             マウス: Logicool G Pro X<br />
             キーボード: Akko 5075S HE JP Dark Night<br />
             ヘッドセット: SteelSeries Arctis 7<br />
-            モニター: 144Hz 24インチ
+            モニター: 144Hz 24インチ <br />
           </p>
         </div>
 
@@ -524,7 +439,7 @@ const COLORS = {
           <p
             style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
           >
-            感度: 0.18 (800 DPI)<br />
+            感度: 0.18 800DPI (振り向き 45.4cm)<br />
             クロスヘア: 青色・アウトライン有<br />
             クロスヘアコード:
             <span id="copy-crosshair-container" style="display: inline-block;">
@@ -534,23 +449,146 @@ const COLORS = {
                 title="クリックでコピー"
                 viewBox="0 0 24 24"
               >
-                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                ></path>
               </svg>
               <svg
                 id="check-crosshair-icon"
                 style="display: none; width: 14px; height: 14px; vertical-align: middle; margin-right: 5px; fill: var(--theme-primary);"
                 viewBox="0 0 24 24"
               >
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                ></path>
               </svg>
-            </span><span class="crosshair-code">0;p;0;s;1;P;c;8;u;0077FFFF;o;0.3;b;1;f;0;0t;1;0l;5;0v;5;0o;2;0a;1;0f;0;1t;3;1o;2;1a;1;1m;0;1f;0;A;c;5;u;0077FFFF;o;0.2;0t;3;0l;1;0v;1;0o;1;0a;1;0f;0;1b;0;S;c;5</span><br />
+            </span><span class="crosshair-code"
+              >0;p;0;s;1;P;c;8;u;0077FFFF;o;0.3;b;1;f;0;0t;1;0l;5;0v;5;0o;2;0a;1;0f;0;1t;3;1o;2;1a;1;1m;0;1f;0;A;c;5;u;0077FFFF;o;0.2;0t;3;0l;1;0v;1;0o;1;0a;1;0f;0;1b;0;S;c;5</span
+            ><br />
             解像度: 1920×1080<br />
             FPS: 144fps
           </p>
         </div>
       </div>
     </div>
+    <!-- Works -->
+    <div
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="works-section"
+    >
+      <h2
+        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+      >
+        ◆ My Works ◆
+      </h2>
 
+      <!-- 横線 -->
+      <hr
+        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+      />
+
+      <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+        <!-- VALORANT Point Viewer -->
+        <div
+          style={`background: ${COLORS.primaryAlpha5}; border: 1px solid ${COLORS.primary}; padding: 15px; border-radius: 6px;`}
+        >
+          <!-- デスクトップ: 左右レイアウト -->
+          <div
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;"
+            class="desktop-layout"
+          >
+            <!-- 左側: 説明とリンク -->
+            <div>
+              <h3
+                style={`color: var(--theme-primary); font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+              >
+                VALORANT Point Viewer (現在作成途中)
+              </h3>
+              <p
+                style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.6; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; margin-bottom: 15px;`}
+              >
+                YouTubeショートやリールで見つけた定点動画を試合中に再現したいのに、別マップや別エリアの動画が混ざっていて探しにくい…。それを解消するために、マップ上に定点動画のリンクを直接プロットし、必要な場所の動画だけを素早く確認できるようにしたサイトです。<br
+                />
+              </p>
+
+              <div style="text-align: left;">
+                <a
+                  href="https://valorant-point-viewer.netlify.app/"
+                  target="_blank"
+                  rel="noopener"
+                  style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
+                  onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='1px solid ${COLORS.primary}';`}
+                  onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
+                >
+                  サイトを見る →
+                </a>
+              </div>
+            </div>
+
+            <!-- 右側: 実際のサイト埋め込み -->
+            <div style="text-align: center;">
+              <div
+                style="position: relative; width: 100%; aspect-ratio: 2 / 3;"
+              >
+                <iframe
+                  src="https://valorant-point-viewer.netlify.app/"
+                  width="100%"
+                  height="100%"
+                  frameborder="0"
+                  scrolling="no"
+                  style={`border: 2px solid ${COLORS.primary}; border-radius: 6px; box-shadow: 0 4px 8px ${COLORS.primaryShadow}; background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0; overflow: hidden;`}
+                  title="VALORANT Point Viewer - Live Demo"
+                  loading="lazy"></iframe>
+              </div>
+            </div>
+          </div>
+
+          <!-- モバイル: 縦レイアウト -->
+          <div style="display: none;" class="mobile-layout">
+            <h3
+              style={`color: var(--theme-primary); font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+            >
+              🎯 VALORANT Point Viewer
+            </h3>
+            <p
+              style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.6; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; margin-bottom: 15px;`}
+            >
+              VALORANTの各マップの定点動画をマップ上で確認できるWebサイトです。<br
+              />
+              プレイヤーがマップを理解し、戦略を練るためのツールとして制作しました。
+            </p>
+
+            <div style="margin-bottom: 15px; text-align: center;">
+              <div
+                style="position: relative; width: 100%; max-width: 350px; height: calc((350px * 4 / 3) + 20px); margin: 0 auto;"
+              >
+                <iframe
+                  src="https://valorant-point-viewer.netlify.app/"
+                  width="100%"
+                  height="100%"
+                  frameborder="0"
+                  scrolling="no"
+                  style={`border: 2px solid ${COLORS.primary}; border-radius: 6px; box-shadow: 0 4px 8px ${COLORS.primaryShadow}; background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0; overflow: hidden;`}
+                  title="VALORANT Point Viewer - Live Demo (Mobile)"
+                  loading="lazy"></iframe>
+              </div>
+            </div>
+
+            <div style="text-align: center;">
+              <a
+                href="https://valorant-point-viewer.netlify.app/"
+                target="_blank"
+                rel="noopener"
+                style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
+                onmouseover="this.style.background='transparent'; this.style.color='var(--theme-primary)'; this.style.border='1px solid var(--theme-primary)';"
+                onmouseout="this.style.background='var(--theme-primary)'; this.style.color='#ffffff'; this.style.border='none';"
+              >
+                サイトを見る →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- フッター -->
     <div
       style="text-align: center; padding: 20px 0; border-top: 1px solid #333333;"
@@ -573,7 +611,9 @@ const COLORS = {
   }
 
   /* 長い文字列（クロスヘアコードなど）の特別対応 */
-  p, span, div {
+  p,
+  span,
+  div {
     hyphens: auto;
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
@@ -582,7 +622,7 @@ const COLORS = {
 
   /* クロスヘアコード専用スタイル */
   .crosshair-code {
-    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
+    font-family: "DotGothic16", "BIZ UDPGothic", "Press Start 2P", monospace !important;
     background-color: transparent !important;
     padding: 0 !important;
     border-radius: 0 !important;
@@ -600,9 +640,10 @@ const COLORS = {
       overflow-wrap: anywhere !important;
       line-break: anywhere !important;
     }
-    
+
     /* 長いコード文字列用の強制改行 */
-    span, code {
+    span,
+    code {
       white-space: pre-wrap !important;
       word-break: break-all !important;
     }
@@ -760,20 +801,22 @@ const COLORS = {
 
 <script>
   function copyCrosshairCode() {
-    navigator.clipboard.writeText('0;p;0;s;1;P;c;8;u;0077FFFF;o;0.3;b;1;f;0;0t;1;0l;5;0v;5;0o;2;0a;1;0f;0;1t;3;1o;2;1a;1;1m;0;1f;0;A;c;5;u;0077FFFF;o;0.2;0t;3;0l;1;0v;1;0o;1;0a;1;0f;0;1b;0;S;c;5');
+    navigator.clipboard.writeText(
+      "0;p;0;s;1;P;c;8;u;0077FFFF;o;0.3;b;1;f;0;0t;1;0l;5;0v;5;0o;2;0a;1;0f;0;1t;3;1o;2;1a;1;1m;0;1f;0;A;c;5;u;0077FFFF;o;0.2;0t;3;0l;1;0v;1;0o;1;0a;1;0f;0;1b;0;S;c;5",
+    );
 
     // アイコンを切り替え
-    const copyIcon = document.getElementById('copy-crosshair-icon');
-    const checkIcon = document.getElementById('check-crosshair-icon');
+    const copyIcon = document.getElementById("copy-crosshair-icon");
+    const checkIcon = document.getElementById("check-crosshair-icon");
 
     if (copyIcon && checkIcon) {
-      copyIcon.style.display = 'none';
-      checkIcon.style.display = 'inline-block';
+      copyIcon.style.display = "none";
+      checkIcon.style.display = "inline-block";
 
       // 2秒後に元に戻す
       setTimeout(() => {
-        checkIcon.style.display = 'none';
-        copyIcon.style.display = 'inline-block';
+        checkIcon.style.display = "none";
+        copyIcon.style.display = "inline-block";
       }, 2000);
     }
   }
@@ -783,9 +826,9 @@ const COLORS = {
   let videoSources = []; // 各動画のオリジナルsrcを保存
 
   function initializeVideoSources() {
-    const videos = document.querySelectorAll('.carousel-video');
+    const videos = document.querySelectorAll(".carousel-video");
     videos.forEach((video, i) => {
-      const iframe = video.querySelector('iframe');
+      const iframe = video.querySelector("iframe");
       if (iframe && iframe.src) {
         videoSources[i] = iframe.src;
       }
@@ -793,23 +836,23 @@ const COLORS = {
   }
 
   function showVideo(index) {
-    const videos = document.querySelectorAll('.carousel-video');
-    const counter = document.getElementById('video-counter');
+    const videos = document.querySelectorAll(".carousel-video");
+    const counter = document.getElementById("video-counter");
 
     videos.forEach((video, i) => {
       if (i === index) {
-        video.style.display = 'block';
+        video.style.display = "block";
         // 表示する動画のsrcを復元（黒画面を防ぐ）
-        const iframe = video.querySelector('iframe');
+        const iframe = video.querySelector("iframe");
         if (iframe && videoSources[i] && iframe.src !== videoSources[i]) {
           iframe.src = videoSources[i];
         }
       } else {
-        video.style.display = 'none';
+        video.style.display = "none";
         // 非表示にする動画のiframeを停止（srcを空にするのみ）
-        const iframe = video.querySelector('iframe');
+        const iframe = video.querySelector("iframe");
         if (iframe && iframe.src) {
-          iframe.src = '';
+          iframe.src = "";
         }
       }
     });
@@ -832,45 +875,45 @@ const COLORS = {
   }
 
   function toggleVideos() {
-    const carousel = document.getElementById('video-carousel');
-    const allVideosGrid = document.getElementById('all-videos-grid');
-    const toggleBtn = document.getElementById('toggle-videos-btn');
+    const carousel = document.getElementById("video-carousel");
+    const allVideosGrid = document.getElementById("all-videos-grid");
+    const toggleBtn = document.getElementById("toggle-videos-btn");
 
     if (carousel && allVideosGrid && toggleBtn) {
-      if (allVideosGrid.style.display === 'none') {
+      if (allVideosGrid.style.display === "none") {
         // 全動画を展開
-        carousel.style.display = 'none';
-        allVideosGrid.style.display = 'block';
-        toggleBtn.textContent = '▲ カルーセル表示';
+        carousel.style.display = "none";
+        allVideosGrid.style.display = "block";
+        toggleBtn.textContent = "▲ カルーセル表示";
       } else {
         // カルーセルに戻す
-        carousel.style.display = 'block';
-        allVideosGrid.style.display = 'none';
-        toggleBtn.textContent = '▼ 全て表示';
+        carousel.style.display = "block";
+        allVideosGrid.style.display = "none";
+        toggleBtn.textContent = "▼ 全て表示";
       }
     }
   }
 
   // DOM読み込み完了後に実行
-  document.addEventListener('DOMContentLoaded', function() {
-    const copyIcon = document.getElementById('copy-crosshair-icon');
+  document.addEventListener("DOMContentLoaded", function () {
+    const copyIcon = document.getElementById("copy-crosshair-icon");
     if (copyIcon) {
-      copyIcon.addEventListener('click', copyCrosshairCode);
+      copyIcon.addEventListener("click", copyCrosshairCode);
     }
 
-    const toggleBtn = document.getElementById('toggle-videos-btn');
+    const toggleBtn = document.getElementById("toggle-videos-btn");
     if (toggleBtn) {
-      toggleBtn.addEventListener('click', toggleVideos);
+      toggleBtn.addEventListener("click", toggleVideos);
     }
 
-    const prevBtn = document.getElementById('prev-video-btn');
+    const prevBtn = document.getElementById("prev-video-btn");
     if (prevBtn) {
-      prevBtn.addEventListener('click', prevVideo);
+      prevBtn.addEventListener("click", prevVideo);
     }
 
-    const nextBtn = document.getElementById('next-video-btn');
+    const nextBtn = document.getElementById("next-video-btn");
     if (nextBtn) {
-      nextBtn.addEventListener('click', nextVideo);
+      nextBtn.addEventListener("click", nextVideo);
     }
 
     // 動画のオリジナルsrcを保存
