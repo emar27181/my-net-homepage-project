@@ -394,6 +394,59 @@ const COLORS = {
       </div>
     </div>
 
+    <!-- プレイリストセクション -->
+    <div
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="playlist-section"
+    >
+      <h2
+        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+      >
+        ♫ VALORANT Playlist ♫
+      </h2>
+
+      <!-- 横線 -->
+      <hr
+        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+      />
+
+      <div style="text-align: center; margin-bottom: 15px;">
+        <p
+          style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+        >
+          VALORANT関連動画のプレイリストです
+        </p>
+      </div>
+
+      <!-- プレイリストプレイヤー -->
+      <div style="position: relative; width: 100%; max-width: 800px; margin: 0 auto;">
+        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+          <iframe
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 2px solid var(--theme-primary); border-radius: 8px; box-shadow: 0 4px 12px rgba(77, 121, 255, 0.3);"
+            src="https://www.youtube.com/embed/videoseries?list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct"
+            title="VALORANT Playlist"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- YouTubeで開くリンク -->
+      <div style="text-align: center; margin-top: 20px;">
+        <a
+          href="https://www.youtube.com/playlist?list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct"
+          target="_blank"
+          rel="noopener"
+          style={`display: inline-block; padding: 10px 20px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.bodyText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
+          onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
+          onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
+        >
+          📺 YouTubeで見る
+        </a>
+      </div>
+    </div>
+
     <!-- デバイス情報 -->
     <div
       style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
