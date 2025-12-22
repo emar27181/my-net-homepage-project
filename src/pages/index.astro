@@ -506,12 +506,15 @@ const COLORS = {
           >
             感度: 0.18 800DPI (振り向き 45.4cm)<br />
             クロスヘア: 青色・アウトライン有<br />
-            クロスヘアコード:
-            <span id="copy-crosshair-container" style="display: inline-block;">
+            <span
+              id="copy-crosshair-text"
+              onclick="copyCrosshairCode()"
+              style={`color: ${COLORS.primary}; cursor: pointer; text-decoration: underline; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; display: inline-flex; align-items: center; gap: 5px;`}
+              title="クリックでクロスヘアコードをコピー"
+            >
               <svg
                 id="copy-crosshair-icon"
-                style="display: inline-block; width: 14px; height: 14px; vertical-align: middle; margin-right: 5px; cursor: pointer; fill: var(--theme-primary);"
-                title="クリックでコピー"
+                style="display: inline-block; width: 14px; height: 14px; vertical-align: middle; fill: currentColor;"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -520,15 +523,14 @@ const COLORS = {
               </svg>
               <svg
                 id="check-crosshair-icon"
-                style="display: none; width: 14px; height: 14px; vertical-align: middle; margin-right: 5px; fill: var(--theme-primary);"
+                style="display: none; width: 14px; height: 14px; vertical-align: middle; fill: currentColor;"
                 viewBox="0 0 24 24"
               >
                 <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
                 ></path>
               </svg>
-            </span><span class="crosshair-code"
-              >0;p;0;s;1;P;c;8;u;0077FFFF;o;0.3;b;1;f;0;0t;1;0l;5;0v;5;0o;2;0a;1;0f;0;1t;3;1o;2;1a;1;1m;0;1f;0;A;c;5;u;0077FFFF;o;0.2;0t;3;0l;1;0v;1;0o;1;0a;1;0f;0;1b;0;S;c;5</span
-            ><br />
+              <span id="copy-crosshair-label">クロスヘアコードをコピー</span>
+            </span><br />
             解像度: 1920×1080<br />
             FPS: 144fps
           </p>
@@ -675,7 +677,7 @@ const COLORS = {
     overflow-wrap: break-word !important;
   }
 
-  /* 長い文字列（クロスヘアコードなど）の特別対応 */
+  /* 長い文字列の特別対応 */
   p,
   span,
   div {
@@ -685,17 +687,15 @@ const COLORS = {
     -ms-hyphens: auto;
   }
 
-  /* クロスヘアコード専用スタイル */
-  .crosshair-code {
-    font-family: "DotGothic16", "BIZ UDPGothic", "Press Start 2P", monospace !important;
-    background-color: transparent !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    word-break: break-all !important;
-    overflow-wrap: break-word !important;
-    display: inline-block !important;
-    image-rendering: pixelated !important;
-    text-shadow: 1px 1px 0px #000000 !important;
+  /* クロスヘアコードコピーボタンのホバー効果 */
+  #copy-crosshair-text:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+  }
+
+  #copy-crosshair-text:active {
+    transform: translateY(0);
   }
 
   /* スマートフォン向け追加改行ルール */
@@ -711,16 +711,6 @@ const COLORS = {
     code {
       white-space: pre-wrap !important;
       word-break: break-all !important;
-    }
-
-    /* クロスヘアコードのモバイル対応 */
-    .crosshair-code {
-      display: block !important;
-      margin: 5px 0 !important;
-      white-space: pre-wrap !important;
-      word-break: break-all !important;
-      overflow-wrap: anywhere !important;
-      max-width: 100% !important;
     }
 
     /* グリッドレイアウトを1列に変更 */
@@ -870,18 +860,21 @@ const COLORS = {
       "0;p;0;s;1;P;c;8;u;0077FFFF;o;0.3;b;1;f;0;0t;1;0l;5;0v;5;0o;2;0a;1;0f;0;1t;3;1o;2;1a;1;1m;0;1f;0;A;c;5;u;0077FFFF;o;0.2;0t;3;0l;1;0v;1;0o;1;0a;1;0f;0;1b;0;S;c;5",
     );
 
-    // アイコンを切り替え
+    // アイコンとテキストを切り替え
     const copyIcon = document.getElementById("copy-crosshair-icon");
     const checkIcon = document.getElementById("check-crosshair-icon");
+    const label = document.getElementById("copy-crosshair-label");
 
-    if (copyIcon && checkIcon) {
+    if (copyIcon && checkIcon && label) {
       copyIcon.style.display = "none";
       checkIcon.style.display = "inline-block";
+      label.textContent = "コピーしました！";
 
       // 2秒後に元に戻す
       setTimeout(() => {
         checkIcon.style.display = "none";
         copyIcon.style.display = "inline-block";
+        label.textContent = "クロスヘアコードをコピー";
       }, 2000);
     }
   }
