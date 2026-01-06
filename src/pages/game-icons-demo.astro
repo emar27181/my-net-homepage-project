@@ -1,0 +1,223 @@
+---
+import SimpleLayout from '../layouts/SimpleLayout.astro';
+import GameIcons from '../components/GameIcons.astro';
+
+const title = 'Game Icons Demo';
+
+const fpsGames = ['valorant', 'apex', 'ow2', 'bf', 'cod', 'fortnite'] as const;
+const mobileGames = ['pazudora', 'monst', 'pokepoke', 'mahjong'] as const;
+---
+
+<SimpleLayout title={title}>
+  <div class="game-icons-demo">
+    <h1>🎮 Game Icons Demo</h1>
+
+    <section class="demo-section">
+      <h2>FPS Games</h2>
+      <div class="icons-grid">
+        {fpsGames.map(game => (
+          <div class="icon-card">
+            <GameIcons game={game} size={64} />
+            <p class="game-name">{game.toUpperCase()}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Mobile Games</h2>
+      <div class="icons-grid">
+        {mobileGames.map(game => (
+          <div class="icon-card">
+            <GameIcons game={game} size={64} />
+            <p class="game-name">
+              {game === 'pazudora' ? 'パズドラ' :
+               game === 'monst' ? 'モンスト' :
+               game === 'pokepoke' ? 'ポケポケ' :
+               '雀魂'}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Size Variations</h2>
+      <div class="size-demo">
+        <GameIcons game="valorant" size={24} />
+        <GameIcons game="valorant" size={32} />
+        <GameIcons game="valorant" size={48} />
+        <GameIcons game="valorant" size={64} />
+        <GameIcons game="valorant" size={96} />
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Inline Usage Example</h2>
+      <div class="inline-demo">
+        <p>
+          Playing
+          <GameIcons game="valorant" size={20} className="inline-icon" /> VALORANT and
+          <GameIcons game="apex" size={20} className="inline-icon" /> Apex Legends
+        </p>
+        <p>
+          Also enjoying
+          <GameIcons game="pazudora" size={20} className="inline-icon" /> パズドラ and
+          <GameIcons game="mahjong" size={20} className="inline-icon" /> 雀魂
+        </p>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>All Games Grid</h2>
+      <div class="all-games-grid">
+        <GameIcons game="valorant" size={48} />
+        <GameIcons game="apex" size={48} />
+        <GameIcons game="ow2" size={48} />
+        <GameIcons game="bf" size={48} />
+        <GameIcons game="cod" size={48} />
+        <GameIcons game="fortnite" size={48} />
+        <GameIcons game="pazudora" size={48} />
+        <GameIcons game="monst" size={48} />
+        <GameIcons game="pokepoke" size={48} />
+        <GameIcons game="mahjong" size={48} />
+      </div>
+    </section>
+  </div>
+</SimpleLayout>
+
+<style>
+  .game-icons-demo {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: var(--font-pixel-jp);
+    color: #ffffff;
+  }
+
+  h1 {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 40px;
+    text-shadow:
+      1px 1px 0px #000000,
+      0 0 20px rgba(77, 121, 255, 0.8);
+  }
+
+  .demo-section {
+    background: rgba(77, 121, 255, 0.1);
+    border: 2px solid #4d79ff;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #4d79ff;
+    text-shadow:
+      1px 1px 0px #000000,
+      0 0 15px rgba(77, 121, 255, 0.6);
+  }
+
+  .icons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .icon-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(77, 121, 255, 0.3);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .icon-card:hover {
+    background: rgba(77, 121, 255, 0.2);
+    border-color: #4d79ff;
+    transform: translateY(-4px);
+  }
+
+  .game-name {
+    font-size: 12px;
+    color: #ffffff;
+    text-align: center;
+    margin: 0;
+    text-shadow: 1px 1px 0px #000000;
+  }
+
+  .size-demo {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+  }
+
+  .inline-demo {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .inline-demo p {
+    font-size: 16px;
+    line-height: 2;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .inline-icon {
+    vertical-align: middle;
+  }
+
+  .all-games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 16px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+  }
+
+  .all-games-grid > :global(*) {
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .game-icons-demo {
+      padding: 20px 10px;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    .demo-section {
+      padding: 20px;
+    }
+
+    .icons-grid {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 15px;
+    }
+
+    .size-demo {
+      gap: 15px;
+    }
+  }
+</style>
