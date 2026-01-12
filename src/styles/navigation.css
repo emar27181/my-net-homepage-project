@@ -3,8 +3,8 @@
   background: var(--color-bg-secondary);
   border: 3px solid var(--retro-primary);
   padding: 8px;
-  box-shadow: 
-    inset 2px 2px 0px rgba(77, 121, 255, 0.3),
+  box-shadow:
+    inset 2px 2px 0px rgba(var(--theme-primary-rgb), 0.3),
     inset -2px -2px 0px rgba(0, 0, 0, 0.5),
     0 0 0 2px var(--game-bg-primary);
   image-rendering: pixelated;

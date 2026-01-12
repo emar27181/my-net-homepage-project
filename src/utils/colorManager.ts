@@ -33,11 +33,11 @@ export const COLOR_PRESETS: Record<string, ColorConfig> = {
   red: {
     id: 'red',
     name: '赤統一',
-    primary: '#ff4d4d',
+    primary: '#4d79ff',
     secondary: '#ff7a7a',
     accent: '#e63946',
     border: '#4d79ff',
-    background: 'rgba(255, 77, 77, 0.05)',
+    background: 'rgba(77, 121, 255, 0.05)',
     highlight: '#ff6b6b',
     enabled: false
   },

@@ -7,6 +7,12 @@
   --font-mono: 'VT323', monospace;
   --font-pixel-jp: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;
   --font-main-jp: 'DotGothic16', 'BIZ UDPGothic', sans-serif;
+
+  /* テーマカラー（src/config/themeConfig.ts から動的に設定される） */
+  /* コンポーネント用の統一変数 */
+  --theme-primary: #4d79ff;        /* メインカラー */
+  --theme-primary-rgb: 77, 121, 255; /* RGB形式 */
+  --theme-shadow: rgba(77, 121, 255, 0.3); /* シャドウ用 */
   
   /* ポケモンDP風カラーパレット（青系統一・クリスタル調） */
   --retro-primary: #4a7fc7;     /* ダイヤモンドブルー（DP風） */
@@ -73,7 +79,7 @@
 
 /* ポケモンDP風背景（コントラスト強化・より深い洞窟感） */
 body {
-  background-image: 
+  background-image:
     /* より控えめなクリスタルグリッド */
     linear-gradient(0deg, transparent 23px, rgba(74, 127, 199, 0.12) 24px, rgba(74, 127, 199, 0.12) 25px, transparent 26px),
     linear-gradient(90deg, transparent 23px, rgba(116, 169, 207, 0.1) 24px, rgba(116, 169, 207, 0.1) 25px, transparent 26px),
@@ -85,7 +91,7 @@ body {
   font-size: 14px;
   line-height: 1.6;
   color: var(--color-text);
-  
+
   /* DP風効果（より深いコントラストで洞窟感を演出） */
   position: relative;
   background-attachment: fixed;

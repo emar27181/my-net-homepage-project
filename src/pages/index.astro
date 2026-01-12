@@ -2,6 +2,11 @@
 import SimpleLayout from "../layouts/SimpleLayout.astro";
 import YouTubeClipViewer from "../components/YouTubeClipViewer.astro";
 import { applyTypographyPreset } from "../utils/typography";
+import {
+  THEME_CONFIG,
+  getCurrentThemeColors,
+  FIXED_COLORS,
+} from "../config/themeConfig";
 import "../styles/global.css";
 
 // フォントサイズ設定
@@ -15,30 +20,16 @@ const FONT_SIZES = {
   footer: "10px", // フッター
 };
 
-// 固定カラー設定
+// ========================================
+// テーマカラー設定（src/config/themeConfig.ts で一元管理）
+// ========================================
+const themeColors = getCurrentThemeColors();
 const COLORS = {
-  // メインカラー
-  primary: "#4d79ff", // ネオンブルー
-  primaryAlpha10: "rgba(77,121,255,0.1)", // 10%透明度
-  primaryAlpha5: "rgba(77,121,255,0.05)", // 5%透明度
-  primaryShadow: "rgba(77,121,255,0.3)", // シャドウ用
+  // メインカラー（テーマ設定から生成）
+  ...themeColors,
 
-  // タイトル・見出しカラー
-  heading: "#A6F7FF", // ライトシアン（タイトル・見出し専用）
-
-  // テキストカラー
-  textWhite: "#ffffff", // 白文字
-  textGray: "#cccccc", // グレー文字
-  textDarkGray: "#666666", // ダークグレー文字
-  textBlack: "#000000", // 黒文字（シャドウ用）
-
-  // 背景・ボーダー
-  bgWhite: "#ffffff", // 白背景
-  bgTransparent: "transparent", // 透明
-
-  // エフェクト
-  shadowWhite: "rgba(255,255,255,0.3)", // 白シャドウ
-  shadowBlack: "rgba(0,0,0,0.5)", // 黒シャドウ
+  // 固定カラー
+  ...FIXED_COLORS,
 };
 ---
 
@@ -51,8 +42,10 @@ const COLORS = {
     <div style="text-align: center; margin-bottom: 40px;" class="title-section">
       <h1
         style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.title}; margin-bottom: 15px; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+        class="main-title"
       >
-        Nodoame's Portfolio
+        <span class="title-first-line">Nodoame's</span>
+        <span class="title-second-line">Portfolio</span>
       </h1>
 
       <!-- 横線 -->
@@ -78,6 +71,7 @@ const COLORS = {
     <!-- About Me -->
     <div
       style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="about-section"
     >
       <h2
         style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
@@ -108,6 +102,7 @@ const COLORS = {
     <!-- プロフィール情報 -->
     <div
       style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="profile-section"
     >
       <h2
         style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
@@ -120,7 +115,10 @@ const COLORS = {
         style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
       />
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div
+        style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;"
+        class="profile-info-grid"
+      >
         <div>
           <h3
             style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
@@ -133,6 +131,18 @@ const COLORS = {
             名前: nodoame<br />
             メインロール: コントローラー(オーメン/クローブ/アストラ) <br />
           </p>
+
+          <h3
+            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; margin-top: 15px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+          >
+            プレイ中のゲーム
+          </h3>
+          <p
+            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+          >
+            FPS: Valorant / Apex / OW2 / BF / COD / Fortnite(昔)<br />
+            ソシャゲ: パズドラ / モンスト / ポケポケ / 雀魂
+          </p>
         </div>
 
         <div>
@@ -144,30 +154,401 @@ const COLORS = {
           <p
             style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
           >
-            <svg style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            <svg
+              style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+              ></path>
             </svg>Twitter: <a
               href="https://twitter.com/nodoame27181"
               target="_blank"
               rel="noopener"
               style={`color: ${COLORS.primary};`}>@nodoame27181</a
             ><br />
-            <svg style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            <svg
+              style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+              ></path>
             </svg>Youtube: <a
               href="https://www.youtube.com/@nodoame27181"
               target="_blank"
               rel="noopener"
               style={`color: ${COLORS.primary};`}>@nodoame27181</a
             ><br />
+            <svg
+              style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M3 3v18h18V3H3zm16 16H5V5h14v14zM7 10h2v7H7v-7zm4-3h2v10h-2V7zm4 6h2v4h-2v-4z"
+              ></path>
+            </svg>TRN:<br />
+            <span style="margin-left: 24px;"
+              >Valorant: <a
+                href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview?platform=pc&playlist=competitive&season=4c4b8cff-43eb-13d3-8f14-96b783c90cd2"
+                target="_blank"
+                rel="noopener"
+                style={`color: ${COLORS.primary};`}>Valorant Profile</a
+              ></span
+            ><br />
+            <span style="margin-left: 24px;"
+              >Valorant(Solo): <a
+                href="https://tracker.gg/valorant/profile/riot/nodoame%2327182/overview?platform=pc&playlist=competitive&season=4c4b8cff-43eb-13d3-8f14-96b783c90cd2"
+                target="_blank"
+                rel="noopener"
+                style={`color: ${COLORS.primary};`}>Solo Profile</a
+              ></span
+            ><br />
+            <span style="margin-left: 24px;"
+              >Fortnite: <a
+                href="https://fortnitetracker.com/profile/kbm/nodoamen/events?region=GLOBAL&sortBy=placement"
+                target="_blank"
+                rel="noopener"
+                style={`color: ${COLORS.primary};`}>Fortnite Profile</a
+              ></span
+            ><br />
+            <span style="margin-left: 24px;"
+              >Apex: <a
+                href="https://apex.tracker.gg/apex/profile/origin/nodoamen/performance"
+                target="_blank"
+                rel="noopener"
+                style={`color: ${COLORS.primary};`}>Apex Profile</a
+              ></span
+            ><br />
           </p>
         </div>
       </div>
     </div>
 
+    <!-- YouTube動画セクション -->
+    <div
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="video-section"
+    >
+      <h2
+        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+      >
+        ★ VALORANT Gameplay ★
+      </h2>
+
+      <!-- 横線 -->
+      <hr
+        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+      />
+
+      <!-- カルーセル表示（折りたたみ時） -->
+      <div id="video-carousel" style="position: relative;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <!-- 左矢印ボタン -->
+          <button
+            id="prev-video-btn"
+            style={`flex-shrink: 0; width: 40px; height: 40px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 20px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
+            onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
+            onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
+          >
+            ◀
+          </button>
+
+          <!-- 動画表示エリア -->
+          <div style="flex: 1;">
+            <div class="carousel-video" data-index="0">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/ERb40ovB060"
+                title="VALORANT Clip #1"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="1" style="display: none;">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/KTwFA1jQgFY"
+                title="VALORANT Clip #2"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="2" style="display: none;">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/oos2PYWiRGM"
+                title="VALORANT Clip #3"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="3" style="display: none;">
+              <YouTubeClipViewer
+                clipUrl="https://www.youtube.com/watch?v=5IET-4mL9pA"
+                title="VALORANT Clip #4"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="4" style="display: none;">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/46a0f7dNVW4?si=FjCr_YPa35-guCZX"
+                title="VALORANT Clip #5"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="5" style="display: none;">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/Yznxiz_tS4g?si=sWJFRV_vB95mkJNl"
+                title="VALORANT Clip #6"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="6" style="display: none;">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/ooJdHWZ3KyU?si=pS2rqHsxPnuRqmEV"
+                title="VALORANT Clip #7"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="7" style="display: none;">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/Aazj-kAuxdY"
+                title="VALORANT Clip #8"
+                autoplay={false}
+              />
+            </div>
+          </div>
+
+          <!-- 右矢印ボタン -->
+          <button
+            id="next-video-btn"
+            style={`flex-shrink: 0; width: 40px; height: 40px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 20px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
+            onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
+            onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
+          >
+            ▶
+          </button>
+        </div>
+
+        <!-- 現在位置インジケーター -->
+        <div style="text-align: center; margin-top: 15px;">
+          <p
+            id="video-counter"
+            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+          >
+            1 / 8
+          </p>
+        </div>
+      </div>
+
+      <!-- 全動画一覧表示（展開時） -->
+      <div id="all-videos-grid" style="display: none;">
+        <div class="video-grid">
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/ERb40ovB060"
+              title="VALORANT Clip #1"
+              autoplay={false}
+            />
+          </div>
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/KTwFA1jQgFY"
+              title="VALORANT Clip #2"
+              autoplay={false}
+            />
+          </div>
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/oos2PYWiRGM"
+              title="VALORANT Clip #3"
+              autoplay={false}
+            />
+          </div>
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://www.youtube.com/watch?v=5IET-4mL9pA"
+              title="VALORANT Clip #4"
+              autoplay={false}
+            />
+          </div>
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/46a0f7dNVW4?si=FjCr_YPa35-guCZX"
+              title="VALORANT Clip #5"
+              autoplay={false}
+            />
+          </div>
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/Yznxiz_tS4g?si=sWJFRV_vB95mkJNl"
+              title="VALORANT Clip #6"
+              autoplay={false}
+            />
+          </div>
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/ooJdHWZ3KyU?si=pS2rqHsxPnuRqmEV"
+              title="VALORANT Clip #7"
+              autoplay={false}
+            />
+          </div>
+          <div>
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/Aazj-kAuxdY"
+              title="VALORANT Clip #8"
+              autoplay={false}
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- 展開/折りたたみボタン -->
+      <div style="text-align: center; margin-top: 20px;">
+        <button
+          id="toggle-videos-btn"
+          style={`padding: 10px 20px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease;`}
+          onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
+          onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
+        >
+          ▼ 全て表示
+        </button>
+      </div>
+    </div>
+
+    <!-- プレイリストセクション -->
+    <div
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="playlist-section"
+    >
+      <h2
+        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+      >
+        ♫ VALORANT Playlist ♫
+      </h2>
+
+      <!-- 横線 -->
+      <hr
+        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+      />
+
+      <div style="text-align: center; margin-bottom: 15px;">
+        <p
+          style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+        >
+          VALORANT関連動画のプレイリストです
+        </p>
+      </div>
+
+      <!-- プレイリストプレイヤー -->
+      <div style="position: relative; width: 100%; max-width: 800px; margin: 0 auto;">
+        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+          <iframe
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 2px solid var(--theme-primary); border-radius: 8px; box-shadow: 0 4px 12px rgba(77, 121, 255, 0.3);"
+            src="https://www.youtube.com/embed/videoseries?list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct"
+            title="VALORANT Playlist"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- YouTubeで開くリンク -->
+      <div style="text-align: center; margin-top: 20px;">
+        <a
+          href="https://www.youtube.com/playlist?list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct"
+          target="_blank"
+          rel="noopener"
+          style={`display: inline-block; padding: 10px 20px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.bodyText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
+          onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
+          onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
+        >
+          📺 YouTubeで見る
+        </a>
+      </div>
+    </div>
+
+    <!-- デバイス情報 -->
+    <div
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="device-section"
+    >
+      <h2
+        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+      >
+        ◎ Valorant Setup ◎
+      </h2>
+
+      <!-- 横線 -->
+      <hr
+        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+      />
+
+      <div
+        style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;"
+        class="device-settings-grid"
+      >
+        <div>
+          <h3
+            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+          >
+            デバイス
+          </h3>
+          <p
+            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+          >
+            マウス: Logicool G Pro X<br />
+            キーボード: Akko 5075S HE JP Dark Night<br />
+            ヘッドセット: SteelSeries Arctis 7<br />
+            モニター: 144Hz 24インチ <br />
+          </p>
+        </div>
+
+        <div>
+          <h3
+            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+          >
+            ゲーム設定
+          </h3>
+          <p
+            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+          >
+            感度: 0.18 800DPI (振り向き 45.4cm)<br />
+            クロスヘア: 青色・アウトライン有<br />
+            <span
+              id="copy-crosshair-text"
+              onclick="copyCrosshairCode()"
+              style={`color: ${COLORS.primary}; cursor: pointer; text-decoration: underline; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; display: inline-flex; align-items: center; gap: 5px;`}
+              title="クリックでクロスヘアコードをコピー"
+            >
+              <svg
+                id="copy-crosshair-icon"
+                style="display: inline-block; width: 14px; height: 14px; vertical-align: middle; fill: currentColor;"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                ></path>
+              </svg>
+              <svg
+                id="check-crosshair-icon"
+                style="display: none; width: 14px; height: 14px; vertical-align: middle; fill: currentColor;"
+                viewBox="0 0 24 24"
+              >
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                ></path>
+              </svg>
+              <span id="copy-crosshair-label">クロスヘアコードをコピー</span>
+            </span><br />
+            解像度: 1920×1080<br />
+            FPS: 144fps
+          </p>
+        </div>
+      </div>
+    </div>
     <!-- Works -->
     <div
       style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="works-section"
     >
       <h2
         style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
@@ -193,7 +574,7 @@ const COLORS = {
             <!-- 左側: 説明とリンク -->
             <div>
               <h3
-                style={`color: #4d79ff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+                style={`color: var(--theme-primary); font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
               >
                 VALORANT Point Viewer (現在作成途中)
               </h3>
@@ -239,7 +620,7 @@ const COLORS = {
           <!-- モバイル: 縦レイアウト -->
           <div style="display: none;" class="mobile-layout">
             <h3
-              style={`color: #4d79ff; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+              style={`color: var(--theme-primary); font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
             >
               🎯 VALORANT Point Viewer
             </h3>
@@ -273,8 +654,8 @@ const COLORS = {
                 target="_blank"
                 rel="noopener"
                 style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
-                onmouseover="this.style.background='transparent'; this.style.color='#4d79ff'; this.style.border='1px solid #4d79ff';"
-                onmouseout="this.style.background='#4d79ff'; this.style.color='#ffffff'; this.style.border='none';"
+                onmouseover="this.style.background='transparent'; this.style.color='var(--theme-primary)'; this.style.border='1px solid var(--theme-primary)';"
+                onmouseout="this.style.background='var(--theme-primary)'; this.style.color='#ffffff'; this.style.border='none';"
               >
                 サイトを見る →
               </a>
@@ -283,108 +664,6 @@ const COLORS = {
         </div>
       </div>
     </div>
-
-    <!-- YouTube動画セクション -->
-    <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="video-section"
-    >
-      <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
-      >
-        ★ VALORANT Gameplay ★
-      </h2>
-
-      <!-- 横線 -->
-      <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
-      />
-
-      <div class="video-grid">
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://youtu.be/ERb40ovB060"
-            title="VALORANT Clip #1"
-            autoplay={false}
-          />
-        </div>
-
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://youtu.be/KTwFA1jQgFY"
-            title="VALORANT Clip #2"
-            autoplay={false}
-          />
-        </div>
-
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://youtu.be/oos2PYWiRGM"
-            title="VALORANT Clip #3"
-            autoplay={false}
-          />
-        </div>
-
-        <div>
-          <YouTubeClipViewer
-            clipUrl="https://www.youtube.com/watch?v=5IET-4mL9pA"
-            title="VALORANT Clip #4"
-            autoplay={false}
-          />
-        </div>
-      </div>
-    </div>
-
-    <!-- デバイス情報 -->
-    <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-    >
-      <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
-      >
-        ◎ Setup & Settings ◎
-      </h2>
-
-      <!-- 横線 -->
-      <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
-      />
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-        <div>
-          <h3
-            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
-          >
-            デバイス
-          </h3>
-          <p
-            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
-          >
-            マウス: Logicool G Pro Wireless<br />
-            キーボード: - <br />
-            ヘッドセット: - <br />
-            モニター: 144Hz 24インチ
-          </p>
-        </div>
-
-        <div>
-          <h3
-            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
-          >
-            ゲーム設定
-          </h3>
-          <p
-            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
-          >
-            感度: 0.20 (800 DPI)<br />
-            クロスヘア: 青色・アウトライン有<br />
-            解像度: 1920×1080<br />
-            FPS: 144fps
-          </p>
-        </div>
-      </div>
-    </div>
-
     <!-- フッター -->
     <div
       style="text-align: center; padding: 20px 0; border-top: 1px solid #333333;"
@@ -399,19 +678,136 @@ const COLORS = {
 </SimpleLayout>
 
 <style>
+  /* 文字溢れ防止 - ページ全体の自動改行ルール */
+  * {
+    word-wrap: break-word !important;
+    word-break: break-all !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* 長い文字列の特別対応 */
+  p,
+  span,
+  div {
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+  }
+
+  /* クロスヘアコードコピーボタンのホバー効果 */
+  #copy-crosshair-text:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+  }
+
+  #copy-crosshair-text:active {
+    transform: translateY(0);
+  }
+
+  /* スマートフォン向け追加改行ルール */
+  @media screen and (max-width: 768px) {
+    * {
+      word-break: break-all !important;
+      overflow-wrap: anywhere !important;
+      line-break: anywhere !important;
+    }
+
+    /* 長いコード文字列用の強制改行 */
+    span,
+    code {
+      white-space: pre-wrap !important;
+      word-break: break-all !important;
+    }
+
+    /* グリッドレイアウトを1列に変更 */
+    .profile-info-grid,
+    .device-settings-grid {
+      grid-template-columns: 1fr !important;
+      gap: 15px !important;
+    }
+
+    /* タイトルの改行対応 */
+    .title-second-line {
+      display: block !important;
+      margin-top: 10px !important;
+    }
+
+    /* スマートフォン向け余白調整 */
+    .main-container {
+      padding: 10px !important;
+      margin: 0px !important;
+      border: none !important;
+      border-radius: 0px !important;
+      box-shadow: none !important;
+      max-width: 100vw !important;
+      min-height: 100vh !important;
+    }
+
+    /* 各セクションの余白を減少 */
+    .title-section {
+      margin-bottom: 15px !important;
+      padding: 5px !important;
+    }
+
+    .about-section,
+    .profile-section,
+    .works-section,
+    .video-section,
+    .device-section {
+      padding: 8px !important;
+      margin-bottom: 15px !important;
+    }
+
+    /* グリッド内の個別要素の余白調整 */
+    .profile-info-grid > div,
+    .device-settings-grid > div {
+      padding: 0 3px !important;
+      margin: 0 !important;
+    }
+
+    /* テキスト要素の余白調整 */
+    .about-section p,
+    .profile-section p,
+    .device-section p {
+      padding: 0 5px !important;
+      margin: 10px 0 !important;
+    }
+
+    /* Works セクション内の特別調整 */
+    .works-section > div > div {
+      padding: 10px !important;
+    }
+  }
+
+  /* カルーセルボタンの中央配置 */
+  #prev-video-btn,
+  #next-video-btn {
+    align-self: center;
+  }
+
   /* 動画グリッドのレスポンシブ対応 */
   .video-grid {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: 1fr !important;
     gap: 20px !important;
     width: 100% !important;
   }
 
-  /* タブレット表示 */
-  @media screen and (max-width: 768px) {
+  /* デスクトップ表示（769px以上） */
+  @media screen and (min-width: 769px) {
     .video-grid {
       grid-template-columns: 1fr !important;
       gap: 20px !important;
+    }
+  }
+
+  /* タブレット表示（481px-768px） */
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    .video-grid {
+      grid-template-columns: 1fr !important;
+      gap: 15px !important;
     }
   }
 
@@ -419,7 +815,28 @@ const COLORS = {
   @media screen and (max-width: 480px) {
     .video-grid {
       grid-template-columns: 1fr !important;
-      gap: 25px !important;
+      gap: 20px !important;
+    }
+
+    /* 矢印ボタンのモバイル対応 */
+    #prev-video-btn,
+    #next-video-btn {
+      width: 35px !important;
+      height: 35px !important;
+      font-size: 16px !important;
+    }
+
+    /* スマホではカルーセルを非表示にして全動画を表示 */
+    #video-carousel {
+      display: none !important;
+    }
+
+    #all-videos-grid {
+      display: block !important;
+    }
+
+    #toggle-videos-btn {
+      display: none !important;
     }
   }
 
@@ -444,3 +861,128 @@ const COLORS = {
     }
   }
 </style>
+
+<script>
+  function copyCrosshairCode() {
+    navigator.clipboard.writeText(
+      "0;p;0;s;1;P;c;8;u;0077FFFF;o;0.3;b;1;f;0;0t;1;0l;5;0v;5;0o;2;0a;1;0f;0;1t;3;1o;2;1a;1;1m;0;1f;0;A;c;5;u;0077FFFF;o;0.2;0t;3;0l;1;0v;1;0o;1;0a;1;0f;0;1b;0;S;c;5",
+    );
+
+    // アイコンとテキストを切り替え
+    const copyIcon = document.getElementById("copy-crosshair-icon");
+    const checkIcon = document.getElementById("check-crosshair-icon");
+    const label = document.getElementById("copy-crosshair-label");
+
+    if (copyIcon && checkIcon && label) {
+      copyIcon.style.display = "none";
+      checkIcon.style.display = "inline-block";
+      label.textContent = "コピーしました！";
+
+      // 2秒後に元に戻す
+      setTimeout(() => {
+        checkIcon.style.display = "none";
+        copyIcon.style.display = "inline-block";
+        label.textContent = "クロスヘアコードをコピー";
+      }, 2000);
+    }
+  }
+
+  let currentVideoIndex = 0;
+  const totalVideos = 8;
+  let videoSources = []; // 各動画のオリジナルsrcを保存
+
+  function initializeVideoSources() {
+    const videos = document.querySelectorAll(".carousel-video");
+    videos.forEach((video, i) => {
+      const iframe = video.querySelector("iframe");
+      if (iframe && iframe.src) {
+        videoSources[i] = iframe.src;
+      }
+    });
+  }
+
+  function showVideo(index) {
+    const videos = document.querySelectorAll(".carousel-video");
+    const counter = document.getElementById("video-counter");
+
+    videos.forEach((video, i) => {
+      if (i === index) {
+        video.style.display = "block";
+        // 表示する動画のsrcを復元（黒画面を防ぐ）
+        const iframe = video.querySelector("iframe");
+        if (iframe && videoSources[i] && iframe.src !== videoSources[i]) {
+          iframe.src = videoSources[i];
+        }
+      } else {
+        video.style.display = "none";
+        // 非表示にする動画のiframeを停止（srcを空にするのみ）
+        const iframe = video.querySelector("iframe");
+        if (iframe && iframe.src) {
+          iframe.src = "";
+        }
+      }
+    });
+
+    if (counter) {
+      counter.textContent = `${index + 1} / ${totalVideos}`;
+    }
+
+    currentVideoIndex = index;
+  }
+
+  function nextVideo() {
+    const nextIndex = (currentVideoIndex + 1) % totalVideos;
+    showVideo(nextIndex);
+  }
+
+  function prevVideo() {
+    const prevIndex = (currentVideoIndex - 1 + totalVideos) % totalVideos;
+    showVideo(prevIndex);
+  }
+
+  function toggleVideos() {
+    const carousel = document.getElementById("video-carousel");
+    const allVideosGrid = document.getElementById("all-videos-grid");
+    const toggleBtn = document.getElementById("toggle-videos-btn");
+
+    if (carousel && allVideosGrid && toggleBtn) {
+      if (allVideosGrid.style.display === "none") {
+        // 全動画を展開
+        carousel.style.display = "none";
+        allVideosGrid.style.display = "block";
+        toggleBtn.textContent = "▲ カルーセル表示";
+      } else {
+        // カルーセルに戻す
+        carousel.style.display = "block";
+        allVideosGrid.style.display = "none";
+        toggleBtn.textContent = "▼ 全て表示";
+      }
+    }
+  }
+
+  // DOM読み込み完了後に実行
+  document.addEventListener("DOMContentLoaded", function () {
+    const copyIcon = document.getElementById("copy-crosshair-icon");
+    if (copyIcon) {
+      copyIcon.addEventListener("click", copyCrosshairCode);
+    }
+
+    const toggleBtn = document.getElementById("toggle-videos-btn");
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", toggleVideos);
+    }
+
+    const prevBtn = document.getElementById("prev-video-btn");
+    if (prevBtn) {
+      prevBtn.addEventListener("click", prevVideo);
+    }
+
+    const nextBtn = document.getElementById("next-video-btn");
+    if (nextBtn) {
+      nextBtn.addEventListener("click", nextVideo);
+    }
+
+    // 動画のオリジナルsrcを保存
+    initializeVideoSources();
+  });
+</script>

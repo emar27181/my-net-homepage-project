@@ -52,6 +52,10 @@ function getEmbedUrl(url: string, auto: boolean = false): string {
   params.set('cc_load_policy', '0');
   params.set('enablejsapi', '1');
   params.set('loop', '0'); // 繰り返し再生を無効化
+  params.set('hd', '1'); // 1080p画質をデフォルトに設定
+  params.set('vq', 'hd1080'); // 1080p画質を明示的に指定
+  params.set('quality', 'hd1080'); // 画質を強制指定
+  params.set('fmt', '22'); // 1080p mp4フォーマットを指定
   
   return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
 }
@@ -107,7 +111,7 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
   .clip-title {
     font-family: 'Press Start 2P', monospace !important;
     font-size: 10px;
-    color: #4d79ff;
+    color: var(--theme-primary);
     text-align: center;
     margin-bottom: 1.2rem;
     text-shadow: 1px 1px 0px #000000;
@@ -121,7 +125,7 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
     aspect-ratio: 16 / 9;
     background: #000;
     border: 2px solid var(--retro-primary);
-    border-radius: 4px;
+    border-radius: 8px;
     overflow: hidden;
     box-shadow: inset 2px 2px 0px rgba(0,0,0,0.3);
   }
@@ -254,6 +258,12 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
       font-size: 9px;
       padding: 0.4rem 0.8rem;
     }
+    
+    .video-container {
+      border: 2px solid var(--theme-primary) !important;
+      border-radius: 6px;
+      box-shadow: 0 0 8px rgba(var(--theme-primary-rgb), 0.2) !important;
+    }
   }
 
   @media (max-width: 480px) {
@@ -282,9 +292,10 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
     }
     
     .video-container {
-      border-width: 0;
-      border-radius: 0;
+      border: 2px solid var(--theme-primary) !important;
+      border-radius: 4px;
       margin: 0;
+      box-shadow: 0 0 10px rgba(var(--theme-primary-rgb), 0.3) !important;
     }
   }
 
@@ -331,20 +342,58 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
 </style>
 
 <script>
+  // YouTube Player API読み込み
+  if (!window.YT) {
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  }
+
   // 動画読み込み状態管理
   document.addEventListener('DOMContentLoaded', function() {
     const videoContainers = document.querySelectorAll('.youtube-clip-viewer .video-container');
     
-    videoContainers.forEach(container => {
+    videoContainers.forEach((container, index) => {
       const iframe = container.querySelector('iframe');
       const overlay = container.querySelector('.video-overlay');
       
       if (iframe && overlay) {
+        // 各iframeにユニークIDを設定
+        const playerId = `youtube-player-${index}`;
+        iframe.id = playerId;
+        
         // iframe読み込み完了時にオーバーレイを非表示
         iframe.addEventListener('load', function() {
           setTimeout(() => {
             overlay.style.opacity = '0';
             overlay.style.pointerEvents = 'none';
+            
+            // YouTube Player APIで画質を強制設定
+            if (window.YT && window.YT.Player) {
+              try {
+                const player = new YT.Player(playerId, {
+                  events: {
+                    'onReady': function(event) {
+                      // 利用可能な画質レベルを取得
+                      const qualityLevels = event.target.getAvailableQualityLevels();
+                      console.log('Available quality levels:', qualityLevels);
+                      
+                      // 1080p -> 720p -> 480p の順で設定を試行
+                      if (qualityLevels.includes('hd1080')) {
+                        event.target.setPlaybackQuality('hd1080');
+                      } else if (qualityLevels.includes('hd720')) {
+                        event.target.setPlaybackQuality('hd720');
+                      } else if (qualityLevels.includes('large')) {
+                        event.target.setPlaybackQuality('large');
+                      }
+                    }
+                  }
+                });
+              } catch (error) {
+                console.log('YouTube Player API initialization failed:', error);
+              }
+            }
           }, 1000);
         });
         
@@ -359,4 +408,9 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
       }
     });
   });
+
+  // YouTube Player API読み込み完了時のコールバック
+  window.onYouTubeIframeAPIReady = function() {
+    console.log('YouTube Player API loaded successfully');
+  };
 </script>
