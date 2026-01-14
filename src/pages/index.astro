@@ -259,56 +259,63 @@ const COLORS = {
 
           <!-- 動画表示エリア -->
           <div style="flex: 1;">
-            <div class="carousel-video" data-index="0">
+            <div class="carousel-video" data-index="0" style="display: block;">
+              <YouTubeClipViewer
+                clipUrl="https://youtu.be/eAx-dZ3_wEI?si=ap6SqkbEz7ccAGGS"
+                title="VALORANT Clutch Moments"
+                autoplay={false}
+              />
+            </div>
+            <div class="carousel-video" data-index="1" style="display: none;">
               <YouTubeClipViewer
                 clipUrl="https://youtu.be/ERb40ovB060"
                 title="VALORANT Clip #1"
                 autoplay={false}
               />
             </div>
-            <div class="carousel-video" data-index="1" style="display: none;">
+            <div class="carousel-video" data-index="2" style="display: none;">
               <YouTubeClipViewer
                 clipUrl="https://youtu.be/KTwFA1jQgFY"
                 title="VALORANT Clip #2"
                 autoplay={false}
               />
             </div>
-            <div class="carousel-video" data-index="2" style="display: none;">
+            <div class="carousel-video" data-index="3" style="display: none;">
               <YouTubeClipViewer
                 clipUrl="https://youtu.be/oos2PYWiRGM"
                 title="VALORANT Clip #3"
                 autoplay={false}
               />
             </div>
-            <div class="carousel-video" data-index="3" style="display: none;">
+            <div class="carousel-video" data-index="4" style="display: none;">
               <YouTubeClipViewer
                 clipUrl="https://www.youtube.com/watch?v=5IET-4mL9pA"
                 title="VALORANT Clip #4"
                 autoplay={false}
               />
             </div>
-            <div class="carousel-video" data-index="4" style="display: none;">
+            <div class="carousel-video" data-index="5" style="display: none;">
               <YouTubeClipViewer
                 clipUrl="https://youtu.be/46a0f7dNVW4?si=FjCr_YPa35-guCZX"
                 title="VALORANT Clip #5"
                 autoplay={false}
               />
             </div>
-            <div class="carousel-video" data-index="5" style="display: none;">
+            <div class="carousel-video" data-index="6" style="display: none;">
               <YouTubeClipViewer
                 clipUrl="https://youtu.be/Yznxiz_tS4g?si=sWJFRV_vB95mkJNl"
                 title="VALORANT Clip #6"
                 autoplay={false}
               />
             </div>
-            <div class="carousel-video" data-index="6" style="display: none;">
+            <div class="carousel-video" data-index="7" style="display: none;">
               <YouTubeClipViewer
                 clipUrl="https://youtu.be/ooJdHWZ3KyU?si=pS2rqHsxPnuRqmEV"
                 title="VALORANT Clip #7"
                 autoplay={false}
               />
             </div>
-            <div class="carousel-video" data-index="7" style="display: none;">
+            <div class="carousel-video" data-index="8" style="display: none;">
               <YouTubeClipViewer
                 clipUrl="https://youtu.be/Aazj-kAuxdY"
                 title="VALORANT Clip #8"
@@ -334,7 +341,7 @@ const COLORS = {
             id="video-counter"
             style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
           >
-            1 / 8
+            1 / 9
           </p>
         </div>
       </div>
@@ -342,6 +349,13 @@ const COLORS = {
       <!-- 全動画一覧表示（展開時） -->
       <div id="all-videos-grid" style="display: none;">
         <div class="video-grid">
+          <div style="margin-bottom: 20px;">
+            <YouTubeClipViewer
+              clipUrl="https://youtu.be/eAx-dZ3_wEI?si=ap6SqkbEz7ccAGGS"
+              title="VALORANT Clutch Moments"
+              autoplay={false}
+            />
+          </div>
           <div style="margin-bottom: 20px;">
             <YouTubeClipViewer
               clipUrl="https://youtu.be/ERb40ovB060"
@@ -888,7 +902,7 @@ const COLORS = {
   }
 
   let currentVideoIndex = 0;
-  const totalVideos = 8;
+  const totalVideos = 9;
   let videoSources = []; // 各動画のオリジナルsrcを保存
 
   function initializeVideoSources() {
