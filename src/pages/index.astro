@@ -33,6 +33,9 @@ const COLORS = {
 };
 ---
 
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <SimpleLayout title="nodoame's Portfolio">
   <div
     style={`max-width: 1000px; margin: 0 auto; padding: 20px; background: var(--color-bg-secondary); border: 4px solid ${COLORS.primary}; border-radius: 12px; box-shadow: inset 2px 2px 0px ${COLORS.shadowWhite}, inset -2px -2px 0px ${COLORS.shadowBlack}, 0 0 20px ${COLORS.primaryShadow}; min-height: 100vh;`}
@@ -228,6 +231,42 @@ const COLORS = {
       </div>
     </div>
 
+    <!-- VALORANT Stats -->
+    <div
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="stats-section"
+    >
+      <h2
+        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+      >
+        ★ VALORANT Stats ★
+      </h2>
+
+      <!-- 横線 -->
+      <hr
+        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+      />
+      <div style="max-width: 700px; margin: 0 auto;">
+        <div class="container-graph" style={`
+            background: ${COLORS.primaryAlpha10};
+            border: 2px solid ${COLORS.primary};
+            box-shadow: 8px 8px 0px ${COLORS.shadowBlack};
+            color: ${COLORS.textWhite};
+        `}>
+            <h2>STATS TRACKER : BLUE_PIXEL_ULTRA</h2>
+            <div class="controls">
+                <button onclick="updateChart('rank')" id="btn-rank" class="active">Rank</button>
+                <button onclick="updateChart('playtime')" id="btn-playtime">Playtime</button>
+                <button onclick="updateChart('wins')" id="btn-wins">Wins</button>
+                <button onclick="updateChart('win_rate')" id="btn-win_rate">Win %</button>
+                <button onclick="updateChart('kd')" id="btn-kd">K/D</button>
+                <button onclick="updateChart('hs')" id="btn-hs">HS%</button>
+            </div>
+            <canvas id="rankChart"></canvas>
+        </div>
+      </div>
+    </div>
+
     <!-- YouTube動画セクション -->
     <div
       style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
@@ -236,7 +275,7 @@ const COLORS = {
       <h2
         style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
       >
-        ★ VALORANT Gameplay ★
+        ★ VALORANT Gameplay & Playlist ★
       </h2>
 
       <!-- 横線 -->
@@ -412,24 +451,11 @@ const COLORS = {
           ▼ 全て表示
         </button>
       </div>
-    </div>
-
-    <!-- プレイリストセクション -->
-    <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="playlist-section"
-    >
-      <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
-      >
-        ♫ VALORANT Playlist ♫
-      </h2>
-
-      <!-- 横線 -->
+      
       <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 30px auto 20px auto; width: 100%;`}
       />
-
+      
       <div style="text-align: center; margin-bottom: 15px;">
         <p
           style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
@@ -496,9 +522,10 @@ const COLORS = {
           <p
             style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
           >
-            マウス: Logicool G Pro X<br />
-            キーボード: Akko 5075S HE JP Dark Night<br />
-            ヘッドセット: SteelSeries Arctis 7<br />
+            マウス: <a href="https://www.amazon.co.jp/dp/B0FVKKP2T8?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1" target="_blank" style="color: ${COLORS.primary};">Pulsar Gaming Gears X2 CrazyLight</a><br />
+            キーボード: <a href="https://www.amazon.co.jp/dp/B0DCFGG1CH?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1" target="_blank" style="color: ${COLORS.primary};">Wooting 60 HE+</a><br />
+            ヘッドセット: <a href="https://www.amazon.co.jp/dp/B0BFFDNH1J?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1" target="_blank" style="color: ${COLORS.primary};">Razer BlackShark V2 Pro</a><br />
+            マウスパッド: <a href="https://www.amazon.co.jp/dp/B09KC5J24D?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1" target="_blank" style="color: ${COLORS.primary};">Pulsar Gaming Gears ParaControl V2 XXL</a><br />
             モニター: 144Hz 24インチ <br />
           </p>
         </div>
@@ -962,7 +989,7 @@ const COLORS = {
 
   // DOM読み込み完了後に実行
   document.addEventListener("DOMContentLoaded", function () {
-    const copyIcon = document.getElementById("copy-crosshair-icon");
+    const copyIcon = document.getElementById("copy-crosshair-text");
     if (copyIcon) {
       copyIcon.addEventListener("click", copyCrosshairCode);
     }
@@ -984,5 +1011,207 @@ const COLORS = {
 
     // 動画のオリジナルsrcを保存
     initializeVideoSources();
+  });
+</script>
+
+<style is:inline define:vars={{
+  containerBg: COLORS.primaryAlpha10,
+  borderColor: COLORS.primary,
+  shadowColor: COLORS.shadowBlack,
+  textColor: COLORS.textWhite,
+  headingColor: COLORS.heading,
+}}>
+    .container-graph {
+        width: 100%;
+        margin: auto;
+        padding: 20px;
+        box-sizing: border-box;
+        font-family: "DotGothic16", sans-serif;
+    }
+    .controls {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+    .container-graph button {
+        background: var(--containerBg);
+        color: var(--borderColor);
+        border: 2px solid var(--borderColor);
+        padding: 8px 16px;
+        font-family: "DotGothic16", sans-serif;
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: 0.1s;
+    }
+    .container-graph button:hover {
+        background: var(--borderColor);
+        color: var(--containerBg);
+    }
+    .container-graph button.active {
+        background: var(--borderColor);
+        color: var(--containerBg);
+        box-shadow: 4px 4px 0px var(--shadowColor);
+        transform: translate(-2px, -2px);
+    }
+    .container-graph h2 {
+        text-align: center;
+        color: var(--headingColor);
+        text-shadow: 2px 2px 0px var(--shadowColor);
+    }
+</style>
+<script is:inline define:vars={{ colors: COLORS }}>
+  document.addEventListener("DOMContentLoaded", () => {
+    const allRanks = ["Iron 1", "Iron 2", "Iron 3", "Bronze 1", "Bronze 2", "Bronze 3", "Silver 1", "Silver 2", "Silver 3", "Gold 1", "Gold 2", "Gold 3", "Platinum 1", "Platinum 2", "Platinum 3", "Diamond 1", "Diamond 2", "Diamond 3", "Ascendant 1", "Ascendant 2", "Ascendant 3", "Immortal 1", "Immortal 2", "Immortal 3", "Radiant"];
+    const rankColors = { "Iron": "#718093", "Bronze": "#cd7f32", "Silver": "#dcdde1", "Gold": "#e1b12c", "Platinum": "#00a8ff", "Diamond": "#9c88ff", "Ascendant": "#44bd32", "Immortal": "#e84118", "Radiant": "#fbc531" };
+
+    const rawData = [
+        { "period": "Episode 2", "act_id": "E2: A3", "rank": "Bronze 3", "playtime": 5.6, "wins": 4, "win_rate": 0.400, "kd": 0.62, "hs": 0.172 },
+        { "period": "Episode 3", "act_id": "E3: A1", "rank": "Silver 2", "playtime": 51, "wins": 42, "win_rate": 0.500, "kd": 0.97, "hs": 0.211 },
+        { "period": "Episode 3", "act_id": "E3: A2", "rank": "Gold 1", "playtime": 27, "wins": 24, "win_rate": 0.585, "kd": 0.95, "hs": 0.296 },
+        { "period": "Episode 3", "act_id": "E3: A3", "rank": "Gold 3", "playtime": 66, "wins": 64, "win_rate": 0.571, "kd": 1.02, "hs": 0.277 },
+        { "period": "Episode 4", "act_id": "E4: A1", "rank": "Gold 1", "playtime": 34, "wins": 31, "win_rate": 0.554, "kd": 1.01, "hs": 0.269 },
+        { "period": "Episode 4", "act_id": "E4: A2", "rank": "Gold 2", "playtime": 12, "wins": 11, "win_rate": 0.579, "kd": 0.96, "hs": 0.296 },
+        { "period": "Episode 4", "act_id": "E4: A3", "rank": "Gold 2", "playtime": 1.9, "wins": 2, "win_rate": 0.667, "kd": 1.13, "hs": 0.220 },
+        { "period": "Episode 5", "act_id": "E5: A1", "rank": "Platinum 3", "playtime": 11, "wins": 12, "win_rate": 0.667, "kd": 1.06, "hs": 0.340 },
+        { "period": "Episode 5", "act_id": "E5: A2", "rank": "Platinum 3", "playtime": 5.1, "wins": 3, "win_rate": 0.375, "kd": 0.91, "hs": 0.262 },
+        { "period": "Episode 5", "act_id": "E5: A3", "rank": "Platinum 3", "playtime": 6.9, "wins": 4, "win_rate": 0.364, "kd": 0.92, "hs": 0.340 },
+        { "period": "Episode 6", "act_id": "E6: A1", "rank": "Platinum 3", "playtime": 11, "wins": 10, "win_rate": 0.556, "kd": 1.00, "hs": 0.236 },
+        { "period": "Episode 6", "act_id": "E6: A2", "rank": "Platinum 3", "playtime": 6.2, "wins": 5, "win_rate": 0.500, "kd": 0.83, "hs": 0.309 },
+        { "period": "Episode 6", "act_id": "E6: A3", "rank": "Platinum 3", "playtime": 4.7, "wins": 2, "win_rate": 0.286, "kd": 0.76, "hs": 0.286 },
+        { "period": "Episode 7", "act_id": "E7: A1", "rank": "Gold 3", "playtime": 17, "wins": 11, "win_rate": 0.393, "kd": 0.82, "hs": 0.350 },
+        { "period": "Episode 8", "act_id": "E8: A2", "rank": "Gold 1", "playtime": 5.7, "wins": 4, "win_rate": 0.444, "kd": 0.72, "hs": 0.331 },
+        { "period": "Episode 8", "act_id": "E8: A3", "rank": "Gold 3", "playtime": 24, "wins": 20, "win_rate": 0.476, "kd": 0.88, "hs": 0.322 },
+        { "period": "Episode 9", "act_id": "E9: A1", "rank": "Gold 2", "playtime": 20, "wins": 17, "win_rate": 0.500, "kd": 1.13, "hs": 0.315 },
+        { "period": "Episode 9", "act_id": "E9: A2", "rank": "Gold 3", "playtime": 14, "wins": 10, "win_rate": 0.435, "kd": 1.07, "hs": 0.387 },
+        { "period": "Episode 9", "act_id": "E9: A3", "rank": "Platinum 1", "playtime": 17, "wins": 16, "win_rate": 0.552, "kd": 1.07, "hs": 0.341 },
+        { "period": "Season 2025", "act_id": "V25: A1", "rank": "Gold 3", "playtime": 10, "wins": 8, "win_rate": 0.471, "kd": 1.03, "hs": 0.282 },
+        { "period": "Season 2025", "act_id": "V25: A2", "rank": "Platinum 1", "playtime": 23, "wins": 16, "win_rate": 0.410, "kd": 1.11, "hs": 0.354 },
+        { "period": "Season 2025", "act_id": "V25: A3", "rank": "Platinum 3", "playtime": 35, "wins": 34, "win_rate": 0.567, "kd": 1.13, "hs": 0.332 },
+        { "period": "Season 2025", "act_id": "V25: A4", "rank": "Diamond 1", "playtime": 42, "wins": 44, "win_rate": 0.603, "kd": 1.02, "hs": 0.300 },
+        { "period": "Season 2025", "act_id": "V25: A5", "rank": "Diamond 2", "playtime": 48, "wins": 39, "win_rate": 0.476, "kd": 0.97, "hs": 0.336 },
+        { "period": "Season 2025", "act_id": "V25: A6", "rank": "Ascendant 1", "playtime": 52, "wins": 44, "win_rate": 0.489, "kd": 1.01, "hs": 0.262 },
+        { "period": "Season 2026", "act_id": "V26: A1", "rank": "Platinum 2", "playtime": 20, "wins": 14, "win_rate": 0.424, "kd": 0.97, "hs": 0.314 }
+    ];
+
+    // Ensure Chart.js is loaded
+    if (typeof Chart === 'undefined') {
+        console.error("Chart.js is not loaded.");
+        return;
+    }
+    const canvas = document.getElementById('rankChart');
+    if (!canvas) {
+        console.error("Canvas element with ID 'rankChart' not found.");
+        return;
+    }
+    const ctx = canvas.getContext('2d');
+
+    Chart.defaults.font.family = "'DotGothic16', sans-serif";
+    Chart.defaults.color = colors.textWhite; // Default text color for chart elements
+
+    const getRankLabel = (v) => {
+        const index = Math.round(v);
+        if (index >= 0 && index < allRanks.length) {
+            const name = allRanks[index];
+            if (name.endsWith("1") || name === "Radiant") return name;
+        }
+        return "";
+    };
+
+    let chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: rawData.map(d => d.act_id),
+            datasets: [{
+                data: rawData.map(d => allRanks.indexOf(d.rank)),
+                borderColor: colors.primary,
+                borderWidth: 3,
+                pointStyle: 'rect',
+                pointRadius: 8,
+                pointBackgroundColor: rawData.map(d => rankColors[d.rank.split(' ')[0]]),
+                pointBorderColor: colors.textWhite,
+                pointBorderWidth: 1,
+                tension: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    min: 0, max: 24,
+                    ticks: {
+                        color: colors.heading, // Use theme color for ticks
+                        stepSize: 1,
+                        callback: getRankLabel
+                    },
+                    grid: {
+                        color: (c) => c.tick.value % 3 === 0 ? colors.primary : `${colors.primary}33`, // Alpha for minor grid lines
+                        lineWidth: (c) => c.tick.value % 3 === 0 ? 2 : 1
+                    }
+                },
+                x: {
+                    ticks: { color: colors.heading }, // Use theme color for ticks
+                    grid: { color: `${colors.primary}1A` } // Alpha for grid lines
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: `${colors.primaryAlpha10}F0`, // Transparent background with theme color
+                    borderColor: colors.primary,
+                    borderWidth: 1,
+                    cornerRadius: 0,
+                    padding: 12,
+                    titleColor: colors.heading, // Use theme color for tooltip title
+                    bodyColor: colors.textWhite, // Use theme color for tooltip body
+                    callbacks: {
+                        title: (items) => `[ ${items[0].label} ]`,
+                        label: (item) => {
+                            const d = rawData[item.dataIndex];
+                            return [
+                                ` RANK      : ${d.rank}`,
+                                ` PLAYTIME  : ${d.playtime} hrs`,
+                                ` WINS      : ${d.wins}`,
+                                ` WIN %     : ${(d.win_rate * 100).toFixed(1)}%`,
+                                ` K/D       : ${d.kd.toFixed(2)}`,
+                                ` HS%       : ${(d.hs * 100).toFixed(1)}%`
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    window.updateChart = function (mode) {
+        document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
+        document.getElementById(`btn-${mode}`).classList.add('active');
+
+        let newData, newMin, newMax, tickCallback;
+        const isRank = mode === 'rank';
+
+        if (isRank) {
+            newData = rawData.map(d => allRanks.indexOf(d.rank));
+            newMin = 0; newMax = 24;
+            tickCallback = getRankLabel;
+        } else {
+            newData = rawData.map(d => d[mode] * (mode.includes('rate') || mode === 'hs' ? 100 : 1));
+            newMin = 0; newMax = Math.max(...newData) + (mode === 'playtime' ? 10 : (mode === 'wins' ? 5 : (mode === 'kd' ? 0.5 : 0)));
+            if (mode.includes('rate') || mode === 'hs') newMax = 100;
+            tickCallback = (v) => v + (mode === 'playtime' ? 'h' : (mode.includes('rate') || mode === 'hs' ? '%' : ''));
+            if (mode === 'kd') tickCallback = v => v.toFixed(1);
+        }
+
+        chart.data.datasets[0].data = newData;
+        chart.options.scales.y.min = newMin;
+        chart.options.scales.y.max = newMax;
+        chart.options.scales.y.ticks.callback = tickCallback;
+        chart.options.scales.y.grid.color = isRank ? (c) => (c.tick.value % 3 === 0 ? colors.primary : `${colors.primary}33`) : `${colors.primary}1A`;
+        chart.options.scales.y.grid.lineWidth = isRank ? (c) => (c.tick.value % 3 === 0 ? 2 : 1) : 1;
+        chart.options.scales.y.ticks.stepSize = isRank ? 1 : undefined;
+
+        chart.update();
+    };
   });
 </script>
