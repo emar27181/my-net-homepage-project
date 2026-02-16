@@ -231,41 +231,53 @@ const COLORS = {
       </div>
     </div>
 
-    <!-- VALORANT Stats -->
-    <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="stats-section"
-    >
-      <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
-      >
-        ★ VALORANT Stats ★
-      </h2>
-
-      <!-- 横線 -->
-      <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
-      />
-      <div style="max-width: 700px; margin: 0 auto;">
-        <div class="container-graph" style={`
-            background: ${COLORS.primaryAlpha10};
-            border: 2px solid ${COLORS.primary};
-            box-shadow: 8px 8px 0px ${COLORS.shadowBlack};
-            color: ${COLORS.textWhite};
-        `}>
-            <h2>STATS TRACKER : BLUE_PIXEL_ULTRA</h2>
-            <div class="controls">
-                <button onclick="updateChart('rank')" id="btn-rank" class="active">Rank</button>
-                <button onclick="updateChart('playtime')" id="btn-playtime">Playtime</button>
-                <button onclick="updateChart('wins')" id="btn-wins">Wins</button>
-                <button onclick="updateChart('win_rate')" id="btn-win_rate">Win %</button>
-                <button onclick="updateChart('kd')" id="btn-kd">K/D</button>
-                <button onclick="updateChart('hs')" id="btn-hs">HS%</button>
-            </div>
-            <canvas id="rankChart"></canvas>
+    <div class="container">
+        <h2>>> VALORANT: COMPETITIVE RANK HISTORY_</h2>
+        <div class="source-link">SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview"
+                target="_blank">TRACKER.GG / OVERVIEW</a></div>
+        <div class="controls">
+            <button onclick="updateRankChart('rank')" id="btn-r-rank" class="active">Rank</button>
+            <button onclick="updateRankChart('playtime')" id="btn-r-playtime">Playtime</button>
+            <button onclick="updateRankChart('wins')" id="btn-r-wins">Wins</button>
+            <button onclick="updateRankChart('win_rate')" id="btn-r-win_rate">Win %</button>
+            <button onclick="updateRankChart('kd')" id="btn-r-kd">K/D</button>
+            <button onclick="updateRankChart('hs')" id="btn-r-hs">HS %</button>
         </div>
-      </div>
+        <div class="chart-wrapper"><canvas id="rankChart"></canvas></div>
     </div>
+    <div class="footer-info"><span>DATASET: RANKED推移</span><span>LAST UPDATE: 2026/02/16</span></div>
+
+    <div class="container">
+        <h2>>> VALORANT: COMPETITIVE WEAPON SCORE_</h2>
+        <div class="source-link">SOURCE: <a
+                href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/weapons?platform=pc&playlist=competitive"
+                target="_blank">TRACKER.GG / WEAPONS</a></div>
+        <div class="controls">
+            <button onclick="updateWeaponChart('kills')" id="btn-w-kills" class="active">Kills</button>
+            <button onclick="updateWeaponChart('kd')" id="btn-w-kd">K/D</button>
+            <button onclick="updateWeaponChart('hs_rate')" id="btn-w-hs_rate">HS %</button>
+            <button onclick="updateWeaponChart('adr')" id="btn-w-adr">ADR</button>
+            <button onclick="updateWeaponChart('kpr')" id="btn-w-kpr">K/R</button>
+        </div>
+        <div class="chart-wrapper"><canvas id="weaponChart"></canvas></div>
+    </div>
+    <div class="footer-info"><span>DATASET: WEAPON STATS</span><span>LAST UPDATE: 2026/02/16</span></div>
+
+    <div class="container">
+        <h2>>> VALORANT: COMPETITIVE MAP SCORE_</h2>
+        <div class="source-link">SOURCE: <a
+                href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/maps?platform=pc&playlist=competitive"
+                target="_blank">TRACKER.GG / MAPS</a></div>
+        <div class="controls">
+            <button onclick="updateMapChart('win_rate')" id="btn-m-win_rate" class="active">Win %</button>
+            <button onclick="updateMapChart('kd')" id="btn-m-kd">K/D</button>
+            <button onclick="updateMapChart('adr')" id="btn-m-adr">ADR</button>
+            <button onclick="updateMapChart('acs')" id="btn-m-acs">ACS</button>
+        </div>
+        <div class="chart-wrapper"><canvas id="mapChart"></canvas></div>
+    </div>
+    <div class="footer-info"><span>DATASET: MAP ANALYTICS</span><span>LAST UPDATE: 2026/02/16</span></div>
+
 
     <!-- YouTube動画セクション -->
     <div
