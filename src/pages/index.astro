@@ -255,6 +255,17 @@ const S = getStylePresets(COLORS);
         <div class="chart-container">
           <div class="container">
             <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>WEAPON SCORE</h3>
+            <div class="controls weapon-category-controls">
+              <button onclick="filterWeaponCategory('assault')" id="btn-wc-assault" class="active">Assault</button>
+              <button onclick="filterWeaponCategory('sniper')" id="btn-wc-sniper">Sniper</button>
+              <button onclick="filterWeaponCategory('smg')" id="btn-wc-smg">SMG</button>
+              <button onclick="filterWeaponCategory('shotgun')" id="btn-wc-shotgun">Shotgun</button>
+              <button onclick="filterWeaponCategory('sidearm')" id="btn-wc-sidearm">Sidearm</button>
+              <button onclick="filterWeaponCategory('mg')" id="btn-wc-mg">MG</button>
+              <button onclick="filterWeaponCategory('melee')" id="btn-wc-melee">Melee</button>
+              <button onclick="filterWeaponCategory('ability')" id="btn-wc-ability">Ability</button>
+              <button onclick="filterWeaponCategory('all')" id="btn-wc-all">All</button>
+            </div>
             <div class="chart-wrapper"><canvas id="weaponChart"></canvas></div>
             <div class="controls">
               <button onclick="updateWeaponChart('kills')" id="btn-w-kills" class="active">Kills</button>
@@ -897,6 +908,10 @@ const S = getStylePresets(COLORS);
         text-shadow: 0 0 8px rgba(166, 247, 255, 0.6);
         box-shadow: 0 0 8px rgba(166, 247, 255, 0.3), inset 0 0 6px rgba(166, 247, 255, 0.1);
     }
+    .weapon-category-controls {
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
     .footer-info {
         display: flex;
         justify-content: space-between;
@@ -934,8 +949,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const rankData = [{ "act_id": "E2: A3", "rank": "Bronze 3", "playtime": 5.6, "wins": 4, "win_rate": 0.40, "kd": 0.62, "hs": 0.172 }, { "act_id": "E3: A1", "rank": "Silver 2", "playtime": 51, "wins": 42, "win_rate": 0.50, "kd": 0.97, "hs": 0.211 }, { "act_id": "E3: A2", "rank": "Gold 1", "playtime": 27, "wins": 24, "win_rate": 0.585, "kd": 0.95, "hs": 0.296 }, { "act_id": "E3: A3", "rank": "Gold 3", "playtime": 66, "wins": 64, "win_rate": 0.571, "kd": 1.02, "hs": 0.277 }, { "act_id": "E4: A1", "rank": "Gold 1", "playtime": 34, "wins": 31, "win_rate": 0.554, "kd": 1.01, "hs": 0.269 }, { "act_id": "E4: A2", "rank": "Gold 2", "playtime": 12, "wins": 11, "win_rate": 0.579, "kd": 0.96, "hs": 0.296 }, { "act_id": "E4: A3", "rank": "Gold 2", "playtime": 1.9, "wins": 2, "win_rate": 0.667, "kd": 1.13, "hs": 0.220 }, { "act_id": "E5: A1", "rank": "Platinum 3", "playtime": 11, "wins": 12, "win_rate": 0.667, "kd": 1.06, "hs": 0.340 }, { "act_id": "E5: A2", "rank": "Platinum 3", "playtime": 5.1, "wins": 3, "win_rate": 0.375, "kd": 0.91, "hs": 0.262 }, { "act_id": "E5: A3", "rank": "Platinum 3", "playtime": 6.9, "wins": 4, "win_rate": 0.364, "kd": 0.92, "hs": 0.340 }, { "act_id": "E6: A1", "rank": "Platinum 3", "playtime": 11, "wins": 10, "win_rate": 0.556, "kd": 1.00, "hs": 0.236 }, { "act_id": "E6: A2", "rank": "Platinum 3", "playtime": 6.2, "wins": 5, "win_rate": 0.500, "kd": 0.83, "hs": 0.309 }, { "act_id": "E6: A3", "rank": "Platinum 3", "playtime": 4.7, "wins": 2, "win_rate": 0.286, "kd": 0.76, "hs": 0.286 }, { "act_id": "E7: A1", "rank": "Gold 3", "playtime": 17, "wins": 11, "win_rate": 0.393, "kd": 0.82, "hs": 0.350 }, { "act_id": "E8: A2", "rank": "Gold 1", "playtime": 5.7, "wins": 4, "win_rate": 0.444, "kd": 0.72, "hs": 0.331 }, { "act_id": "E8: A3", "rank": "Gold 3", "playtime": 24, "wins": 20, "win_rate": 0.476, "kd": 0.88, "hs": 0.322 }, { "act_id": "E9: A1", "rank": "Gold 2", "playtime": 20, "wins": 17, "win_rate": 0.500, "kd": 1.13, "hs": 0.315 }, { "act_id": "E9: A2", "rank": "Gold 3", "playtime": 14, "wins": 10, "win_rate": 0.435, "kd": 1.07, "hs": 0.387 }, { "act_id": "E9: A3", "rank": "Platinum 1", "playtime": 17, "wins": 16, "win_rate": 0.552, "kd": 1.07, "hs": 0.341 }, { "act_id": "V25: A1", "rank": "Gold 3", "playtime": 10, "wins": 8, "win_rate": 0.471, "kd": 1.03, "hs": 0.282 }, { "act_id": "V25: A2", "rank": "Platinum 1", "playtime": 23, "wins": 16, "win_rate": 0.410, "kd": 1.11, "hs": 0.354 }, { "act_id": "V25: A3", "rank": "Platinum 3", "playtime": 35, "wins": 34, "win_rate": 0.567, "kd": 1.13, "hs": 0.332 }, { "act_id": "V25: A4", "rank": "Diamond 1", "playtime": 42, "wins": 44, "win_rate": 0.603, "kd": 1.02, "hs": 0.300 }, { "act_id": "V25: A5", "rank": "Diamond 2", "playtime": 48, "wins": 39, "win_rate": 0.476, "kd": 0.97, "hs": 0.336 }, { "act_id": "V25: A6", "rank": "Ascendant 1", "playtime": 52, "wins": 44, "win_rate": 0.489, "kd": 1.01, "hs": 0.262 }, { "act_id": "V26: A1", "rank": "Platinum 2", "playtime": 20, "wins": 14, "win_rate": 0.424, "kd": 0.97, "hs": 0.314 }];
 
         const weaponData = [
-            { "weapon": "Vandal", "kills": 8688, "deaths": 6564, "kd": 1.32, "hs_rate": 0.413, "adr": 117.2, "kpr": 0.7 }, { "weapon": "Phantom", "kills": 933, "deaths": 2370, "kd": 0.39, "hs_rate": 0.30, "adr": 113.7, "kpr": 0.7 }, { "weapon": "Ghost", "kills": 814, "deaths": 787, "kd": 1.03, "hs_rate": 0.534, "adr": 86.2, "kpr": 0.8 }, { "weapon": "Classic", "kills": 752, "deaths": 518, "kd": 1.45, "hs_rate": 0.468, "adr": 34.8, "kpr": 0.3 }, { "weapon": "Bulldog", "kills": 607, "deaths": 276, "kd": 2.20, "hs_rate": 0.364, "adr": 85.6, "kpr": 0.7 }, { "weapon": "Sheriff", "kills": 538, "deaths": 632, "kd": 0.85, "hs_rate": 0.642, "adr": 61.5, "kpr": 0.4 }, { "weapon": "Spectre", "kills": 415, "deaths": 521, "kd": 0.80, "hs_rate": 0.236, "adr": 68.6, "kpr": 0.6 }, { "weapon": "Guardian", "kills": 322, "deaths": 187, "kd": 1.72, "hs_rate": 0.487, "adr": 134.7, "kpr": 0.7 }, { "weapon": "Headhunter", "kills": 248, "deaths": 62, "kd": 4.00, "hs_rate": 0.606, "adr": 179.3, "kpr": 1.2 }, { "weapon": "Bucky", "kills": 181, "deaths": 92, "kd": 1.97, "hs_rate": 0.164, "adr": 56.0, "kpr": 0.4 }, { "weapon": "Tour De Force", "kills": 125, "deaths": 56, "kd": 2.23, "hs_rate": 0.131, "adr": 231.5, "kpr": 1.4 }, { "weapon": "Operator", "kills": 76, "deaths": 389, "kd": 0.20, "hs_rate": 0.136, "adr": 62.8, "kpr": 0.4 }, { "weapon": "Judge", "kills": 47, "deaths": 236, "kd": 0.20, "hs_rate": 0.236, "adr": 61.9, "kpr": 0.5 }, { "weapon": "Marshal", "kills": 25, "deaths": 126, "kd": 0.20, "hs_rate": 0.630, "adr": 80.9, "kpr": 0.5 }, { "weapon": "Stinger", "kills": 20, "deaths": 89, "kd": 0.22, "hs_rate": 0.246, "adr": 72.1, "kpr": 0.6 }, { "weapon": "Bandit", "kills": 11, "deaths": 16, "kd": 0.69, "hs_rate": 0.611, "adr": 66.3, "kpr": 0.4 }, { "weapon": "Odin", "kills": 10, "deaths": 242, "kd": 0.04, "hs_rate": 0.148, "adr": 85.0, "kpr": 0.7 }, { "weapon": "Frenzy", "kills": 5, "deaths": 88, "kd": 0.06, "hs_rate": 0.455, "adr": 60.7, "kpr": 0.6 }, { "weapon": "Melee", "kills": 4, "deaths": 13, "kd": 0.31, "hs_rate": 0.222, "adr": 182.5, "kpr": 1.0 }, { "weapon": "Ares", "kills": 4, "deaths": 54, "kd": 0.07, "hs_rate": 0.200, "adr": 67.6, "kpr": 0.5 }, { "weapon": "Outlaw", "kills": 3, "deaths": 33, "kd": 0.09, "hs_rate": 0.000, "adr": 58.6, "kpr": 0.4 }, { "weapon": "Overdrive", "kills": 0, "deaths": 25, "kd": 0.00, "hs_rate": 0.000, "adr": 0.0, "kpr": 0.0 }
+            { "weapon": "Vandal", "cat": "assault", "kills": 8688, "deaths": 6564, "kd": 1.32, "hs_rate": 0.413, "adr": 117.2, "kpr": 0.7 }, { "weapon": "Phantom", "cat": "assault", "kills": 933, "deaths": 2370, "kd": 0.39, "hs_rate": 0.30, "adr": 113.7, "kpr": 0.7 }, { "weapon": "Bulldog", "cat": "assault", "kills": 607, "deaths": 276, "kd": 2.20, "hs_rate": 0.364, "adr": 85.6, "kpr": 0.7 }, { "weapon": "Guardian", "cat": "assault", "kills": 322, "deaths": 187, "kd": 1.72, "hs_rate": 0.487, "adr": 134.7, "kpr": 0.7 },
+            { "weapon": "Operator", "cat": "sniper", "kills": 76, "deaths": 389, "kd": 0.20, "hs_rate": 0.136, "adr": 62.8, "kpr": 0.4 }, { "weapon": "Marshal", "cat": "sniper", "kills": 25, "deaths": 126, "kd": 0.20, "hs_rate": 0.630, "adr": 80.9, "kpr": 0.5 }, { "weapon": "Outlaw", "cat": "sniper", "kills": 3, "deaths": 33, "kd": 0.09, "hs_rate": 0.000, "adr": 58.6, "kpr": 0.4 },
+            { "weapon": "Spectre", "cat": "smg", "kills": 415, "deaths": 521, "kd": 0.80, "hs_rate": 0.236, "adr": 68.6, "kpr": 0.6 }, { "weapon": "Stinger", "cat": "smg", "kills": 20, "deaths": 89, "kd": 0.22, "hs_rate": 0.246, "adr": 72.1, "kpr": 0.6 },
+            { "weapon": "Bucky", "cat": "shotgun", "kills": 181, "deaths": 92, "kd": 1.97, "hs_rate": 0.164, "adr": 56.0, "kpr": 0.4 }, { "weapon": "Judge", "cat": "shotgun", "kills": 47, "deaths": 236, "kd": 0.20, "hs_rate": 0.236, "adr": 61.9, "kpr": 0.5 },
+            { "weapon": "Ghost", "cat": "sidearm", "kills": 814, "deaths": 787, "kd": 1.03, "hs_rate": 0.534, "adr": 86.2, "kpr": 0.8 }, { "weapon": "Classic", "cat": "sidearm", "kills": 752, "deaths": 518, "kd": 1.45, "hs_rate": 0.468, "adr": 34.8, "kpr": 0.3 }, { "weapon": "Sheriff", "cat": "sidearm", "kills": 538, "deaths": 632, "kd": 0.85, "hs_rate": 0.642, "adr": 61.5, "kpr": 0.4 }, { "weapon": "Frenzy", "cat": "sidearm", "kills": 5, "deaths": 88, "kd": 0.06, "hs_rate": 0.455, "adr": 60.7, "kpr": 0.6 },
+            { "weapon": "Odin", "cat": "mg", "kills": 10, "deaths": 242, "kd": 0.04, "hs_rate": 0.148, "adr": 85.0, "kpr": 0.7 }, { "weapon": "Ares", "cat": "mg", "kills": 4, "deaths": 54, "kd": 0.07, "hs_rate": 0.200, "adr": 67.6, "kpr": 0.5 },
+            { "weapon": "Melee", "cat": "melee", "kills": 4, "deaths": 13, "kd": 0.31, "hs_rate": 0.222, "adr": 182.5, "kpr": 1.0 },
+            { "weapon": "Headhunter", "cat": "ability", "kills": 248, "deaths": 62, "kd": 4.00, "hs_rate": 0.606, "adr": 179.3, "kpr": 1.2 }, { "weapon": "Tour De Force", "cat": "ability", "kills": 125, "deaths": 56, "kd": 2.23, "hs_rate": 0.131, "adr": 231.5, "kpr": 1.4 }, { "weapon": "Bandit", "cat": "ability", "kills": 11, "deaths": 16, "kd": 0.69, "hs_rate": 0.611, "adr": 66.3, "kpr": 0.4 }, { "weapon": "Overdrive", "cat": "ability", "kills": 0, "deaths": 25, "kd": 0.00, "hs_rate": 0.000, "adr": 0.0, "kpr": 0.0 }
         ];
+        let currentWeaponCategory = 'assault';
+        let currentWeaponMode = 'kills';
+        const getFilteredWeapons = (cat) => cat === 'all' ? weaponData : weaponData.filter(w => w.cat === cat);
+        let filteredWeapons = getFilteredWeapons('assault');
 
         const mapData = [{ "map": "Corrode", "win_rate": 0.719, "wins": 23, "losses": 9, "kd": 1.04, "adr": 140.3, "acs": 214.3 }, { "map": "Split", "win_rate": 0.595, "wins": 66, "losses": 45, "kd": 0.99, "adr": 123.8, "acs": 188.7 }, { "map": "Fracture", "win_rate": 0.551, "wins": 27, "losses": 22, "kd": 0.98, "adr": 121.7, "acs": 183.2 }, { "map": "Lotus", "win_rate": 0.541, "wins": 40, "losses": 33, "kd": 0.98, "adr": 125.6, "acs": 193.4 }, { "map": "Sunset", "win_rate": 0.524, "wins": 33, "losses": 30, "kd": 1.03, "adr": 136.1, "acs": 211.0 }, { "map": "Haven", "win_rate": 0.516, "wins": 64, "losses": 59, "kd": 1.03, "adr": 130.5, "acs": 198.0 }, { "map": "Bind", "win_rate": 0.507, "wins": 70, "losses": 68, "kd": 0.97, "adr": 124.9, "acs": 190.8 }, { "map": "Breeze", "win_rate": 0.490, "wins": 25, "losses": 26, "kd": 0.98, "adr": 121.2, "acs": 187.9 }, { "map": "Icebox", "win_rate": 0.468, "wins": 44, "losses": 48, "kd": 1.02, "adr": 123.0, "acs": 188.0 }, { "map": "Pearl", "win_rate": 0.463, "wins": 25, "losses": 28, "kd": 1.10, "adr": 127.8, "acs": 195.8 }, { "map": "Abyss", "win_rate": 0.455, "wins": 20, "losses": 22, "kd": 1.08, "adr": 139.7, "acs": 213.7 }, { "map": "Ascent", "win_rate": 0.448, "wins": 56, "losses": 69, "kd": 0.89, "adr": 112.5, "acs": 171.0 }];
 
@@ -954,8 +980,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 2. WEAPON CHART INIT
         const wChart = new Chart(document.getElementById('weaponChart').getContext('2d'), {
-            type: 'line', data: { labels: weaponData.map(w => w.weapon), datasets: [{ data: weaponData.map(w => w.kills), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: THEME_COLOR, tension: 0 }] },
-            options: { ...commonOptions, scales: { x: { ticks: { color: THEME_COLOR, autoSkip: false, maxRotation: 45, minRotation: 45 } }, y: { ticks: { color: THEME_COLOR }, grid: { color: GRID_COLOR, lineWidth: 1 } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const w = weaponData[item.dataIndex]; return [` KILLS   : ${w.kills}`, ` DEATHS  : ${w.deaths}`, ` K/D     : ${w.kd.toFixed(2)}`, ` HS %    : ${(w.hs_rate * 100).toFixed(1)}%`, ` ADR     : ${w.adr}`, ` K/ROUND : ${w.kpr}`]; } } } } }
+            type: 'line', data: { labels: filteredWeapons.map(w => w.weapon), datasets: [{ data: filteredWeapons.map(w => w.kills), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: THEME_COLOR, tension: 0 }] },
+            options: { ...commonOptions, scales: { x: { ticks: { color: THEME_COLOR, autoSkip: false, maxRotation: 45, minRotation: 45 } }, y: { ticks: { color: THEME_COLOR }, grid: { color: GRID_COLOR, lineWidth: 1 } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const w = filteredWeapons[item.dataIndex]; return [` KILLS   : ${w.kills}`, ` DEATHS  : ${w.deaths}`, ` K/D     : ${w.kd.toFixed(2)}`, ` HS %    : ${(w.hs_rate * 100).toFixed(1)}%`, ` ADR     : ${w.adr}`, ` K/ROUND : ${w.kpr}`]; } } } } }
         });
 
         // 3. MAP CHART INIT
@@ -977,18 +1003,29 @@ document.addEventListener("DOMContentLoaded", () => {
             rChart.update();
         }
 
+        function refreshWeaponChart() {
+            wChart.data.labels = filteredWeapons.map(w => w.weapon);
+            const mode = currentWeaponMode;
+            wChart.data.datasets[0].data = filteredWeapons.map(w => mode === 'hs_rate' ? (w.hs_rate * 100).toFixed(1) : w[mode]);
+            if (mode === 'hs_rate') { wChart.options.scales.y.min = 0; wChart.options.scales.y.max = 100; wChart.options.scales.y.ticks.stepSize = 10; wChart.options.scales.y.ticks.callback = v => v + '%'; }
+            else if (mode === 'kd') { wChart.options.scales.y.min = 0; wChart.options.scales.y.max = 5; wChart.options.scales.y.ticks.stepSize = 0.5; wChart.options.scales.y.ticks.callback = v => v.toFixed(1); }
+            else { wChart.options.scales.y.min = 0; wChart.options.scales.y.max = undefined; wChart.options.scales.y.ticks.stepSize = undefined; wChart.options.scales.y.ticks.callback = v => v; }
+            wChart.update();
+        }
+
+        window.filterWeaponCategory = function(cat) {
+            document.querySelectorAll('[id^="btn-wc-"]').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-wc-${cat}`).classList.add('active');
+            currentWeaponCategory = cat;
+            filteredWeapons = getFilteredWeapons(cat);
+            refreshWeaponChart();
+        }
+
         window.updateWeaponChart = function(mode) {
             document.querySelectorAll('[id^="btn-w-"]').forEach(b => b.classList.remove('active'));
             document.getElementById(mode === 'kpr' ? 'btn-w-kpr' : `btn-w-${mode}`).classList.add('active');
-            wChart.data.datasets[0].data = weaponData.map(w => mode === 'hs_rate' ? (w.hs_rate * 100).toFixed(1) : w[mode]);
-            if (mode === 'hs_rate') { wChart.options.scales.y.min = 0; wChart.options.scales.y.max = 100; wChart.options.scales.y.ticks.stepSize = 10; wChart.options.scales.y.ticks.callback = v => v + '%'; }
-            else if (mode === 'kd') {
-                wChart.options.scales.y.min = 0; wChart.options.scales.y.max = 5;
-                wChart.options.scales.y.ticks.stepSize = 0.5; // 0.5刻み設定
-                wChart.options.scales.y.ticks.callback = v => v.toFixed(1);
-            }
-            else { wChart.options.scales.y.min = 0; wChart.options.scales.y.max = undefined; wChart.options.scales.y.ticks.stepSize = undefined; wChart.options.scales.y.ticks.callback = v => v; }
-            wChart.update();
+            currentWeaponMode = mode;
+            refreshWeaponChart();
         }
 
         window.updateMapChart = function(mode) {
