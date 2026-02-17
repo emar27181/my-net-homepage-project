@@ -231,52 +231,65 @@ const COLORS = {
       </div>
     </div>
 
-    <div class="container">
-        <h2>>> VALORANT: COMPETITIVE RANK HISTORY_</h2>
-        <div class="source-link">SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview"
-                target="_blank">TRACKER.GG / OVERVIEW</a></div>
-        <div class="controls">
-            <button onclick="updateRankChart('rank')" id="btn-r-rank" class="active">Rank</button>
-            <button onclick="updateRankChart('playtime')" id="btn-r-playtime">Playtime</button>
-            <button onclick="updateRankChart('wins')" id="btn-r-wins">Wins</button>
-            <button onclick="updateRankChart('win_rate')" id="btn-r-win_rate">Win %</button>
-            <button onclick="updateRankChart('kd')" id="btn-r-kd">K/D</button>
-            <button onclick="updateRankChart('hs')" id="btn-r-hs">HS %</button>
-        </div>
-        <div class="chart-wrapper"><canvas id="rankChart"></canvas></div>
+    <!-- VALORANT Stats: Rank History -->
+    <div
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 15px; border-radius: 8px;`}
+      class="container-graph"
+    >
+      <h2 style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 10px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}>
+        >> RANK HISTORY_
+      </h2>
+      <div class="source-link">SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview" target="_blank" style={`color: ${COLORS.primary};`}>TRACKER.GG / OVERVIEW</a></div>
+      <div class="controls" id="rank-controls">
+        <button onclick="updateRankChart('rank')" id="btn-r-rank" class="active">Rank</button>
+        <button onclick="updateRankChart('playtime')" id="btn-r-playtime">Playtime</button>
+        <button onclick="updateRankChart('wins')" id="btn-r-wins">Wins</button>
+        <button onclick="updateRankChart('win_rate')" id="btn-r-win_rate">Win %</button>
+        <button onclick="updateRankChart('kd')" id="btn-r-kd">K/D</button>
+        <button onclick="updateRankChart('hs')" id="btn-r-hs">HS %</button>
+      </div>
+      <div class="chart-wrapper"><canvas id="rankChart"></canvas></div>
+      <div class="chart-footer"><span>DATASET: RANKED推移</span><span>LAST UPDATE: 2026/02/16</span></div>
     </div>
-    <div class="footer-info"><span>DATASET: RANKED推移</span><span>LAST UPDATE: 2026/02/16</span></div>
 
-    <div class="container">
-        <h2>>> VALORANT: COMPETITIVE WEAPON SCORE_</h2>
-        <div class="source-link">SOURCE: <a
-                href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/weapons?platform=pc&playlist=competitive"
-                target="_blank">TRACKER.GG / WEAPONS</a></div>
-        <div class="controls">
-            <button onclick="updateWeaponChart('kills')" id="btn-w-kills" class="active">Kills</button>
-            <button onclick="updateWeaponChart('kd')" id="btn-w-kd">K/D</button>
-            <button onclick="updateWeaponChart('hs_rate')" id="btn-w-hs_rate">HS %</button>
-            <button onclick="updateWeaponChart('adr')" id="btn-w-adr">ADR</button>
-            <button onclick="updateWeaponChart('kpr')" id="btn-w-kpr">K/R</button>
-        </div>
-        <div class="chart-wrapper"><canvas id="weaponChart"></canvas></div>
+    <!-- VALORANT Stats: Weapon Score -->
+    <div
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 15px; border-radius: 8px;`}
+      class="container-graph"
+    >
+      <h2 style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 10px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}>
+        >> WEAPON SCORE_
+      </h2>
+      <div class="source-link">SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/weapons?platform=pc&playlist=competitive" target="_blank" style={`color: ${COLORS.primary};`}>TRACKER.GG / WEAPONS</a></div>
+      <div class="controls" id="weapon-controls">
+        <button onclick="updateWeaponChart('kills')" id="btn-w-kills" class="active">Kills</button>
+        <button onclick="updateWeaponChart('kd')" id="btn-w-kd">K/D</button>
+        <button onclick="updateWeaponChart('hs_rate')" id="btn-w-hs_rate">HS %</button>
+        <button onclick="updateWeaponChart('adr')" id="btn-w-adr">ADR</button>
+        <button onclick="updateWeaponChart('kpr')" id="btn-w-kpr">K/R</button>
+      </div>
+      <div class="chart-wrapper"><canvas id="weaponChart"></canvas></div>
+      <div class="chart-footer"><span>DATASET: WEAPON STATS</span><span>LAST UPDATE: 2026/02/16</span></div>
     </div>
-    <div class="footer-info"><span>DATASET: WEAPON STATS</span><span>LAST UPDATE: 2026/02/16</span></div>
 
-    <div class="container">
-        <h2>>> VALORANT: COMPETITIVE MAP SCORE_</h2>
-        <div class="source-link">SOURCE: <a
-                href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/maps?platform=pc&playlist=competitive"
-                target="_blank">TRACKER.GG / MAPS</a></div>
-        <div class="controls">
-            <button onclick="updateMapChart('win_rate')" id="btn-m-win_rate" class="active">Win %</button>
-            <button onclick="updateMapChart('kd')" id="btn-m-kd">K/D</button>
-            <button onclick="updateMapChart('adr')" id="btn-m-adr">ADR</button>
-            <button onclick="updateMapChart('acs')" id="btn-m-acs">ACS</button>
-        </div>
-        <div class="chart-wrapper"><canvas id="mapChart"></canvas></div>
+    <!-- VALORANT Stats: Map Score -->
+    <div
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="container-graph"
+    >
+      <h2 style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 10px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}>
+        >> MAP SCORE_
+      </h2>
+      <div class="source-link">SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/maps?platform=pc&playlist=competitive" target="_blank" style={`color: ${COLORS.primary};`}>TRACKER.GG / MAPS</a></div>
+      <div class="controls" id="map-controls">
+        <button onclick="updateMapChart('win_rate')" id="btn-m-win_rate" class="active">Win %</button>
+        <button onclick="updateMapChart('kd')" id="btn-m-kd">K/D</button>
+        <button onclick="updateMapChart('adr')" id="btn-m-adr">ADR</button>
+        <button onclick="updateMapChart('acs')" id="btn-m-acs">ACS</button>
+      </div>
+      <div class="chart-wrapper"><canvas id="mapChart"></canvas></div>
+      <div class="chart-footer"><span>DATASET: MAP ANALYTICS</span><span>LAST UPDATE: 2026/02/16</span></div>
     </div>
-    <div class="footer-info"><span>DATASET: MAP ANALYTICS</span><span>LAST UPDATE: 2026/02/16</span></div>
 
 
     <!-- YouTube動画セクション -->
@@ -1072,158 +1085,280 @@ const COLORS = {
         color: var(--headingColor);
         text-shadow: 2px 2px 0px var(--shadowColor);
     }
+    .chart-wrapper {
+        position: relative;
+        height: 350px;
+        width: 100%;
+    }
+    .source-link {
+        text-align: center;
+        margin-bottom: 15px;
+        font-size: 0.75em;
+        color: var(--textColor);
+        opacity: 0.8;
+    }
+    .source-link a {
+        text-decoration: none;
+        opacity: 0.8;
+    }
+    .source-link a:hover {
+        text-decoration: underline;
+        opacity: 1;
+    }
+    .chart-footer {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75em;
+        color: var(--borderColor);
+        opacity: 0.7;
+        margin-top: 10px;
+        padding-top: 8px;
+    }
+    @media (min-width: 768px) {
+        .chart-wrapper {
+            height: 450px;
+        }
+    }
 </style>
 <script is:inline define:vars={{ colors: COLORS }}>
   document.addEventListener("DOMContentLoaded", () => {
+    if (typeof Chart === 'undefined') { console.error("Chart.js is not loaded."); return; }
+
+    Chart.defaults.font.family = "'DotGothic16', sans-serif";
+    Chart.defaults.color = colors.textWhite;
+
     const allRanks = ["Iron 1", "Iron 2", "Iron 3", "Bronze 1", "Bronze 2", "Bronze 3", "Silver 1", "Silver 2", "Silver 3", "Gold 1", "Gold 2", "Gold 3", "Platinum 1", "Platinum 2", "Platinum 3", "Diamond 1", "Diamond 2", "Diamond 3", "Ascendant 1", "Ascendant 2", "Ascendant 3", "Immortal 1", "Immortal 2", "Immortal 3", "Radiant"];
     const rankColors = { "Iron": "#718093", "Bronze": "#cd7f32", "Silver": "#dcdde1", "Gold": "#e1b12c", "Platinum": "#00a8ff", "Diamond": "#9c88ff", "Ascendant": "#44bd32", "Immortal": "#e84118", "Radiant": "#fbc531" };
 
-    const rawData = [
-        { "period": "Episode 2", "act_id": "E2: A3", "rank": "Bronze 3", "playtime": 5.6, "wins": 4, "win_rate": 0.400, "kd": 0.62, "hs": 0.172 },
-        { "period": "Episode 3", "act_id": "E3: A1", "rank": "Silver 2", "playtime": 51, "wins": 42, "win_rate": 0.500, "kd": 0.97, "hs": 0.211 },
-        { "period": "Episode 3", "act_id": "E3: A2", "rank": "Gold 1", "playtime": 27, "wins": 24, "win_rate": 0.585, "kd": 0.95, "hs": 0.296 },
-        { "period": "Episode 3", "act_id": "E3: A3", "rank": "Gold 3", "playtime": 66, "wins": 64, "win_rate": 0.571, "kd": 1.02, "hs": 0.277 },
-        { "period": "Episode 4", "act_id": "E4: A1", "rank": "Gold 1", "playtime": 34, "wins": 31, "win_rate": 0.554, "kd": 1.01, "hs": 0.269 },
-        { "period": "Episode 4", "act_id": "E4: A2", "rank": "Gold 2", "playtime": 12, "wins": 11, "win_rate": 0.579, "kd": 0.96, "hs": 0.296 },
-        { "period": "Episode 4", "act_id": "E4: A3", "rank": "Gold 2", "playtime": 1.9, "wins": 2, "win_rate": 0.667, "kd": 1.13, "hs": 0.220 },
-        { "period": "Episode 5", "act_id": "E5: A1", "rank": "Platinum 3", "playtime": 11, "wins": 12, "win_rate": 0.667, "kd": 1.06, "hs": 0.340 },
-        { "period": "Episode 5", "act_id": "E5: A2", "rank": "Platinum 3", "playtime": 5.1, "wins": 3, "win_rate": 0.375, "kd": 0.91, "hs": 0.262 },
-        { "period": "Episode 5", "act_id": "E5: A3", "rank": "Platinum 3", "playtime": 6.9, "wins": 4, "win_rate": 0.364, "kd": 0.92, "hs": 0.340 },
-        { "period": "Episode 6", "act_id": "E6: A1", "rank": "Platinum 3", "playtime": 11, "wins": 10, "win_rate": 0.556, "kd": 1.00, "hs": 0.236 },
-        { "period": "Episode 6", "act_id": "E6: A2", "rank": "Platinum 3", "playtime": 6.2, "wins": 5, "win_rate": 0.500, "kd": 0.83, "hs": 0.309 },
-        { "period": "Episode 6", "act_id": "E6: A3", "rank": "Platinum 3", "playtime": 4.7, "wins": 2, "win_rate": 0.286, "kd": 0.76, "hs": 0.286 },
-        { "period": "Episode 7", "act_id": "E7: A1", "rank": "Gold 3", "playtime": 17, "wins": 11, "win_rate": 0.393, "kd": 0.82, "hs": 0.350 },
-        { "period": "Episode 8", "act_id": "E8: A2", "rank": "Gold 1", "playtime": 5.7, "wins": 4, "win_rate": 0.444, "kd": 0.72, "hs": 0.331 },
-        { "period": "Episode 8", "act_id": "E8: A3", "rank": "Gold 3", "playtime": 24, "wins": 20, "win_rate": 0.476, "kd": 0.88, "hs": 0.322 },
-        { "period": "Episode 9", "act_id": "E9: A1", "rank": "Gold 2", "playtime": 20, "wins": 17, "win_rate": 0.500, "kd": 1.13, "hs": 0.315 },
-        { "period": "Episode 9", "act_id": "E9: A2", "rank": "Gold 3", "playtime": 14, "wins": 10, "win_rate": 0.435, "kd": 1.07, "hs": 0.387 },
-        { "period": "Episode 9", "act_id": "E9: A3", "rank": "Platinum 1", "playtime": 17, "wins": 16, "win_rate": 0.552, "kd": 1.07, "hs": 0.341 },
-        { "period": "Season 2025", "act_id": "V25: A1", "rank": "Gold 3", "playtime": 10, "wins": 8, "win_rate": 0.471, "kd": 1.03, "hs": 0.282 },
-        { "period": "Season 2025", "act_id": "V25: A2", "rank": "Platinum 1", "playtime": 23, "wins": 16, "win_rate": 0.410, "kd": 1.11, "hs": 0.354 },
-        { "period": "Season 2025", "act_id": "V25: A3", "rank": "Platinum 3", "playtime": 35, "wins": 34, "win_rate": 0.567, "kd": 1.13, "hs": 0.332 },
-        { "period": "Season 2025", "act_id": "V25: A4", "rank": "Diamond 1", "playtime": 42, "wins": 44, "win_rate": 0.603, "kd": 1.02, "hs": 0.300 },
-        { "period": "Season 2025", "act_id": "V25: A5", "rank": "Diamond 2", "playtime": 48, "wins": 39, "win_rate": 0.476, "kd": 0.97, "hs": 0.336 },
-        { "period": "Season 2025", "act_id": "V25: A6", "rank": "Ascendant 1", "playtime": 52, "wins": 44, "win_rate": 0.489, "kd": 1.01, "hs": 0.262 },
-        { "period": "Season 2026", "act_id": "V26: A1", "rank": "Platinum 2", "playtime": 20, "wins": 14, "win_rate": 0.424, "kd": 0.97, "hs": 0.314 }
-    ];
-
-    // Ensure Chart.js is loaded
-    if (typeof Chart === 'undefined') {
-        console.error("Chart.js is not loaded.");
-        return;
-    }
-    const canvas = document.getElementById('rankChart');
-    if (!canvas) {
-        console.error("Canvas element with ID 'rankChart' not found.");
-        return;
-    }
-    const ctx = canvas.getContext('2d');
-
-    Chart.defaults.font.family = "'DotGothic16', sans-serif";
-    Chart.defaults.color = colors.textWhite; // Default text color for chart elements
-
-    const getRankLabel = (v) => {
-        const index = Math.round(v);
-        if (index >= 0 && index < allRanks.length) {
-            const name = allRanks[index];
-            if (name.endsWith("1") || name === "Radiant") return name;
-        }
-        return "";
+    const commonTooltip = {
+      backgroundColor: 'rgba(5, 10, 20, 0.95)',
+      borderColor: colors.primary,
+      borderWidth: 1,
+      cornerRadius: 0,
+      padding: 12,
+      titleColor: colors.heading,
+      bodyColor: colors.textWhite
+    };
+    const commonOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: { ticks: { color: colors.heading }, grid: { color: colors.primary + '1A', lineWidth: 1 } },
+        x: { ticks: { color: colors.heading }, grid: { color: colors.primary + '1A', lineWidth: 1 } }
+      },
+      plugins: { legend: { display: false }, tooltip: commonTooltip }
     };
 
-    let chart = new Chart(ctx, {
+    // ========== RANK CHART ==========
+    const rankData = [
+      { "act_id": "E2: A3", "rank": "Bronze 3", "playtime": 5.6, "wins": 4, "win_rate": 0.40, "kd": 0.62, "hs": 0.172 },
+      { "act_id": "E3: A1", "rank": "Silver 2", "playtime": 51, "wins": 42, "win_rate": 0.50, "kd": 0.97, "hs": 0.211 },
+      { "act_id": "E3: A2", "rank": "Gold 1", "playtime": 27, "wins": 24, "win_rate": 0.585, "kd": 0.95, "hs": 0.296 },
+      { "act_id": "E3: A3", "rank": "Gold 3", "playtime": 66, "wins": 64, "win_rate": 0.571, "kd": 1.02, "hs": 0.277 },
+      { "act_id": "E4: A1", "rank": "Gold 1", "playtime": 34, "wins": 31, "win_rate": 0.554, "kd": 1.01, "hs": 0.269 },
+      { "act_id": "E4: A2", "rank": "Gold 2", "playtime": 12, "wins": 11, "win_rate": 0.579, "kd": 0.96, "hs": 0.296 },
+      { "act_id": "E4: A3", "rank": "Gold 2", "playtime": 1.9, "wins": 2, "win_rate": 0.667, "kd": 1.13, "hs": 0.220 },
+      { "act_id": "E5: A1", "rank": "Platinum 3", "playtime": 11, "wins": 12, "win_rate": 0.667, "kd": 1.06, "hs": 0.340 },
+      { "act_id": "E5: A2", "rank": "Platinum 3", "playtime": 5.1, "wins": 3, "win_rate": 0.375, "kd": 0.91, "hs": 0.262 },
+      { "act_id": "E5: A3", "rank": "Platinum 3", "playtime": 6.9, "wins": 4, "win_rate": 0.364, "kd": 0.92, "hs": 0.340 },
+      { "act_id": "E6: A1", "rank": "Platinum 3", "playtime": 11, "wins": 10, "win_rate": 0.556, "kd": 1.00, "hs": 0.236 },
+      { "act_id": "E6: A2", "rank": "Platinum 3", "playtime": 6.2, "wins": 5, "win_rate": 0.500, "kd": 0.83, "hs": 0.309 },
+      { "act_id": "E6: A3", "rank": "Platinum 3", "playtime": 4.7, "wins": 2, "win_rate": 0.286, "kd": 0.76, "hs": 0.286 },
+      { "act_id": "E7: A1", "rank": "Gold 3", "playtime": 17, "wins": 11, "win_rate": 0.393, "kd": 0.82, "hs": 0.350 },
+      { "act_id": "E8: A2", "rank": "Gold 1", "playtime": 5.7, "wins": 4, "win_rate": 0.444, "kd": 0.72, "hs": 0.331 },
+      { "act_id": "E8: A3", "rank": "Gold 3", "playtime": 24, "wins": 20, "win_rate": 0.476, "kd": 0.88, "hs": 0.322 },
+      { "act_id": "E9: A1", "rank": "Gold 2", "playtime": 20, "wins": 17, "win_rate": 0.500, "kd": 1.13, "hs": 0.315 },
+      { "act_id": "E9: A2", "rank": "Gold 3", "playtime": 14, "wins": 10, "win_rate": 0.435, "kd": 1.07, "hs": 0.387 },
+      { "act_id": "E9: A3", "rank": "Platinum 1", "playtime": 17, "wins": 16, "win_rate": 0.552, "kd": 1.07, "hs": 0.341 },
+      { "act_id": "V25: A1", "rank": "Gold 3", "playtime": 10, "wins": 8, "win_rate": 0.471, "kd": 1.03, "hs": 0.282 },
+      { "act_id": "V25: A2", "rank": "Platinum 1", "playtime": 23, "wins": 16, "win_rate": 0.410, "kd": 1.11, "hs": 0.354 },
+      { "act_id": "V25: A3", "rank": "Platinum 3", "playtime": 35, "wins": 34, "win_rate": 0.567, "kd": 1.13, "hs": 0.332 },
+      { "act_id": "V25: A4", "rank": "Diamond 1", "playtime": 42, "wins": 44, "win_rate": 0.603, "kd": 1.02, "hs": 0.300 },
+      { "act_id": "V25: A5", "rank": "Diamond 2", "playtime": 48, "wins": 39, "win_rate": 0.476, "kd": 0.97, "hs": 0.336 },
+      { "act_id": "V25: A6", "rank": "Ascendant 1", "playtime": 52, "wins": 44, "win_rate": 0.489, "kd": 1.01, "hs": 0.262 },
+      { "act_id": "V26: A1", "rank": "Platinum 2", "playtime": 20, "wins": 14, "win_rate": 0.424, "kd": 0.97, "hs": 0.314 }
+    ];
+
+    const getRankLabel = (v) => {
+      const i = Math.round(v);
+      if (i >= 0 && i < allRanks.length) { const n = allRanks[i]; if (n.endsWith("1") || n === "Radiant") return n; }
+      return "";
+    };
+
+    const rankCanvas = document.getElementById('rankChart');
+    let rChart = null;
+    if (rankCanvas) {
+      rChart = new Chart(rankCanvas.getContext('2d'), {
         type: 'line',
         data: {
-            labels: rawData.map(d => d.act_id),
-            datasets: [{
-                data: rawData.map(d => allRanks.indexOf(d.rank)),
-                borderColor: colors.primary,
-                borderWidth: 3,
-                pointStyle: 'rect',
-                pointRadius: 8,
-                pointBackgroundColor: rawData.map(d => rankColors[d.rank.split(' ')[0]]),
-                pointBorderColor: colors.textWhite,
-                pointBorderWidth: 1,
-                tension: 0
-            }]
+          labels: rankData.map(d => d.act_id),
+          datasets: [{
+            data: rankData.map(d => allRanks.indexOf(d.rank)),
+            borderColor: colors.primary, borderWidth: 2, pointStyle: 'rect', pointRadius: 6,
+            pointBackgroundColor: rankData.map(d => rankColors[d.rank.split(' ')[0]] || colors.primary),
+            pointBorderColor: '#fff', pointBorderWidth: 1, tension: 0
+          }]
         },
         options: {
-            responsive: true,
-            scales: {
-                y: {
-                    min: 0, max: 24,
-                    ticks: {
-                        color: colors.heading, // Use theme color for ticks
-                        stepSize: 1,
-                        callback: getRankLabel
-                    },
-                    grid: {
-                        color: (c) => c.tick.value % 3 === 0 ? colors.primary : `${colors.primary}33`, // Alpha for minor grid lines
-                        lineWidth: (c) => c.tick.value % 3 === 0 ? 2 : 1
-                    }
-                },
-                x: {
-                    ticks: { color: colors.heading }, // Use theme color for ticks
-                    grid: { color: `${colors.primary}1A` } // Alpha for grid lines
-                }
-            },
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    backgroundColor: `${colors.primaryAlpha10}F0`, // Transparent background with theme color
-                    borderColor: colors.primary,
-                    borderWidth: 1,
-                    cornerRadius: 0,
-                    padding: 12,
-                    titleColor: colors.heading, // Use theme color for tooltip title
-                    bodyColor: colors.textWhite, // Use theme color for tooltip body
-                    callbacks: {
-                        title: (items) => `[ ${items[0].label} ]`,
-                        label: (item) => {
-                            const d = rawData[item.dataIndex];
-                            return [
-                                ` RANK      : ${d.rank}`,
-                                ` PLAYTIME  : ${d.playtime} hrs`,
-                                ` WINS      : ${d.wins}`,
-                                ` WIN %     : ${(d.win_rate * 100).toFixed(1)}%`,
-                                ` K/D       : ${d.kd.toFixed(2)}`,
-                                ` HS%       : ${(d.hs * 100).toFixed(1)}%`
-                            ];
-                        }
-                    }
-                }
-            }
+          ...commonOptions,
+          scales: {
+            y: { min: 0, max: 24, ticks: { color: colors.heading, stepSize: 1, callback: getRankLabel },
+              grid: { color: (c) => c.tick.value % 3 === 0 ? colors.primary : colors.primary + '33', lineWidth: (c) => c.tick.value % 3 === 0 ? 2 : 1 } },
+            x: { ticks: { color: colors.heading }, grid: { color: colors.primary + '1A' } }
+          },
+          plugins: { legend: { display: false }, tooltip: { ...commonTooltip, callbacks: {
+            title: (items) => '[ ' + items[0].label + ' ]',
+            label: (item) => { const d = rankData[item.dataIndex]; return [' RANK    : ' + d.rank, ' PLAYTIME: ' + d.playtime + 'h', ' WINS    : ' + d.wins, ' WIN %   : ' + (d.win_rate * 100).toFixed(1) + '%', ' K/D     : ' + d.kd.toFixed(2), ' HS%     : ' + (d.hs * 100).toFixed(1) + '%']; }
+          } } }
         }
-    });
+      });
+    }
 
-    window.updateChart = function (mode) {
-        document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
-        document.getElementById(`btn-${mode}`).classList.add('active');
+    window.updateRankChart = function (mode) {
+      if (!rChart) return;
+      document.querySelectorAll('#rank-controls button').forEach(b => b.classList.remove('active'));
+      document.getElementById('btn-r-' + mode).classList.add('active');
+      const isRank = mode === 'rank';
+      if (isRank) {
+        rChart.data.datasets[0].data = rankData.map(d => allRanks.indexOf(d.rank));
+        rChart.options.scales.y = { min: 0, max: 24, ticks: { color: colors.heading, stepSize: 1, callback: getRankLabel }, grid: { color: (c) => c.tick.value % 3 === 0 ? colors.primary : colors.primary + '33', lineWidth: (c) => c.tick.value % 3 === 0 ? 2 : 1 } };
+      } else if (mode === 'kd') {
+        rChart.data.datasets[0].data = rankData.map(d => d.kd);
+        rChart.options.scales.y = { min: 0, max: 2, ticks: { color: colors.heading, stepSize: 0.2, callback: v => v.toFixed(1) }, grid: { color: colors.primary + '1A', lineWidth: 1 } };
+      } else if (mode === 'win_rate' || mode === 'hs') {
+        rChart.data.datasets[0].data = rankData.map(d => d[mode] * 100);
+        rChart.options.scales.y = { min: 0, max: 100, ticks: { color: colors.heading, stepSize: 10, callback: v => v + '%' }, grid: { color: colors.primary + '1A', lineWidth: 1 } };
+      } else {
+        rChart.data.datasets[0].data = rankData.map(d => d[mode]);
+        rChart.options.scales.y = { min: 0, ticks: { color: colors.heading }, grid: { color: colors.primary + '1A', lineWidth: 1 } };
+      }
+      rChart.update();
+    };
 
-        let newData, newMin, newMax, tickCallback;
-        const isRank = mode === 'rank';
+    // ========== WEAPON CHART ==========
+    const weaponData = [
+      { "weapon": "Vandal", "kills": 8688, "deaths": 6564, "kd": 1.32, "hs_rate": 0.413, "adr": 117.2, "kpr": 0.7 },
+      { "weapon": "Phantom", "kills": 933, "deaths": 2370, "kd": 0.39, "hs_rate": 0.30, "adr": 113.7, "kpr": 0.7 },
+      { "weapon": "Ghost", "kills": 814, "deaths": 787, "kd": 1.03, "hs_rate": 0.534, "adr": 86.2, "kpr": 0.8 },
+      { "weapon": "Classic", "kills": 752, "deaths": 518, "kd": 1.45, "hs_rate": 0.468, "adr": 34.8, "kpr": 0.3 },
+      { "weapon": "Bulldog", "kills": 607, "deaths": 276, "kd": 2.20, "hs_rate": 0.364, "adr": 85.6, "kpr": 0.7 },
+      { "weapon": "Sheriff", "kills": 538, "deaths": 632, "kd": 0.85, "hs_rate": 0.642, "adr": 61.5, "kpr": 0.4 },
+      { "weapon": "Spectre", "kills": 415, "deaths": 521, "kd": 0.80, "hs_rate": 0.236, "adr": 68.6, "kpr": 0.6 },
+      { "weapon": "Guardian", "kills": 322, "deaths": 187, "kd": 1.72, "hs_rate": 0.487, "adr": 134.7, "kpr": 0.7 },
+      { "weapon": "Headhunter", "kills": 248, "deaths": 62, "kd": 4.00, "hs_rate": 0.606, "adr": 179.3, "kpr": 1.2 },
+      { "weapon": "Bucky", "kills": 181, "deaths": 92, "kd": 1.97, "hs_rate": 0.164, "adr": 56.0, "kpr": 0.4 },
+      { "weapon": "Tour De Force", "kills": 125, "deaths": 56, "kd": 2.23, "hs_rate": 0.131, "adr": 231.5, "kpr": 1.4 },
+      { "weapon": "Operator", "kills": 76, "deaths": 389, "kd": 0.20, "hs_rate": 0.136, "adr": 62.8, "kpr": 0.4 },
+      { "weapon": "Judge", "kills": 47, "deaths": 236, "kd": 0.20, "hs_rate": 0.236, "adr": 61.9, "kpr": 0.5 },
+      { "weapon": "Marshal", "kills": 25, "deaths": 126, "kd": 0.20, "hs_rate": 0.630, "adr": 80.9, "kpr": 0.5 },
+      { "weapon": "Stinger", "kills": 20, "deaths": 89, "kd": 0.22, "hs_rate": 0.246, "adr": 72.1, "kpr": 0.6 },
+      { "weapon": "Bandit", "kills": 11, "deaths": 16, "kd": 0.69, "hs_rate": 0.611, "adr": 66.3, "kpr": 0.4 },
+      { "weapon": "Odin", "kills": 10, "deaths": 242, "kd": 0.04, "hs_rate": 0.148, "adr": 85.0, "kpr": 0.7 },
+      { "weapon": "Frenzy", "kills": 5, "deaths": 88, "kd": 0.06, "hs_rate": 0.455, "adr": 60.7, "kpr": 0.6 },
+      { "weapon": "Melee", "kills": 4, "deaths": 13, "kd": 0.31, "hs_rate": 0.222, "adr": 182.5, "kpr": 1.0 },
+      { "weapon": "Ares", "kills": 4, "deaths": 54, "kd": 0.07, "hs_rate": 0.200, "adr": 67.6, "kpr": 0.5 },
+      { "weapon": "Outlaw", "kills": 3, "deaths": 33, "kd": 0.09, "hs_rate": 0.000, "adr": 58.6, "kpr": 0.4 },
+      { "weapon": "Overdrive", "kills": 0, "deaths": 25, "kd": 0.00, "hs_rate": 0.000, "adr": 0.0, "kpr": 0.0 }
+    ];
 
-        if (isRank) {
-            newData = rawData.map(d => allRanks.indexOf(d.rank));
-            newMin = 0; newMax = 24;
-            tickCallback = getRankLabel;
-        } else {
-            newData = rawData.map(d => d[mode] * (mode.includes('rate') || mode === 'hs' ? 100 : 1));
-            newMin = 0; newMax = Math.max(...newData) + (mode === 'playtime' ? 10 : (mode === 'wins' ? 5 : (mode === 'kd' ? 0.5 : 0)));
-            if (mode.includes('rate') || mode === 'hs') newMax = 100;
-            tickCallback = (v) => v + (mode === 'playtime' ? 'h' : (mode.includes('rate') || mode === 'hs' ? '%' : ''));
-            if (mode === 'kd') tickCallback = v => v.toFixed(1);
+    const weaponCanvas = document.getElementById('weaponChart');
+    let wChart = null;
+    if (weaponCanvas) {
+      wChart = new Chart(weaponCanvas.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: weaponData.map(w => w.weapon),
+          datasets: [{
+            data: weaponData.map(w => w.kills),
+            borderColor: colors.primary, borderWidth: 2, pointStyle: 'rect', pointRadius: 6,
+            pointBackgroundColor: colors.primary, tension: 0
+          }]
+        },
+        options: {
+          ...commonOptions,
+          plugins: { legend: { display: false }, tooltip: { ...commonTooltip, callbacks: {
+            title: (items) => '[ ' + items[0].label + ' ]',
+            label: (item) => { const w = weaponData[item.dataIndex]; return [' KILLS   : ' + w.kills, ' DEATHS  : ' + w.deaths, ' K/D     : ' + w.kd.toFixed(2), ' HS %    : ' + (w.hs_rate * 100).toFixed(1) + '%', ' ADR     : ' + w.adr, ' K/ROUND : ' + w.kpr]; }
+          } } }
         }
+      });
+    }
 
-        chart.data.datasets[0].data = newData;
-        chart.options.scales.y.min = newMin;
-        chart.options.scales.y.max = newMax;
-        chart.options.scales.y.ticks.callback = tickCallback;
-        chart.options.scales.y.grid.color = isRank ? (c) => (c.tick.value % 3 === 0 ? colors.primary : `${colors.primary}33`) : `${colors.primary}1A`;
-        chart.options.scales.y.grid.lineWidth = isRank ? (c) => (c.tick.value % 3 === 0 ? 2 : 1) : 1;
-        chart.options.scales.y.ticks.stepSize = isRank ? 1 : undefined;
+    window.updateWeaponChart = function (mode) {
+      if (!wChart) return;
+      document.querySelectorAll('#weapon-controls button').forEach(b => b.classList.remove('active'));
+      document.getElementById('btn-w-' + mode).classList.add('active');
+      if (mode === 'hs_rate') {
+        wChart.data.datasets[0].data = weaponData.map(w => (w.hs_rate * 100).toFixed(1));
+        wChart.options.scales.y = { min: 0, max: 100, ticks: { color: colors.heading, stepSize: 10, callback: v => v + '%' }, grid: { color: colors.primary + '1A', lineWidth: 1 } };
+      } else if (mode === 'kd') {
+        wChart.data.datasets[0].data = weaponData.map(w => w.kd);
+        wChart.options.scales.y = { min: 0, max: 5, ticks: { color: colors.heading, stepSize: 0.5, callback: v => v.toFixed(1) }, grid: { color: colors.primary + '1A', lineWidth: 1 } };
+      } else {
+        wChart.data.datasets[0].data = weaponData.map(w => w[mode]);
+        wChart.options.scales.y = { min: 0, ticks: { color: colors.heading }, grid: { color: colors.primary + '1A', lineWidth: 1 } };
+      }
+      wChart.update();
+    };
 
-        chart.update();
+    // ========== MAP CHART ==========
+    const mapData = [
+      { "map": "Corrode", "win_rate": 0.719, "wins": 23, "losses": 9, "kd": 1.04, "adr": 140.3, "acs": 214.3 },
+      { "map": "Split", "win_rate": 0.595, "wins": 66, "losses": 45, "kd": 0.99, "adr": 123.8, "acs": 188.7 },
+      { "map": "Fracture", "win_rate": 0.551, "wins": 27, "losses": 22, "kd": 0.98, "adr": 121.7, "acs": 183.2 },
+      { "map": "Lotus", "win_rate": 0.541, "wins": 40, "losses": 33, "kd": 0.98, "adr": 125.6, "acs": 193.4 },
+      { "map": "Sunset", "win_rate": 0.524, "wins": 33, "losses": 30, "kd": 1.03, "adr": 136.1, "acs": 211.0 },
+      { "map": "Haven", "win_rate": 0.516, "wins": 64, "losses": 59, "kd": 1.03, "adr": 130.5, "acs": 198.0 },
+      { "map": "Bind", "win_rate": 0.507, "wins": 70, "losses": 68, "kd": 0.97, "adr": 124.9, "acs": 190.8 },
+      { "map": "Breeze", "win_rate": 0.490, "wins": 25, "losses": 26, "kd": 0.98, "adr": 121.2, "acs": 187.9 },
+      { "map": "Icebox", "win_rate": 0.468, "wins": 44, "losses": 48, "kd": 1.02, "adr": 123.0, "acs": 188.0 },
+      { "map": "Pearl", "win_rate": 0.463, "wins": 25, "losses": 28, "kd": 1.10, "adr": 127.8, "acs": 195.8 },
+      { "map": "Abyss", "win_rate": 0.455, "wins": 20, "losses": 22, "kd": 1.08, "adr": 139.7, "acs": 213.7 },
+      { "map": "Ascent", "win_rate": 0.448, "wins": 56, "losses": 69, "kd": 0.89, "adr": 112.5, "acs": 171.0 }
+    ];
+
+    const mapCanvas = document.getElementById('mapChart');
+    let mChart = null;
+    if (mapCanvas) {
+      mChart = new Chart(mapCanvas.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: mapData.map(m => m.map),
+          datasets: [{
+            data: mapData.map(m => (m.win_rate * 100).toFixed(1)),
+            borderColor: colors.primary, borderWidth: 2, pointStyle: 'rect', pointRadius: 6,
+            pointBackgroundColor: colors.primary, tension: 0
+          }]
+        },
+        options: {
+          ...commonOptions,
+          scales: {
+            y: { min: 0, max: 100, ticks: { color: colors.heading, stepSize: 10, callback: v => v + '%' }, grid: { color: colors.primary + '1A', lineWidth: 1.5 } },
+            x: { ticks: { color: colors.heading }, grid: { color: colors.primary + '1A', lineWidth: 1.5 } }
+          },
+          plugins: { legend: { display: false }, tooltip: { ...commonTooltip, callbacks: {
+            title: (items) => '[ ' + items[0].label + ' ]',
+            label: (item) => { const m = mapData[item.dataIndex]; return [' WIN %   : ' + (m.win_rate * 100).toFixed(1) + '%', ' MATCHES : ' + (m.wins + m.losses), ' W / L   : ' + m.wins + ' / ' + m.losses, ' K/D     : ' + m.kd.toFixed(2), ' ADR     : ' + m.adr, ' ACS     : ' + m.acs]; }
+          } } }
+        }
+      });
+    }
+
+    window.updateMapChart = function (mode) {
+      if (!mChart) return;
+      document.querySelectorAll('#map-controls button').forEach(b => b.classList.remove('active'));
+      document.getElementById('btn-m-' + mode).classList.add('active');
+      if (mode === 'win_rate') {
+        mChart.data.datasets[0].data = mapData.map(m => (m.win_rate * 100).toFixed(1));
+        mChart.options.scales.y = { min: 0, max: 100, ticks: { color: colors.heading, stepSize: 10, callback: v => v + '%' }, grid: { color: colors.primary + '1A', lineWidth: 1.5 } };
+      } else if (mode === 'kd') {
+        mChart.data.datasets[0].data = mapData.map(m => m.kd);
+        mChart.options.scales.y = { min: 0, max: 2, ticks: { color: colors.heading, stepSize: 0.2, callback: v => v.toFixed(1) }, grid: { color: colors.primary + '1A', lineWidth: 1.5 } };
+      } else {
+        mChart.data.datasets[0].data = mapData.map(m => m[mode]);
+        mChart.options.scales.y = { min: 0, ticks: { color: colors.heading }, grid: { color: colors.primary + '1A', lineWidth: 1.5 } };
+      }
+      mChart.update();
     };
   });
 </script>
