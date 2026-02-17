@@ -28,12 +28,13 @@
   → 特別な指示がない限り、新しい色の導入は避け、既存カラーパレットを使用する
   → セクションごとの色分けよりも、サイト全体の統一感を優先する
 
-- **レスポンシブレイアウト固定サイズルール**  
+- **レスポンシブレイアウト固定サイズルール**
   → グリッドレイアウトでは可変幅（grid-column: span）は使用禁止
   → デスクトップ：2列表示なら各要素は2列分の1サイズ
-  → タブレット：2列表示なら各要素は2列分の1サイズ  
-  → スマホ：1列表示なら各要素は1列分の1サイズ
+  → タブレット：2列表示なら各要素は2列分の1サイズ
+  → スマホ（768px以下）：必ず1列表示（`grid-template-columns: 1fr`）にする
   → 中央配置や可変幅での要素配置は避け、固定グリッドサイズを維持する
+  → 新しいグリッドセクション追加時は必ず`@media (max-width: 768px)`で1列化を実装する
 
 ---
 
@@ -273,25 +274,49 @@
   → Courier New等のシステムフォント使用禁止
   → コード系要素も`text-shadow: 1px 1px 0px #000000`と`image-rendering: pixelated`適用
 
-#### フォントサイズ管理システム
-- **FONT_SIZES定数による一元管理**  
-  → ファイル先頭に固定値オブジェクトを定義
-  → 全てのフォントサイズをテンプレートリテラルで呼び出し
-  → ハードコード値の完全排除で保守性向上
+#### スタイル設定一元管理システム（themeConfig.ts）
 
-- **標準フォントサイズ階層**  
-  → `title: '24px'`: メインタイトル
-  → `subtitle: '16px'`: サブタイトル・説明文
-  → `sectionTitle: '18px'`: セクション見出し（h2レベル）
-  → `subTitle: '14px'`: 小見出し（h3レベル）
-  → `bodyText: '12px'`: 本文テキスト・データ値
-  → `smallText: '10px'`: 補足情報・目標詳細
-  → `footer: '10px'`: フッター・コピーライト
+- **設定ファイル**: `src/config/themeConfig.ts`
+  → カラー・フォントサイズ・フォント・スタイルプリセットを一元管理
+  → index.astro等のページファイルでは直接的なスタイル値のハードコード禁止
 
-- **テンプレートリテラル統一記法**  
-  → `style={\`font-size: ${FONT_SIZES.bodyText};\`}` 形式で統一
-  → インラインstyle属性の動的値参照
-  → サイズ変更時は1箇所の修正で全体に反映
+- **インポートと初期化（index.astro フロントマター）**
+  ```typescript
+  import { getCurrentThemeColors, FIXED_COLORS, FONT_SIZES, FONTS, getStylePresets } from "../config/themeConfig";
+  const COLORS = { ...getCurrentThemeColors(), ...FIXED_COLORS };
+  const S = getStylePresets(COLORS);
+  ```
+
+- **スタイルプリセット（S）の使い方**
+  → `S.title`: メインタイトル（h1）— heading色, 24px, Press Start 2P
+  → `S.sectionTitle`: セクション見出し（h2）— heading色, 18px, 中央寄せ, Press Start 2P
+  → `S.subTitle`: 小見出し（h3）— 白色, 16px, DotGothic16
+  → `S.bodyText`: 本文 — グレー, 14px, line-height: 1.8, DotGothic16
+  → `S.bodyTextCompact`: 本文（行間なし）— グレー, 14px, DotGothic16
+  → `S.link`: リンク色 — primary色
+  → `S.divider`: 区切り線 — primary色, 1px
+  → `S.textBase`: テキスト基本（フォント + text-shadow のみ）
+
+- **テンプレート内での使用例**
+  ```html
+  <h2 style={`${S.sectionTitle} margin-bottom: 15px;`}>セクション名</h2>
+  <p style={`${S.bodyText}`}>本文テキスト</p>
+  <a href="..." style={S.link}>リンクテキスト</a>
+  <hr style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`} />
+  ```
+
+- **個別定数の直接使用**
+  → `FONT_SIZES.bodyText` 等でサイズのみ参照可能
+  → `FONTS.pixel` / `FONTS.pixelJp` でフォントファミリー参照可能
+  → `COLORS.primary` / `COLORS.heading` 等で色のみ参照可能
+  → プリセット（S）で対応できない場合のみ個別定数を組み合わせる
+
+- **禁止事項**
+  → フォントサイズ・色・フォントファミリーのハードコード禁止
+  → `'Press Start 2P', monospace` → `${FONTS.pixel}` を使用
+  → `'DotGothic16', ...` → `${FONTS.pixelJp}` を使用
+  → `color: #cccccc` → `color: ${COLORS.textGray}` を使用
+  → リンク色は `style={S.link}` で統一（`color: ${COLORS.primary}` の直接指定禁止）
 
 #### シンプルレイアウト背景システム
 - **レトロゲーム風メインコンテナ**  

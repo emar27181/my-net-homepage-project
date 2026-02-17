@@ -107,11 +107,69 @@ export const getCurrentThemeColors = () => generateThemeColors(THEME_CONFIG.HUE)
  */
 export const getThemeColorsByHue = (hue: number) => generateThemeColors(hue);
 
+// ========================================
+// フォントサイズ設定
+// ========================================
+export const FONT_SIZES = {
+  title: '24px',        // メインタイトル
+  subtitle: '16px',     // サブタイトル
+  sectionTitle: '18px', // セクション見出し（h2レベル）
+  subTitle: '16px',     // 小見出し（h3レベル）
+  bodyText: '14px',     // 本文テキスト
+  smallText: '10px',    // 小さいテキスト
+  footer: '10px',       // フッター
+} as const;
+
+// ========================================
+// フォント設定
+// ========================================
+export const FONTS = {
+  pixel: "'Press Start 2P', monospace",
+  pixelJp: "'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace",
+} as const;
+
+// ========================================
+// インラインスタイルプリセット生成
+// index.astro等でテンプレートリテラル内で使用する
+// ========================================
+export const getStylePresets = (colors: ReturnType<typeof getCurrentThemeColors> & typeof FIXED_COLORS) => {
+  const textBase = `font-family: ${FONTS.pixelJp}; image-rendering: pixelated; text-shadow: 1px 1px 0px ${colors.textBlack};`;
+
+  return {
+    /** メインタイトル（h1レベル） */
+    title: `color: ${colors.heading}; font-size: ${FONT_SIZES.title}; font-family: ${FONTS.pixel}; image-rendering: pixelated; text-shadow: 1px 1px 0px ${colors.textBlack}; letter-spacing: 1px;`,
+
+    /** セクション見出し（h2レベル） */
+    sectionTitle: `color: ${colors.heading}; font-size: ${FONT_SIZES.sectionTitle}; text-align: center; font-family: ${FONTS.pixel}; image-rendering: pixelated; text-shadow: 1px 1px 0px ${colors.textBlack}; letter-spacing: 1px;`,
+
+    /** 小見出し（h3レベル） */
+    subTitle: `color: ${colors.textWhite}; font-size: ${FONT_SIZES.subTitle}; ${textBase}`,
+
+    /** 本文テキスト */
+    bodyText: `color: ${colors.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; ${textBase}`,
+
+    /** 本文テキスト（line-heightなし） */
+    bodyTextCompact: `color: ${colors.textGray}; font-size: ${FONT_SIZES.bodyText}; ${textBase}`,
+
+    /** リンク色 */
+    link: `color: ${colors.primary};`,
+
+    /** 区切り線 */
+    divider: `border: none; height: 1px; background-color: ${colors.primary};`,
+
+    /** テキストベース（フォント + text-shadow のみ） */
+    textBase,
+  };
+};
+
 // デフォルトエクスポート
 export default {
   THEME_CONFIG,
   FIXED_COLORS,
   COMPONENT_COLORS,
+  FONT_SIZES,
+  FONTS,
+  getStylePresets,
   getCurrentThemeColors,
   getThemeColorsByHue,
 };

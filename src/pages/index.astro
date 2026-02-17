@@ -6,31 +6,18 @@ import {
   THEME_CONFIG,
   getCurrentThemeColors,
   FIXED_COLORS,
+  FONT_SIZES,
+  FONTS,
+  getStylePresets,
 } from "../config/themeConfig";
 import "../styles/global.css";
 
-// フォントサイズ設定
-const FONT_SIZES = {
-  title: "24px", // メインタイトル
-  subtitle: "16px", // サブタイトル
-  sectionTitle: "18px", // セクション見出し
-  subTitle: "16px", // 小見出し
-  bodyText: "14px", // 本文テキスト
-  smallText: "10px", // 小さいテキスト
-  footer: "10px", // フッター
-};
-
-// ========================================
-// テーマカラー設定（src/config/themeConfig.ts で一元管理）
-// ========================================
+// テーマカラー統合オブジェクト
 const themeColors = getCurrentThemeColors();
-const COLORS = {
-  // メインカラー（テーマ設定から生成）
-  ...themeColors,
+const COLORS = { ...themeColors, ...FIXED_COLORS };
 
-  // 固定カラー
-  ...FIXED_COLORS,
-};
+// スタイルプリセット（テンプレート内で S.title, S.bodyText 等で使用）
+const S = getStylePresets(COLORS);
 ---
 
 <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
@@ -44,7 +31,7 @@ const COLORS = {
     <!-- タイトル -->
     <div style="text-align: center; margin-bottom: 40px;" class="title-section">
       <h1
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.title}; margin-bottom: 15px; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.title}; margin-bottom: 15px; font-family: ${FONTS.pixel}; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
         class="main-title"
       >
         <span class="title-first-line">Nodoame's</span>
@@ -53,7 +40,7 @@ const COLORS = {
 
       <!-- 横線 -->
       <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 15px auto; width: 100%;`}
+        style={`${S.divider} margin: 0 auto 15px auto; width: 100%;`}
       />
 
       <!-- プロフィール画像 -->
@@ -77,19 +64,19 @@ const COLORS = {
       class="about-section"
     >
       <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+        style={`${S.sectionTitle} margin-bottom: 15px;`}
       >
         ◆ About Me ◆
       </h2>
 
       <!-- 横線 -->
       <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+        style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
       />
 
       <div style="text-align: center; margin-bottom: 15px;">
         <p
-          style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+          style={`${S.bodyText}`}
         >
           VALORANTをメインにプレイしている猫好きなゲーマーです。<br />
           <br />
@@ -108,14 +95,14 @@ const COLORS = {
       class="profile-section"
     >
       <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+        style={`${S.sectionTitle} margin-bottom: 15px;`}
       >
         ★ Player Info ★
       </h2>
 
       <!-- 横線 -->
       <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+        style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
       />
 
       <div
@@ -124,24 +111,24 @@ const COLORS = {
       >
         <div>
           <h3
-            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.subTitle} margin-bottom: 10px;`}
           >
             基本情報
           </h3>
           <p
-            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.bodyText}`}
           >
             名前: nodoame<br />
             メインロール: コントローラー(オーメン/クローブ/アストラ) <br />
           </p>
 
           <h3
-            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; margin-top: 15px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.subTitle} margin-bottom: 10px; margin-top: 15px;`}
           >
             プレイ中のゲーム
           </h3>
           <p
-            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.bodyText}`}
           >
             FPS: Valorant / Apex / OW2 / BF / COD / Fortnite(昔)<br />
             ソシャゲ: パズドラ / モンスト / ポケポケ / 雀魂
@@ -150,12 +137,12 @@ const COLORS = {
 
         <div>
           <h3
-            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.subTitle} margin-bottom: 10px;`}
           >
             外部リンク
           </h3>
           <p
-            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.bodyText}`}
           >
             <svg
               style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"
@@ -169,7 +156,7 @@ const COLORS = {
               href="https://twitter.com/nodoame27181"
               target="_blank"
               rel="noopener"
-              style={`color: ${COLORS.primary};`}>@nodoame27181</a
+              style={S.link}>@nodoame27181</a
             ><br />
             <svg
               style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"
@@ -183,7 +170,7 @@ const COLORS = {
               href="https://www.youtube.com/@nodoame27181"
               target="_blank"
               rel="noopener"
-              style={`color: ${COLORS.primary};`}>@nodoame27181</a
+              style={S.link}>@nodoame27181</a
             ><br />
             <svg
               style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"
@@ -199,7 +186,7 @@ const COLORS = {
                 href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview?platform=pc&playlist=competitive&season=4c4b8cff-43eb-13d3-8f14-96b783c90cd2"
                 target="_blank"
                 rel="noopener"
-                style={`color: ${COLORS.primary};`}>Valorant Profile</a
+                style={S.link}>Valorant Profile</a
               ></span
             ><br />
             <span style="margin-left: 24px;"
@@ -207,7 +194,7 @@ const COLORS = {
                 href="https://tracker.gg/valorant/profile/riot/nodoame%2327182/overview?platform=pc&playlist=competitive&season=4c4b8cff-43eb-13d3-8f14-96b783c90cd2"
                 target="_blank"
                 rel="noopener"
-                style={`color: ${COLORS.primary};`}>Solo Profile</a
+                style={S.link}>Solo Profile</a
               ></span
             ><br />
             <span style="margin-left: 24px;"
@@ -215,7 +202,7 @@ const COLORS = {
                 href="https://fortnitetracker.com/profile/kbm/nodoamen/events?region=GLOBAL&sortBy=placement"
                 target="_blank"
                 rel="noopener"
-                style={`color: ${COLORS.primary};`}>Fortnite Profile</a
+                style={S.link}>Fortnite Profile</a
               ></span
             ><br />
             <span style="margin-left: 24px;"
@@ -223,7 +210,7 @@ const COLORS = {
                 href="https://apex.tracker.gg/apex/profile/origin/nodoamen/performance"
                 target="_blank"
                 rel="noopener"
-                style={`color: ${COLORS.primary};`}>Apex Profile</a
+                style={S.link}>Apex Profile</a
               ></span
             ><br />
           </p>
@@ -235,8 +222,7 @@ const COLORS = {
       <div class="chart-container">
         <div class="container">
             <h2>VALORANT: COMPETITIVE RANK HISTORY</h2>
-            <div class="source-link">SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview"
-                    target="_blank">TRACKER.GG / OVERVIEW</a></div>
+            <div class="chart-wrapper"><canvas id="rankChart"></canvas></div>
             <div class="controls">
                 <button onclick="updateRankChart('rank')" id="btn-r-rank" class="active">Rank</button>
                 <button onclick="updateRankChart('playtime')" id="btn-r-playtime">Playtime</button>
@@ -245,16 +231,13 @@ const COLORS = {
                 <button onclick="updateRankChart('kd')" id="btn-r-kd">K/D</button>
                 <button onclick="updateRankChart('hs')" id="btn-r-hs">HS %</button>
             </div>
-            <div class="chart-wrapper"><canvas id="rankChart"></canvas></div>
-             <div class="footer-info"><span>DATASET: RANKED推移</span><span>LAST UPDATE: 2026/02/16</span></div>
+            <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview" target="_blank">TRACKER.GG / OVERVIEW</a></span><span>LAST UPDATE: 2026/02/16</span></div>
         </div>
       </div>
       <div class="chart-container">
         <div class="container">
             <h2>VALORANT: COMPETITIVE WEAPON SCORE</h2>
-            <div class="source-link">SOURCE: <a
-                    href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/weapons?platform=pc&playlist=competitive"
-                    target="_blank">TRACKER.GG / WEAPONS</a></div>
+            <div class="chart-wrapper"><canvas id="weaponChart"></canvas></div>
             <div class="controls">
                 <button onclick="updateWeaponChart('kills')" id="btn-w-kills" class="active">Kills</button>
                 <button onclick="updateWeaponChart('kd')" id="btn-w-kd">K/D</button>
@@ -262,24 +245,20 @@ const COLORS = {
                 <button onclick="updateWeaponChart('adr')" id="btn-w-adr">ADR</button>
                 <button onclick="updateWeaponChart('kpr')" id="btn-w-kpr">K/R</button>
             </div>
-            <div class="chart-wrapper"><canvas id="weaponChart"></canvas></div>
-            <div class="footer-info"><span>DATASET: WEAPON STATS</span><span>LAST UPDATE: 2026/02/16</span></div>
+            <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/weapons?platform=pc&playlist=competitive" target="_blank">TRACKER.GG / WEAPONS</a></span><span>LAST UPDATE: 2026/02/16</span></div>
         </div>
       </div>
       <div class="chart-container">
         <div class="container">
             <h2>VALORANT: COMPETITIVE MAP SCORE</h2>
-            <div class="source-link">SOURCE: <a
-                    href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/maps?platform=pc&playlist=competitive"
-                    target="_blank">TRACKER.GG / MAPS</a></div>
+            <div class="chart-wrapper"><canvas id="mapChart"></canvas></div>
             <div class="controls">
                 <button onclick="updateMapChart('win_rate')" id="btn-m-win_rate" class="active">Win %</button>
                 <button onclick="updateMapChart('kd')" id="btn-m-kd">K/D</button>
                 <button onclick="updateMapChart('adr')" id="btn-m-adr">ADR</button>
                 <button onclick="updateMapChart('acs')" id="btn-m-acs">ACS</button>
             </div>
-            <div class="chart-wrapper"><canvas id="mapChart"></canvas></div>
-            <div class="footer-info"><span>DATASET: MAP ANALYTICS</span><span>LAST UPDATE: 2026/02/16</span></div>
+            <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/maps?platform=pc&playlist=competitive" target="_blank">TRACKER.GG / MAPS</a></span><span>LAST UPDATE: 2026/02/16</span></div>
         </div>
       </div>
     </div>
@@ -291,14 +270,14 @@ const COLORS = {
       class="video-section"
     >
       <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+        style={`${S.sectionTitle} margin-bottom: 15px;`}
       >
         ★ VALORANT Gameplay & Playlist ★
       </h2>
 
       <!-- 横線 -->
       <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+        style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
       />
 
       <!-- カルーセル表示（折りたたみ時） -->
@@ -307,7 +286,7 @@ const COLORS = {
           <!-- 左矢印ボタン -->
           <button
             id="prev-video-btn"
-            style={`flex-shrink: 0; width: 40px; height: 40px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 20px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
+            style={`flex-shrink: 0; width: 40px; height: 40px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 20px; font-family: ${FONTS.pixelJp}; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
             onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
             onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
           >
@@ -377,7 +356,7 @@ const COLORS = {
           <!-- 右矢印ボタン -->
           <button
             id="next-video-btn"
-            style={`flex-shrink: 0; width: 40px; height: 40px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 20px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
+            style={`flex-shrink: 0; width: 40px; height: 40px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 20px; font-family: ${FONTS.pixelJp}; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
             onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
             onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
           >
@@ -389,7 +368,7 @@ const COLORS = {
         <div style="text-align: center; margin-top: 15px;">
           <p
             id="video-counter"
-            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.bodyTextCompact}`}
           >
             1 / 8
           </p>
@@ -462,7 +441,7 @@ const COLORS = {
       <div style="text-align: center; margin-top: 20px;">
         <button
           id="toggle-videos-btn"
-          style={`padding: 10px 20px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease;`}
+          style={`padding: 10px 20px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: ${FONT_SIZES.bodyText}; font-family: ${FONTS.pixelJp}; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease;`}
           onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
           onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
         >
@@ -471,12 +450,12 @@ const COLORS = {
       </div>
       
       <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 30px auto 20px auto; width: 100%;`}
+        style={`${S.divider} margin: 30px auto 20px auto; width: 100%;`}
       />
       
       <div style="text-align: center; margin-bottom: 15px;">
         <p
-          style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+          style={`${S.bodyTextCompact}`}
         >
           VALORANT関連動画のプレイリストです
         </p>
@@ -502,7 +481,7 @@ const COLORS = {
           href="https://www.youtube.com/playlist?list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct"
           target="_blank"
           rel="noopener"
-          style={`display: inline-block; padding: 10px 20px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.bodyText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
+          style={`display: inline-block; padding: 10px 20px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.bodyText}; font-family: ${FONTS.pixel}; text-shadow: none; transition: all 0.3s ease;`}
           onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
           onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
         >
@@ -517,14 +496,14 @@ const COLORS = {
       class="device-section"
     >
       <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+        style={`${S.sectionTitle} margin-bottom: 15px;`}
       >
         ◎ Valorant Setup ◎
       </h2>
 
       <!-- 横線 -->
       <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+        style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
       />
 
       <div
@@ -533,36 +512,36 @@ const COLORS = {
       >
         <div>
           <h3
-            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.subTitle} margin-bottom: 10px;`}
           >
             デバイス
           </h3>
           <p
-            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.bodyText}`}
           >
-            マウス: <a href="https://www.amazon.co.jp/dp/B0FVKKP2T8?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1" target="_blank" style="color: ${COLORS.primary};">Pulsar Gaming Gears X2 CrazyLight</a><br />
-            キーボード: <a href="https://www.amazon.co.jp/dp/B0DCFGG1CH?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1" target="_blank" style="color: ${COLORS.primary};">Wooting 60 HE+</a><br />
-            ヘッドセット: <a href="https://www.amazon.co.jp/dp/B0BFFDNH1J?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1" target="_blank" style="color: ${COLORS.primary};">Razer BlackShark V2 Pro</a><br />
-            マウスパッド: <a href="https://www.amazon.co.jp/dp/B09KC5J24D?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1" target="_blank" style="color: ${COLORS.primary};">Pulsar Gaming Gears ParaControl V2 XXL</a><br />
-            モニター: 144Hz 24インチ <br />
+            マウス: <a href="https://www.amazon.co.jp/dp/B0FVKKP2T8?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1" target="_blank" style={S.link}>Pulsar Gaming Gears X2 CrazyLight</a><br />
+            キーボード: <a href="https://www.amazon.co.jp/dp/B0DCFGG1CH?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1" target="_blank" style={S.link}>Wooting 60 HE+</a><br />
+            ヘッドセット: <a href="https://www.amazon.co.jp/dp/B0BFFDNH1J?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1" target="_blank" style={S.link}>Razer BlackShark V2 Pro</a><br />
+            マウスパッド: <a href="https://www.amazon.co.jp/dp/B09KC5J24D?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1" target="_blank" style={S.link}>Pulsar Gaming Gears ParaControl V2 XXL</a><br />
+            モニター: <a href="https://www.amazon.jp/dp/B08C9KF9PF?ref=ppx_pop_mob_ap_share" target="_blank" style={S.link}>Dell S2421HGF 23.8インチ ゲーミングモニター</a><br />
           </p>
         </div>
 
         <div>
           <h3
-            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.subTitle} margin-bottom: 10px;`}
           >
             ゲーム設定
           </h3>
           <p
-            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.bodyText}`}
           >
             感度: 0.18 800DPI (振り向き 45.4cm)<br />
             クロスヘア: 青色・アウトライン有<br />
             <span
               id="copy-crosshair-text"
               onclick="copyCrosshairCode()"
-              style={`color: ${COLORS.primary}; cursor: pointer; text-decoration: underline; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; display: inline-flex; align-items: center; gap: 5px;`}
+              style={`${S.link} cursor: pointer; text-decoration: underline; ${S.textBase} display: inline-flex; align-items: center; gap: 5px;`}
               title="クリックでクロスヘアコードをコピー"
             >
               <svg
@@ -596,14 +575,14 @@ const COLORS = {
       class="works-section"
     >
       <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+        style={`${S.sectionTitle} margin-bottom: 15px;`}
       >
         ◆ My Works ◆
       </h2>
 
       <!-- 横線 -->
       <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+        style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
       />
 
       <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
@@ -619,12 +598,12 @@ const COLORS = {
             <!-- 左側: 説明とリンク -->
             <div>
               <h3
-                style={`color: var(--theme-primary); font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+                style={`${S.subTitle} color: ${COLORS.primary}; margin-bottom: 10px;`}
               >
                 VALORANT Point Viewer (現在作成途中)
               </h3>
               <p
-                style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.6; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; margin-bottom: 15px;`}
+                style={`${S.bodyText} margin-bottom: 15px;`}
               >
                 YouTubeショートやリールで見つけた定点動画を試合中に再現したいのに、別マップや別エリアの動画が混ざっていて探しにくい…。それを解消するために、マップ上に定点動画のリンクを直接プロットし、必要な場所の動画だけを素早く確認できるようにしたサイトです。<br
                 />
@@ -635,7 +614,7 @@ const COLORS = {
                   href="https://valorant-point-viewer.netlify.app/"
                   target="_blank"
                   rel="noopener"
-                  style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
+                  style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: ${FONTS.pixel}; text-shadow: none; transition: all 0.3s ease;`}
                   onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='1px solid ${COLORS.primary}';`}
                   onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
                 >
@@ -665,12 +644,12 @@ const COLORS = {
           <!-- モバイル: 縦レイアウト -->
           <div style="display: none;" class="mobile-layout">
             <h3
-              style={`color: var(--theme-primary); font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+              style={`${S.subTitle} color: ${COLORS.primary}; margin-bottom: 10px;`}
             >
               🎯 VALORANT Point Viewer
             </h3>
             <p
-              style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.6; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; margin-bottom: 15px;`}
+              style={`${S.bodyText} margin-bottom: 15px;`}
             >
               VALORANTの各マップの定点動画をマップ上で確認できるWebサイトです。<br
               />
@@ -698,7 +677,7 @@ const COLORS = {
                 href="https://valorant-point-viewer.netlify.app/"
                 target="_blank"
                 rel="noopener"
-                style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
+                style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: ${FONTS.pixel}; text-shadow: none; transition: all 0.3s ease;`}
                 onmouseover="this.style.background='transparent'; this.style.color='var(--theme-primary)'; this.style.border='1px solid var(--theme-primary)';"
                 onmouseout="this.style.background='var(--theme-primary)'; this.style.color='#ffffff'; this.style.border='none';"
               >
@@ -714,7 +693,7 @@ const COLORS = {
       style="text-align: center; padding: 20px 0; border-top: 1px solid #333333;"
     >
       <p
-        style={`color: ${COLORS.textDarkGray}; font-size: ${FONT_SIZES.footer}; margin: 0; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+        style={`color: ${COLORS.textDarkGray}; font-size: ${FONT_SIZES.footer}; margin: 0; font-family: ${FONTS.pixel}; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
       >
         © 2024 nodoame's Portfolio - Made with passion for gaming
       </p>
@@ -1054,8 +1033,31 @@ const COLORS = {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-        gap: 10px;
-        margin-bottom: 25px;
+        gap: 8px;
+        margin-top: 12px;
+        margin-bottom: 8px;
+    }
+    .controls button {
+        background: transparent;
+        color: #00d4ff;
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        padding: 4px 12px;
+        font-family: var(--font-pixel-jp);
+        font-size: 11px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        border-radius: 2px;
+    }
+    .controls button:hover {
+        background: rgba(0, 212, 255, 0.15);
+        border-color: rgba(0, 212, 255, 0.6);
+    }
+    .controls button.active {
+        background: rgba(0, 212, 255, 0.25);
+        border: 2px solid #00d4ff;
+        color: #ffffff;
+        text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+        box-shadow: 0 0 8px rgba(0, 212, 255, 0.3), inset 0 0 6px rgba(0, 212, 255, 0.1);
     }
     .footer-info {
         display: flex;
@@ -1065,6 +1067,13 @@ const COLORS = {
         opacity: 0.7;
         margin-top: 10px;
         padding-top: 8px;
+    }
+    .footer-info a {
+        color: inherit;
+        text-decoration: none;
+    }
+    .footer-info a:hover {
+        text-decoration: underline;
     }
     @media (max-width: 768px) {
         .charts-grid {
@@ -1107,7 +1116,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // 2. WEAPON CHART INIT
         const wChart = new Chart(document.getElementById('weaponChart').getContext('2d'), {
             type: 'line', data: { labels: weaponData.map(w => w.weapon), datasets: [{ data: weaponData.map(w => w.kills), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: THEME_COLOR, tension: 0 }] },
-            options: { ...commonOptions, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const w = weaponData[item.dataIndex]; return [` KILLS   : ${w.kills}`, ` DEATHS  : ${w.deaths}`, ` K/D     : ${w.kd.toFixed(2)}`, ` HS %    : ${(w.hs_rate * 100).toFixed(1)}%`, ` ADR     : ${w.adr}`, ` K/ROUND : ${w.kpr}`]; } } } } }
+            options: { ...commonOptions, scales: { x: { ticks: { color: THEME_COLOR, autoSkip: false, maxRotation: 45, minRotation: 45 } }, y: { ticks: { color: THEME_COLOR }, grid: { color: GRID_COLOR, lineWidth: 1 } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const w = weaponData[item.dataIndex]; return [` KILLS   : ${w.kills}`, ` DEATHS  : ${w.deaths}`, ` K/D     : ${w.kd.toFixed(2)}`, ` HS %    : ${(w.hs_rate * 100).toFixed(1)}%`, ` ADR     : ${w.adr}`, ` K/ROUND : ${w.kpr}`]; } } } } }
         });
 
         // 3. MAP CHART INIT
@@ -1116,8 +1125,8 @@ document.addEventListener("DOMContentLoaded", () => {
             options: { ...commonOptions, scales: { y: { min: 0, max: 100, ticks: { stepSize: 10, callback: v => v + '%' }, grid: { color: GRID_COLOR, lineWidth: 1.5 } }, x: { grid: { color: GRID_COLOR, lineWidth: 1.5 } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const m = mapData[item.dataIndex]; return [` WIN %   : ${(m.win_rate * 100).toFixed(1)}%`, ` MATCHES : ${m.wins + m.losses}`, ` W / L   : ${m.wins} / ${m.losses}`, ` K/D     : ${m.kd.toFixed(2)}`, ` ADR     : ${m.adr}`, ` ACS     : ${m.acs}`]; } } } } }
         });
 
-        // UPDATE FUNCTIONS
-        function updateRankChart(mode) {
+        // UPDATE FUNCTIONS (window に登録してonclickからアクセス可能にする)
+        window.updateRankChart = function(mode) {
             document.querySelectorAll('[id^="btn-r-"]').forEach(b => b.classList.remove('active'));
             document.getElementById(`btn-r-${mode}`).classList.add('active');
             let isRank = (mode === 'rank');
@@ -1129,7 +1138,7 @@ document.addEventListener("DOMContentLoaded", () => {
             rChart.update();
         }
 
-        function updateWeaponChart(mode) {
+        window.updateWeaponChart = function(mode) {
             document.querySelectorAll('[id^="btn-w-"]').forEach(b => b.classList.remove('active'));
             document.getElementById(mode === 'kpr' ? 'btn-w-kpr' : `btn-w-${mode}`).classList.add('active');
             wChart.data.datasets[0].data = weaponData.map(w => mode === 'hs_rate' ? (w.hs_rate * 100).toFixed(1) : w[mode]);
@@ -1143,7 +1152,7 @@ document.addEventListener("DOMContentLoaded", () => {
             wChart.update();
         }
 
-        function updateMapChart(mode) {
+        window.updateMapChart = function(mode) {
             document.querySelectorAll('[id^="btn-m-"]').forEach(b => b.classList.remove('active'));
             document.getElementById(`btn-m-${mode}`).classList.add('active');
             mChart.data.datasets[0].data = mapData.map(m => mode === 'win_rate' ? (m.win_rate * 100).toFixed(1) : m[mode]);
@@ -1154,15 +1163,3 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 });
 </script>
-<style>
-    .charts-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
-    @media (max-width: 768px) {
-        .charts-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
