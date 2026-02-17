@@ -33,8 +33,11 @@ export const generateThemeColors = (hue: number = THEME_CONFIG.HUE) => {
     primaryAlpha5: `hsla(${hue}, 100%, 65%, 0.05)`,
     primaryShadow: `hsla(${hue}, 100%, 65%, 0.3)`,
 
-    // タイトル・見出しカラー（少し明るく）
-    heading: `hsl(${hue + 15}, 100%, 82%)`,
+    // タイトル・見出しカラー
+    heading: '#A6F7FF',
+
+    // リンクカラー（headingと同系色相）
+    link: '#A6F7FF',
 
     // RGB形式（一部コンポーネント用）
     primaryRgb: hslToRgb(hue, 100, 65),
@@ -152,7 +155,7 @@ export const getStylePresets = (colors: ReturnType<typeof getCurrentThemeColors>
     bodyTextCompact: `color: ${colors.textGray}; font-size: ${FONT_SIZES.bodyText}; ${textBase}`,
 
     /** リンク色 */
-    link: `color: ${colors.primary};`,
+    link: `color: ${colors.link};`,
 
     /** 区切り線 */
     divider: `border: none; height: 1px; background-color: ${colors.primary};`,

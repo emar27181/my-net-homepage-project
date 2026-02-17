@@ -66,7 +66,7 @@ const S = getStylePresets(COLORS);
       <h2
         style={`${S.sectionTitle} margin-bottom: 15px;`}
       >
-        ◆ About Me ◆
+        About Me
       </h2>
 
       <!-- 横線 -->
@@ -97,7 +97,7 @@ const S = getStylePresets(COLORS);
       <h2
         style={`${S.sectionTitle} margin-bottom: 15px;`}
       >
-        ★ Player Info ★
+        Player Info
       </h2>
 
       <!-- 横線 -->
@@ -218,47 +218,66 @@ const S = getStylePresets(COLORS);
       </div>
     </div>
 
-    <div class="charts-grid">
-      <div class="chart-container">
-        <div class="container">
-            <h2>VALORANT: COMPETITIVE RANK HISTORY</h2>
+    <!-- 統計データセクション -->
+    <div
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="stats-section"
+      data-chart-color={COLORS.link}
+      data-chart-grid={`hsla(185, 100%, 82%, 0.4)`}
+      data-chart-tooltip="rgba(5, 10, 20, 0.95)"
+    >
+      <h2
+        style={`${S.sectionTitle} margin-bottom: 15px;`}
+      >
+        VALORANT Stats
+      </h2>
+
+      <hr
+        style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
+      />
+
+      <div class="charts-grid">
+        <div class="chart-container">
+          <div class="container">
+            <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>RANK HISTORY</h3>
             <div class="chart-wrapper"><canvas id="rankChart"></canvas></div>
             <div class="controls">
-                <button onclick="updateRankChart('rank')" id="btn-r-rank" class="active">Rank</button>
-                <button onclick="updateRankChart('playtime')" id="btn-r-playtime">Playtime</button>
-                <button onclick="updateRankChart('wins')" id="btn-r-wins">Wins</button>
-                <button onclick="updateRankChart('win_rate')" id="btn-r-win_rate">Win %</button>
-                <button onclick="updateRankChart('kd')" id="btn-r-kd">K/D</button>
-                <button onclick="updateRankChart('hs')" id="btn-r-hs">HS %</button>
+              <button onclick="updateRankChart('rank')" id="btn-r-rank" class="active">Rank</button>
+              <button onclick="updateRankChart('playtime')" id="btn-r-playtime">Playtime</button>
+              <button onclick="updateRankChart('wins')" id="btn-r-wins">Wins</button>
+              <button onclick="updateRankChart('win_rate')" id="btn-r-win_rate">Win %</button>
+              <button onclick="updateRankChart('kd')" id="btn-r-kd">K/D</button>
+              <button onclick="updateRankChart('hs')" id="btn-r-hs">HS %</button>
             </div>
             <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview" target="_blank">TRACKER.GG / OVERVIEW</a></span><span>LAST UPDATE: 2026/02/16</span></div>
+          </div>
         </div>
-      </div>
-      <div class="chart-container">
-        <div class="container">
-            <h2>VALORANT: COMPETITIVE WEAPON SCORE</h2>
+        <div class="chart-container">
+          <div class="container">
+            <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>WEAPON SCORE</h3>
             <div class="chart-wrapper"><canvas id="weaponChart"></canvas></div>
             <div class="controls">
-                <button onclick="updateWeaponChart('kills')" id="btn-w-kills" class="active">Kills</button>
-                <button onclick="updateWeaponChart('kd')" id="btn-w-kd">K/D</button>
-                <button onclick="updateWeaponChart('hs_rate')" id="btn-w-hs_rate">HS %</button>
-                <button onclick="updateWeaponChart('adr')" id="btn-w-adr">ADR</button>
-                <button onclick="updateWeaponChart('kpr')" id="btn-w-kpr">K/R</button>
+              <button onclick="updateWeaponChart('kills')" id="btn-w-kills" class="active">Kills</button>
+              <button onclick="updateWeaponChart('kd')" id="btn-w-kd">K/D</button>
+              <button onclick="updateWeaponChart('hs_rate')" id="btn-w-hs_rate">HS %</button>
+              <button onclick="updateWeaponChart('adr')" id="btn-w-adr">ADR</button>
+              <button onclick="updateWeaponChart('kpr')" id="btn-w-kpr">K/R</button>
             </div>
             <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/weapons?platform=pc&playlist=competitive" target="_blank">TRACKER.GG / WEAPONS</a></span><span>LAST UPDATE: 2026/02/16</span></div>
+          </div>
         </div>
-      </div>
-      <div class="chart-container">
-        <div class="container">
-            <h2>VALORANT: COMPETITIVE MAP SCORE</h2>
+        <div class="chart-container">
+          <div class="container">
+            <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>MAP SCORE</h3>
             <div class="chart-wrapper"><canvas id="mapChart"></canvas></div>
             <div class="controls">
-                <button onclick="updateMapChart('win_rate')" id="btn-m-win_rate" class="active">Win %</button>
-                <button onclick="updateMapChart('kd')" id="btn-m-kd">K/D</button>
-                <button onclick="updateMapChart('adr')" id="btn-m-adr">ADR</button>
-                <button onclick="updateMapChart('acs')" id="btn-m-acs">ACS</button>
+              <button onclick="updateMapChart('win_rate')" id="btn-m-win_rate" class="active">Win %</button>
+              <button onclick="updateMapChart('kd')" id="btn-m-kd">K/D</button>
+              <button onclick="updateMapChart('adr')" id="btn-m-adr">ADR</button>
+              <button onclick="updateMapChart('acs')" id="btn-m-acs">ACS</button>
             </div>
             <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/maps?platform=pc&playlist=competitive" target="_blank">TRACKER.GG / MAPS</a></span><span>LAST UPDATE: 2026/02/16</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -272,7 +291,7 @@ const S = getStylePresets(COLORS);
       <h2
         style={`${S.sectionTitle} margin-bottom: 15px;`}
       >
-        ★ VALORANT Gameplay & Playlist ★
+        VALORANT Gameplay
       </h2>
 
       <!-- 横線 -->
@@ -297,7 +316,7 @@ const S = getStylePresets(COLORS);
           <div style="flex: 1;">
             <div class="carousel-video" data-index="0">
               <YouTubeClipViewer
-                clipUrl="https://youtu.be/ERb40ovB060"
+                clipUrl="https://youtu.be/eAx-dZ3_wEI?si=LM3jptJTQAkeco-o"
                 title="VALORANT Clip #1"
                 autoplay={false}
               />
@@ -375,119 +394,6 @@ const S = getStylePresets(COLORS);
         </div>
       </div>
 
-      <!-- 全動画一覧表示（展開時） -->
-      <div id="all-videos-grid" style="display: none;">
-        <div class="video-grid">
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/ERb40ovB060"
-              title="VALORANT Clip #1"
-              autoplay={false}
-            />
-          </div>
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/KTwFA1jQgFY"
-              title="VALORANT Clip #2"
-              autoplay={false}
-            />
-          </div>
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/oos2PYWiRGM"
-              title="VALORANT Clip #3"
-              autoplay={false}
-            />
-          </div>
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://www.youtube.com/watch?v=5IET-4mL9pA"
-              title="VALORANT Clip #4"
-              autoplay={false}
-            />
-          </div>
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/46a0f7dNVW4?si=FjCr_YPa35-guCZX"
-              title="VALORANT Clip #5"
-              autoplay={false}
-            />
-          </div>
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/Yznxiz_tS4g?si=sWJFRV_vB95mkJNl"
-              title="VALORANT Clip #6"
-              autoplay={false}
-            />
-          </div>
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/ooJdHWZ3KyU?si=pS2rqHsxPnuRqmEV"
-              title="VALORANT Clip #7"
-              autoplay={false}
-            />
-          </div>
-          <div>
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/Aazj-kAuxdY"
-              title="VALORANT Clip #8"
-              autoplay={false}
-            />
-          </div>
-        </div>
-      </div>
-
-      <!-- 展開/折りたたみボタン -->
-      <div style="text-align: center; margin-top: 20px;">
-        <button
-          id="toggle-videos-btn"
-          style={`padding: 10px 20px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: ${FONT_SIZES.bodyText}; font-family: ${FONTS.pixelJp}; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease;`}
-          onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
-          onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
-        >
-          ▼ 全て表示
-        </button>
-      </div>
-      
-      <hr
-        style={`${S.divider} margin: 30px auto 20px auto; width: 100%;`}
-      />
-      
-      <div style="text-align: center; margin-bottom: 15px;">
-        <p
-          style={`${S.bodyTextCompact}`}
-        >
-          VALORANT関連動画のプレイリストです
-        </p>
-      </div>
-
-      <!-- プレイリストプレイヤー -->
-      <div style="position: relative; width: 100%; max-width: 800px; margin: 0 auto;">
-        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-          <iframe
-            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 2px solid var(--theme-primary); border-radius: 8px; box-shadow: 0 4px 12px rgba(77, 121, 255, 0.3);"
-            src="https://www.youtube.com/embed/videoseries?list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct"
-            title="VALORANT Playlist"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-        </div>
-      </div>
-
-      <!-- YouTubeで開くリンク -->
-      <div style="text-align: center; margin-top: 20px;">
-        <a
-          href="https://www.youtube.com/playlist?list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct"
-          target="_blank"
-          rel="noopener"
-          style={`display: inline-block; padding: 10px 20px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.bodyText}; font-family: ${FONTS.pixel}; text-shadow: none; transition: all 0.3s ease;`}
-          onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
-          onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
-        >
-          📺 YouTubeで見る
-        </a>
-      </div>
     </div>
 
     <!-- デバイス情報 -->
@@ -498,7 +404,7 @@ const S = getStylePresets(COLORS);
       <h2
         style={`${S.sectionTitle} margin-bottom: 15px;`}
       >
-        ◎ Valorant Setup ◎
+        Valorant Setup
       </h2>
 
       <!-- 横線 -->
@@ -577,7 +483,7 @@ const S = getStylePresets(COLORS);
       <h2
         style={`${S.sectionTitle} margin-bottom: 15px;`}
       >
-        ◆ My Works ◆
+        My Works
       </h2>
 
       <!-- 横線 -->
@@ -811,56 +717,13 @@ const S = getStylePresets(COLORS);
     align-self: center;
   }
 
-  /* 動画グリッドのレスポンシブ対応 */
-  .video-grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 20px !important;
-    width: 100% !important;
-  }
-
-  /* デスクトップ表示（769px以上） */
-  @media screen and (min-width: 769px) {
-    .video-grid {
-      grid-template-columns: 1fr !important;
-      gap: 20px !important;
-    }
-  }
-
-  /* タブレット表示（481px-768px） */
-  @media screen and (min-width: 481px) and (max-width: 768px) {
-    .video-grid {
-      grid-template-columns: 1fr !important;
-      gap: 15px !important;
-    }
-  }
-
-  /* スマホ表示 */
+  /* スマホ表示: カルーセルボタンの調整 */
   @media screen and (max-width: 480px) {
-    .video-grid {
-      grid-template-columns: 1fr !important;
-      gap: 20px !important;
-    }
-
-    /* 矢印ボタンのモバイル対応 */
     #prev-video-btn,
     #next-video-btn {
       width: 35px !important;
       height: 35px !important;
       font-size: 16px !important;
-    }
-
-    /* スマホではカルーセルを非表示にして全動画を表示 */
-    #video-carousel {
-      display: none !important;
-    }
-
-    #all-videos-grid {
-      display: block !important;
-    }
-
-    #toggle-videos-btn {
-      display: none !important;
     }
   }
 
@@ -964,36 +827,11 @@ const S = getStylePresets(COLORS);
     showVideo(prevIndex);
   }
 
-  function toggleVideos() {
-    const carousel = document.getElementById("video-carousel");
-    const allVideosGrid = document.getElementById("all-videos-grid");
-    const toggleBtn = document.getElementById("toggle-videos-btn");
-
-    if (carousel && allVideosGrid && toggleBtn) {
-      if (allVideosGrid.style.display === "none") {
-        // 全動画を展開
-        carousel.style.display = "none";
-        allVideosGrid.style.display = "block";
-        toggleBtn.textContent = "▲ カルーセル表示";
-      } else {
-        // カルーセルに戻す
-        carousel.style.display = "block";
-        allVideosGrid.style.display = "none";
-        toggleBtn.textContent = "▼ 全て表示";
-      }
-    }
-  }
-
   // DOM読み込み完了後に実行
   document.addEventListener("DOMContentLoaded", function () {
     const copyIcon = document.getElementById("copy-crosshair-text");
     if (copyIcon) {
       copyIcon.addEventListener("click", copyCrosshairCode);
-    }
-
-    const toggleBtn = document.getElementById("toggle-videos-btn");
-    if (toggleBtn) {
-      toggleBtn.addEventListener("click", toggleVideos);
     }
 
     const prevBtn = document.getElementById("prev-video-btn");
@@ -1039,8 +877,8 @@ const S = getStylePresets(COLORS);
     }
     .controls button {
         background: transparent;
-        color: #00d4ff;
-        border: 1px solid rgba(0, 212, 255, 0.3);
+        color: #A6F7FF;
+        border: 1px solid rgba(166, 247, 255, 0.3);
         padding: 4px 12px;
         font-family: var(--font-pixel-jp);
         font-size: 11px;
@@ -1049,15 +887,15 @@ const S = getStylePresets(COLORS);
         border-radius: 2px;
     }
     .controls button:hover {
-        background: rgba(0, 212, 255, 0.15);
-        border-color: rgba(0, 212, 255, 0.6);
+        background: rgba(166, 247, 255, 0.15);
+        border-color: rgba(166, 247, 255, 0.6);
     }
     .controls button.active {
-        background: rgba(0, 212, 255, 0.25);
-        border: 2px solid #00d4ff;
+        background: rgba(166, 247, 255, 0.25);
+        border: 2px solid #A6F7FF;
         color: #ffffff;
-        text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
-        box-shadow: 0 0 8px rgba(0, 212, 255, 0.3), inset 0 0 6px rgba(0, 212, 255, 0.1);
+        text-shadow: 0 0 8px rgba(166, 247, 255, 0.6);
+        box-shadow: 0 0 8px rgba(166, 247, 255, 0.3), inset 0 0 6px rgba(166, 247, 255, 0.1);
     }
     .footer-info {
         display: flex;
@@ -1083,9 +921,10 @@ const S = getStylePresets(COLORS);
 </style>
 <script is:inline>
 document.addEventListener("DOMContentLoaded", () => {
-        const THEME_COLOR = '#00d4ff';
-        const GRID_COLOR = 'rgba(0, 212, 255, 0.4)';
-        const TOOLTIP_BG = 'rgba(5, 10, 20, 0.95)';
+        const statsEl = document.querySelector('.stats-section');
+        const THEME_COLOR = statsEl?.getAttribute('data-chart-color') || '#A6F7FF';
+        const GRID_COLOR = statsEl?.getAttribute('data-chart-grid') || 'rgba(166, 247, 255, 0.4)';
+        const TOOLTIP_BG = statsEl?.getAttribute('data-chart-tooltip') || 'rgba(5, 10, 20, 0.95)';
 
         const rankColors = { "Iron": "#718093", "Bronze": "#cd7f32", "Silver": "#dcdde1", "Gold": "#e1b12c", "Platinum": "#00a8ff", "Diamond": "#9c88ff", "Ascendant": "#44bd32", "Immortal": "#e84118", "Radiant": "#fbc531" };
         const allRanks = ["Iron 1", "Iron 2", "Iron 3", "Bronze 1", "Bronze 2", "Bronze 3", "Silver 1", "Silver 2", "Silver 3", "Gold 1", "Gold 2", "Gold 3", "Platinum 1", "Platinum 2", "Platinum 3", "Diamond 1", "Diamond 2", "Diamond 3", "Ascendant 1", "Ascendant 2", "Ascendant 3", "Immortal 1", "Immortal 2", "Immortal 3", "Radiant"];
@@ -1110,7 +949,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // 1. RANK CHART INIT
         const rChart = new Chart(document.getElementById('rankChart').getContext('2d'), {
             type: 'line', data: { labels: rankData.map(d => d.act_id), datasets: [{ data: rankData.map(d => allRanks.indexOf(d.rank)), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: rankData.map(d => rankColors[d.rank.split(' ')[0]] || THEME_COLOR), pointBorderColor: '#fff', pointBorderWidth: 1, tension: 0 }] },
-            options: { ...commonOptions, scales: { y: { min: 0, max: 24, ticks: { stepSize: 1, callback: rankLabelFunc }, grid: { color: (c) => c.tick.value % 3 === 0 ? 'rgba(0, 212, 255, 0.5)' : 'rgba(0, 212, 255, 0.1)', lineWidth: (c) => c.tick.value % 3 === 0 ? 2 : 1 } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const d = rankData[item.dataIndex]; return [` RANK    : ${d.rank}`, ` PLAYTIME: ${d.playtime}h`, ` WINS    : ${d.wins}`, ` WIN %   : ${(d.win_rate * 100).toFixed(1)}%`, ` K/D     : ${d.kd.toFixed(2)}`, ` HS%     : ${(d.hs * 100).toFixed(1)}%`]; } } } } }
+            options: { ...commonOptions, scales: { y: { min: 0, max: 24, ticks: { stepSize: 1, callback: rankLabelFunc }, grid: { color: (c) => c.tick.value % 3 === 0 ? GRID_COLOR : GRID_COLOR.replace('0.4)', '0.1)'), lineWidth: (c) => c.tick.value % 3 === 0 ? 2 : 1 } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const d = rankData[item.dataIndex]; return [` RANK    : ${d.rank}`, ` PLAYTIME: ${d.playtime}h`, ` WINS    : ${d.wins}`, ` WIN %   : ${(d.win_rate * 100).toFixed(1)}%`, ` K/D     : ${d.kd.toFixed(2)}`, ` HS%     : ${(d.hs * 100).toFixed(1)}%`]; } } } } }
         });
 
         // 2. WEAPON CHART INIT
