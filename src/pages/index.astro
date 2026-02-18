@@ -244,6 +244,7 @@ const S = getStylePresets(COLORS);
             <div class="controls">
               <button onclick="updateRankChart('rank')" id="btn-r-rank" class="active">Rank</button>
               <button onclick="updateRankChart('playtime')" id="btn-r-playtime">Playtime</button>
+              <button onclick="updateRankChart('playtime_cumulative')" id="btn-r-playtime_cumulative">Cumulative</button>
               <button onclick="updateRankChart('wins')" id="btn-r-wins">Wins</button>
               <button onclick="updateRankChart('win_rate')" id="btn-r-win_rate">Win %</button>
               <button onclick="updateRankChart('kd')" id="btn-r-kd">K/D</button>
@@ -268,8 +269,8 @@ const S = getStylePresets(COLORS);
             </div>
             <div class="chart-wrapper"><canvas id="weaponChart"></canvas></div>
             <div class="controls">
-              <button onclick="updateWeaponChart('kills')" id="btn-w-kills" class="active">Kills</button>
-              <button onclick="updateWeaponChart('kd')" id="btn-w-kd">K/D</button>
+              <button onclick="updateWeaponChart('kills')" id="btn-w-kills">Kills</button>
+              <button onclick="updateWeaponChart('kd')" id="btn-w-kd" class="active">K/D</button>
               <button onclick="updateWeaponChart('hs_rate')" id="btn-w-hs_rate">HS %</button>
               <button onclick="updateWeaponChart('adr')" id="btn-w-adr">ADR</button>
               <button onclick="updateWeaponChart('kpr')" id="btn-w-kpr">K/R</button>
@@ -932,6 +933,20 @@ const S = getStylePresets(COLORS);
         .charts-grid {
             grid-template-columns: 1fr;
         }
+        .chart-container {
+            padding: 12px;
+            overflow: hidden;
+        }
+        .chart-wrapper {
+            margin: 0 auto;
+            max-width: 100%;
+        }
+        .footer-info {
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-align: center;
+        }
     }
 </style>
 <script is:inline>
@@ -959,7 +974,7 @@ document.addEventListener("DOMContentLoaded", () => {
             { "weapon": "Headhunter", "cat": "ability", "kills": 248, "deaths": 62, "kd": 4.00, "hs_rate": 0.606, "adr": 179.3, "kpr": 1.2 }, { "weapon": "Tour De Force", "cat": "ability", "kills": 125, "deaths": 56, "kd": 2.23, "hs_rate": 0.131, "adr": 231.5, "kpr": 1.4 }, { "weapon": "Bandit", "cat": "ability", "kills": 11, "deaths": 16, "kd": 0.69, "hs_rate": 0.611, "adr": 66.3, "kpr": 0.4 }, { "weapon": "Overdrive", "cat": "ability", "kills": 0, "deaths": 25, "kd": 0.00, "hs_rate": 0.000, "adr": 0.0, "kpr": 0.0 }
         ];
         let currentWeaponCategory = 'assault';
-        let currentWeaponMode = 'kills';
+        let currentWeaponMode = 'kd';
         const getFilteredWeapons = (cat) => cat === 'all' ? weaponData : weaponData.filter(w => w.cat === cat);
         let filteredWeapons = getFilteredWeapons('assault');
 
@@ -980,8 +995,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 2. WEAPON CHART INIT
         const wChart = new Chart(document.getElementById('weaponChart').getContext('2d'), {
-            type: 'line', data: { labels: filteredWeapons.map(w => w.weapon), datasets: [{ data: filteredWeapons.map(w => w.kills), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: THEME_COLOR, tension: 0 }] },
-            options: { ...commonOptions, scales: { x: { ticks: { color: THEME_COLOR, autoSkip: false, maxRotation: 45, minRotation: 45 } }, y: { ticks: { color: THEME_COLOR }, grid: { color: GRID_COLOR, lineWidth: 1 } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const w = filteredWeapons[item.dataIndex]; return [` KILLS   : ${w.kills}`, ` DEATHS  : ${w.deaths}`, ` K/D     : ${w.kd.toFixed(2)}`, ` HS %    : ${(w.hs_rate * 100).toFixed(1)}%`, ` ADR     : ${w.adr}`, ` K/ROUND : ${w.kpr}`]; } } } } }
+            type: 'line', data: { labels: filteredWeapons.map(w => w.weapon), datasets: [{ data: filteredWeapons.map(w => w.kd), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: THEME_COLOR, tension: 0 }] },
+            options: { ...commonOptions, scales: { x: { ticks: { color: THEME_COLOR, autoSkip: false, maxRotation: 45, minRotation: 45 } }, y: { min: 0, max: 5, ticks: { color: THEME_COLOR, stepSize: 0.5, callback: v => v.toFixed(1) }, grid: { color: GRID_COLOR, lineWidth: 1 } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const w = filteredWeapons[item.dataIndex]; return [` KILLS   : ${w.kills}`, ` DEATHS  : ${w.deaths}`, ` K/D     : ${w.kd.toFixed(2)}`, ` HS %    : ${(w.hs_rate * 100).toFixed(1)}%`, ` ADR     : ${w.adr}`, ` K/ROUND : ${w.kpr}`]; } } } } }
         });
 
         // 3. MAP CHART INIT
@@ -995,10 +1010,17 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelectorAll('[id^="btn-r-"]').forEach(b => b.classList.remove('active'));
             document.getElementById(`btn-r-${mode}`).classList.add('active');
             let isRank = (mode === 'rank');
-            rChart.data.datasets[0].data = isRank ? rankData.map(d => allRanks.indexOf(d.rank)) : (mode === 'kd' ? rankData.map(d => d.kd) : rankData.map(d => d[mode === 'hs' ? 'hs' : mode] * (mode === 'playtime' || mode === 'wins' ? 1 : 100)));
+            let isCumulative = (mode === 'playtime_cumulative');
+            if (isCumulative) {
+                let cumulative = 0;
+                rChart.data.datasets[0].data = rankData.map(d => { cumulative += d.playtime; return Math.round(cumulative * 10) / 10; });
+            } else {
+                rChart.data.datasets[0].data = isRank ? rankData.map(d => allRanks.indexOf(d.rank)) : (mode === 'kd' ? rankData.map(d => d.kd) : rankData.map(d => d[mode === 'hs' ? 'hs' : mode] * (mode === 'playtime' || mode === 'wins' ? 1 : 100)));
+            }
             if (isRank) { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = 24; rChart.options.scales.y.ticks.stepSize = 1; rChart.options.scales.y.ticks.callback = rankLabelFunc; }
             else if (mode === 'kd') { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = 2; rChart.options.scales.y.ticks.stepSize = 0.2; rChart.options.scales.y.ticks.callback = v => v; }
             else if (mode === 'win_rate' || mode === 'hs') { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = 100; rChart.options.scales.y.ticks.stepSize = 10; rChart.options.scales.y.ticks.callback = v => v + '%'; }
+            else if (isCumulative) { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = undefined; rChart.options.scales.y.ticks.stepSize = undefined; rChart.options.scales.y.ticks.callback = v => v + 'h'; }
             else { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = undefined; rChart.options.scales.y.ticks.stepSize = undefined; rChart.options.scales.y.ticks.callback = v => v; }
             rChart.update();
         }
