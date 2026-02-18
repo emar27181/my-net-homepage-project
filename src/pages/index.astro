@@ -308,6 +308,44 @@ const S = getStylePresets(COLORS);
             <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/maps?platform=pc&playlist=competitive" target="_blank">TRACKER.GG / MAPS</a></span><span>LAST UPDATE: 2026/02/16</span></div>
           </div>
         </div>
+        <div class="chart-container agent-chart-container">
+          <div class="container agent-panel">
+            <div class="agent-filter-panel">
+              <div class="agent-filter-label">MIN MATCHES (STEP:10)</div>
+              <div class="agent-slider">
+                <input
+                  type="range"
+                  id="agent-match-slider"
+                  min="0"
+                  max="300"
+                  step="10"
+                  value="0"
+                  oninput="updateAgentThreshold(this.value)"
+                />
+                <div class="agent-threshold-value" id="agent-threshold-display">M ≥ 0</div>
+              </div>
+            </div>
+            <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>AGENT PERFORMANCE</h3>
+            <div class="agent-role-filters">
+              <button onclick="toggleAgentRole('Controller')" id="btn-role-controller" class="active">CONTROLLER</button>
+              <button onclick="toggleAgentRole('Initiator')" id="btn-role-initiator" class="active">INITIATOR</button>
+              <button onclick="toggleAgentRole('Duelist')" id="btn-role-duelist" class="active">DUELIST</button>
+              <button onclick="toggleAgentRole('Sentinel')" id="btn-role-sentinel" class="active">SENTINEL</button>
+            </div>
+            <div class="chart-wrapper agent-chart-wrapper"><canvas id="agentChart"></canvas></div>
+            <div class="controls agent-stat-controls">
+              <button onclick="updateAgentStat('time')" id="btn-a-time" class="active">Time</button>
+              <button onclick="updateAgentStat('matches')" id="btn-a-matches">Matches</button>
+              <button onclick="updateAgentStat('win_rate')" id="btn-a-win_rate">Win%</button>
+              <button onclick="updateAgentStat('kd')" id="btn-a-kd">K/D</button>
+              <button onclick="updateAgentStat('adr')" id="btn-a-adr">ADR</button>
+              <button onclick="updateAgentStat('acs')" id="btn-a-acs">ACS</button>
+              <button onclick="updateAgentStat('hs')" id="btn-a-hs">HS%</button>
+              <button onclick="updateAgentStat('kast')" id="btn-a-kast">KAST</button>
+            </div>
+            <div class="footer-info agent-footer"><span>SOURCE: TRACKER.GG / AGENTS</span><span>LAST UPDATE: 2026/02/19</span></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1001,6 +1039,104 @@ const S = getStylePresets(COLORS);
     .footer-info a:hover {
         text-decoration: underline;
     }
+    .agent-chart-container {
+        position: relative;
+        padding-top: 40px;
+    }
+    .agent-panel {
+        position: relative;
+        padding-top: 40px;
+    }
+    .agent-filter-panel {
+        position: absolute;
+        top: 10px;
+        right: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+        z-index: 5;
+    }
+    .agent-filter-label {
+        font-size: 10px;
+        letter-spacing: 1px;
+        color: rgba(166, 247, 255, 0.8);
+        font-family: var(--font-pixel-jp);
+    }
+    .agent-slider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .agent-slider input[type="range"] {
+        -webkit-appearance: none;
+        width: 150px;
+        background: transparent;
+    }
+    .agent-slider input[type="range"]:focus {
+        outline: none;
+    }
+    .agent-slider input[type="range"]::-webkit-slider-runnable-track {
+        height: 4px;
+        background: rgba(166, 247, 255, 0.15);
+        border: 1px solid rgba(166, 247, 255, 0.3);
+    }
+    .agent-slider input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 16px;
+        width: 10px;
+        background: var(--theme-primary);
+        border: 1px solid rgba(255,255,255,0.4);
+        transform: translateY(-6px);
+        box-shadow: 2px 2px 0 rgba(0,0,0,0.4);
+    }
+    .agent-threshold-value {
+        font-size: 12px;
+        color: #A6F7FF;
+        font-family: var(--font-pixel-jp);
+        min-width: 70px;
+        text-align: right;
+    }
+    .agent-role-filters {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 16px;
+    }
+    .agent-role-filters button {
+        background: transparent;
+        color: #A6F7FF;
+        border: 1px solid rgba(166, 247, 255, 0.25);
+        padding: 4px 12px;
+        font-family: var(--font-pixel-jp);
+        font-size: 11px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        border-radius: 2px;
+    }
+    .agent-role-filters button.active {
+        background: rgba(166, 247, 255, 0.25);
+        border: 2px solid rgba(166, 247, 255, 0.8);
+        color: #ffffff;
+        box-shadow: 0 0 8px rgba(166, 247, 255, 0.3);
+    }
+    .agent-role-filters button:hover {
+        border-color: rgba(166, 247, 255, 0.6);
+    }
+    .agent-chart-wrapper {
+        aspect-ratio: auto;
+        height: 360px;
+        width: 100%;
+    }
+    .agent-stat-controls {
+        border-top: 1px solid rgba(166, 247, 255, 0.15);
+        padding-top: 12px;
+        margin-top: 16px;
+    }
+    .agent-footer {
+        margin-top: 14px;
+    }
     @media (max-width: 768px) {
         .charts-grid {
             grid-template-columns: 1fr;
@@ -1018,6 +1154,17 @@ const S = getStylePresets(COLORS);
             align-items: center;
             gap: 4px;
             text-align: center;
+        }
+        .agent-filter-panel {
+            position: static;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .agent-panel {
+            padding-top: 0;
+        }
+        .agent-chart-wrapper {
+            height: 280px;
         }
     }
 </style>
@@ -1059,6 +1206,39 @@ document.addEventListener("DOMContentLoaded", () => {
         let filteredWeapons = getFilteredWeapons();
 
         const mapData = [{ "map": "Corrode", "win_rate": 0.719, "wins": 23, "losses": 9, "kd": 1.04, "adr": 140.3, "acs": 214.3 }, { "map": "Split", "win_rate": 0.595, "wins": 66, "losses": 45, "kd": 0.99, "adr": 123.8, "acs": 188.7 }, { "map": "Fracture", "win_rate": 0.551, "wins": 27, "losses": 22, "kd": 0.98, "adr": 121.7, "acs": 183.2 }, { "map": "Lotus", "win_rate": 0.541, "wins": 40, "losses": 33, "kd": 0.98, "adr": 125.6, "acs": 193.4 }, { "map": "Sunset", "win_rate": 0.524, "wins": 33, "losses": 30, "kd": 1.03, "adr": 136.1, "acs": 211.0 }, { "map": "Haven", "win_rate": 0.516, "wins": 64, "losses": 59, "kd": 1.03, "adr": 130.5, "acs": 198.0 }, { "map": "Bind", "win_rate": 0.507, "wins": 70, "losses": 68, "kd": 0.97, "adr": 124.9, "acs": 190.8 }, { "map": "Breeze", "win_rate": 0.490, "wins": 25, "losses": 26, "kd": 0.98, "adr": 121.2, "acs": 187.9 }, { "map": "Icebox", "win_rate": 0.468, "wins": 44, "losses": 48, "kd": 1.02, "adr": 123.0, "acs": 188.0 }, { "map": "Pearl", "win_rate": 0.463, "wins": 25, "losses": 28, "kd": 1.10, "adr": 127.8, "acs": 195.8 }, { "map": "Abyss", "win_rate": 0.455, "wins": 20, "losses": 22, "kd": 1.08, "adr": 139.7, "acs": 213.7 }, { "map": "Ascent", "win_rate": 0.448, "wins": 56, "losses": 69, "kd": 0.89, "adr": 112.5, "acs": 171.0 }];
+        const agentColors = {
+            "Astra": "#9d4edd", "Brimstone": "#d2691e", "Clove": "#c44569", "Harbor": "#20b2aa", "Omen": "#191970", "Viper": "#228b22",
+            "Breach": "#ff8c00", "Fade": "#2f1b14", "Gekko": "#ffff00", "KAY/O": "#000080", "Skye": "#32cd32", "Sova": "#1e90ff", "Tejo": "#ffcc33",
+            "Jett": "#87ceeb", "Neon": "#00ffff", "Phoenix": "#ff0000", "Raze": "#ff8c00", "Reyna": "#8b008b", "Yoru": "#191970",
+            "Chamber": "#daa520", "Cypher": "#c9d6e8", "Deadlock": "#8b4513", "Killjoy": "#ffd700", "Sage": "#00ffff", "Vyse": "#6a0dad", "Iso": "#4a4a4a", "Waylay": "#ef476f"
+        };
+        const agentData = [
+            { "name": "Clove", "role": "Controller", "time": 156, "matches": 264, "win_rate": 52.7, "kd": 0.99, "adr": 139.9, "acs": 213.6, "hs": 30.4, "kast": 75.0 },
+            { "name": "Omen", "role": "Controller", "time": 124, "matches": 208, "win_rate": 49.0, "kd": 1.01, "adr": 120.2, "acs": 186.3, "hs": 30.4, "kast": 72.5 },
+            { "name": "Astra", "role": "Controller", "time": 109, "matches": 175, "win_rate": 55.4, "kd": 1.06, "adr": 119.7, "acs": 182.1, "hs": 30.1, "kast": 71.7 },
+            { "name": "Chamber", "role": "Sentinel", "time": 52, "matches": 87, "win_rate": 54.0, "kd": 1.05, "adr": 130.4, "acs": 197.2, "hs": 28.1, "kast": 70.2 },
+            { "name": "Viper", "role": "Controller", "time": 46, "matches": 75, "win_rate": 46.7, "kd": 1.00, "adr": 120.2, "acs": 183.2, "hs": 32.7, "kast": 70.6 },
+            { "name": "Skye", "role": "Initiator", "time": 42, "matches": 66, "win_rate": 50.0, "kd": 0.90, "adr": 114.8, "acs": 174.7, "hs": 22.2, "kast": 68.2 },
+            { "name": "Cypher", "role": "Sentinel", "time": 15, "matches": 25, "win_rate": 52.0, "kd": 1.04, "adr": 114.8, "acs": 172.7, "hs": 31.5, "kast": 71.1 },
+            { "name": "Reyna", "role": "Duelist", "time": 10, "matches": 18, "win_rate": 50.0, "kd": 0.93, "adr": 125.6, "acs": 194.2, "hs": 28.5, "kast": 66.0 },
+            { "name": "Brimstone", "role": "Controller", "time": 8.7, "matches": 14, "win_rate": 42.9, "kd": 0.82, "adr": 111.9, "acs": 171.8, "hs": 27.4, "kast": 70.8 },
+            { "name": "Sage", "role": "Sentinel", "time": 6.0, "matches": 10, "win_rate": 60.0, "kd": 0.89, "adr": 104.6, "acs": 157.9, "hs": 20.4, "kast": 70.1 },
+            { "name": "Killjoy", "role": "Sentinel", "time": 2.0, "matches": 3, "win_rate": 66.7, "kd": 1.00, "adr": 112.9, "acs": 168.6, "hs": 22.4, "kast": 71.8 },
+            { "name": "Waylay", "role": "Duelist", "time": 1.5, "matches": 3, "win_rate": 0.0, "kd": 0.54, "adr": 88.6, "acs": 132.6, "hs": 25.5, "kast": 56.9 },
+            { "name": "Jett", "role": "Duelist", "time": 1.2, "matches": 2, "win_rate": 0.0, "kd": 0.73, "adr": 86.2, "acs": 138.9, "hs": 22.4, "kast": 60.0 },
+            { "name": "Phoenix", "role": "Duelist", "time": 0.9, "matches": 2, "win_rate": 50.0, "kd": 0.46, "adr": 63.2, "acs": 96.8, "hs": 26.5, "kast": 46.9 },
+            { "name": "Deadlock", "role": "Sentinel", "time": 0.7, "matches": 1, "win_rate": 100.0, "kd": 0.87, "adr": 124.6, "acs": 191.0, "hs": 34.0, "kast": 60.7 },
+            { "name": "Breach", "role": "Initiator", "time": 0.6, "matches": 1, "win_rate": 100.0, "kd": 0.62, "adr": 80.5, "acs": 117.0, "hs": 22.2, "kast": 75.0 },
+            { "name": "Yoru", "role": "Duelist", "time": 0.6, "matches": 1, "win_rate": 100.0, "kd": 1.60, "adr": 208.9, "acs": 317.8, "hs": 20.9, "kast": 81.8 },
+            { "name": "Iso", "role": "Duelist", "time": 0.5, "matches": 1, "win_rate": 0.0, "kd": 0.61, "adr": 99.6, "acs": 136.7, "hs": 22.9, "kast": 54.2 },
+            { "name": "Tejo", "role": "Initiator", "time": 0.5, "matches": 1, "win_rate": 0.0, "kd": 0.53, "adr": 89.6, "acs": 129.9, "hs": 21.9, "kast": 65.0 },
+            { "name": "Harbor", "role": "Controller", "time": 0.5, "matches": 1, "win_rate": 0.0, "kd": 0.86, "adr": 135.1, "acs": 194.9, "hs": 26.8, "kast": 57.9 },
+            { "name": "KAY/O", "role": "Initiator", "time": 0.4, "matches": 1, "win_rate": 0.0, "kd": 0.58, "adr": 100.8, "acs": 142.4, "hs": 16.7, "kast": 50.0 }
+        ];
+        const agentRoles = ["Controller", "Initiator", "Duelist", "Sentinel"];
+        let agentThreshold = 0;
+        let agentCurrentStat = 'time';
+        let activeAgentRoles = new Set(agentRoles);
 
         Chart.defaults.font.family = "'DotGothic16', sans-serif";
         Chart.defaults.color = THEME_COLOR;
@@ -1087,6 +1267,104 @@ document.addEventListener("DOMContentLoaded", () => {
             type: 'line', data: { labels: mapData.map(m => m.map), datasets: [{ data: mapData.map(m => (m.win_rate * 100).toFixed(1)), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: THEME_COLOR, tension: 0 }] },
             options: (() => { const s = wrScale(mapData.map(m => m.win_rate * 100)); return { ...commonOptions, _baselineValue: 50, scales: { y: { min: s.min, max: s.max, ticks: { stepSize: s.step, callback: v => v + '%' }, grid: { color: GRID_H, lineWidth: GRID_H_W } }, x: { ticks: { color: THEME_COLOR }, grid: { color: GRID_V, lineWidth: GRID_V_W } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const m = mapData[item.dataIndex]; return [` WIN %   : ${(m.win_rate * 100).toFixed(1)}%`, ` MATCHES : ${m.wins + m.losses}`, ` W / L   : ${m.wins} / ${m.losses}`, ` K/D     : ${m.kd.toFixed(2)}`, ` ADR     : ${m.adr}`, ` ACS     : ${m.acs}`]; } } } } }; })()
         });
+        const agentThresholdDisplay = document.getElementById('agent-threshold-display');
+        const getAgentFilteredData = () => agentData.filter(a => a.matches >= agentThreshold && activeAgentRoles.has(a.role));
+        const agentChartEl = document.getElementById('agentChart');
+        const agentChart = agentChartEl ? new Chart(agentChartEl.getContext('2d'), {
+            type: 'line',
+            data: { labels: [], datasets: [{ data: [], borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: [], tension: 0 }] },
+            options: {
+                ...commonOptions,
+                scales: { y: { ticks: { color: THEME_COLOR }, grid: { color: GRID_H, lineWidth: GRID_H_W } }, x: { ticks: { color: THEME_COLOR, autoSkip: false, maxRotation: 45, minRotation: 45 }, grid: { color: GRID_V, lineWidth: GRID_V_W } } },
+                plugins: {
+                    ...commonOptions.plugins,
+                    tooltip: {
+                        ...commonOptions.plugins.tooltip,
+                        callbacks: {
+                            label: (ctx) => {
+                                const agent = getAgentFilteredData()[ctx.dataIndex];
+                                if (!agent) return "";
+                                return [
+                                    ` ROLE      : ${agent.role}`,
+                                    ` TIME      : ${agent.time} hrs`,
+                                    ` MATCHES   : ${agent.matches}`,
+                                    ` WIN RATE  : ${agent.win_rate}%`,
+                                    ` K/D RATIO : ${agent.kd.toFixed(2)}`,
+                                    ` ADR       : ${agent.adr}`,
+                                    ` ACS       : ${agent.acs}`,
+                                    ` HS RATE   : ${agent.hs}%`,
+                                    ` KAST      : ${agent.kast}%`
+                                ];
+                            }
+                        }
+                    }
+                }
+            }
+        }) : null;
+        const syncAgentThresholdLabel = () => {
+            if (agentThresholdDisplay) agentThresholdDisplay.textContent = `M ≥ ${agentThreshold}`;
+        };
+        const refreshAgentChart = () => {
+            if (!agentChart) return;
+            const filtered = getAgentFilteredData();
+            agentChart.data.labels = filtered.map(a => a.name);
+            agentChart.data.datasets[0].data = filtered.map(a => a[agentCurrentStat]);
+            agentChart.data.datasets[0].pointBackgroundColor = filtered.map(a => agentColors[a.name] || THEME_COLOR);
+            if (filtered.length === 0) {
+                agentChart.options.scales.y.min = 0;
+                agentChart.options.scales.y.max = 1;
+                agentChart.options.scales.y.ticks.stepSize = 0.2;
+                agentChart.options.scales.y.ticks.callback = v => v;
+                agentChart.options._baselineValue = null;
+                agentChart.update();
+                return;
+            }
+            const isPct = ['win_rate', 'hs', 'kast'].includes(agentCurrentStat);
+            if (isPct) {
+                agentChart.options.scales.y.min = 0;
+                agentChart.options.scales.y.max = 100;
+                agentChart.options.scales.y.ticks.stepSize = 10;
+                agentChart.options.scales.y.ticks.callback = v => `${v}%`;
+            } else if (agentCurrentStat === 'kd') {
+                const s = kdScale(filtered.map(a => a.kd));
+                agentChart.options.scales.y.min = s.min;
+                agentChart.options.scales.y.max = s.max;
+                agentChart.options.scales.y.ticks.stepSize = s.step;
+                agentChart.options.scales.y.ticks.callback = v => v.toFixed(1);
+            } else {
+                agentChart.options.scales.y.min = 0;
+                agentChart.options.scales.y.max = undefined;
+                agentChart.options.scales.y.ticks.stepSize = undefined;
+                agentChart.options.scales.y.ticks.callback = v => v;
+            }
+            agentChart.options._baselineValue = agentCurrentStat === 'kd' ? 1.0 : null;
+            agentChart.update();
+        };
+        window.updateAgentThreshold = function(val) {
+            agentThreshold = parseInt(val, 10) || 0;
+            syncAgentThresholdLabel();
+            refreshAgentChart();
+        };
+        window.toggleAgentRole = function(role) {
+            if (activeAgentRoles.has(role)) {
+                activeAgentRoles.delete(role);
+            } else {
+                activeAgentRoles.add(role);
+            }
+            const btn = document.getElementById(`btn-role-${role.toLowerCase()}`);
+            if (btn) btn.classList.toggle('active', activeAgentRoles.has(role));
+            refreshAgentChart();
+        };
+        window.updateAgentStat = function(stat) {
+            if (agentCurrentStat === stat) return;
+            agentCurrentStat = stat;
+            document.querySelectorAll('.agent-stat-controls button').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`btn-a-${stat}`);
+            if (activeBtn) activeBtn.classList.add('active');
+            refreshAgentChart();
+        };
+        syncAgentThresholdLabel();
+        refreshAgentChart();
 
         // UPDATE FUNCTIONS (window に登録してonclickからアクセス可能にする)
         window.updateRankChart = function(mode) {
