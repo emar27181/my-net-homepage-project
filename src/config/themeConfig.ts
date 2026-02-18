@@ -165,6 +165,30 @@ export const getStylePresets = (colors: ReturnType<typeof getCurrentThemeColors>
   };
 };
 
+// ========================================
+// チャートグリッド・線の統一設定
+// ========================================
+export const CHART_GRID = {
+  // 横線（Y軸グリッド）
+  horizontal: {
+    color: 'hsla(185, 100%, 82%, 0.4)',
+    lineWidth: 1,
+  },
+  // 縦線（X軸グリッド）
+  vertical: {
+    color: 'hsla(185, 100%, 82%, 0.18)',
+    lineWidth: 1,
+  },
+  // K/D 1.0 基準線
+  kdBaseline: {
+    lineWidth: 2.5,
+  },
+  // テーマカラー（ラベル・ポイント・ライン）
+  themeColor: '#A6F7FF',
+  // ツールチップ背景
+  tooltipBg: 'rgba(5, 10, 20, 0.95)',
+} as const;
+
 // デフォルトエクスポート
 export default {
   THEME_CONFIG,
@@ -172,6 +196,7 @@ export default {
   COMPONENT_COLORS,
   FONT_SIZES,
   FONTS,
+  CHART_GRID,
   getStylePresets,
   getCurrentThemeColors,
   getThemeColorsByHue,
