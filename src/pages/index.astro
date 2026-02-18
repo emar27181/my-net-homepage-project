@@ -8,6 +8,7 @@ import {
   FIXED_COLORS,
   FONT_SIZES,
   FONTS,
+  CHART_GRID,
   getStylePresets,
 } from "../config/themeConfig";
 import "../styles/global.css";
@@ -222,9 +223,13 @@ const S = getStylePresets(COLORS);
     <div
       style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
       class="stats-section"
-      data-chart-color={COLORS.link}
-      data-chart-grid={`hsla(185, 100%, 82%, 0.4)`}
-      data-chart-tooltip="rgba(5, 10, 20, 0.95)"
+      data-chart-color={CHART_GRID.themeColor}
+      data-chart-grid-h={CHART_GRID.horizontal.color}
+      data-chart-grid-h-width={String(CHART_GRID.horizontal.lineWidth)}
+      data-chart-grid-v={CHART_GRID.vertical.color}
+      data-chart-grid-v-width={String(CHART_GRID.vertical.lineWidth)}
+      data-chart-kd-line-width={String(CHART_GRID.kdBaseline.lineWidth)}
+      data-chart-tooltip={CHART_GRID.tooltipBg}
     >
       <h2
         style={`${S.sectionTitle} margin-bottom: 15px;`}
@@ -236,7 +241,20 @@ const S = getStylePresets(COLORS);
         style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
       />
 
-      <div class="charts-grid">
+      <div class="mode-switcher">
+        <button onclick="switchGameMode('competitive')" id="btn-mode-competitive" class="mode-btn active">COMPETITIVE</button>
+        <button onclick="switchGameMode('unrated')" id="btn-mode-unrated" class="mode-btn">UNRATED</button>
+        <button onclick="switchGameMode('swiftplay')" id="btn-mode-swiftplay" class="mode-btn">SWIFTPLAY</button>
+        <button onclick="switchGameMode('spike_rush')" id="btn-mode-spike_rush" class="mode-btn">SPIKE RUSH</button>
+        <button onclick="switchGameMode('deathmatch')" id="btn-mode-deathmatch" class="mode-btn">DEATHMATCH</button>
+      </div>
+
+      <div id="mode-unavailable" class="mode-unavailable" style="display: none;">
+        <p class="mode-unavailable-text">DATA LOADING...</p>
+        <p class="mode-unavailable-sub">選択されたモードのデータは現在準備中です</p>
+      </div>
+
+      <div class="charts-grid" id="charts-grid">
         <div class="chart-container">
           <div class="container">
             <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>RANK HISTORY</h3>
@@ -257,15 +275,14 @@ const S = getStylePresets(COLORS);
           <div class="container">
             <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>WEAPON SCORE</h3>
             <div class="controls weapon-category-controls">
-              <button onclick="filterWeaponCategory('assault')" id="btn-wc-assault" class="active">Assault</button>
-              <button onclick="filterWeaponCategory('sniper')" id="btn-wc-sniper">Sniper</button>
-              <button onclick="filterWeaponCategory('smg')" id="btn-wc-smg">SMG</button>
-              <button onclick="filterWeaponCategory('shotgun')" id="btn-wc-shotgun">Shotgun</button>
-              <button onclick="filterWeaponCategory('sidearm')" id="btn-wc-sidearm">Sidearm</button>
-              <button onclick="filterWeaponCategory('mg')" id="btn-wc-mg">MG</button>
-              <button onclick="filterWeaponCategory('melee')" id="btn-wc-melee">Melee</button>
-              <button onclick="filterWeaponCategory('ability')" id="btn-wc-ability">Ability</button>
-              <button onclick="filterWeaponCategory('all')" id="btn-wc-all">All</button>
+              <button onclick="toggleWeaponCategory('assault')" id="btn-wc-assault" class="active">Assault</button>
+              <button onclick="toggleWeaponCategory('sniper')" id="btn-wc-sniper">Sniper</button>
+              <button onclick="toggleWeaponCategory('smg')" id="btn-wc-smg">SMG</button>
+              <button onclick="toggleWeaponCategory('shotgun')" id="btn-wc-shotgun">Shotgun</button>
+              <button onclick="toggleWeaponCategory('sidearm')" id="btn-wc-sidearm">Sidearm</button>
+              <button onclick="toggleWeaponCategory('lmg')" id="btn-wc-lmg">LMG</button>
+              <button onclick="toggleWeaponCategory('other')" id="btn-wc-other">Other</button>
+              <button onclick="toggleAllWeaponCategories()" id="btn-wc-all">All</button>
             </div>
             <div class="chart-wrapper"><canvas id="weaponChart"></canvas></div>
             <div class="controls">
@@ -438,7 +455,7 @@ const S = getStylePresets(COLORS);
             style={`${S.bodyText}`}
           >
             マウス: <a href="https://www.amazon.co.jp/dp/B0FVKKP2T8?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1" target="_blank" style={S.link}>Pulsar Gaming Gears X2 CrazyLight</a><br />
-            キーボード: <a href="https://www.amazon.co.jp/dp/B0DCFGG1CH?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1" target="_blank" style={S.link}>Wooting 60 HE+</a><br />
+            キーボード: <a href="https://www.amazon.co.jp/dp/B0DCFGG1CH?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1" target="_blank" style={S.link}>Akko 5075S HE JP (Black)</a><br />
             ヘッドセット: <a href="https://www.amazon.co.jp/dp/B0BFFDNH1J?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1" target="_blank" style={S.link}>Razer BlackShark V2 Pro</a><br />
             マウスパッド: <a href="https://www.amazon.co.jp/dp/B09KC5J24D?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1" target="_blank" style={S.link}>Pulsar Gaming Gears ParaControl V2 XXL</a><br />
             モニター: <a href="https://www.amazon.jp/dp/B08C9KF9PF?ref=ppx_pop_mob_ap_share" target="_blank" style={S.link}>Dell S2421HGF 23.8インチ ゲーミングモニター</a><br />
@@ -862,6 +879,61 @@ const S = getStylePresets(COLORS);
 </script>
 
 <style>
+    .mode-switcher {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 20px;
+    }
+    .mode-btn {
+        background: transparent;
+        color: #A6F7FF;
+        border: 1px solid rgba(166, 247, 255, 0.25);
+        padding: 6px 16px;
+        font-family: var(--font-pixel-jp);
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        border-radius: 2px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .mode-btn:hover {
+        background: rgba(166, 247, 255, 0.1);
+        border-color: rgba(166, 247, 255, 0.5);
+    }
+    .mode-btn.active {
+        background: rgba(77, 121, 255, 0.3);
+        border: 2px solid #4d79ff;
+        color: #ffffff;
+        text-shadow: 0 0 10px rgba(77, 121, 255, 0.8);
+        box-shadow: 0 0 12px rgba(77, 121, 255, 0.4), inset 0 0 8px rgba(77, 121, 255, 0.15);
+    }
+    .mode-unavailable {
+        text-align: center;
+        padding: 60px 20px;
+        border: 2px dashed rgba(166, 247, 255, 0.3);
+        border-radius: 8px;
+        background: rgba(77, 121, 255, 0.05);
+    }
+    .mode-unavailable-text {
+        font-family: var(--font-pixel);
+        font-size: 18px;
+        color: #A6F7FF;
+        text-shadow: 0 0 10px rgba(166, 247, 255, 0.5);
+        margin-bottom: 12px;
+        animation: blink-loading 1.5s ease-in-out infinite;
+    }
+    .mode-unavailable-sub {
+        font-family: var(--font-pixel-jp);
+        font-size: 13px;
+        color: rgba(166, 247, 255, 0.6);
+    }
+    @keyframes blink-loading {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+    }
     .charts-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -952,13 +1024,20 @@ const S = getStylePresets(COLORS);
 <script is:inline>
 document.addEventListener("DOMContentLoaded", () => {
         const statsEl = document.querySelector('.stats-section');
-        const THEME_COLOR = statsEl?.getAttribute('data-chart-color') || '#A6F7FF';
-        const GRID_COLOR = statsEl?.getAttribute('data-chart-grid') || 'rgba(166, 247, 255, 0.4)';
-        const TOOLTIP_BG = statsEl?.getAttribute('data-chart-tooltip') || 'rgba(5, 10, 20, 0.95)';
+        const attr = (k, d) => statsEl?.getAttribute(k) || d;
+        const THEME_COLOR = attr('data-chart-color', '#A6F7FF');
+        const GRID_H = attr('data-chart-grid-h', 'hsla(185, 100%, 82%, 0.4)');
+        const GRID_H_W = parseFloat(attr('data-chart-grid-h-width', '1'));
+        const GRID_V = attr('data-chart-grid-v', 'hsla(185, 100%, 82%, 0.18)');
+        const GRID_V_W = parseFloat(attr('data-chart-grid-v-width', '1'));
+        const KD_LINE_W = parseFloat(attr('data-chart-kd-line-width', '2.5'));
+        const TOOLTIP_BG = attr('data-chart-tooltip', 'rgba(5, 10, 20, 0.95)');
 
         const rankColors = { "Iron": "#718093", "Bronze": "#cd7f32", "Silver": "#dcdde1", "Gold": "#e1b12c", "Platinum": "#00a8ff", "Diamond": "#9c88ff", "Ascendant": "#44bd32", "Immortal": "#e84118", "Radiant": "#fbc531" };
         const allRanks = ["Iron 1", "Iron 2", "Iron 3", "Bronze 1", "Bronze 2", "Bronze 3", "Silver 1", "Silver 2", "Silver 3", "Gold 1", "Gold 2", "Gold 3", "Platinum 1", "Platinum 2", "Platinum 3", "Diamond 1", "Diamond 2", "Diamond 3", "Ascendant 1", "Ascendant 2", "Ascendant 3", "Immortal 1", "Immortal 2", "Immortal 3", "Radiant"];
         const getResponsiveRadius = (ctx) => ctx.chart.width < 500 ? 4 : 8;
+        const kdScale = (values) => { const dev = Math.max(...values.map(v => Math.abs(v - 1.0)), 0.2); const step = dev <= 0.5 ? 0.2 : 0.5; const steps = Math.ceil(dev / step) + 1; return { min: Math.max(0, Math.round((1.0 - steps * step) * 10) / 10), max: Math.round((1.0 + steps * step) * 10) / 10, step }; };
+        const wrScale = (values) => { const dev = Math.max(...values.map(v => Math.abs(v - 50)), 5); const step = dev <= 15 ? 5 : 10; const steps = Math.ceil(dev / step) + 1; return { min: Math.max(0, 50 - steps * step), max: Math.min(100, 50 + steps * step), step }; };
 
         // DATASETS
         const rankData = [{ "act_id": "E2: A3", "rank": "Bronze 3", "playtime": 5.6, "wins": 4, "win_rate": 0.40, "kd": 0.62, "hs": 0.172 }, { "act_id": "E3: A1", "rank": "Silver 2", "playtime": 51, "wins": 42, "win_rate": 0.50, "kd": 0.97, "hs": 0.211 }, { "act_id": "E3: A2", "rank": "Gold 1", "playtime": 27, "wins": 24, "win_rate": 0.585, "kd": 0.95, "hs": 0.296 }, { "act_id": "E3: A3", "rank": "Gold 3", "playtime": 66, "wins": 64, "win_rate": 0.571, "kd": 1.02, "hs": 0.277 }, { "act_id": "E4: A1", "rank": "Gold 1", "playtime": 34, "wins": 31, "win_rate": 0.554, "kd": 1.01, "hs": 0.269 }, { "act_id": "E4: A2", "rank": "Gold 2", "playtime": 12, "wins": 11, "win_rate": 0.579, "kd": 0.96, "hs": 0.296 }, { "act_id": "E4: A3", "rank": "Gold 2", "playtime": 1.9, "wins": 2, "win_rate": 0.667, "kd": 1.13, "hs": 0.220 }, { "act_id": "E5: A1", "rank": "Platinum 3", "playtime": 11, "wins": 12, "win_rate": 0.667, "kd": 1.06, "hs": 0.340 }, { "act_id": "E5: A2", "rank": "Platinum 3", "playtime": 5.1, "wins": 3, "win_rate": 0.375, "kd": 0.91, "hs": 0.262 }, { "act_id": "E5: A3", "rank": "Platinum 3", "playtime": 6.9, "wins": 4, "win_rate": 0.364, "kd": 0.92, "hs": 0.340 }, { "act_id": "E6: A1", "rank": "Platinum 3", "playtime": 11, "wins": 10, "win_rate": 0.556, "kd": 1.00, "hs": 0.236 }, { "act_id": "E6: A2", "rank": "Platinum 3", "playtime": 6.2, "wins": 5, "win_rate": 0.500, "kd": 0.83, "hs": 0.309 }, { "act_id": "E6: A3", "rank": "Platinum 3", "playtime": 4.7, "wins": 2, "win_rate": 0.286, "kd": 0.76, "hs": 0.286 }, { "act_id": "E7: A1", "rank": "Gold 3", "playtime": 17, "wins": 11, "win_rate": 0.393, "kd": 0.82, "hs": 0.350 }, { "act_id": "E8: A2", "rank": "Gold 1", "playtime": 5.7, "wins": 4, "win_rate": 0.444, "kd": 0.72, "hs": 0.331 }, { "act_id": "E8: A3", "rank": "Gold 3", "playtime": 24, "wins": 20, "win_rate": 0.476, "kd": 0.88, "hs": 0.322 }, { "act_id": "E9: A1", "rank": "Gold 2", "playtime": 20, "wins": 17, "win_rate": 0.500, "kd": 1.13, "hs": 0.315 }, { "act_id": "E9: A2", "rank": "Gold 3", "playtime": 14, "wins": 10, "win_rate": 0.435, "kd": 1.07, "hs": 0.387 }, { "act_id": "E9: A3", "rank": "Platinum 1", "playtime": 17, "wins": 16, "win_rate": 0.552, "kd": 1.07, "hs": 0.341 }, { "act_id": "V25: A1", "rank": "Gold 3", "playtime": 10, "wins": 8, "win_rate": 0.471, "kd": 1.03, "hs": 0.282 }, { "act_id": "V25: A2", "rank": "Platinum 1", "playtime": 23, "wins": 16, "win_rate": 0.410, "kd": 1.11, "hs": 0.354 }, { "act_id": "V25: A3", "rank": "Platinum 3", "playtime": 35, "wins": 34, "win_rate": 0.567, "kd": 1.13, "hs": 0.332 }, { "act_id": "V25: A4", "rank": "Diamond 1", "playtime": 42, "wins": 44, "win_rate": 0.603, "kd": 1.02, "hs": 0.300 }, { "act_id": "V25: A5", "rank": "Diamond 2", "playtime": 48, "wins": 39, "win_rate": 0.476, "kd": 0.97, "hs": 0.336 }, { "act_id": "V25: A6", "rank": "Ascendant 1", "playtime": 52, "wins": 44, "win_rate": 0.489, "kd": 1.01, "hs": 0.262 }, { "act_id": "V26: A1", "rank": "Platinum 2", "playtime": 20, "wins": 14, "win_rate": 0.424, "kd": 0.97, "hs": 0.314 }];
@@ -969,40 +1048,44 @@ document.addEventListener("DOMContentLoaded", () => {
             { "weapon": "Spectre", "cat": "smg", "kills": 415, "deaths": 521, "kd": 0.80, "hs_rate": 0.236, "adr": 68.6, "kpr": 0.6 }, { "weapon": "Stinger", "cat": "smg", "kills": 20, "deaths": 89, "kd": 0.22, "hs_rate": 0.246, "adr": 72.1, "kpr": 0.6 },
             { "weapon": "Bucky", "cat": "shotgun", "kills": 181, "deaths": 92, "kd": 1.97, "hs_rate": 0.164, "adr": 56.0, "kpr": 0.4 }, { "weapon": "Judge", "cat": "shotgun", "kills": 47, "deaths": 236, "kd": 0.20, "hs_rate": 0.236, "adr": 61.9, "kpr": 0.5 },
             { "weapon": "Ghost", "cat": "sidearm", "kills": 814, "deaths": 787, "kd": 1.03, "hs_rate": 0.534, "adr": 86.2, "kpr": 0.8 }, { "weapon": "Classic", "cat": "sidearm", "kills": 752, "deaths": 518, "kd": 1.45, "hs_rate": 0.468, "adr": 34.8, "kpr": 0.3 }, { "weapon": "Sheriff", "cat": "sidearm", "kills": 538, "deaths": 632, "kd": 0.85, "hs_rate": 0.642, "adr": 61.5, "kpr": 0.4 }, { "weapon": "Frenzy", "cat": "sidearm", "kills": 5, "deaths": 88, "kd": 0.06, "hs_rate": 0.455, "adr": 60.7, "kpr": 0.6 },
-            { "weapon": "Odin", "cat": "mg", "kills": 10, "deaths": 242, "kd": 0.04, "hs_rate": 0.148, "adr": 85.0, "kpr": 0.7 }, { "weapon": "Ares", "cat": "mg", "kills": 4, "deaths": 54, "kd": 0.07, "hs_rate": 0.200, "adr": 67.6, "kpr": 0.5 },
-            { "weapon": "Melee", "cat": "melee", "kills": 4, "deaths": 13, "kd": 0.31, "hs_rate": 0.222, "adr": 182.5, "kpr": 1.0 },
-            { "weapon": "Headhunter", "cat": "ability", "kills": 248, "deaths": 62, "kd": 4.00, "hs_rate": 0.606, "adr": 179.3, "kpr": 1.2 }, { "weapon": "Tour De Force", "cat": "ability", "kills": 125, "deaths": 56, "kd": 2.23, "hs_rate": 0.131, "adr": 231.5, "kpr": 1.4 }, { "weapon": "Bandit", "cat": "ability", "kills": 11, "deaths": 16, "kd": 0.69, "hs_rate": 0.611, "adr": 66.3, "kpr": 0.4 }, { "weapon": "Overdrive", "cat": "ability", "kills": 0, "deaths": 25, "kd": 0.00, "hs_rate": 0.000, "adr": 0.0, "kpr": 0.0 }
+            { "weapon": "Odin", "cat": "lmg", "kills": 10, "deaths": 242, "kd": 0.04, "hs_rate": 0.148, "adr": 85.0, "kpr": 0.7 }, { "weapon": "Ares", "cat": "lmg", "kills": 4, "deaths": 54, "kd": 0.07, "hs_rate": 0.200, "adr": 67.6, "kpr": 0.5 },
+            { "weapon": "Melee", "cat": "other", "kills": 4, "deaths": 13, "kd": 0.31, "hs_rate": 0.222, "adr": 182.5, "kpr": 1.0 },
+            { "weapon": "Headhunter", "cat": "other", "kills": 248, "deaths": 62, "kd": 4.00, "hs_rate": 0.606, "adr": 179.3, "kpr": 1.2 }, { "weapon": "Tour De Force", "cat": "other", "kills": 125, "deaths": 56, "kd": 2.23, "hs_rate": 0.131, "adr": 231.5, "kpr": 1.4 }, { "weapon": "Bandit", "cat": "other", "kills": 11, "deaths": 16, "kd": 0.69, "hs_rate": 0.611, "adr": 66.3, "kpr": 0.4 }, { "weapon": "Overdrive", "cat": "other", "kills": 0, "deaths": 25, "kd": 0.00, "hs_rate": 0.000, "adr": 0.0, "kpr": 0.0 }
         ];
-        let currentWeaponCategory = 'assault';
+        const allWeaponCats = ['assault', 'sniper', 'smg', 'shotgun', 'sidearm', 'lmg', 'other'];
+        let activeWeaponCategories = new Set(['assault']);
         let currentWeaponMode = 'kd';
-        const getFilteredWeapons = (cat) => cat === 'all' ? weaponData : weaponData.filter(w => w.cat === cat);
-        let filteredWeapons = getFilteredWeapons('assault');
+        const getFilteredWeapons = () => activeWeaponCategories.size === 0 ? weaponData : weaponData.filter(w => activeWeaponCategories.has(w.cat));
+        let filteredWeapons = getFilteredWeapons();
 
         const mapData = [{ "map": "Corrode", "win_rate": 0.719, "wins": 23, "losses": 9, "kd": 1.04, "adr": 140.3, "acs": 214.3 }, { "map": "Split", "win_rate": 0.595, "wins": 66, "losses": 45, "kd": 0.99, "adr": 123.8, "acs": 188.7 }, { "map": "Fracture", "win_rate": 0.551, "wins": 27, "losses": 22, "kd": 0.98, "adr": 121.7, "acs": 183.2 }, { "map": "Lotus", "win_rate": 0.541, "wins": 40, "losses": 33, "kd": 0.98, "adr": 125.6, "acs": 193.4 }, { "map": "Sunset", "win_rate": 0.524, "wins": 33, "losses": 30, "kd": 1.03, "adr": 136.1, "acs": 211.0 }, { "map": "Haven", "win_rate": 0.516, "wins": 64, "losses": 59, "kd": 1.03, "adr": 130.5, "acs": 198.0 }, { "map": "Bind", "win_rate": 0.507, "wins": 70, "losses": 68, "kd": 0.97, "adr": 124.9, "acs": 190.8 }, { "map": "Breeze", "win_rate": 0.490, "wins": 25, "losses": 26, "kd": 0.98, "adr": 121.2, "acs": 187.9 }, { "map": "Icebox", "win_rate": 0.468, "wins": 44, "losses": 48, "kd": 1.02, "adr": 123.0, "acs": 188.0 }, { "map": "Pearl", "win_rate": 0.463, "wins": 25, "losses": 28, "kd": 1.10, "adr": 127.8, "acs": 195.8 }, { "map": "Abyss", "win_rate": 0.455, "wins": 20, "losses": 22, "kd": 1.08, "adr": 139.7, "acs": 213.7 }, { "map": "Ascent", "win_rate": 0.448, "wins": 56, "losses": 69, "kd": 0.89, "adr": 112.5, "acs": 171.0 }];
 
         Chart.defaults.font.family = "'DotGothic16', sans-serif";
         Chart.defaults.color = THEME_COLOR;
 
-        const commonOptions = { responsive: true, maintainAspectRatio: false, scales: { y: { ticks: { color: THEME_COLOR }, grid: { color: GRID_COLOR, lineWidth: 1 } }, x: { ticks: { color: THEME_COLOR }, grid: { color: GRID_COLOR, lineWidth: 1 } } }, plugins: { legend: { display: false }, tooltip: { backgroundColor: TOOLTIP_BG, borderColor: THEME_COLOR, borderWidth: 1, cornerRadius: 0 } } };
+        const baselinePlugin = { id: 'baseline', afterDraw(chart) { const val = chart.config.options._baselineValue; if (val == null) return; const yScale = chart.scales.y; const y = yScale.getPixelForValue(val); if (y < yScale.top || y > yScale.bottom) return; const ctx = chart.ctx; ctx.save(); ctx.beginPath(); ctx.strokeStyle = GRID_H; ctx.lineWidth = KD_LINE_W; ctx.moveTo(chart.chartArea.left, y); ctx.lineTo(chart.chartArea.right, y); ctx.stroke(); ctx.restore(); } };
+        Chart.register(baselinePlugin);
+
+        const commonOptions = { responsive: true, maintainAspectRatio: false, scales: { y: { ticks: { color: THEME_COLOR }, grid: { color: GRID_H, lineWidth: GRID_H_W } }, x: { ticks: { color: THEME_COLOR }, grid: { color: GRID_V, lineWidth: GRID_V_W } } }, plugins: { legend: { display: false }, tooltip: { backgroundColor: TOOLTIP_BG, borderColor: THEME_COLOR, borderWidth: 1, cornerRadius: 0 } } };
 
         const rankLabelFunc = (v) => { const i = Math.round(v); if (i >= 0 && i < allRanks.length) { const n = allRanks[i]; if (n.endsWith("1") || n === "Radiant") return n; } return ""; };
 
         // 1. RANK CHART INIT
         const rChart = new Chart(document.getElementById('rankChart').getContext('2d'), {
             type: 'line', data: { labels: rankData.map(d => d.act_id), datasets: [{ data: rankData.map(d => allRanks.indexOf(d.rank)), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: rankData.map(d => rankColors[d.rank.split(' ')[0]] || THEME_COLOR), pointBorderColor: '#fff', pointBorderWidth: 1, tension: 0 }] },
-            options: { ...commonOptions, scales: { y: { min: 0, max: 24, ticks: { stepSize: 1, callback: rankLabelFunc }, grid: { color: (c) => c.tick.value % 3 === 0 ? GRID_COLOR : GRID_COLOR.replace('0.4)', '0.1)'), lineWidth: (c) => c.tick.value % 3 === 0 ? 2 : 1 } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const d = rankData[item.dataIndex]; return [` RANK    : ${d.rank}`, ` PLAYTIME: ${d.playtime}h`, ` WINS    : ${d.wins}`, ` WIN %   : ${(d.win_rate * 100).toFixed(1)}%`, ` K/D     : ${d.kd.toFixed(2)}`, ` HS%     : ${(d.hs * 100).toFixed(1)}%`]; } } } } }
+            options: { ...commonOptions, scales: { y: { min: 0, max: 24, ticks: { stepSize: 1, callback: rankLabelFunc }, grid: { color: (c) => c.tick.value % 3 === 0 ? GRID_H : GRID_H.replace('0.4)', '0.1)'), lineWidth: (c) => c.tick.value % 3 === 0 ? 2 : 1 } }, x: { ...commonOptions.scales.x } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const d = rankData[item.dataIndex]; return [` RANK    : ${d.rank}`, ` PLAYTIME: ${d.playtime}h`, ` WINS    : ${d.wins}`, ` WIN %   : ${(d.win_rate * 100).toFixed(1)}%`, ` K/D     : ${d.kd.toFixed(2)}`, ` HS%     : ${(d.hs * 100).toFixed(1)}%`]; } } } } }
         });
 
         // 2. WEAPON CHART INIT
         const wChart = new Chart(document.getElementById('weaponChart').getContext('2d'), {
             type: 'line', data: { labels: filteredWeapons.map(w => w.weapon), datasets: [{ data: filteredWeapons.map(w => w.kd), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: THEME_COLOR, tension: 0 }] },
-            options: { ...commonOptions, scales: { x: { ticks: { color: THEME_COLOR, autoSkip: false, maxRotation: 45, minRotation: 45 } }, y: { min: 0, max: 5, ticks: { color: THEME_COLOR, stepSize: 0.5, callback: v => v.toFixed(1) }, grid: { color: GRID_COLOR, lineWidth: 1 } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const w = filteredWeapons[item.dataIndex]; return [` KILLS   : ${w.kills}`, ` DEATHS  : ${w.deaths}`, ` K/D     : ${w.kd.toFixed(2)}`, ` HS %    : ${(w.hs_rate * 100).toFixed(1)}%`, ` ADR     : ${w.adr}`, ` K/ROUND : ${w.kpr}`]; } } } } }
+            options: (() => { const s = kdScale(filteredWeapons.map(w => w.kd)); return { ...commonOptions, _baselineValue: 1.0, scales: { x: { ticks: { color: THEME_COLOR, autoSkip: false, maxRotation: 45, minRotation: 45 }, grid: { color: GRID_V, lineWidth: GRID_V_W } }, y: { min: s.min, max: s.max, ticks: { color: THEME_COLOR, stepSize: s.step, callback: v => v.toFixed(1) }, grid: { color: GRID_H, lineWidth: GRID_H_W } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const w = filteredWeapons[item.dataIndex]; return [` KILLS   : ${w.kills}`, ` DEATHS  : ${w.deaths}`, ` K/D     : ${w.kd.toFixed(2)}`, ` HS %    : ${(w.hs_rate * 100).toFixed(1)}%`, ` ADR     : ${w.adr}`, ` K/ROUND : ${w.kpr}`]; } } } } }; })()
         });
 
         // 3. MAP CHART INIT
         const mChart = new Chart(document.getElementById('mapChart').getContext('2d'), {
             type: 'line', data: { labels: mapData.map(m => m.map), datasets: [{ data: mapData.map(m => (m.win_rate * 100).toFixed(1)), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: THEME_COLOR, tension: 0 }] },
-            options: { ...commonOptions, scales: { y: { min: 0, max: 100, ticks: { stepSize: 10, callback: v => v + '%' }, grid: { color: GRID_COLOR, lineWidth: 1.5 } }, x: { grid: { color: GRID_COLOR, lineWidth: 1.5 } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const m = mapData[item.dataIndex]; return [` WIN %   : ${(m.win_rate * 100).toFixed(1)}%`, ` MATCHES : ${m.wins + m.losses}`, ` W / L   : ${m.wins} / ${m.losses}`, ` K/D     : ${m.kd.toFixed(2)}`, ` ADR     : ${m.adr}`, ` ACS     : ${m.acs}`]; } } } } }
+            options: (() => { const s = wrScale(mapData.map(m => m.win_rate * 100)); return { ...commonOptions, _baselineValue: 50, scales: { y: { min: s.min, max: s.max, ticks: { stepSize: s.step, callback: v => v + '%' }, grid: { color: GRID_H, lineWidth: GRID_H_W } }, x: { ticks: { color: THEME_COLOR }, grid: { color: GRID_V, lineWidth: GRID_V_W } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const m = mapData[item.dataIndex]; return [` WIN %   : ${(m.win_rate * 100).toFixed(1)}%`, ` MATCHES : ${m.wins + m.losses}`, ` W / L   : ${m.wins} / ${m.losses}`, ` K/D     : ${m.kd.toFixed(2)}`, ` ADR     : ${m.adr}`, ` ACS     : ${m.acs}`]; } } } } }; })()
         });
 
         // UPDATE FUNCTIONS (window に登録してonclickからアクセス可能にする)
@@ -1018,10 +1101,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 rChart.data.datasets[0].data = isRank ? rankData.map(d => allRanks.indexOf(d.rank)) : (mode === 'kd' ? rankData.map(d => d.kd) : rankData.map(d => d[mode === 'hs' ? 'hs' : mode] * (mode === 'playtime' || mode === 'wins' ? 1 : 100)));
             }
             if (isRank) { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = 24; rChart.options.scales.y.ticks.stepSize = 1; rChart.options.scales.y.ticks.callback = rankLabelFunc; }
-            else if (mode === 'kd') { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = 2; rChart.options.scales.y.ticks.stepSize = 0.2; rChart.options.scales.y.ticks.callback = v => v; }
-            else if (mode === 'win_rate' || mode === 'hs') { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = 100; rChart.options.scales.y.ticks.stepSize = 10; rChart.options.scales.y.ticks.callback = v => v + '%'; }
+            else if (mode === 'kd') { const s = kdScale(rankData.map(d => d.kd)); rChart.options.scales.y.min = s.min; rChart.options.scales.y.max = s.max; rChart.options.scales.y.ticks.stepSize = s.step; rChart.options.scales.y.ticks.callback = v => v.toFixed(1); }
+            else if (mode === 'win_rate') { const s = wrScale(rankData.map(d => d.win_rate * 100)); rChart.options.scales.y.min = s.min; rChart.options.scales.y.max = s.max; rChart.options.scales.y.ticks.stepSize = s.step; rChart.options.scales.y.ticks.callback = v => v + '%'; }
+            else if (mode === 'hs') { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = 100; rChart.options.scales.y.ticks.stepSize = 10; rChart.options.scales.y.ticks.callback = v => v + '%'; }
             else if (isCumulative) { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = undefined; rChart.options.scales.y.ticks.stepSize = undefined; rChart.options.scales.y.ticks.callback = v => v + 'h'; }
             else { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = undefined; rChart.options.scales.y.ticks.stepSize = undefined; rChart.options.scales.y.ticks.callback = v => v; }
+            rChart.options._baselineValue = mode === 'kd' ? 1.0 : mode === 'win_rate' ? 50 : null;
             rChart.update();
         }
 
@@ -1030,16 +1115,28 @@ document.addEventListener("DOMContentLoaded", () => {
             const mode = currentWeaponMode;
             wChart.data.datasets[0].data = filteredWeapons.map(w => mode === 'hs_rate' ? (w.hs_rate * 100).toFixed(1) : w[mode]);
             if (mode === 'hs_rate') { wChart.options.scales.y.min = 0; wChart.options.scales.y.max = 100; wChart.options.scales.y.ticks.stepSize = 10; wChart.options.scales.y.ticks.callback = v => v + '%'; }
-            else if (mode === 'kd') { wChart.options.scales.y.min = 0; wChart.options.scales.y.max = 5; wChart.options.scales.y.ticks.stepSize = 0.5; wChart.options.scales.y.ticks.callback = v => v.toFixed(1); }
+            else if (mode === 'kd') { const s = kdScale(filteredWeapons.map(w => w.kd)); wChart.options.scales.y.min = s.min; wChart.options.scales.y.max = s.max; wChart.options.scales.y.ticks.stepSize = s.step; wChart.options.scales.y.ticks.callback = v => v.toFixed(1); }
             else { wChart.options.scales.y.min = 0; wChart.options.scales.y.max = undefined; wChart.options.scales.y.ticks.stepSize = undefined; wChart.options.scales.y.ticks.callback = v => v; }
+            wChart.options._baselineValue = mode === 'kd' ? 1.0 : null;
             wChart.update();
         }
 
-        window.filterWeaponCategory = function(cat) {
-            document.querySelectorAll('[id^="btn-wc-"]').forEach(b => b.classList.remove('active'));
-            document.getElementById(`btn-wc-${cat}`).classList.add('active');
-            currentWeaponCategory = cat;
-            filteredWeapons = getFilteredWeapons(cat);
+        const syncWeaponCatButtons = () => {
+            allWeaponCats.forEach(c => document.getElementById(`btn-wc-${c}`).classList.toggle('active', activeWeaponCategories.has(c)));
+            document.getElementById('btn-wc-all').classList.toggle('active', activeWeaponCategories.size === allWeaponCats.length);
+        };
+        window.toggleWeaponCategory = function(cat) {
+            if (activeWeaponCategories.has(cat)) { if (activeWeaponCategories.size > 1) activeWeaponCategories.delete(cat); }
+            else activeWeaponCategories.add(cat);
+            syncWeaponCatButtons();
+            filteredWeapons = getFilteredWeapons();
+            refreshWeaponChart();
+        }
+        window.toggleAllWeaponCategories = function() {
+            if (activeWeaponCategories.size === allWeaponCats.length) { activeWeaponCategories = new Set(['assault']); }
+            else { activeWeaponCategories = new Set(allWeaponCats); }
+            syncWeaponCatButtons();
+            filteredWeapons = getFilteredWeapons();
             refreshWeaponChart();
         }
 
@@ -1054,10 +1151,23 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelectorAll('[id^="btn-m-"]').forEach(b => b.classList.remove('active'));
             document.getElementById(`btn-m-${mode}`).classList.add('active');
             mChart.data.datasets[0].data = mapData.map(m => mode === 'win_rate' ? (m.win_rate * 100).toFixed(1) : m[mode]);
-            if (mode === 'win_rate') { mChart.options.scales.y.min = 0; mChart.options.scales.y.max = 100; mChart.options.scales.y.ticks.stepSize = 10; mChart.options.scales.y.ticks.callback = v => v + '%'; }
-            else if (mode === 'kd') { mChart.options.scales.y.min = 0; mChart.options.scales.y.max = 2; mChart.options.scales.y.ticks.stepSize = 0.2; mChart.options.scales.y.ticks.callback = v => v; }
+            if (mode === 'win_rate') { const s = wrScale(mapData.map(m => m.win_rate * 100)); mChart.options.scales.y.min = s.min; mChart.options.scales.y.max = s.max; mChart.options.scales.y.ticks.stepSize = s.step; mChart.options.scales.y.ticks.callback = v => v + '%'; }
+            else if (mode === 'kd') { const s = kdScale(mapData.map(m => m.kd)); mChart.options.scales.y.min = s.min; mChart.options.scales.y.max = s.max; mChart.options.scales.y.ticks.stepSize = s.step; mChart.options.scales.y.ticks.callback = v => v.toFixed(1); }
             else { mChart.options.scales.y.min = 0; mChart.options.scales.y.max = undefined; mChart.options.scales.y.ticks.stepSize = undefined; mChart.options.scales.y.ticks.callback = v => v; }
+            mChart.options._baselineValue = mode === 'kd' ? 1.0 : mode === 'win_rate' ? 50 : null;
             mChart.update();
+        }
+
+        let currentGameMode = 'competitive';
+        window.switchGameMode = function(mode) {
+            if (mode === currentGameMode) return;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-mode-${mode}`).classList.add('active');
+            currentGameMode = mode;
+            const grid = document.getElementById('charts-grid');
+            const msg = document.getElementById('mode-unavailable');
+            if (mode === 'competitive') { grid.style.display = ''; msg.style.display = 'none'; }
+            else { grid.style.display = 'none'; msg.style.display = ''; }
         }
 });
 </script>
