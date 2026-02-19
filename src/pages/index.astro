@@ -350,117 +350,328 @@ const S = getStylePresets(COLORS);
     </div>
 
 
-    <!-- YouTube動画セクション -->
-    <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="video-section"
-    >
-      <h2
-        style={`${S.sectionTitle} margin-bottom: 15px;`}
-      >
-        VALORANT Gameplay
-      </h2>
+        <!-- YouTube動画セクション -->
 
-      <!-- 横線 -->
-      <hr
-        style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
-      />
 
-      <!-- カルーセル表示（折りたたみ時） -->
-      <div id="video-carousel" style="position: relative;">
-                  <!-- 動画表示エリア -->
-          <div class="video-container" style="position: relative;">
-            <div class="carousel-video" data-index="0">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/eAx-dZ3_wEI?si=LM3jptJTQAkeco-o"
-                title="VALORANT Clip #1"
-                autoplay={false}
-              />
+        <div
+
+
+          style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+
+
+          class="video-section"
+
+
+        >
+
+
+          <h2
+
+
+            style={`${S.sectionTitle} margin-bottom: 15px;`}
+
+
+          >
+
+
+            VALORANT Gameplay
+
+
+          </h2>
+
+
+    
+
+
+          <!-- 横線 -->
+
+
+          <hr
+
+
+            style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
+
+
+          />
+
+
+    
+
+
+          <!-- カルーセル表示（折りたたみ時） -->
+
+
+          <div id="video-carousel" style="position: relative;">
+
+
+            <!-- 動画表示エリア -->
+
+
+            <div class="video-container" style="position: relative;">
+
+
+              <div class="carousel-video" data-index="0">
+
+
+                <YouTubeClipViewer
+
+
+                  clipUrl="https://youtu.be/eAx-dZ3_wEI?si=LM3jptJTQAkeco-o"
+
+
+                  title="VALORANT Clip #1"
+
+
+                  autoplay={false}
+
+
+                />
+
+
+              </div>
+
+
+              <div class="carousel-video" data-index="1" style="display: none;">
+
+
+                <YouTubeClipViewer
+
+
+                  clipUrl="https://youtu.be/KTwFA1jQgFY"
+
+
+                  title="VALORANT Clip #2"
+
+
+                  autoplay={false}
+
+
+                />
+
+
+              </div>
+
+
+              <div class="carousel-video" data-index="2" style="display: none;">
+
+
+                <YouTubeClipViewer
+
+
+                  clipUrl="https://youtu.be/oos2PYWiRGM"
+
+
+                  title="VALORANT Clip #3"
+
+
+                  autoplay={false}
+
+
+                />
+
+
+              </div>
+
+
+              <div class="carousel-video" data-index="3" style="display: none;">
+
+
+                <YouTubeClipViewer
+
+
+                  clipUrl="https://www.youtube.com/watch?v=5IET-4mL9pA"
+
+
+                  title="VALORANT Clip #4"
+
+
+                  autoplay={false}
+
+
+                />
+
+
+              </div>
+
+
+              <div class="carousel-video" data-index="4" style="display: none;">
+
+
+                <YouTubeClipViewer
+
+
+                  clipUrl="https://youtu.be/46a0f7dNVW4?si=FjCr_YPa35-guCZX"
+
+
+                  title="VALORANT Clip #5"
+
+
+                  autoplay={false}
+
+
+                />
+
+
+              </div>
+
+
+              <div class="carousel-video" data-index="5" style="display: none;">
+
+
+                <YouTubeClipViewer
+
+
+                  clipUrl="https://youtu.be/Yznxiz_tS4g?si=sWJFRV_vB95mkJNl"
+
+
+                  title="VALORANT Clip #6"
+
+
+                  autoplay={false}
+
+
+                />
+
+
+              </div>
+
+
+              <div class="carousel-video" data-index="6" style="display: none;">
+
+
+                <YouTubeClipViewer
+
+
+                  clipUrl="https://youtu.be/ooJdHWZ3KyU?si=pS2rqHsxPnuRqmEV"
+
+
+                  title="VALORANT Clip #7"
+
+
+                  autoplay={false}
+
+
+                />
+
+
+              </div>
+
+
+              <div class="carousel-video" data-index="7" style="display: none;">
+
+
+                <YouTubeClipViewer
+
+
+                  clipUrl="https://youtu.be/Aazj-kAuxdY"
+
+
+                  title="VALORANT Clip #8"
+
+
+                  autoplay={false}
+
+
+                />
+
+
+              </div>
+
+
             </div>
-            <div class="carousel-video" data-index="1" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/KTwFA1jQgFY"
-                title="VALORANT Clip #2"
-                autoplay={false}
-              />
+
+
+    
+
+
+            <!-- 左矢印ボタン -->
+
+
+            <button
+
+
+              id="prev-video-btn"
+
+
+              style={`position: absolute; top: 50%; left: 10px; transform: translateY(-50%); z-index: 10; width: 40px; height: 40px; background: rgba(77, 121, 255, 0.2); color: ${COLORS.textWhite}; border: 1px solid rgba(77, 121, 255, 0.5); border-radius: 4px; font-size: 20px; font-family: ${FONTS.pixelJp}; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
+
+
+              onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
+
+
+              onmouseout={`this.style.background='rgba(77, 121, 255, 0.2)'; this.style.color='${COLORS.textWhite}'; this.style.border='1px solid rgba(77, 121, 255, 0.5)';`}
+
+
+            >
+
+
+              ◀
+
+
+            </button>
+
+
+    
+
+
+            <!-- 右矢印ボタン -->
+
+
+            <button
+
+
+              id="next-video-btn"
+
+
+              style={`position: absolute; top: 50%; right: 10px; transform: translateY(-50%); z-index: 10; width: 40px; height: 40px; background: rgba(77, 121, 255, 0.2); color: ${COLORS.textWhite}; border: 1px solid rgba(77, 121, 255, 0.5); border-radius: 4px; font-size: 20px; font-family: ${FONTS.pixelJp}; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
+
+
+              onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
+
+
+              onmouseout={`this.style.background='rgba(77, 121, 255, 0.2)'; this.style.color='${COLORS.textWhite}'; this.style.border='1px solid rgba(77, 121, 255, 0.5)';`}
+
+
+            >
+
+
+              ▶
+
+
+            </button>
+
+
+            <!-- 現在位置インジケーター -->
+
+
+            <div style="text-align: center; margin-top: 15px;">
+
+
+              <p
+
+
+                id="video-counter"
+
+
+                style={`${S.bodyTextCompact}`}
+
+
+              >
+
+
+                1 / 8
+
+
+              </p>
+
+
             </div>
-            <div class="carousel-video" data-index="2" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/oos2PYWiRGM"
-                title="VALORANT Clip #3"
-                autoplay={false}
-              />
-            </div>
-            <div class="carousel-video" data-index="3" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://www.youtube.com/watch?v=5IET-4mL9pA"
-                title="VALORANT Clip #4"
-                autoplay={false}
-              />
-            </div>
-            <div class="carousel-video" data-index="4" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/46a0f7dNVW4?si=FjCr_YPa35-guCZX"
-                title="VALORANT Clip #5"
-                autoplay={false}
-              />
-            </div>
-            <div class="carousel-video" data-index="5" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/Yznxiz_tS4g?si=sWJFRV_vB95mkJNl"
-                title="VALORANT Clip #6"
-                autoplay={false}
-              />
-            </div>
-            <div class="carousel-video" data-index="6" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/ooJdHWZ3KyU?si=pS2rqHsxPnuRqmEV"
-                title="VALORANT Clip #7"
-                autoplay={false}
-              />
-            </div>
-            <div class="carousel-video" data-index="7" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/Aazj-kAuxdY"
-                title="VALORANT Clip #8"
-                autoplay={false}
-              />
-            </div>
+
+
           </div>
 
-          <!-- 左矢印ボタン -->
-          <button
-            id="prev-video-btn"
-            style={`position: absolute; top: 50%; left: 10px; transform: translateY(-50%); z-index: 10; width: 40px; height: 40px; background: rgba(77, 121, 255, 0.2); color: ${COLORS.textWhite}; border: 1px solid rgba(77, 121, 255, 0.5); border-radius: 4px; font-size: 20px; font-family: ${FONTS.pixelJp}; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
-            onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
-            onmouseout={`this.style.background='rgba(77, 121, 255, 0.2)'; this.style.color='${COLORS.textWhite}'; this.style.border='1px solid rgba(77, 121, 255, 0.5)';`}
-          >
-            ◀
-          </button>
 
-          <!-- 右矢印ボタン -->
-          <button
-            id="next-video-btn"
-            style={`position: absolute; top: 50%; right: 10px; transform: translateY(-50%); z-index: 10; width: 40px; height: 40px; background: rgba(77, 121, 255, 0.2); color: ${COLORS.textWhite}; border: 1px solid rgba(77, 121, 255, 0.5); border-radius: 4px; font-size: 20px; font-family: ${FONTS.pixelJp}; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
-            onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
-            onmouseout={`this.style.background='rgba(77, 121, 255, 0.2)'; this.style.color='${COLORS.textWhite}'; this.style.border='1px solid rgba(77, 121, 255, 0.5)';`}
-          >
-            ▶
-          </button>
         </div>
-
-        <!-- 現在位置インジケーター -->
-        <div style="text-align: center; margin-top: 15px;">
-          <p
-            id="video-counter"
-            style={`${S.bodyTextCompact}`}
-          >
-            1 / 8
-          </p>
-        </div>
-      </div>
-
-    </div>
 
     <!-- デバイス情報 -->
     <div
