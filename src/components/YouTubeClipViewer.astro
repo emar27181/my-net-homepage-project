@@ -52,10 +52,7 @@ function getEmbedUrl(url: string, auto: boolean = false): string {
   params.set('cc_load_policy', '0');
   params.set('enablejsapi', '1');
   params.set('loop', '0'); // 繰り返し再生を無効化
-  params.set('hd', '1'); // 1080p画質をデフォルトに設定
-  params.set('vq', 'hd1080'); // 1080p画質を明示的に指定
-  params.set('quality', 'hd1080'); // 画質を強制指定
-  params.set('fmt', '22'); // 1080p mp4フォーマットを指定
+  params.set('vq', 'highres'); // 利用可能な最高画質を要求
   
   return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
 }
