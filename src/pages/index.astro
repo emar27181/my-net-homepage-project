@@ -218,137 +218,6 @@ const S = getStylePresets(COLORS);
       </div>
     </div>
 
-    <!-- 統計データセクション -->
-    <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="stats-section"
-      data-chart-color={CHART_GRID.themeColor}
-      data-chart-grid-h={CHART_GRID.horizontal.color}
-      data-chart-grid-h-width={String(CHART_GRID.horizontal.lineWidth)}
-      data-chart-grid-v={CHART_GRID.vertical.color}
-      data-chart-grid-v-width={String(CHART_GRID.vertical.lineWidth)}
-      data-chart-kd-line-width={String(CHART_GRID.kdBaseline.lineWidth)}
-      data-chart-tooltip={CHART_GRID.tooltipBg}
-    >
-      <h2
-        style={`${S.sectionTitle} margin-bottom: 15px;`}
-      >
-        VALORANT Stats
-      </h2>
-
-      <hr
-        style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
-      />
-
-      <div class="mode-switcher">
-        <button onclick="switchGameMode('competitive')" id="btn-mode-competitive" class="mode-btn active">COMPETITIVE</button>
-        <button onclick="switchGameMode('unrated')" id="btn-mode-unrated" class="mode-btn">UNRATED</button>
-        <button onclick="switchGameMode('swiftplay')" id="btn-mode-swiftplay" class="mode-btn">SWIFTPLAY</button>
-        <button onclick="switchGameMode('spike_rush')" id="btn-mode-spike_rush" class="mode-btn">SPIKE RUSH</button>
-        <button onclick="switchGameMode('deathmatch')" id="btn-mode-deathmatch" class="mode-btn">DEATHMATCH</button>
-      </div>
-
-      <div id="mode-unavailable" class="mode-unavailable" style="display: none;">
-        <p class="mode-unavailable-text">DATA LOADING...</p>
-        <p class="mode-unavailable-sub">選択されたモードのデータは現在準備中です</p>
-      </div>
-
-      <div class="charts-grid" id="charts-grid">
-        <div class="chart-container">
-          <div class="container">
-            <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>RANK HISTORY</h3>
-            <div class="chart-wrapper"><canvas id="rankChart"></canvas></div>
-            <div class="controls">
-              <button onclick="updateRankChart('rank')" id="btn-r-rank" class="active">Rank</button>
-              <button onclick="updateRankChart('playtime')" id="btn-r-playtime">Playtime</button>
-              <button onclick="updateRankChart('playtime_cumulative')" id="btn-r-playtime_cumulative">Cumulative</button>
-              <button onclick="updateRankChart('wins')" id="btn-r-wins">Wins</button>
-              <button onclick="updateRankChart('win_rate')" id="btn-r-win_rate">Win %</button>
-              <button onclick="updateRankChart('kd')" id="btn-r-kd">K/D</button>
-              <button onclick="updateRankChart('hs')" id="btn-r-hs">HS %</button>
-            </div>
-            <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview" target="_blank">TRACKER.GG / OVERVIEW</a></span><span>LAST UPDATE: 2026/02/16</span></div>
-          </div>
-        </div>
-        <div class="chart-container">
-          <div class="container">
-            <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>MAP SCORE</h3>
-            <div class="chart-wrapper"><canvas id="mapChart"></canvas></div>
-            <div class="controls">
-              <button onclick="updateMapChart('win_rate')" id="btn-m-win_rate" class="active">Win %</button>
-              <button onclick="updateMapChart('kd')" id="btn-m-kd">K/D</button>
-              <button onclick="updateMapChart('adr')" id="btn-m-adr">ADR</button>
-              <button onclick="updateMapChart('acs')" id="btn-m-acs">ACS</button>
-            </div>
-            <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/maps?platform=pc&playlist=competitive" target="_blank">TRACKER.GG / MAPS</a></span><span>LAST UPDATE: 2026/02/16</span></div>
-          </div>
-        </div>
-        <div class="chart-container">
-          <div class="container">
-            <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>WEAPON SCORE</h3>
-            <div class="controls weapon-category-controls">
-              <button onclick="toggleWeaponCategory('assault')" id="btn-wc-assault" class="active">Assault</button>
-              <button onclick="toggleWeaponCategory('sniper')" id="btn-wc-sniper">Sniper</button>
-              <button onclick="toggleWeaponCategory('smg')" id="btn-wc-smg">SMG</button>
-              <button onclick="toggleWeaponCategory('shotgun')" id="btn-wc-shotgun">Shotgun</button>
-              <button onclick="toggleWeaponCategory('sidearm')" id="btn-wc-sidearm">Sidearm</button>
-              <button onclick="toggleWeaponCategory('lmg')" id="btn-wc-lmg">LMG</button>
-              <button onclick="toggleWeaponCategory('other')" id="btn-wc-other">Other</button>
-              <button onclick="toggleAllWeaponCategories()" id="btn-wc-all">All</button>
-            </div>
-            <div class="chart-wrapper"><canvas id="weaponChart"></canvas></div>
-            <div class="controls">
-              <button onclick="updateWeaponChart('kills')" id="btn-w-kills">Kills</button>
-              <button onclick="updateWeaponChart('kd')" id="btn-w-kd" class="active">K/D</button>
-              <button onclick="updateWeaponChart('hs_rate')" id="btn-w-hs_rate">HS %</button>
-              <button onclick="updateWeaponChart('adr')" id="btn-w-adr">ADR</button>
-              <button onclick="updateWeaponChart('kpr')" id="btn-w-kpr">K/R</button>
-            </div>
-            <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/weapons?platform=pc&playlist=competitive" target="_blank">TRACKER.GG / WEAPONS</a></span><span>LAST UPDATE: 2026/02/16</span></div>
-          </div>
-        </div>
-        <div class="chart-container agent-chart-container">
-          <div class="container agent-panel">
-            <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>AGENT PERFORMANCE</h3>
-            <div class="agent-role-filters">
-              <button onclick="toggleAgentRole('Controller')" id="btn-role-controller" class="active">CONTROLLER</button>
-              <button onclick="toggleAgentRole('Initiator')" id="btn-role-initiator" class="active">INITIATOR</button>
-              <button onclick="toggleAgentRole('Duelist')" id="btn-role-duelist" class="active">DUELIST</button>
-              <button onclick="toggleAgentRole('Sentinel')" id="btn-role-sentinel" class="active">SENTINEL</button>
-            </div>
-            <div class="chart-wrapper"><canvas id="agentChart"></canvas></div>
-            <div class="controls agent-stat-controls">
-              <button onclick="updateAgentStat('time')" id="btn-a-time" class="active">Time</button>
-              <button onclick="updateAgentStat('matches')" id="btn-a-matches">Matches</button>
-              <button onclick="updateAgentStat('win_rate')" id="btn-a-win_rate">Win%</button>
-              <button onclick="updateAgentStat('kd')" id="btn-a-kd">K/D</button>
-              <button onclick="updateAgentStat('adr')" id="btn-a-adr">ADR</button>
-              <button onclick="updateAgentStat('acs')" id="btn-a-acs">ACS</button>
-              <button onclick="updateAgentStat('hs')" id="btn-a-hs">HS%</button>
-              <button onclick="updateAgentStat('kast')" id="btn-a-kast">KAST</button>
-            </div>
-            <div class="agent-filter-panel">
-
-              <div class="agent-slider">
-                <input
-                  type="range"
-                  id="agent-match-slider"
-                  min="0"
-                  max="300"
-                  step="10"
-                  value="20"
-                  oninput="updateAgentThreshold(this.value)"
-                />
-                <div class="agent-threshold-value" id="agent-threshold-display">MIN ≥ 20</div>
-              </div>
-            </div>
-            <div class="footer-info agent-footer"><span>SOURCE: TRACKER.GG / AGENTS</span><span>LAST UPDATE: 2026/02/19</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
         <!-- YouTube動画セクション -->
 
 
@@ -947,6 +816,138 @@ const S = getStylePresets(COLORS);
 
 
         </div>
+
+    <!-- 統計データセクション -->
+    <div
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="stats-section"
+      data-chart-color={CHART_GRID.themeColor}
+      data-chart-grid-h={CHART_GRID.horizontal.color}
+      data-chart-grid-h-width={String(CHART_GRID.horizontal.lineWidth)}
+      data-chart-grid-v={CHART_GRID.vertical.color}
+      data-chart-grid-v-width={String(CHART_GRID.vertical.lineWidth)}
+      data-chart-kd-line-width={String(CHART_GRID.kdBaseline.lineWidth)}
+      data-chart-tooltip={CHART_GRID.tooltipBg}
+    >
+      <h2
+        style={`${S.sectionTitle} margin-bottom: 15px;`}
+      >
+        VALORANT Stats
+      </h2>
+
+      <hr
+        style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
+      />
+
+      <div class="mode-switcher">
+        <button onclick="switchGameMode('competitive')" id="btn-mode-competitive" class="mode-btn active">COMPETITIVE</button>
+        <button onclick="switchGameMode('unrated')" id="btn-mode-unrated" class="mode-btn">UNRATED</button>
+        <button onclick="switchGameMode('swiftplay')" id="btn-mode-swiftplay" class="mode-btn">SWIFTPLAY</button>
+        <button onclick="switchGameMode('spike_rush')" id="btn-mode-spike_rush" class="mode-btn">SPIKE RUSH</button>
+        <button onclick="switchGameMode('deathmatch')" id="btn-mode-deathmatch" class="mode-btn">DEATHMATCH</button>
+      </div>
+
+      <div id="mode-unavailable" class="mode-unavailable" style="display: none;">
+        <p class="mode-unavailable-text">DATA LOADING...</p>
+        <p class="mode-unavailable-sub">選択されたモードのデータは現在準備中です</p>
+      </div>
+
+      <div class="charts-grid" id="charts-grid">
+        <div class="chart-container">
+          <div class="container">
+            <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>RANK HISTORY</h3>
+            <div class="chart-wrapper"><canvas id="rankChart"></canvas></div>
+            <div class="controls">
+              <button onclick="updateRankChart('rank')" id="btn-r-rank" class="active">Rank</button>
+              <button onclick="updateRankChart('playtime')" id="btn-r-playtime">Playtime</button>
+              <button onclick="updateRankChart('playtime_cumulative')" id="btn-r-playtime_cumulative">Cumulative</button>
+              <button onclick="updateRankChart('wins')" id="btn-r-wins">Wins</button>
+              <button onclick="updateRankChart('win_rate')" id="btn-r-win_rate">Win %</button>
+              <button onclick="updateRankChart('kd')" id="btn-r-kd">K/D</button>
+              <button onclick="updateRankChart('hs')" id="btn-r-hs">HS %</button>
+            </div>
+            <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview" target="_blank">TRACKER.GG / OVERVIEW</a></span><span>LAST UPDATE: 2026/02/16</span></div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div class="container">
+            <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>MAP SCORE</h3>
+            <div class="chart-wrapper"><canvas id="mapChart"></canvas></div>
+            <div class="controls">
+              <button onclick="updateMapChart('win_rate')" id="btn-m-win_rate" class="active">Win %</button>
+              <button onclick="updateMapChart('kd')" id="btn-m-kd">K/D</button>
+              <button onclick="updateMapChart('adr')" id="btn-m-adr">ADR</button>
+              <button onclick="updateMapChart('acs')" id="btn-m-acs">ACS</button>
+            </div>
+            <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/maps?platform=pc&playlist=competitive" target="_blank">TRACKER.GG / MAPS</a></span><span>LAST UPDATE: 2026/02/16</span></div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div class="container">
+            <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>WEAPON SCORE</h3>
+            <div class="controls weapon-category-controls">
+              <button onclick="toggleWeaponCategory('assault')" id="btn-wc-assault" class="active">Assault</button>
+              <button onclick="toggleWeaponCategory('sniper')" id="btn-wc-sniper">Sniper</button>
+              <button onclick="toggleWeaponCategory('smg')" id="btn-wc-smg">SMG</button>
+              <button onclick="toggleWeaponCategory('shotgun')" id="btn-wc-shotgun">Shotgun</button>
+              <button onclick="toggleWeaponCategory('sidearm')" id="btn-wc-sidearm">Sidearm</button>
+              <button onclick="toggleWeaponCategory('lmg')" id="btn-wc-lmg">LMG</button>
+              <button onclick="toggleWeaponCategory('other')" id="btn-wc-other">Other</button>
+              <button onclick="toggleAllWeaponCategories()" id="btn-wc-all">All</button>
+            </div>
+            <div class="chart-wrapper"><canvas id="weaponChart"></canvas></div>
+            <div class="controls">
+              <button onclick="updateWeaponChart('kills')" id="btn-w-kills">Kills</button>
+              <button onclick="updateWeaponChart('kd')" id="btn-w-kd" class="active">K/D</button>
+              <button onclick="updateWeaponChart('hs_rate')" id="btn-w-hs_rate">HS %</button>
+              <button onclick="updateWeaponChart('adr')" id="btn-w-adr">ADR</button>
+              <button onclick="updateWeaponChart('kpr')" id="btn-w-kpr">K/R</button>
+            </div>
+            <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/weapons?platform=pc&playlist=competitive" target="_blank">TRACKER.GG / WEAPONS</a></span><span>LAST UPDATE: 2026/02/16</span></div>
+          </div>
+        </div>
+        <div class="chart-container agent-chart-container">
+          <div class="container agent-panel">
+            <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>AGENT PERFORMANCE</h3>
+            <div class="agent-role-filters">
+              <button onclick="toggleAgentRole('Controller')" id="btn-role-controller" class="active">CONTROLLER</button>
+              <button onclick="toggleAgentRole('Initiator')" id="btn-role-initiator" class="active">INITIATOR</button>
+              <button onclick="toggleAgentRole('Duelist')" id="btn-role-duelist" class="active">DUELIST</button>
+              <button onclick="toggleAgentRole('Sentinel')" id="btn-role-sentinel" class="active">SENTINEL</button>
+            </div>
+            <div class="chart-wrapper"><canvas id="agentChart"></canvas></div>
+            <div class="controls agent-stat-controls">
+              <button onclick="updateAgentStat('time')" id="btn-a-time" class="active">Time</button>
+              <button onclick="updateAgentStat('matches')" id="btn-a-matches">Matches</button>
+              <button onclick="updateAgentStat('win_rate')" id="btn-a-win_rate">Win%</button>
+              <button onclick="updateAgentStat('kd')" id="btn-a-kd">K/D</button>
+              <button onclick="updateAgentStat('adr')" id="btn-a-adr">ADR</button>
+              <button onclick="updateAgentStat('acs')" id="btn-a-acs">ACS</button>
+              <button onclick="updateAgentStat('hs')" id="btn-a-hs">HS%</button>
+              <button onclick="updateAgentStat('kast')" id="btn-a-kast">KAST</button>
+            </div>
+            <div class="agent-filter-panel">
+
+              <div class="agent-slider">
+                <input
+                  type="range"
+                  id="agent-match-slider"
+                  min="0"
+                  max="300"
+                  step="10"
+                  value="20"
+                  oninput="updateAgentThreshold(this.value)"
+                />
+                <div class="agent-threshold-value" id="agent-threshold-display">MIN ≥ 20</div>
+              </div>
+            </div>
+            <div class="footer-info agent-footer"><span>SOURCE: TRACKER.GG / AGENTS</span><span>LAST UPDATE: 2026/02/19</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 
     <!-- デバイス情報 -->
     <div
