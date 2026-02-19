@@ -273,6 +273,19 @@ const S = getStylePresets(COLORS);
         </div>
         <div class="chart-container">
           <div class="container">
+            <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>MAP SCORE</h3>
+            <div class="chart-wrapper"><canvas id="mapChart"></canvas></div>
+            <div class="controls">
+              <button onclick="updateMapChart('win_rate')" id="btn-m-win_rate" class="active">Win %</button>
+              <button onclick="updateMapChart('kd')" id="btn-m-kd">K/D</button>
+              <button onclick="updateMapChart('adr')" id="btn-m-adr">ADR</button>
+              <button onclick="updateMapChart('acs')" id="btn-m-acs">ACS</button>
+            </div>
+            <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/maps?platform=pc&playlist=competitive" target="_blank">TRACKER.GG / MAPS</a></span><span>LAST UPDATE: 2026/02/16</span></div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div class="container">
             <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>WEAPON SCORE</h3>
             <div class="controls weapon-category-controls">
               <button onclick="toggleWeaponCategory('assault')" id="btn-wc-assault" class="active">Assault</button>
@@ -295,36 +308,8 @@ const S = getStylePresets(COLORS);
             <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/weapons?platform=pc&playlist=competitive" target="_blank">TRACKER.GG / WEAPONS</a></span><span>LAST UPDATE: 2026/02/16</span></div>
           </div>
         </div>
-        <div class="chart-container">
-          <div class="container">
-            <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>MAP SCORE</h3>
-            <div class="chart-wrapper"><canvas id="mapChart"></canvas></div>
-            <div class="controls">
-              <button onclick="updateMapChart('win_rate')" id="btn-m-win_rate" class="active">Win %</button>
-              <button onclick="updateMapChart('kd')" id="btn-m-kd">K/D</button>
-              <button onclick="updateMapChart('adr')" id="btn-m-adr">ADR</button>
-              <button onclick="updateMapChart('acs')" id="btn-m-acs">ACS</button>
-            </div>
-            <div class="footer-info"><span>SOURCE: <a href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/maps?platform=pc&playlist=competitive" target="_blank">TRACKER.GG / MAPS</a></span><span>LAST UPDATE: 2026/02/16</span></div>
-          </div>
-        </div>
         <div class="chart-container agent-chart-container">
           <div class="container agent-panel">
-            <div class="agent-filter-panel">
-              <div class="agent-filter-label">MIN MATCHES (STEP:10)</div>
-              <div class="agent-slider">
-                <input
-                  type="range"
-                  id="agent-match-slider"
-                  min="0"
-                  max="300"
-                  step="10"
-                  value="0"
-                  oninput="updateAgentThreshold(this.value)"
-                />
-                <div class="agent-threshold-value" id="agent-threshold-display">M ≥ 0</div>
-              </div>
-            </div>
             <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>AGENT PERFORMANCE</h3>
             <div class="agent-role-filters">
               <button onclick="toggleAgentRole('Controller')" id="btn-role-controller" class="active">CONTROLLER</button>
@@ -332,7 +317,7 @@ const S = getStylePresets(COLORS);
               <button onclick="toggleAgentRole('Duelist')" id="btn-role-duelist" class="active">DUELIST</button>
               <button onclick="toggleAgentRole('Sentinel')" id="btn-role-sentinel" class="active">SENTINEL</button>
             </div>
-            <div class="chart-wrapper agent-chart-wrapper"><canvas id="agentChart"></canvas></div>
+            <div class="chart-wrapper"><canvas id="agentChart"></canvas></div>
             <div class="controls agent-stat-controls">
               <button onclick="updateAgentStat('time')" id="btn-a-time" class="active">Time</button>
               <button onclick="updateAgentStat('matches')" id="btn-a-matches">Matches</button>
@@ -342,6 +327,21 @@ const S = getStylePresets(COLORS);
               <button onclick="updateAgentStat('acs')" id="btn-a-acs">ACS</button>
               <button onclick="updateAgentStat('hs')" id="btn-a-hs">HS%</button>
               <button onclick="updateAgentStat('kast')" id="btn-a-kast">KAST</button>
+            </div>
+            <div class="agent-filter-panel">
+
+              <div class="agent-slider">
+                <input
+                  type="range"
+                  id="agent-match-slider"
+                  min="0"
+                  max="300"
+                  step="10"
+                  value="20"
+                  oninput="updateAgentThreshold(this.value)"
+                />
+                <div class="agent-threshold-value" id="agent-threshold-display">MIN ≥ 20</div>
+              </div>
             </div>
             <div class="footer-info agent-footer"><span>SOURCE: TRACKER.GG / AGENTS</span><span>LAST UPDATE: 2026/02/19</span></div>
           </div>
@@ -1041,21 +1041,17 @@ const S = getStylePresets(COLORS);
     }
     .agent-chart-container {
         position: relative;
-        padding-top: 40px;
     }
     .agent-panel {
         position: relative;
-        padding-top: 40px;
     }
     .agent-filter-panel {
-        position: absolute;
-        top: 10px;
-        right: 16px;
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
+        align-items: center; /* 中央寄せ */
         gap: 8px;
-        z-index: 5;
+        margin: 16px auto 0 auto; /* 下部配置と中央寄せ */
+        max-width: fit-content; /* 中央寄せのために追加 */
     }
     .agent-filter-label {
         font-size: 10px;
@@ -1117,18 +1113,15 @@ const S = getStylePresets(COLORS);
     }
     .agent-role-filters button.active {
         background: rgba(166, 247, 255, 0.25);
-        border: 2px solid rgba(166, 247, 255, 0.8);
+        border: 2px solid #A6F7FF;
         color: #ffffff;
-        box-shadow: 0 0 8px rgba(166, 247, 255, 0.3);
+        text-shadow: 0 0 8px rgba(166, 247, 255, 0.6);
+        box-shadow: 0 0 8px rgba(166, 247, 255, 0.3), inset 0 0 6px rgba(166, 247, 255, 0.1);
     }
     .agent-role-filters button:hover {
         border-color: rgba(166, 247, 255, 0.6);
     }
-    .agent-chart-wrapper {
-        aspect-ratio: auto;
-        height: 360px;
-        width: 100%;
-    }
+
     .agent-stat-controls {
         border-top: 1px solid rgba(166, 247, 255, 0.15);
         padding-top: 12px;
@@ -1163,9 +1156,7 @@ const S = getStylePresets(COLORS);
         .agent-panel {
             padding-top: 0;
         }
-        .agent-chart-wrapper {
-            height: 280px;
-        }
+
     }
 </style>
 <script is:inline>
@@ -1197,7 +1188,7 @@ document.addEventListener("DOMContentLoaded", () => {
             { "weapon": "Ghost", "cat": "sidearm", "kills": 814, "deaths": 787, "kd": 1.03, "hs_rate": 0.534, "adr": 86.2, "kpr": 0.8 }, { "weapon": "Classic", "cat": "sidearm", "kills": 752, "deaths": 518, "kd": 1.45, "hs_rate": 0.468, "adr": 34.8, "kpr": 0.3 }, { "weapon": "Sheriff", "cat": "sidearm", "kills": 538, "deaths": 632, "kd": 0.85, "hs_rate": 0.642, "adr": 61.5, "kpr": 0.4 }, { "weapon": "Frenzy", "cat": "sidearm", "kills": 5, "deaths": 88, "kd": 0.06, "hs_rate": 0.455, "adr": 60.7, "kpr": 0.6 },
             { "weapon": "Odin", "cat": "lmg", "kills": 10, "deaths": 242, "kd": 0.04, "hs_rate": 0.148, "adr": 85.0, "kpr": 0.7 }, { "weapon": "Ares", "cat": "lmg", "kills": 4, "deaths": 54, "kd": 0.07, "hs_rate": 0.200, "adr": 67.6, "kpr": 0.5 },
             { "weapon": "Melee", "cat": "other", "kills": 4, "deaths": 13, "kd": 0.31, "hs_rate": 0.222, "adr": 182.5, "kpr": 1.0 },
-            { "weapon": "Headhunter", "cat": "other", "kills": 248, "deaths": 62, "kd": 4.00, "hs_rate": 0.606, "adr": 179.3, "kpr": 1.2 }, { "weapon": "Tour De Force", "cat": "other", "kills": 125, "deaths": 56, "kd": 2.23, "hs_rate": 0.131, "adr": 231.5, "kpr": 1.4 }, { "weapon": "Bandit", "cat": "other", "kills": 11, "deaths": 16, "kd": 0.69, "hs_rate": 0.611, "adr": 66.3, "kpr": 0.4 }, { "weapon": "Overdrive", "cat": "other", "kills": 0, "deaths": 25, "kd": 0.00, "hs_rate": 0.000, "adr": 0.0, "kpr": 0.0 }
+            { "weapon": "Headhunter", "cat": "other", "kills": 248, "deaths": 62, "kd": 4.00, "hs_rate": 0.606, "adr": 179.3, "kpr": 1.2 }, { "weapon": "Tour De Force", "cat": "other", "kills": 125, "deaths": 56, "kd": 2.23, "hs_rate": 0.131, "adr": 231.5, "kpr": 1.4 }, { "weapon": "Bandit", "cat": "sidearm", "kills": 11, "deaths": 16, "kd": 0.69, "hs_rate": 0.611, "adr": 66.3, "kpr": 0.4 }, { "weapon": "Overdrive", "cat": "other", "kills": 0, "deaths": 25, "kd": 0.00, "hs_rate": 0.000, "adr": 0.0, "kpr": 0.0 }
         ];
         const allWeaponCats = ['assault', 'sniper', 'smg', 'shotgun', 'sidearm', 'lmg', 'other'];
         let activeWeaponCategories = new Set(['assault']);
@@ -1236,7 +1227,7 @@ document.addEventListener("DOMContentLoaded", () => {
             { "name": "KAY/O", "role": "Initiator", "time": 0.4, "matches": 1, "win_rate": 0.0, "kd": 0.58, "adr": 100.8, "acs": 142.4, "hs": 16.7, "kast": 50.0 }
         ];
         const agentRoles = ["Controller", "Initiator", "Duelist", "Sentinel"];
-        let agentThreshold = 0;
+        let agentThreshold = 20;
         let agentCurrentStat = 'time';
         let activeAgentRoles = new Set(agentRoles);
 
@@ -1302,7 +1293,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }) : null;
         const syncAgentThresholdLabel = () => {
-            if (agentThresholdDisplay) agentThresholdDisplay.textContent = `M ≥ ${agentThreshold}`;
+            if (agentThresholdDisplay) agentThresholdDisplay.textContent = `MATCHES ≥ ${agentThreshold}`;
         };
         const refreshAgentChart = () => {
             if (!agentChart) return;
