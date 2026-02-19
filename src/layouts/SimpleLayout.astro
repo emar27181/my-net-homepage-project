@@ -4,7 +4,8 @@ export interface Props {
   description?: string;
 }
 
-const { title, description = "nodoameのポートフォリオサイト" } = Astro.props;
+const { title, description = "nodoame (のどあめん) のポートフォリオサイト。VALORANT(ヴァロラント)の統計データ、ゲームプレイ動画、デバイス情報などを公開しています。" } = Astro.props;
+const pageTitle = `${title} | nodoame (のどあめん) | Valorant Stats`;
 ---
 
 <!doctype html>
@@ -14,10 +15,10 @@ const { title, description = "nodoameのポートフォリオサイト" } = Astr
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/icon_omencat_transparent.png" />
-    <title>{title}</title>
+    <title>{pageTitle}</title>
     <meta
       name="keywords"
-      content="nodoame,ポートフォリオ,VALORANT,ゲーム,動画"
+      content="nodoame, のどあめん, nodoamen, valorant, ヴァロラント, portfolio, stats, portfolio, valorant stats, valorant tracker, valorant profile"
     />
     <meta name="author" content="nodoame" />
     <meta
