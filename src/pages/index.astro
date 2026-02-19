@@ -195,7 +195,7 @@ const S = getStylePresets(COLORS);
                 href="https://tracker.gg/valorant/profile/riot/nodoame%2327182/overview?platform=pc&playlist=competitive&season=4c4b8cff-43eb-13d3-8f14-96b783c90cd2"
                 target="_blank"
                 rel="noopener"
-                style={S.link}>Solo Profile</a
+                style={S.link}>Valorant Profile (Solo)</a
               ></span
             ><br />
             <span style="margin-left: 24px;"
@@ -368,19 +368,8 @@ const S = getStylePresets(COLORS);
 
       <!-- カルーセル表示（折りたたみ時） -->
       <div id="video-carousel" style="position: relative;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <!-- 左矢印ボタン -->
-          <button
-            id="prev-video-btn"
-            style={`flex-shrink: 0; width: 40px; height: 40px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 20px; font-family: ${FONTS.pixelJp}; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
-            onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
-            onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
-          >
-            ◀
-          </button>
-
-          <!-- 動画表示エリア -->
-          <div style="flex: 1;">
+                  <!-- 動画表示エリア -->
+          <div class="video-container" style="position: relative;">
             <div class="carousel-video" data-index="0">
               <YouTubeClipViewer
                 clipUrl="https://youtu.be/eAx-dZ3_wEI?si=LM3jptJTQAkeco-o"
@@ -439,12 +428,22 @@ const S = getStylePresets(COLORS);
             </div>
           </div>
 
+          <!-- 左矢印ボタン -->
+          <button
+            id="prev-video-btn"
+            style={`position: absolute; top: 50%; left: 10px; transform: translateY(-50%); z-index: 10; width: 40px; height: 40px; background: rgba(77, 121, 255, 0.2); color: ${COLORS.textWhite}; border: 1px solid rgba(77, 121, 255, 0.5); border-radius: 4px; font-size: 20px; font-family: ${FONTS.pixelJp}; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
+            onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
+            onmouseout={`this.style.background='rgba(77, 121, 255, 0.2)'; this.style.color='${COLORS.textWhite}'; this.style.border='1px solid rgba(77, 121, 255, 0.5)';`}
+          >
+            ◀
+          </button>
+
           <!-- 右矢印ボタン -->
           <button
             id="next-video-btn"
-            style={`flex-shrink: 0; width: 40px; height: 40px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 20px; font-family: ${FONTS.pixelJp}; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
+            style={`position: absolute; top: 50%; right: 10px; transform: translateY(-50%); z-index: 10; width: 40px; height: 40px; background: rgba(77, 121, 255, 0.2); color: ${COLORS.textWhite}; border: 1px solid rgba(77, 121, 255, 0.5); border-radius: 4px; font-size: 20px; font-family: ${FONTS.pixelJp}; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
             onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
-            onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
+            onmouseout={`this.style.background='rgba(77, 121, 255, 0.2)'; this.style.color='${COLORS.textWhite}'; this.style.border='1px solid rgba(77, 121, 255, 0.5)';`}
           >
             ▶
           </button>
@@ -589,7 +588,7 @@ const S = getStylePresets(COLORS);
                   rel="noopener"
                   style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: ${FONTS.pixel}; text-shadow: none; transition: all 0.3s ease;`}
                   onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='1px solid ${COLORS.primary}';`}
-                  onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
+                  onmouseout={`this.style.background='rgba(0, 0, 0, 0.4)'; this.style.color='${COLORS.textWhite}'; this.style.border='1px solid rgba(255, 255, 255, 0.3)';`}
                 >
                   サイトを見る →
                 </a>
@@ -1243,19 +1242,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 1. RANK CHART INIT
         const rChart = new Chart(document.getElementById('rankChart').getContext('2d'), {
-            type: 'line', data: { labels: rankData.map(d => d.act_id), datasets: [{ data: rankData.map(d => allRanks.indexOf(d.rank)), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: rankData.map(d => rankColors[d.rank.split(' ')[0]] || THEME_COLOR), pointBorderColor: '#fff', pointBorderWidth: 1, tension: 0 }] },
-            options: { ...commonOptions, scales: { y: { min: 0, max: 24, ticks: { stepSize: 1, callback: rankLabelFunc }, grid: { color: (c) => c.tick.value % 3 === 0 ? GRID_H : GRID_H.replace('0.4)', '0.1)'), lineWidth: (c) => c.tick.value % 3 === 0 ? 2 : 1 } }, x: { ...commonOptions.scales.x } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const d = rankData[item.dataIndex]; return [` RANK    : ${d.rank}`, ` PLAYTIME: ${d.playtime}h`, ` WINS    : ${d.wins}`, ` WIN %   : ${(d.win_rate * 100).toFixed(1)}%`, ` K/D     : ${d.kd.toFixed(2)}`, ` HS%     : ${(d.hs * 100).toFixed(1)}%`]; } } } } }
+            type: 'line', data: { labels: rankData.map(d => d.act_id), datasets: [{ data: rankData.map(d => allRanks.indexOf(d.rank)), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: rankData.map(d => rankColors[d.rank.split(' ')[0]] || THEME_COLOR), pointBorderColor: THEME_COLOR, pointBorderWidth: 1, tension: 0 }] },
+            options: { ...commonOptions, scales: { y: { min: 0, max: 24, ticks: { stepSize: 1, callback: rankLabelFunc, autoSkip: false, maxRotation: 0, minRotation: 0 }, grid: { color: (c) => c.tick.value % 3 === 0 ? GRID_H : GRID_H.replace('0.4)', '0.1)'), lineWidth: (c) => c.tick.value % 3 === 0 ? 2 : 1 } }, x: { ...commonOptions.scales.x } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const d = rankData[item.dataIndex]; return [` RANK    : ${d.rank}`, ` PLAYTIME: ${d.playtime}h`, ` WINS    : ${d.wins}`, ` WIN %   : ${(d.win_rate * 100).toFixed(1)}%`, ` K/D     : ${d.kd.toFixed(2)}`, ` HS%     : ${(d.hs * 100).toFixed(1)}%`]; } } } } }
         });
 
         // 2. WEAPON CHART INIT
         const wChart = new Chart(document.getElementById('weaponChart').getContext('2d'), {
-            type: 'line', data: { labels: filteredWeapons.map(w => w.weapon), datasets: [{ data: filteredWeapons.map(w => w.kd), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: THEME_COLOR, tension: 0 }] },
+            type: 'line', data: { labels: filteredWeapons.map(w => w.weapon), datasets: [{ data: filteredWeapons.map(w => w.kd), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: THEME_COLOR, pointBorderColor: THEME_COLOR, pointBorderWidth: 1, tension: 0 }] },
             options: (() => { const s = kdScale(filteredWeapons.map(w => w.kd)); return { ...commonOptions, _baselineValue: 1.0, scales: { x: { ticks: { color: THEME_COLOR, autoSkip: false, maxRotation: 45, minRotation: 45 }, grid: { color: GRID_V, lineWidth: GRID_V_W } }, y: { min: s.min, max: s.max, ticks: { color: THEME_COLOR, stepSize: s.step, callback: v => v.toFixed(1) }, grid: { color: GRID_H, lineWidth: GRID_H_W } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const w = filteredWeapons[item.dataIndex]; return [` KILLS   : ${w.kills}`, ` DEATHS  : ${w.deaths}`, ` K/D     : ${w.kd.toFixed(2)}`, ` HS %    : ${(w.hs_rate * 100).toFixed(1)}%`, ` ADR     : ${w.adr}`, ` K/ROUND : ${w.kpr}`]; } } } } }; })()
         });
 
         // 3. MAP CHART INIT
         const mChart = new Chart(document.getElementById('mapChart').getContext('2d'), {
-            type: 'line', data: { labels: mapData.map(m => m.map), datasets: [{ data: mapData.map(m => (m.win_rate * 100).toFixed(1)), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: THEME_COLOR, tension: 0 }] },
+            type: 'line', data: { labels: mapData.map(m => m.map), datasets: [{ data: mapData.map(m => (m.win_rate * 100).toFixed(1)), borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: THEME_COLOR, pointBorderColor: THEME_COLOR, pointBorderWidth: 1, tension: 0 }] },
             options: (() => { const s = wrScale(mapData.map(m => m.win_rate * 100)); return { ...commonOptions, _baselineValue: 50, scales: { y: { min: s.min, max: s.max, ticks: { stepSize: s.step, callback: v => v + '%' }, grid: { color: GRID_H, lineWidth: GRID_H_W } }, x: { ticks: { color: THEME_COLOR }, grid: { color: GRID_V, lineWidth: GRID_V_W } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const m = mapData[item.dataIndex]; return [` WIN %   : ${(m.win_rate * 100).toFixed(1)}%`, ` MATCHES : ${m.wins + m.losses}`, ` W / L   : ${m.wins} / ${m.losses}`, ` K/D     : ${m.kd.toFixed(2)}`, ` ADR     : ${m.adr}`, ` ACS     : ${m.acs}`]; } } } } }; })()
         });
         const agentThresholdDisplay = document.getElementById('agent-threshold-display');
@@ -1263,7 +1262,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const agentChartEl = document.getElementById('agentChart');
         const agentChart = agentChartEl ? new Chart(agentChartEl.getContext('2d'), {
             type: 'line',
-            data: { labels: [], datasets: [{ data: [], borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: [], tension: 0 }] },
+            data: { labels: [], datasets: [{ data: [], borderColor: THEME_COLOR, borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: [], pointBorderColor: THEME_COLOR, pointBorderWidth: 1, tension: 0 }] },
             options: {
                 ...commonOptions,
                 scales: { y: { ticks: { color: THEME_COLOR }, grid: { color: GRID_H, lineWidth: GRID_H_W } }, x: { ticks: { color: THEME_COLOR, autoSkip: false, maxRotation: 45, minRotation: 45 }, grid: { color: GRID_V, lineWidth: GRID_V_W } } },
