@@ -1,4 +1,8 @@
 ---
+import competitiveAgentData from '../data/competitive_agent.json';
+import competitiveRankData from '../data/competitive_rank.json';
+import competitiveWeaponData from '../data/competitive_weapon.json';
+import competitiveMapData from '../data/competitive_map.json';
 import SimpleLayout from "../layouts/SimpleLayout.astro";
 import YouTubeClipViewer from "../components/YouTubeClipViewer.astro";
 import { applyTypographyPreset } from "../utils/typography";
@@ -23,6 +27,11 @@ const S = getStylePresets(COLORS);
 
 <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script type="application/json" id="competitive-agent-data" set:html={JSON.stringify(competitiveAgentData)}></script>
+<script type="application/json" id="competitive-rank-data" set:html={JSON.stringify(competitiveRankData)}></script>
+<script type="application/json" id="competitive-weapon-data" set:html={JSON.stringify(competitiveWeaponData)}></script>
+<script type="application/json" id="competitive-map-data" set:html={JSON.stringify(competitiveMapData)}></script>
 
 <SimpleLayout title="nodoame's Portfolio">
   <div
@@ -1664,54 +1673,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const wrScale = (values) => { const dev = Math.max(...values.map(v => Math.abs(v - 50)), 5); const step = dev <= 15 ? 5 : 10; const steps = Math.ceil(dev / step) + 1; return { min: Math.max(0, 50 - steps * step), max: Math.min(100, 50 + steps * step), step }; };
 
         // DATASETS
-        const rankData = [{ "act_id": "E2: A3", "rank": "Bronze 3", "playtime": 5.6, "wins": 4, "win_rate": 0.40, "kd": 0.62, "hs": 0.172 }, { "act_id": "E3: A1", "rank": "Silver 2", "playtime": 51, "wins": 42, "win_rate": 0.50, "kd": 0.97, "hs": 0.211 }, { "act_id": "E3: A2", "rank": "Gold 1", "playtime": 27, "wins": 24, "win_rate": 0.585, "kd": 0.95, "hs": 0.296 }, { "act_id": "E3: A3", "rank": "Gold 3", "playtime": 66, "wins": 64, "win_rate": 0.571, "kd": 1.02, "hs": 0.277 }, { "act_id": "E4: A1", "rank": "Gold 1", "playtime": 34, "wins": 31, "win_rate": 0.554, "kd": 1.01, "hs": 0.269 }, { "act_id": "E4: A2", "rank": "Gold 2", "playtime": 12, "wins": 11, "win_rate": 0.579, "kd": 0.96, "hs": 0.296 }, { "act_id": "E4: A3", "rank": "Gold 2", "playtime": 1.9, "wins": 2, "win_rate": 0.667, "kd": 1.13, "hs": 0.220 }, { "act_id": "E5: A1", "rank": "Platinum 3", "playtime": 11, "wins": 12, "win_rate": 0.667, "kd": 1.06, "hs": 0.340 }, { "act_id": "E5: A2", "rank": "Platinum 3", "playtime": 5.1, "wins": 3, "win_rate": 0.375, "kd": 0.91, "hs": 0.262 }, { "act_id": "E5: A3", "rank": "Platinum 3", "playtime": 6.9, "wins": 4, "win_rate": 0.364, "kd": 0.92, "hs": 0.340 }, { "act_id": "E6: A1", "rank": "Platinum 3", "playtime": 11, "wins": 10, "win_rate": 0.556, "kd": 1.00, "hs": 0.236 }, { "act_id": "E6: A2", "rank": "Platinum 3", "playtime": 6.2, "wins": 5, "win_rate": 0.500, "kd": 0.83, "hs": 0.309 }, { "act_id": "E6: A3", "rank": "Platinum 3", "playtime": 4.7, "wins": 2, "win_rate": 0.286, "kd": 0.76, "hs": 0.286 }, { "act_id": "E7: A1", "rank": "Gold 3", "playtime": 17, "wins": 11, "win_rate": 0.393, "kd": 0.82, "hs": 0.350 }, { "act_id": "E8: A2", "rank": "Gold 1", "playtime": 5.7, "wins": 4, "win_rate": 0.444, "kd": 0.72, "hs": 0.331 }, { "act_id": "E8: A3", "rank": "Gold 3", "playtime": 24, "wins": 20, "win_rate": 0.476, "kd": 0.88, "hs": 0.322 }, { "act_id": "E9: A1", "rank": "Gold 2", "playtime": 20, "wins": 17, "win_rate": 0.500, "kd": 1.13, "hs": 0.315 }, { "act_id": "E9: A2", "rank": "Gold 3", "playtime": 14, "wins": 10, "win_rate": 0.435, "kd": 1.07, "hs": 0.387 }, { "act_id": "E9: A3", "rank": "Platinum 1", "playtime": 17, "wins": 16, "win_rate": 0.552, "kd": 1.07, "hs": 0.341 }, { "act_id": "V25: A1", "rank": "Gold 3", "playtime": 10, "wins": 8, "win_rate": 0.471, "kd": 1.03, "hs": 0.282 }, { "act_id": "V25: A2", "rank": "Platinum 1", "playtime": 23, "wins": 16, "win_rate": 0.410, "kd": 1.11, "hs": 0.354 }, { "act_id": "V25: A3", "rank": "Platinum 3", "playtime": 35, "wins": 34, "win_rate": 0.567, "kd": 1.13, "hs": 0.332 }, { "act_id": "V25: A4", "rank": "Diamond 1", "playtime": 42, "wins": 44, "win_rate": 0.603, "kd": 1.02, "hs": 0.300 }, { "act_id": "V25: A5", "rank": "Diamond 2", "playtime": 48, "wins": 39, "win_rate": 0.476, "kd": 0.97, "hs": 0.336 }, { "act_id": "V25: A6", "rank": "Ascendant 1", "playtime": 52, "wins": 44, "win_rate": 0.489, "kd": 1.01, "hs": 0.262 }, { "act_id": "V26: A1", "rank": "Platinum 2", "playtime": 20, "wins": 14, "win_rate": 0.424, "kd": 0.97, "hs": 0.314 }];
+        const rankData = JSON.parse(document.getElementById('competitive-rank-data').textContent);
+        const weaponData = JSON.parse(document.getElementById('competitive-weapon-data').textContent);
+        const mapData = JSON.parse(document.getElementById('competitive-map-data').textContent);
+        const agentData = JSON.parse(document.getElementById('competitive-agent-data').textContent);
 
-        const weaponData = [
-            { "weapon": "Vandal", "cat": "assault", "kills": 8688, "deaths": 6564, "kd": 1.32, "hs_rate": 0.413, "adr": 117.2, "kpr": 0.7 }, { "weapon": "Phantom", "cat": "assault", "kills": 933, "deaths": 2370, "kd": 0.39, "hs_rate": 0.30, "adr": 113.7, "kpr": 0.7 }, { "weapon": "Bulldog", "cat": "assault", "kills": 607, "deaths": 276, "kd": 2.20, "hs_rate": 0.364, "adr": 85.6, "kpr": 0.7 }, { "weapon": "Guardian", "cat": "assault", "kills": 322, "deaths": 187, "kd": 1.72, "hs_rate": 0.487, "adr": 134.7, "kpr": 0.7 },
-            { "weapon": "Operator", "cat": "sniper", "kills": 76, "deaths": 389, "kd": 0.20, "hs_rate": 0.136, "adr": 62.8, "kpr": 0.4 }, { "weapon": "Marshal", "cat": "sniper", "kills": 25, "deaths": 126, "kd": 0.20, "hs_rate": 0.630, "adr": 80.9, "kpr": 0.5 }, { "weapon": "Outlaw", "cat": "sniper", "kills": 3, "deaths": 33, "kd": 0.09, "hs_rate": 0.000, "adr": 58.6, "kpr": 0.4 },
-            { "weapon": "Spectre", "cat": "smg", "kills": 415, "deaths": 521, "kd": 0.80, "hs_rate": 0.236, "adr": 68.6, "kpr": 0.6 }, { "weapon": "Stinger", "cat": "smg", "kills": 20, "deaths": 89, "kd": 0.22, "hs_rate": 0.246, "adr": 72.1, "kpr": 0.6 },
-            { "weapon": "Bucky", "cat": "shotgun", "kills": 181, "deaths": 92, "kd": 1.97, "hs_rate": 0.164, "adr": 56.0, "kpr": 0.4 }, { "weapon": "Judge", "cat": "shotgun", "kills": 47, "deaths": 236, "kd": 0.20, "hs_rate": 0.236, "adr": 61.9, "kpr": 0.5 },
-            { "weapon": "Ghost", "cat": "sidearm", "kills": 814, "deaths": 787, "kd": 1.03, "hs_rate": 0.534, "adr": 86.2, "kpr": 0.8 }, { "weapon": "Classic", "cat": "sidearm", "kills": 752, "deaths": 518, "kd": 1.45, "hs_rate": 0.468, "adr": 34.8, "kpr": 0.3 }, { "weapon": "Sheriff", "cat": "sidearm", "kills": 538, "deaths": 632, "kd": 0.85, "hs_rate": 0.642, "adr": 61.5, "kpr": 0.4 }, { "weapon": "Frenzy", "cat": "sidearm", "kills": 5, "deaths": 88, "kd": 0.06, "hs_rate": 0.455, "adr": 60.7, "kpr": 0.6 },
-            { "weapon": "Odin", "cat": "lmg", "kills": 10, "deaths": 242, "kd": 0.04, "hs_rate": 0.148, "adr": 85.0, "kpr": 0.7 }, { "weapon": "Ares", "cat": "lmg", "kills": 4, "deaths": 54, "kd": 0.07, "hs_rate": 0.200, "adr": 67.6, "kpr": 0.5 },
-            { "weapon": "Melee", "cat": "other", "kills": 4, "deaths": 13, "kd": 0.31, "hs_rate": 0.222, "adr": 182.5, "kpr": 1.0 },
-            { "weapon": "Headhunter", "cat": "other", "kills": 248, "deaths": 62, "kd": 4.00, "hs_rate": 0.606, "adr": 179.3, "kpr": 1.2 }, { "weapon": "Tour De Force", "cat": "other", "kills": 125, "deaths": 56, "kd": 2.23, "hs_rate": 0.131, "adr": 231.5, "kpr": 1.4 }, { "weapon": "Bandit", "cat": "sidearm", "kills": 11, "deaths": 16, "kd": 0.69, "hs_rate": 0.611, "adr": 66.3, "kpr": 0.4 }, { "weapon": "Overdrive", "cat": "other", "kills": 0, "deaths": 25, "kd": 0.00, "hs_rate": 0.000, "adr": 0.0, "kpr": 0.0 }
-        ];
         const allWeaponCats = ['assault', 'sniper', 'smg', 'shotgun', 'sidearm', 'lmg', 'other'];
         let activeWeaponCategories = new Set(['assault']);
         let currentWeaponMode = 'kd';
         const getFilteredWeapons = () => activeWeaponCategories.size === 0 ? weaponData : weaponData.filter(w => activeWeaponCategories.has(w.cat));
         let filteredWeapons = getFilteredWeapons();
 
-        const mapData = [{ "map": "Corrode", "win_rate": 0.719, "wins": 23, "losses": 9, "kd": 1.04, "adr": 140.3, "acs": 214.3 }, { "map": "Split", "win_rate": 0.595, "wins": 66, "losses": 45, "kd": 0.99, "adr": 123.8, "acs": 188.7 }, { "map": "Fracture", "win_rate": 0.551, "wins": 27, "losses": 22, "kd": 0.98, "adr": 121.7, "acs": 183.2 }, { "map": "Lotus", "win_rate": 0.541, "wins": 40, "losses": 33, "kd": 0.98, "adr": 125.6, "acs": 193.4 }, { "map": "Sunset", "win_rate": 0.524, "wins": 33, "losses": 30, "kd": 1.03, "adr": 136.1, "acs": 211.0 }, { "map": "Haven", "win_rate": 0.516, "wins": 64, "losses": 59, "kd": 1.03, "adr": 130.5, "acs": 198.0 }, { "map": "Bind", "win_rate": 0.507, "wins": 70, "losses": 68, "kd": 0.97, "adr": 124.9, "acs": 190.8 }, { "map": "Breeze", "win_rate": 0.490, "wins": 25, "losses": 26, "kd": 0.98, "adr": 121.2, "acs": 187.9 }, { "map": "Icebox", "win_rate": 0.468, "wins": 44, "losses": 48, "kd": 1.02, "adr": 123.0, "acs": 188.0 }, { "map": "Pearl", "win_rate": 0.463, "wins": 25, "losses": 28, "kd": 1.10, "adr": 127.8, "acs": 195.8 }, { "map": "Abyss", "win_rate": 0.455, "wins": 20, "losses": 22, "kd": 1.08, "adr": 139.7, "acs": 213.7 }, { "map": "Ascent", "win_rate": 0.448, "wins": 56, "losses": 69, "kd": 0.89, "adr": 112.5, "acs": 171.0 }];
         const agentColors = {
             "Astra": "#9d4edd", "Brimstone": "#d2691e", "Clove": "#c44569", "Harbor": "#20b2aa", "Omen": "#191970", "Viper": "#228b22",
             "Breach": "#ff8c00", "Fade": "#2f1b14", "Gekko": "#ffff00", "KAY/O": "#000080", "Skye": "#32cd32", "Sova": "#1e90ff", "Tejo": "#ffcc33",
             "Jett": "#87ceeb", "Neon": "#00ffff", "Phoenix": "#ff0000", "Raze": "#ff8c00", "Reyna": "#8b008b", "Yoru": "#191970",
             "Chamber": "#daa520", "Cypher": "#c9d6e8", "Deadlock": "#8b4513", "Killjoy": "#ffd700", "Sage": "#00ffff", "Vyse": "#6a0dad", "Iso": "#4a4a4a", "Waylay": "#ef476f"
         };
-        const agentData = [
-            { "name": "Clove", "role": "Controller", "time": 156, "matches": 264, "win_rate": 52.7, "kd": 0.99, "adr": 139.9, "acs": 213.6, "hs": 30.4, "kast": 75.0 },
-            { "name": "Omen", "role": "Controller", "time": 124, "matches": 208, "win_rate": 49.0, "kd": 1.01, "adr": 120.2, "acs": 186.3, "hs": 30.4, "kast": 72.5 },
-            { "name": "Astra", "role": "Controller", "time": 109, "matches": 175, "win_rate": 55.4, "kd": 1.06, "adr": 119.7, "acs": 182.1, "hs": 30.1, "kast": 71.7 },
-            { "name": "Chamber", "role": "Sentinel", "time": 52, "matches": 87, "win_rate": 54.0, "kd": 1.05, "adr": 130.4, "acs": 197.2, "hs": 28.1, "kast": 70.2 },
-            { "name": "Viper", "role": "Controller", "time": 46, "matches": 75, "win_rate": 46.7, "kd": 1.00, "adr": 120.2, "acs": 183.2, "hs": 32.7, "kast": 70.6 },
-            { "name": "Skye", "role": "Initiator", "time": 42, "matches": 66, "win_rate": 50.0, "kd": 0.90, "adr": 114.8, "acs": 174.7, "hs": 22.2, "kast": 68.2 },
-            { "name": "Cypher", "role": "Sentinel", "time": 15, "matches": 25, "win_rate": 52.0, "kd": 1.04, "adr": 114.8, "acs": 172.7, "hs": 31.5, "kast": 71.1 },
-            { "name": "Reyna", "role": "Duelist", "time": 10, "matches": 18, "win_rate": 50.0, "kd": 0.93, "adr": 125.6, "acs": 194.2, "hs": 28.5, "kast": 66.0 },
-            { "name": "Brimstone", "role": "Controller", "time": 8.7, "matches": 14, "win_rate": 42.9, "kd": 0.82, "adr": 111.9, "acs": 171.8, "hs": 27.4, "kast": 70.8 },
-            { "name": "Sage", "role": "Sentinel", "time": 6.0, "matches": 10, "win_rate": 60.0, "kd": 0.89, "adr": 104.6, "acs": 157.9, "hs": 20.4, "kast": 70.1 },
-            { "name": "Killjoy", "role": "Sentinel", "time": 2.0, "matches": 3, "win_rate": 66.7, "kd": 1.00, "adr": 112.9, "acs": 168.6, "hs": 22.4, "kast": 71.8 },
-            { "name": "Waylay", "role": "Duelist", "time": 1.5, "matches": 3, "win_rate": 0.0, "kd": 0.54, "adr": 88.6, "acs": 132.6, "hs": 25.5, "kast": 56.9 },
-            { "name": "Jett", "role": "Duelist", "time": 1.2, "matches": 2, "win_rate": 0.0, "kd": 0.73, "adr": 86.2, "acs": 138.9, "hs": 22.4, "kast": 60.0 },
-            { "name": "Phoenix", "role": "Duelist", "time": 0.9, "matches": 2, "win_rate": 50.0, "kd": 0.46, "adr": 63.2, "acs": 96.8, "hs": 26.5, "kast": 46.9 },
-            { "name": "Deadlock", "role": "Sentinel", "time": 0.7, "matches": 1, "win_rate": 100.0, "kd": 0.87, "adr": 124.6, "acs": 191.0, "hs": 34.0, "kast": 60.7 },
-            { "name": "Breach", "role": "Initiator", "time": 0.6, "matches": 1, "win_rate": 100.0, "kd": 0.62, "adr": 80.5, "acs": 117.0, "hs": 22.2, "kast": 75.0 },
-            { "name": "Yoru", "role": "Duelist", "time": 0.6, "matches": 1, "win_rate": 100.0, "kd": 1.60, "adr": 208.9, "acs": 317.8, "hs": 20.9, "kast": 81.8 },
-            { "name": "Iso", "role": "Duelist", "time": 0.5, "matches": 1, "win_rate": 0.0, "kd": 0.61, "adr": 99.6, "acs": 136.7, "hs": 22.9, "kast": 54.2 },
-            { "name": "Tejo", "role": "Initiator", "time": 0.5, "matches": 1, "win_rate": 0.0, "kd": 0.53, "adr": 89.6, "acs": 129.9, "hs": 21.9, "kast": 65.0 },
-            { "name": "Harbor", "role": "Controller", "time": 0.5, "matches": 1, "win_rate": 0.0, "kd": 0.86, "adr": 135.1, "acs": 194.9, "hs": 26.8, "kast": 57.9 },
-            { "name": "KAY/O", "role": "Initiator", "time": 0.4, "matches": 1, "win_rate": 0.0, "kd": 0.58, "adr": 100.8, "acs": 142.4, "hs": 16.7, "kast": 50.0 }
-        ];
         const agentRoles = ["Controller", "Initiator", "Duelist", "Sentinel"];
         let agentThreshold = 20;
         let agentCurrentStat = 'time';
