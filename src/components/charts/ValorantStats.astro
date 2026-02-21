@@ -61,7 +61,7 @@ const S = getStylePresets(COLORS);
     <button onclick="toggleMode('unrated')" id="btn-mode-unrated" class="mode-btn mode-btn-unrated active">UNRATED</button>
     <button onclick="toggleMode('swiftplay')" id="btn-mode-swiftplay" class="mode-btn mode-btn-swiftplay">SWIFT PLAY</button>
     <button onclick="toggleMode('deathmatch')" id="btn-mode-deathmatch" class="mode-btn mode-btn-deathmatch active">DEATHMATCH</button>
-    <button onclick="toggleMode('overall')" id="btn-mode-overall" class="mode-btn mode-btn-overall">OVERALL</button>
+    <button onclick="toggleMode('overall')" id="btn-mode-overall" class="mode-btn mode-btn-overall active">OVERALL</button>
   </div>
 
   <div class="charts-grid" id="charts-grid">
@@ -463,7 +463,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- モードカラー ---
   const MODE_COLORS  = { competitive: '#FFD040', unrated: '#4488FF', swiftplay: '#00C8FF', deathmatch: '#FF4444' };
   const MODE_LABELS  = { competitive: 'COMP', unrated: 'UNRATED', swiftplay: 'SWIFT', deathmatch: 'DM' };
-  let activeModes    = new Set(['competitive', 'unrated', 'deathmatch']);
+  let activeModes    = new Set(['competitive', 'unrated', 'deathmatch', 'overall']);
 
   // --- 定数 ---
   const rankColors = { Iron:'#718093', Bronze:'#cd7f32', Silver:'#dcdde1', Gold:'#e1b12c', Platinum:'#00a8ff', Diamond:'#9c88ff', Ascendant:'#44bd32', Immortal:'#e84118', Radiant:'#fbc531' };
