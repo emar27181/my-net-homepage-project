@@ -56,16 +56,10 @@ const S = getStylePresets(COLORS);
   <hr style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`} />
 
   <div class="mode-switcher">
-    <button onclick="switchGameMode('competitive')" id="btn-mode-competitive" class="mode-btn active">COMPETITIVE</button>
-    <button onclick="switchGameMode('unrated')" id="btn-mode-unrated" class="mode-btn">UNRATED</button>
-    <button onclick="switchGameMode('swiftplay')" id="btn-mode-swiftplay" class="mode-btn">SWIFTPLAY</button>
-    <button onclick="switchGameMode('spike_rush')" id="btn-mode-spike_rush" class="mode-btn">SPIKE RUSH</button>
-    <button onclick="switchGameMode('deathmatch')" id="btn-mode-deathmatch" class="mode-btn">DEATHMATCH</button>
-  </div>
-
-  <div id="mode-unavailable" class="mode-unavailable" style="display: none;">
-    <p class="mode-unavailable-text">DATA LOADING...</p>
-    <p class="mode-unavailable-sub">選択されたモードのデータは現在準備中です</p>
+    <span class="mode-label">MODE</span>
+    <button onclick="toggleMode('competitive')" id="btn-mode-competitive" class="mode-btn mode-btn-competitive active">COMPETITIVE</button>
+    <button onclick="toggleMode('unrated')" id="btn-mode-unrated" class="mode-btn mode-btn-unrated active">UNRATED</button>
+    <button onclick="toggleMode('deathmatch')" id="btn-mode-deathmatch" class="mode-btn mode-btn-deathmatch active">DEATHMATCH</button>
   </div>
 
   <div class="charts-grid" id="charts-grid">
@@ -185,15 +179,28 @@ const S = getStylePresets(COLORS);
   .mode-switcher {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
     margin-bottom: 20px;
   }
+  .mode-label {
+    font-family: var(--font-pixel-jp);
+    font-size: 11px;
+    color: rgba(166, 247, 255, 0.5);
+    letter-spacing: 1px;
+    margin-right: 4px;
+  }
+  /* per-mode color variables */
+  .mode-btn-competitive { --mc: #A6F7FF; --mc-rgb: 166, 247, 255; }
+  .mode-btn-unrated     { --mc: #FFB347; --mc-rgb: 255, 179, 71; }
+  .mode-btn-deathmatch  { --mc: #90EE90; --mc-rgb: 144, 238, 144; }
+
   .mode-btn {
     background: transparent;
-    color: #A6F7FF;
-    border: 1px solid rgba(166, 247, 255, 0.25);
-    padding: 6px 16px;
+    color: var(--mc);
+    border: 1px solid rgba(var(--mc-rgb), 0.3);
+    padding: 6px 14px;
     font-family: var(--font-pixel-jp);
     font-size: 12px;
     cursor: pointer;
@@ -201,41 +208,19 @@ const S = getStylePresets(COLORS);
     border-radius: 2px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    opacity: 0.45;
   }
   .mode-btn:hover {
-    background: rgba(166, 247, 255, 0.1);
-    border-color: rgba(166, 247, 255, 0.5);
+    opacity: 0.75;
+    border-color: rgba(var(--mc-rgb), 0.6);
   }
   .mode-btn.active {
-    background: rgba(77, 121, 255, 0.3);
-    border: 2px solid #4d79ff;
+    background: rgba(var(--mc-rgb), 0.15);
+    border: 2px solid var(--mc);
     color: #ffffff;
-    text-shadow: 0 0 10px rgba(77, 121, 255, 0.8);
-    box-shadow: 0 0 12px rgba(77, 121, 255, 0.4), inset 0 0 8px rgba(77, 121, 255, 0.15);
-  }
-  .mode-unavailable {
-    text-align: center;
-    padding: 60px 20px;
-    border: 2px dashed rgba(166, 247, 255, 0.3);
-    border-radius: 8px;
-    background: rgba(77, 121, 255, 0.05);
-  }
-  .mode-unavailable-text {
-    font-family: var(--font-pixel);
-    font-size: 18px;
-    color: #A6F7FF;
-    text-shadow: 0 0 10px rgba(166, 247, 255, 0.5);
-    margin-bottom: 12px;
-    animation: blink-loading 1.5s ease-in-out infinite;
-  }
-  .mode-unavailable-sub {
-    font-family: var(--font-pixel-jp);
-    font-size: 13px;
-    color: rgba(166, 247, 255, 0.6);
-  }
-  @keyframes blink-loading {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+    text-shadow: 0 0 10px var(--mc);
+    box-shadow: 0 0 10px rgba(var(--mc-rgb), 0.35), inset 0 0 6px rgba(var(--mc-rgb), 0.1);
+    opacity: 1;
   }
   .charts-grid {
     display: grid;
@@ -426,31 +411,40 @@ const S = getStylePresets(COLORS);
   }
 </style>
 
+
 <script is:inline>
 document.addEventListener("DOMContentLoaded", () => {
   const statsEl = document.querySelector('.stats-section');
   const attr = (k, d) => statsEl?.getAttribute(k) || d;
   const THEME_COLOR = attr('data-chart-color', '#A6F7FF');
-  const GRID_H = attr('data-chart-grid-h', 'hsla(185, 100%, 82%, 0.4)');
-  const GRID_H_W = parseFloat(attr('data-chart-grid-h-width', '1'));
-  const GRID_V = attr('data-chart-grid-v', 'hsla(185, 100%, 82%, 0.18)');
-  const GRID_V_W = parseFloat(attr('data-chart-grid-v-width', '1'));
-  const KD_LINE_W = parseFloat(attr('data-chart-kd-line-width', '2.5'));
-  const TOOLTIP_BG = attr('data-chart-tooltip', 'rgba(5, 10, 20, 0.95)');
+  const GRID_H      = attr('data-chart-grid-h', 'hsla(185,100%,82%,0.4)');
+  const GRID_H_W    = parseFloat(attr('data-chart-grid-h-width', '1'));
+  const GRID_V      = attr('data-chart-grid-v', 'hsla(185,100%,82%,0.18)');
+  const GRID_V_W    = parseFloat(attr('data-chart-grid-v-width', '1'));
+  const KD_LINE_W   = parseFloat(attr('data-chart-kd-line-width', '2.5'));
+  const TOOLTIP_BG  = attr('data-chart-tooltip', 'rgba(5,10,20,0.95)');
 
-  const rankColors = { "Iron": "#718093", "Bronze": "#cd7f32", "Silver": "#dcdde1", "Gold": "#e1b12c", "Platinum": "#00a8ff", "Diamond": "#9c88ff", "Ascendant": "#44bd32", "Immortal": "#e84118", "Radiant": "#fbc531" };
-  const allRanks = ["Iron 1", "Iron 2", "Iron 3", "Bronze 1", "Bronze 2", "Bronze 3", "Silver 1", "Silver 2", "Silver 3", "Gold 1", "Gold 2", "Gold 3", "Platinum 1", "Platinum 2", "Platinum 3", "Diamond 1", "Diamond 2", "Diamond 3", "Ascendant 1", "Ascendant 2", "Ascendant 3", "Immortal 1", "Immortal 2", "Immortal 3", "Radiant"];
+  // --- モードカラー ---
+  const MODE_COLORS  = { competitive: '#A6F7FF', unrated: '#FFB347', deathmatch: '#90EE90' };
+  const MODE_LABELS  = { competitive: 'COMP', unrated: 'UNRATED', deathmatch: 'DM' };
+  let activeModes    = new Set(['competitive', 'unrated', 'deathmatch']);
+
+  // --- 定数 ---
+  const rankColors = { Iron:'#718093', Bronze:'#cd7f32', Silver:'#dcdde1', Gold:'#e1b12c', Platinum:'#00a8ff', Diamond:'#9c88ff', Ascendant:'#44bd32', Immortal:'#e84118', Radiant:'#fbc531' };
+  const allRanks   = ['Iron 1','Iron 2','Iron 3','Bronze 1','Bronze 2','Bronze 3','Silver 1','Silver 2','Silver 3','Gold 1','Gold 2','Gold 3','Platinum 1','Platinum 2','Platinum 3','Diamond 1','Diamond 2','Diamond 3','Ascendant 1','Ascendant 2','Ascendant 3','Immortal 1','Immortal 2','Immortal 3','Radiant'];
+  const agentColors = { Astra:'#9d4edd', Brimstone:'#d2691e', Clove:'#c44569', Harbor:'#20b2aa', Omen:'#7986cb', Viper:'#228b22', Breach:'#ff8c00', Fade:'#9575cd', Gekko:'#cddc39', 'KAY/O':'#4fc3f7', Skye:'#32cd32', Sova:'#1e90ff', Tejo:'#ffcc33', Jett:'#87ceeb', Neon:'#00ffff', Phoenix:'#ff7043', Raze:'#ff8c00', Reyna:'#8b008b', Yoru:'#5c6bc0', Chamber:'#daa520', Cypher:'#c9d6e8', Deadlock:'#8b4513', Killjoy:'#ffd700', Sage:'#4dd0e1', Vyse:'#6a0dad', Iso:'#78909c', Waylay:'#ef476f' };
+
   const getResponsiveRadius = (ctx) => ctx.chart.width < 500 ? 4 : 8;
-  const kdScale = (values) => { const dev = Math.max(...values.map(v => Math.abs(v - 1.0)), 0.2); const step = dev <= 0.5 ? 0.2 : 0.5; const steps = Math.ceil(dev / step) + 1; return { min: Math.max(0, Math.round((1.0 - steps * step) * 10) / 10), max: Math.round((1.0 + steps * step) * 10) / 10, step }; };
-  const wrScale = (values) => { const dev = Math.max(...values.map(v => Math.abs(v - 50)), 5); const step = dev <= 15 ? 5 : 10; const steps = Math.ceil(dev / step) + 1; return { min: Math.max(0, 50 - steps * step), max: Math.min(100, 50 + steps * step), step }; };
+  const kdScale = (vals) => { const dev = Math.max(...vals.map(v => Math.abs(v-1.0)), 0.2); const step = dev<=0.5?0.2:0.5; const steps = Math.ceil(dev/step)+1; return { min: Math.max(0, Math.round((1.0-steps*step)*10)/10), max: Math.round((1.0+steps*step)*10)/10, step }; };
+  const wrScale = (vals) => { const dev = Math.max(...vals.map(v => Math.abs(v-50)), 5); const step = dev<=15?5:10; const steps = Math.ceil(dev/step)+1; return { min: Math.max(0,50-steps*step), max: Math.min(100,50+steps*step), step }; };
 
   // --- データ読み込み ---
   const gameData = {
     competitive: {
-      agent: JSON.parse(document.getElementById('competitive-agent-data').textContent),
-      rank:  JSON.parse(document.getElementById('competitive-rank-data').textContent),
+      agent:  JSON.parse(document.getElementById('competitive-agent-data').textContent),
+      rank:   JSON.parse(document.getElementById('competitive-rank-data').textContent),
       weapon: JSON.parse(document.getElementById('competitive-weapon-data').textContent),
-      map:   JSON.parse(document.getElementById('competitive-map-data').textContent),
+      map:    JSON.parse(document.getElementById('competitive-map-data').textContent),
     },
     unrated: {
       agent: JSON.parse(document.getElementById('unrated-agent-data').textContent),
@@ -461,28 +455,90 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   };
 
-  let rankData   = gameData.competitive.rank;
-  let weaponData = gameData.competitive.weapon;
-  let mapData    = gameData.competitive.map;
-  let agentData  = gameData.competitive.agent;
+  // weapon/map はコンペのみ
+  const weaponData = gameData.competitive.weapon;
+  const mapData    = gameData.competitive.map;
 
-  const allWeaponCats = ['assault', 'sniper', 'smg', 'shotgun', 'sidearm', 'lmg', 'other'];
-  let activeWeaponCategories = new Set(['assault']);
-  let currentWeaponMode = 'kd';
-  let getFilteredWeapons = () => activeWeaponCategories.size === 0 ? weaponData : weaponData.filter(w => activeWeaponCategories.has(w.cat));
-  let filteredWeapons = getFilteredWeapons();
+  // --- Rank chart helpers ---
+  function getUnifiedActIds() {
+    const seen = new Set(), ids = [];
+    (gameData.competitive?.rank || []).forEach(d => { if (!seen.has(d.act_id)) { seen.add(d.act_id); ids.push(d.act_id); } });
+    ['unrated','deathmatch'].forEach(m => {
+      (gameData[m]?.rank || []).forEach(d => { if (!seen.has(d.act_id)) { seen.add(d.act_id); ids.push(d.act_id); } });
+    });
+    return ids;
+  }
 
-  const agentColors = {
-    "Astra": "#9d4edd", "Brimstone": "#d2691e", "Clove": "#c44569", "Harbor": "#20b2aa", "Omen": "#191970", "Viper": "#228b22",
-    "Breach": "#ff8c00", "Fade": "#2f1b14", "Gekko": "#ffff00", "KAY/O": "#000080", "Skye": "#32cd32", "Sova": "#1e90ff", "Tejo": "#ffcc33",
-    "Jett": "#87ceeb", "Neon": "#00ffff", "Phoenix": "#ff0000", "Raze": "#ff8c00", "Reyna": "#8b008b", "Yoru": "#191970",
-    "Chamber": "#daa520", "Cypher": "#c9d6e8", "Deadlock": "#8b4513", "Killjoy": "#ffd700", "Sage": "#00ffff", "Vyse": "#6a0dad", "Iso": "#4a4a4a", "Waylay": "#ef476f"
-  };
-  const agentRoles = ["Controller", "Initiator", "Duelist", "Sentinel"];
+  let currentRankMode = 'rank';
+
+  function buildRankDatasets(metricMode) {
+    const labels = getUnifiedActIds();
+    const datasets = [];
+    for (const m of activeModes) {
+      const modeRank = gameData[m]?.rank || [];
+      if (!modeRank.length) continue;
+      // rank/hs はコンペのみ
+      if ((metricMode === 'rank' || metricMode === 'hs') && m !== 'competitive') continue;
+      const dataMap = Object.fromEntries(modeRank.map(d => [d.act_id, d]));
+      let data, ptColors;
+      if (metricMode === 'rank') {
+        data = labels.map(l => dataMap[l] ? allRanks.indexOf(dataMap[l].rank) : null);
+        ptColors = labels.map(l => dataMap[l] ? (rankColors[dataMap[l].rank.split(' ')[0]] || MODE_COLORS[m]) : null);
+      } else if (metricMode === 'playtime_cumulative') {
+        let cum = 0;
+        data = labels.map(l => { if (dataMap[l]) { cum += dataMap[l].playtime; return Math.round(cum*10)/10; } return null; });
+        ptColors = MODE_COLORS[m];
+      } else if (metricMode === 'kd') {
+        data = labels.map(l => dataMap[l]?.kd ?? null);
+        ptColors = MODE_COLORS[m];
+      } else if (metricMode === 'hs') {
+        data = labels.map(l => dataMap[l]?.hs != null ? (dataMap[l].hs*100) : null);
+        ptColors = MODE_COLORS[m];
+      } else if (metricMode === 'win_rate') {
+        data = labels.map(l => dataMap[l] ? (dataMap[l].win_rate*100) : null);
+        ptColors = MODE_COLORS[m];
+      } else {
+        data = labels.map(l => dataMap[l] ? dataMap[l][metricMode] : null);
+        ptColors = MODE_COLORS[m];
+      }
+      datasets.push({ label: MODE_LABELS[m], data, borderColor: MODE_COLORS[m], borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: ptColors, pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: true });
+    }
+    return { labels, datasets };
+  }
+
+  // --- Agent chart helpers ---
   let agentThreshold = 20;
   let agentCurrentStat = 'time';
-  let activeAgentRoles = new Set(agentRoles);
+  let activeAgentRoles = new Set(['Controller','Initiator','Duelist','Sentinel']);
+  const agentThresholdDisplay = document.getElementById('agent-threshold-display');
 
+  function buildAgentDatasets() {
+    const supportedModes = ['competitive','unrated'].filter(m => activeModes.has(m) && (gameData[m]?.agent?.length));
+    const allNames = [...new Set(
+      supportedModes.flatMap(m =>
+        (gameData[m].agent || [])
+          .filter(a => a.matches >= agentThreshold && activeAgentRoles.has(a.role))
+          .map(a => a.name)
+      )
+    )];
+    return {
+      labels: allNames,
+      datasets: supportedModes.map(m => {
+        const agentMap = Object.fromEntries(
+          (gameData[m].agent || []).filter(a => a.matches >= agentThreshold && activeAgentRoles.has(a.role)).map(a => [a.name, a])
+        );
+        return {
+          label: MODE_LABELS[m],
+          data: allNames.map(n => agentMap[n]?.[agentCurrentStat] ?? null),
+          borderColor: MODE_COLORS[m], borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius,
+          pointBackgroundColor: allNames.map(n => agentMap[n] ? (agentColors[n] || MODE_COLORS[m]) : 'transparent'),
+          pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: false,
+        };
+      }),
+    };
+  }
+
+  // --- Chart.js 共通設定 ---
   Chart.defaults.font.family = "'DotGothic16', sans-serif";
   Chart.defaults.color = THEME_COLOR;
 
@@ -495,21 +551,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const y = yScale.getPixelForValue(val);
       if (y < yScale.top || y > yScale.bottom) return;
       const ctx = chart.ctx;
-      ctx.save();
-      ctx.beginPath();
-      ctx.strokeStyle = GRID_H;
-      ctx.lineWidth = KD_LINE_W;
-      ctx.moveTo(chart.chartArea.left, y);
-      ctx.lineTo(chart.chartArea.right, y);
-      ctx.stroke();
-      ctx.restore();
+      ctx.save(); ctx.beginPath(); ctx.strokeStyle = GRID_H; ctx.lineWidth = KD_LINE_W;
+      ctx.moveTo(chart.chartArea.left, y); ctx.lineTo(chart.chartArea.right, y); ctx.stroke(); ctx.restore();
     },
   };
   Chart.register(baselinePlugin);
 
   const commonOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
+    responsive: true, maintainAspectRatio: false,
     scales: {
       y: { ticks: { color: THEME_COLOR }, grid: { color: GRID_H, lineWidth: GRID_H_W } },
       x: { ticks: { color: THEME_COLOR }, grid: { color: GRID_V, lineWidth: GRID_V_W } },
@@ -519,398 +568,219 @@ document.addEventListener("DOMContentLoaded", () => {
       tooltip: { backgroundColor: TOOLTIP_BG, borderColor: THEME_COLOR, borderWidth: 1, cornerRadius: 0 },
     },
   };
+  const multiLegend = { display: true, labels: { color: THEME_COLOR, boxWidth: 12, padding: 10, font: { size: 11 } } };
 
-  const rankLabelFunc = (v) => {
-    const i = Math.round(v);
-    if (i >= 0 && i < allRanks.length) {
-      const n = allRanks[i];
-      if (n.endsWith("1") || n === "Radiant") return n;
-    }
-    return "";
-  };
+  const rankLabelFunc = (v) => { const i = Math.round(v); if (i>=0 && i<allRanks.length) { const n=allRanks[i]; if (n.endsWith('1')||n==='Radiant') return n; } return ''; };
 
   // --- 1. RANK CHART ---
   const rChart = new Chart(document.getElementById('rankChart').getContext('2d'), {
     type: 'line',
-    data: {
-      labels: rankData.map(d => d.act_id),
-      datasets: [{
-        data: rankData.map(d => allRanks.indexOf(d.rank)),
-        borderColor: THEME_COLOR, borderWidth: 2,
-        pointStyle: 'rect', pointRadius: getResponsiveRadius,
-        pointBackgroundColor: rankData.map(d => rankColors[d.rank.split(' ')[0]] || THEME_COLOR),
-        pointBorderColor: THEME_COLOR, pointBorderWidth: 1, tension: 0,
-      }],
-    },
+    data: { labels: [], datasets: [] },
     options: {
       ...commonOptions,
+      plugins: {
+        ...commonOptions.plugins,
+        legend: multiLegend,
+        tooltip: { ...commonOptions.plugins.tooltip, callbacks: {
+          label: (item) => {
+            const modeKey = Object.keys(MODE_LABELS).find(k => MODE_LABELS[k] === item.dataset.label);
+            const d = (gameData[modeKey]?.rank || []).find(r => r.act_id === item.label);
+            if (!d) return '';
+            const lines = [];
+            if (d.rank) lines.push(` RANK    : ${d.rank}`);
+            lines.push(` PLAYTIME: ${d.playtime}h`);
+            if (d.wins     != null) lines.push(` WINS    : ${d.wins}`);
+            if (d.win_rate != null) lines.push(` WIN %   : ${(d.win_rate*100).toFixed(1)}%`);
+            if (d.kd       != null) lines.push(` K/D     : ${d.kd.toFixed(2)}`);
+            if (d.hs       != null) lines.push(` HS%     : ${(d.hs*100).toFixed(1)}%`);
+            return lines;
+          },
+        }},
+      },
       scales: {
-        y: {
-          min: 0, max: 24,
-          ticks: { stepSize: 1, callback: rankLabelFunc, autoSkip: false, maxRotation: 0, minRotation: 0 },
-          grid: { color: (c) => c.tick.value % 3 === 0 ? GRID_H : GRID_H.replace('0.4)', '0.1)'), lineWidth: (c) => c.tick.value % 3 === 0 ? 2 : 1 },
-        },
+        y: { min:0, max:24, ticks:{ stepSize:1, callback:rankLabelFunc, autoSkip:false, maxRotation:0, minRotation:0 }, grid:{ color:(c)=>c.tick.value%3===0?GRID_H:GRID_H.replace('0.4)','0.1)'), lineWidth:(c)=>c.tick.value%3===0?2:1 } },
         x: { ...commonOptions.scales.x },
       },
-      plugins: {
-        ...commonOptions.plugins,
-        tooltip: {
-          ...commonOptions.plugins.tooltip,
-          callbacks: {
-            label: (item) => {
-              const d = rankData[item.dataIndex];
-              return [` RANK    : ${d.rank}`, ` PLAYTIME: ${d.playtime}h`, ` WINS    : ${d.wins}`, ` WIN %   : ${(d.win_rate * 100).toFixed(1)}%`, ` K/D     : ${d.kd.toFixed(2)}`, ` HS%     : ${(d.hs * 100).toFixed(1)}%`];
-            },
-          },
-        },
-      },
     },
   });
 
-  // --- 2. WEAPON CHART ---
+  function refreshRankChart() {
+    const { labels, datasets } = buildRankDatasets(currentRankMode);
+    rChart.data.labels   = labels;
+    rChart.data.datasets = datasets;
+    const allVals = datasets.flatMap(d => d.data.filter(v => v != null));
+    if (currentRankMode === 'rank') {
+      rChart.options.scales.y.min=0; rChart.options.scales.y.max=24;
+      rChart.options.scales.y.ticks.stepSize=1; rChart.options.scales.y.ticks.callback=rankLabelFunc;
+    } else if (currentRankMode === 'kd') {
+      const s=kdScale(allVals.length?allVals:[1]);
+      rChart.options.scales.y.min=s.min; rChart.options.scales.y.max=s.max; rChart.options.scales.y.ticks.stepSize=s.step; rChart.options.scales.y.ticks.callback=v=>v.toFixed(1);
+    } else if (currentRankMode==='win_rate'||currentRankMode==='hs') {
+      const s=wrScale(allVals.length?allVals:[50]);
+      rChart.options.scales.y.min=s.min; rChart.options.scales.y.max=s.max; rChart.options.scales.y.ticks.stepSize=s.step; rChart.options.scales.y.ticks.callback=v=>v+'%';
+    } else if (currentRankMode==='playtime_cumulative') {
+      rChart.options.scales.y.min=0; rChart.options.scales.y.max=undefined; rChart.options.scales.y.ticks.stepSize=undefined; rChart.options.scales.y.ticks.callback=v=>v+'h';
+    } else {
+      rChart.options.scales.y.min=0; rChart.options.scales.y.max=undefined; rChart.options.scales.y.ticks.stepSize=undefined; rChart.options.scales.y.ticks.callback=v=>v;
+    }
+    rChart.options._baselineValue = currentRankMode==='kd'?1.0 : currentRankMode==='win_rate'?50 : null;
+    rChart.update();
+  }
+
+  window.updateRankChart = function(mode) {
+    document.querySelectorAll('[id^="btn-r-"]').forEach(b=>b.classList.remove('active'));
+    document.getElementById(`btn-r-${mode}`).classList.add('active');
+    currentRankMode = mode;
+    refreshRankChart();
+  };
+
+  // --- 2. WEAPON CHART (competitive only) ---
+  const allWeaponCats = ['assault','sniper','smg','shotgun','sidearm','lmg','other'];
+  let activeWeaponCategories = new Set(['assault']);
+  let currentWeaponMode = 'kd';
+  let getFilteredWeapons = () => weaponData.filter(w => activeWeaponCategories.has(w.cat));
+  let filteredWeapons = getFilteredWeapons();
+
   const wChart = new Chart(document.getElementById('weaponChart').getContext('2d'), {
     type: 'line',
-    data: {
-      labels: filteredWeapons.map(w => w.weapon),
-      datasets: [{
-        data: filteredWeapons.map(w => w.kd),
-        borderColor: THEME_COLOR, borderWidth: 2,
-        pointStyle: 'rect', pointRadius: getResponsiveRadius,
-        pointBackgroundColor: THEME_COLOR, pointBorderColor: THEME_COLOR, pointBorderWidth: 1, tension: 0,
-      }],
-    },
-    options: (() => {
-      const s = kdScale(filteredWeapons.map(w => w.kd));
-      return {
-        ...commonOptions,
-        _baselineValue: 1.0,
-        scales: {
-          x: { ticks: { color: THEME_COLOR, autoSkip: false, maxRotation: 45, minRotation: 45 }, grid: { color: GRID_V, lineWidth: GRID_V_W } },
-          y: { min: s.min, max: s.max, ticks: { color: THEME_COLOR, stepSize: s.step, callback: v => v.toFixed(1) }, grid: { color: GRID_H, lineWidth: GRID_H_W } },
-        },
-        plugins: {
-          ...commonOptions.plugins,
-          tooltip: {
-            ...commonOptions.plugins.tooltip,
-            callbacks: {
-              label: (item) => {
-                const w = filteredWeapons[item.dataIndex];
-                return [` KILLS   : ${w.kills}`, ` DEATHS  : ${w.deaths}`, ` K/D     : ${w.kd.toFixed(2)}`, ` HS %    : ${(w.hs_rate * 100).toFixed(1)}%`, ` ADR     : ${w.adr}`, ` K/ROUND : ${w.kpr}`];
-              },
-            },
-          },
-        },
-      };
-    })(),
+    data: { labels: filteredWeapons.map(w=>w.weapon), datasets: [{ data: filteredWeapons.map(w=>w.kd), borderColor: THEME_COLOR, borderWidth:2, pointStyle:'rect', pointRadius:getResponsiveRadius, pointBackgroundColor:THEME_COLOR, pointBorderColor:THEME_COLOR, pointBorderWidth:1, tension:0 }] },
+    options: (() => { const s=kdScale(filteredWeapons.map(w=>w.kd)); return { ...commonOptions, _baselineValue:1.0, scales:{ x:{ ticks:{color:THEME_COLOR,autoSkip:false,maxRotation:45,minRotation:45}, grid:{color:GRID_V,lineWidth:GRID_V_W} }, y:{ min:s.min, max:s.max, ticks:{color:THEME_COLOR,stepSize:s.step,callback:v=>v.toFixed(1)}, grid:{color:GRID_H,lineWidth:GRID_H_W} } }, plugins:{ ...commonOptions.plugins, tooltip:{ ...commonOptions.plugins.tooltip, callbacks:{ label:(item)=>{ const w=filteredWeapons[item.dataIndex]; return [` KILLS   : ${w.kills}`,` DEATHS  : ${w.deaths}`,` K/D     : ${w.kd.toFixed(2)}`,` HS %    : ${(w.hs_rate*100).toFixed(1)}%`,` ADR     : ${w.adr}`,` K/ROUND : ${w.kpr}`]; } } } } }; })(),
   });
 
-  // --- 3. MAP CHART ---
+  function refreshWeaponChart() {
+    filteredWeapons = getFilteredWeapons();
+    wChart.data.labels = filteredWeapons.map(w=>w.weapon);
+    const mode = currentWeaponMode;
+    wChart.data.datasets[0].data = filteredWeapons.map(w => mode==='hs_rate' ? (w.hs_rate*100).toFixed(1) : w[mode]);
+    if (mode==='hs_rate') { const s=wrScale(filteredWeapons.map(m=>m.hs_rate*100)); wChart.options.scales.y.min=s.min; wChart.options.scales.y.max=s.max; wChart.options.scales.y.ticks.stepSize=s.step; wChart.options.scales.y.ticks.callback=v=>v+'%'; }
+    else if (mode==='kd') { const s=kdScale(filteredWeapons.map(w=>w.kd)); wChart.options.scales.y.min=s.min; wChart.options.scales.y.max=s.max; wChart.options.scales.y.ticks.stepSize=s.step; wChart.options.scales.y.ticks.callback=v=>v.toFixed(1); }
+    else { wChart.options.scales.y.min=0; wChart.options.scales.y.max=undefined; wChart.options.scales.y.ticks.stepSize=undefined; wChart.options.scales.y.ticks.callback=v=>v; }
+    wChart.options._baselineValue = mode==='kd'?1.0:null;
+    wChart.update();
+  }
+  const syncWeaponCatButtons = () => {
+    allWeaponCats.forEach(c=>document.getElementById(`btn-wc-${c}`).classList.toggle('active', activeWeaponCategories.has(c)));
+    document.getElementById('btn-wc-all').classList.toggle('active', activeWeaponCategories.size===allWeaponCats.length);
+  };
+  window.toggleWeaponCategory = function(cat) {
+    if (activeWeaponCategories.has(cat)) { if (activeWeaponCategories.size>1) activeWeaponCategories.delete(cat); }
+    else activeWeaponCategories.add(cat);
+    syncWeaponCatButtons(); refreshWeaponChart();
+  };
+  window.toggleAllWeaponCategories = function() {
+    activeWeaponCategories = activeWeaponCategories.size===allWeaponCats.length ? new Set(['assault']) : new Set(allWeaponCats);
+    syncWeaponCatButtons(); refreshWeaponChart();
+  };
+  window.updateWeaponChart = function(mode) {
+    document.querySelectorAll('[id^="btn-w-"]').forEach(b=>b.classList.remove('active'));
+    document.getElementById(`btn-w-${mode}`).classList.add('active');
+    currentWeaponMode = mode; refreshWeaponChart();
+  };
+
+  // --- 3. MAP CHART (competitive only) ---
   const mChart = new Chart(document.getElementById('mapChart').getContext('2d'), {
     type: 'line',
-    data: {
-      labels: mapData.map(m => m.map),
-      datasets: [{
-        data: mapData.map(m => (m.win_rate * 100).toFixed(1)),
-        borderColor: THEME_COLOR, borderWidth: 2,
-        pointStyle: 'rect', pointRadius: getResponsiveRadius,
-        pointBackgroundColor: THEME_COLOR, pointBorderColor: THEME_COLOR, pointBorderWidth: 1, tension: 0,
-      }],
-    },
-    options: (() => {
-      const s = wrScale(mapData.map(m => m.win_rate * 100));
-      return {
+    data: { labels: mapData.map(m=>m.map), datasets: [{ data: mapData.map(m=>(m.win_rate*100).toFixed(1)), borderColor:THEME_COLOR, borderWidth:2, pointStyle:'rect', pointRadius:getResponsiveRadius, pointBackgroundColor:THEME_COLOR, pointBorderColor:THEME_COLOR, pointBorderWidth:1, tension:0 }] },
+    options: (() => { const s=wrScale(mapData.map(m=>m.win_rate*100)); return { ...commonOptions, _baselineValue:50, scales:{ y:{ min:s.min, max:s.max, ticks:{stepSize:s.step,callback:v=>v+'%'}, grid:{color:GRID_H,lineWidth:GRID_H_W} }, x:{ ticks:{color:THEME_COLOR}, grid:{color:GRID_V,lineWidth:GRID_V_W} } }, plugins:{ ...commonOptions.plugins, tooltip:{ ...commonOptions.plugins.tooltip, callbacks:{ label:(item)=>{ const m=mapData[item.dataIndex]; return [` WIN %   : ${(m.win_rate*100).toFixed(1)}%`,` MATCHES : ${m.wins+m.losses}`,` W / L   : ${m.wins} / ${m.losses}`,` K/D     : ${m.kd.toFixed(2)}`,` ADR     : ${m.adr}`,` ACS     : ${m.acs}`]; } } } } }; })(),
+  });
+  window.updateMapChart = function(mode) {
+    mChart.data.labels = mapData.map(m=>m.map);
+    document.querySelectorAll('[id^="btn-m-"]').forEach(b=>b.classList.remove('active'));
+    document.getElementById(`btn-m-${mode}`).classList.add('active');
+    mChart.data.datasets[0].data = mapData.map(m => mode==='win_rate'?(m.win_rate*100).toFixed(1):m[mode]);
+    if (mode==='win_rate') { const s=wrScale(mapData.map(m=>m.win_rate*100)); mChart.options.scales.y.min=s.min; mChart.options.scales.y.max=s.max; mChart.options.scales.y.ticks.stepSize=s.step; mChart.options.scales.y.ticks.callback=v=>v+'%'; }
+    else if (mode==='kd') { const s=kdScale(mapData.map(m=>m.kd)); mChart.options.scales.y.min=s.min; mChart.options.scales.y.max=s.max; mChart.options.scales.y.ticks.stepSize=s.step; mChart.options.scales.y.ticks.callback=v=>v.toFixed(1); }
+    else { mChart.options.scales.y.min=0; mChart.options.scales.y.max=undefined; mChart.options.scales.y.ticks.stepSize=undefined; mChart.options.scales.y.ticks.callback=v=>v; }
+    mChart.options._baselineValue = mode==='kd'?1.0:mode==='win_rate'?50:null;
+    mChart.update();
+  };
+
+  // --- 4. AGENT CHART (competitive + unrated) ---
+  const agentChart = (() => {
+    const el = document.getElementById('agentChart');
+    if (!el) return null;
+    return new Chart(el.getContext('2d'), {
+      type: 'line',
+      data: { labels: [], datasets: [] },
+      options: {
         ...commonOptions,
-        _baselineValue: 50,
-        scales: {
-          y: { min: s.min, max: s.max, ticks: { stepSize: s.step, callback: v => v + '%' }, grid: { color: GRID_H, lineWidth: GRID_H_W } },
-          x: { ticks: { color: THEME_COLOR }, grid: { color: GRID_V, lineWidth: GRID_V_W } },
-        },
         plugins: {
           ...commonOptions.plugins,
-          tooltip: {
-            ...commonOptions.plugins.tooltip,
-            callbacks: {
-              label: (item) => {
-                const m = mapData[item.dataIndex];
-                return [` WIN %   : ${(m.win_rate * 100).toFixed(1)}%`, ` MATCHES : ${m.wins + m.losses}`, ` W / L   : ${m.wins} / ${m.losses}`, ` K/D     : ${m.kd.toFixed(2)}`, ` ADR     : ${m.adr}`, ` ACS     : ${m.acs}`];
-              },
-            },
-          },
-        },
-      };
-    })(),
-  });
-
-  // --- 4. AGENT CHART ---
-  const agentThresholdDisplay = document.getElementById('agent-threshold-display');
-  let getAgentFilteredData = () => agentData.filter(a => a.matches >= agentThreshold && activeAgentRoles.has(a.role));
-
-  const agentChartEl = document.getElementById('agentChart');
-  const agentChart = agentChartEl ? new Chart(agentChartEl.getContext('2d'), {
-    type: 'line',
-    data: {
-      labels: [],
-      datasets: [{
-        data: [],
-        borderColor: THEME_COLOR, borderWidth: 2,
-        pointStyle: 'rect', pointRadius: getResponsiveRadius,
-        pointBackgroundColor: [], pointBorderColor: THEME_COLOR, pointBorderWidth: 1, tension: 0,
-      }],
-    },
-    options: {
-      ...commonOptions,
-      scales: {
-        y: { ticks: { color: THEME_COLOR }, grid: { color: GRID_H, lineWidth: GRID_H_W } },
-        x: { ticks: { color: THEME_COLOR, autoSkip: false, maxRotation: 45, minRotation: 45 }, grid: { color: GRID_V, lineWidth: GRID_V_W } },
-      },
-      plugins: {
-        ...commonOptions.plugins,
-        tooltip: {
-          ...commonOptions.plugins.tooltip,
-          callbacks: {
+          legend: multiLegend,
+          tooltip: { ...commonOptions.plugins.tooltip, callbacks: {
             label: (ctx) => {
-              const agent = getAgentFilteredData()[ctx.dataIndex];
-              if (!agent) return "";
-              return [
-                ` ROLE      : ${agent.role}`,
-                ` TIME      : ${agent.time} hrs`,
-                ` MATCHES   : ${agent.matches}`,
-                ` WIN RATE  : ${agent.win_rate}%`,
-                ` K/D RATIO : ${agent.kd.toFixed(2)}`,
-                ` ADR       : ${agent.adr}`,
-                ` ACS       : ${agent.acs}`,
-                ` HS RATE   : ${agent.hs}%`,
-                ` KAST      : ${agent.kast}%`,
-              ];
+              const modeKey = Object.keys(MODE_LABELS).find(k => MODE_LABELS[k] === ctx.dataset.label);
+              const agent = (gameData[modeKey]?.agent || []).find(a => a.name === ctx.label);
+              if (!agent) return '';
+              return [` ROLE      : ${agent.role}`, ` TIME      : ${agent.time} hrs`, ` MATCHES   : ${agent.matches}`, ` WIN RATE  : ${agent.win_rate}%`, ` K/D RATIO : ${agent.kd.toFixed(2)}`, ` ADR       : ${agent.adr}`, ` ACS       : ${agent.acs}`, ` HS RATE   : ${agent.hs}%`, ` KAST      : ${agent.kast}%`];
             },
-          },
+          }},
+        },
+        scales: {
+          y: { ticks:{color:THEME_COLOR}, grid:{color:GRID_H,lineWidth:GRID_H_W} },
+          x: { ticks:{color:THEME_COLOR,autoSkip:false,maxRotation:45,minRotation:45}, grid:{color:GRID_V,lineWidth:GRID_V_W} },
         },
       },
-    },
-  }) : null;
+    });
+  })();
 
-  const syncAgentThresholdLabel = () => {
-    if (agentThresholdDisplay) agentThresholdDisplay.textContent = `MATCHES ≥ ${agentThreshold}`;
-  };
-
-  const refreshAgentChart = () => {
+  function refreshAgentChart() {
     if (!agentChart) return;
-    const filtered = getAgentFilteredData();
-    agentChart.data.labels = filtered.map(a => a.name);
-    agentChart.data.datasets[0].data = filtered.map(a => a[agentCurrentStat]);
-    agentChart.data.datasets[0].pointBackgroundColor = filtered.map(a => agentColors[a.name] || THEME_COLOR);
-    if (filtered.length === 0) {
-      agentChart.options.scales.y.min = 0;
-      agentChart.options.scales.y.max = 1;
-      agentChart.options.scales.y.ticks.stepSize = 0.2;
-      agentChart.options.scales.y.ticks.callback = v => v;
-      agentChart.options._baselineValue = null;
-      agentChart.update();
-      return;
-    }
-    const isPct = ['win_rate', 'hs', 'kast'].includes(agentCurrentStat);
+    const { labels, datasets } = buildAgentDatasets();
+    agentChart.data.labels   = labels;
+    agentChart.data.datasets = datasets;
+    const allVals = datasets.flatMap(d => d.data.filter(v => v != null));
+    if (!allVals.length) { agentChart.options.scales.y.min=0; agentChart.options.scales.y.max=1; agentChart.options._baselineValue=null; agentChart.update(); return; }
+    const isPct = ['win_rate','hs','kast'].includes(agentCurrentStat);
     if (isPct) {
-      agentChart.options.scales.y.min = 0;
-      agentChart.options.scales.y.max = 100;
-      agentChart.options.scales.y.ticks.stepSize = 10;
-      agentChart.options.scales.y.ticks.callback = v => `${v}%`;
-    } else if (agentCurrentStat === 'kd') {
-      const s = kdScale(filtered.map(a => a.kd));
-      agentChart.options.scales.y.min = s.min;
-      agentChart.options.scales.y.max = s.max;
-      agentChart.options.scales.y.ticks.stepSize = s.step;
-      agentChart.options.scales.y.ticks.callback = v => v.toFixed(1);
+      agentChart.options.scales.y.min=0; agentChart.options.scales.y.max=100; agentChart.options.scales.y.ticks.stepSize=10; agentChart.options.scales.y.ticks.callback=v=>`${v}%`;
+    } else if (agentCurrentStat==='kd') {
+      const s=kdScale(allVals); agentChart.options.scales.y.min=s.min; agentChart.options.scales.y.max=s.max; agentChart.options.scales.y.ticks.stepSize=s.step; agentChart.options.scales.y.ticks.callback=v=>v.toFixed(1);
     } else {
-      agentChart.options.scales.y.min = 0;
-      agentChart.options.scales.y.max = undefined;
-      agentChart.options.scales.y.ticks.stepSize = undefined;
-      agentChart.options.scales.y.ticks.callback = v => v;
+      agentChart.options.scales.y.min=0; agentChart.options.scales.y.max=undefined; agentChart.options.scales.y.ticks.stepSize=undefined; agentChart.options.scales.y.ticks.callback=v=>v;
     }
-    agentChart.options._baselineValue = agentCurrentStat === 'kd' ? 1.0 : null;
+    agentChart.options._baselineValue = agentCurrentStat==='kd'?1.0:null;
     agentChart.update();
-  };
+  }
 
-  window.updateAgentThreshold = function(val) {
-    agentThreshold = parseInt(val, 10) || 0;
-    syncAgentThresholdLabel();
+  window.updateAgentStat = function(stat) {
+    if (agentCurrentStat===stat) return;
+    agentCurrentStat = stat;
+    document.querySelectorAll('.agent-stat-controls button').forEach(b=>b.classList.remove('active'));
+    const btn = document.getElementById(`btn-a-${stat}`);
+    if (btn) btn.classList.add('active');
     refreshAgentChart();
   };
-
+  window.updateAgentThreshold = function(val) {
+    agentThreshold = parseInt(val,10)||0;
+    if (agentThresholdDisplay) agentThresholdDisplay.textContent = `MATCHES ≥ ${agentThreshold}`;
+    refreshAgentChart();
+  };
   window.toggleAgentRole = function(role) {
-    if (activeAgentRoles.has(role)) {
-      activeAgentRoles.delete(role);
-    } else {
-      activeAgentRoles.add(role);
-    }
+    if (activeAgentRoles.has(role)) activeAgentRoles.delete(role); else activeAgentRoles.add(role);
     const btn = document.getElementById(`btn-role-${role.toLowerCase()}`);
     if (btn) btn.classList.toggle('active', activeAgentRoles.has(role));
     refreshAgentChart();
   };
 
-  window.updateAgentStat = function(stat) {
-    if (agentCurrentStat === stat) return;
-    agentCurrentStat = stat;
-    document.querySelectorAll('.agent-stat-controls button').forEach(btn => btn.classList.remove('active'));
-    const activeBtn = document.getElementById(`btn-a-${stat}`);
-    if (activeBtn) activeBtn.classList.add('active');
+  // --- MODE TOGGLE ---
+  window.toggleMode = function(mode) {
+    if (activeModes.has(mode)) {
+      if (activeModes.size <= 1) return; // 最低1つは残す
+      activeModes.delete(mode);
+    } else {
+      activeModes.add(mode);
+    }
+    const btn = document.getElementById(`btn-mode-${mode}`);
+    if (btn) btn.classList.toggle('active', activeModes.has(mode));
+    refreshRankChart();
     refreshAgentChart();
+    // weapon/map はコンペのみなので更新不要
   };
 
-  syncAgentThresholdLabel();
+  // --- 初期描画 ---
+  if (agentThresholdDisplay) agentThresholdDisplay.textContent = `MATCHES ≥ ${agentThreshold}`;
+  refreshRankChart();
   refreshAgentChart();
-
-  // --- UPDATE FUNCTIONS ---
-  window.updateRankChart = function(mode) {
-    document.querySelectorAll('[id^="btn-r-"]').forEach(b => b.classList.remove('active'));
-    document.getElementById(`btn-r-${mode}`).classList.add('active');
-    const isRank = mode === 'rank';
-    const isCumulative = mode === 'playtime_cumulative';
-    rChart.data.labels = rankData.map(d => d.act_id);
-    if (isCumulative) {
-      let cumulative = 0;
-      rChart.data.datasets[0].data = rankData.map(d => { cumulative += d.playtime; return Math.round(cumulative * 10) / 10; });
-    } else {
-      rChart.data.datasets[0].data = isRank
-        ? rankData.map(d => allRanks.indexOf(d.rank))
-        : mode === 'kd'
-          ? rankData.map(d => d.kd)
-          : rankData.map(d => d[mode === 'hs' ? 'hs' : mode] * (mode === 'playtime' || mode === 'wins' ? 1 : 100));
-    }
-    rChart.data.datasets[0].pointBackgroundColor = isRank
-      ? rankData.map(d => rankColors[d.rank.split(' ')[0]] || THEME_COLOR)
-      : THEME_COLOR;
-    if (isRank) {
-      rChart.options.scales.y.min = 0; rChart.options.scales.y.max = 24;
-      rChart.options.scales.y.ticks.stepSize = 1; rChart.options.scales.y.ticks.callback = rankLabelFunc;
-    } else if (mode === 'kd') {
-      const s = kdScale(rankData.map(d => d.kd || 0));
-      rChart.options.scales.y.min = s.min; rChart.options.scales.y.max = s.max;
-      rChart.options.scales.y.ticks.stepSize = s.step; rChart.options.scales.y.ticks.callback = v => v.toFixed(1);
-    } else if (mode === 'win_rate') {
-      const s = wrScale(rankData.map(d => d.win_rate * 100));
-      rChart.options.scales.y.min = s.min; rChart.options.scales.y.max = s.max;
-      rChart.options.scales.y.ticks.stepSize = s.step; rChart.options.scales.y.ticks.callback = v => v + '%';
-    } else if (mode === 'hs') {
-      const s = wrScale(rankData.map(d => (d.hs || 0) * 100));
-      rChart.options.scales.y.min = s.min; rChart.options.scales.y.max = s.max;
-      rChart.options.scales.y.ticks.stepSize = s.step; rChart.options.scales.y.ticks.callback = v => v + '%';
-    } else if (isCumulative) {
-      rChart.options.scales.y.min = 0; rChart.options.scales.y.max = undefined;
-      rChart.options.scales.y.ticks.stepSize = undefined; rChart.options.scales.y.ticks.callback = v => v + 'h';
-    } else {
-      rChart.options.scales.y.min = 0; rChart.options.scales.y.max = undefined;
-      rChart.options.scales.y.ticks.stepSize = undefined; rChart.options.scales.y.ticks.callback = v => v;
-    }
-    rChart.options._baselineValue = mode === 'kd' ? 1.0 : mode === 'win_rate' ? 50 : null;
-    rChart.update();
-  };
-
-  function refreshWeaponChart() {
-    filteredWeapons = getFilteredWeapons();
-    wChart.data.labels = filteredWeapons.map(w => w.weapon);
-    const mode = currentWeaponMode;
-    wChart.data.datasets[0].data = filteredWeapons.map(w => mode === 'hs_rate' ? (w.hs_rate * 100).toFixed(1) : w[mode]);
-    if (mode === 'hs_rate') {
-      const s = wrScale(filteredWeapons.map(m => m.hs_rate * 100));
-      wChart.options.scales.y.min = s.min; wChart.options.scales.y.max = s.max;
-      wChart.options.scales.y.ticks.stepSize = s.step; wChart.options.scales.y.ticks.callback = v => v + '%';
-    } else if (mode === 'kd') {
-      const s = kdScale(filteredWeapons.map(w => w.kd));
-      wChart.options.scales.y.min = s.min; wChart.options.scales.y.max = s.max;
-      wChart.options.scales.y.ticks.stepSize = s.step; wChart.options.scales.y.ticks.callback = v => v.toFixed(1);
-    } else {
-      wChart.options.scales.y.min = 0; wChart.options.scales.y.max = undefined;
-      wChart.options.scales.y.ticks.stepSize = undefined; wChart.options.scales.y.ticks.callback = v => v;
-    }
-    wChart.options._baselineValue = mode === 'kd' ? 1.0 : null;
-    wChart.update();
-  }
-
-  const syncWeaponCatButtons = () => {
-    allWeaponCats.forEach(c => document.getElementById(`btn-wc-${c}`).classList.toggle('active', activeWeaponCategories.has(c)));
-    document.getElementById('btn-wc-all').classList.toggle('active', activeWeaponCategories.size === allWeaponCats.length);
-  };
-
-  window.toggleWeaponCategory = function(cat) {
-    if (activeWeaponCategories.has(cat)) { if (activeWeaponCategories.size > 1) activeWeaponCategories.delete(cat); }
-    else activeWeaponCategories.add(cat);
-    syncWeaponCatButtons();
-    refreshWeaponChart();
-  };
-
-  window.toggleAllWeaponCategories = function() {
-    activeWeaponCategories = activeWeaponCategories.size === allWeaponCats.length
-      ? new Set(['assault'])
-      : new Set(allWeaponCats);
-    syncWeaponCatButtons();
-    refreshWeaponChart();
-  };
-
-  window.updateWeaponChart = function(mode) {
-    document.querySelectorAll('[id^="btn-w-"]').forEach(b => b.classList.remove('active'));
-    document.getElementById(mode === 'kpr' ? 'btn-w-kpr' : `btn-w-${mode}`).classList.add('active');
-    currentWeaponMode = mode;
-    refreshWeaponChart();
-  };
-
-  window.updateMapChart = function(mode) {
-    mChart.data.labels = mapData.map(m => m.map);
-    document.querySelectorAll('[id^="btn-m-"]').forEach(b => b.classList.remove('active'));
-    document.getElementById(`btn-m-${mode}`).classList.add('active');
-    mChart.data.datasets[0].data = mapData.map(m => mode === 'win_rate' ? (m.win_rate * 100).toFixed(1) : m[mode]);
-    if (mode === 'win_rate') {
-      const s = wrScale(mapData.map(m => m.win_rate * 100));
-      mChart.options.scales.y.min = s.min; mChart.options.scales.y.max = s.max;
-      mChart.options.scales.y.ticks.stepSize = s.step; mChart.options.scales.y.ticks.callback = v => v + '%';
-    } else if (mode === 'kd') {
-      const s = kdScale(mapData.map(m => m.kd));
-      mChart.options.scales.y.min = s.min; mChart.options.scales.y.max = s.max;
-      mChart.options.scales.y.ticks.stepSize = s.step; mChart.options.scales.y.ticks.callback = v => v.toFixed(1);
-    } else {
-      mChart.options.scales.y.min = 0; mChart.options.scales.y.max = undefined;
-      mChart.options.scales.y.ticks.stepSize = undefined; mChart.options.scales.y.ticks.callback = v => v;
-    }
-    mChart.options._baselineValue = mode === 'kd' ? 1.0 : mode === 'win_rate' ? 50 : null;
-    mChart.update();
-  };
-
-  let currentGameMode = 'competitive';
-  window.switchGameMode = function(mode) {
-    if (mode === currentGameMode) return;
-    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(`btn-mode-${mode}`).classList.add('active');
-    currentGameMode = mode;
-
-    const modeData = gameData[mode];
-    if (!modeData) {
-      rankData = []; agentData = []; weaponData = []; mapData = [];
-    } else {
-      rankData   = modeData.rank   || [];
-      agentData  = modeData.agent  || [];
-      weaponData = modeData.weapon || [];
-      mapData    = modeData.map    || [];
-    }
-
-    getFilteredWeapons  = () => activeWeaponCategories.size === 0 ? weaponData : weaponData.filter(w => activeWeaponCategories.has(w.cat));
-    getAgentFilteredData = () => agentData.filter(a => a.matches >= agentThreshold && activeAgentRoles.has(a.role));
-
-    const rankBtn = document.getElementById('btn-r-rank');
-    const hsBtn   = document.getElementById('btn-r-hs');
-    rankBtn.disabled = !(rankData.length > 0 && rankData[0].rank);
-    if (rankBtn.disabled && rankBtn.classList.contains('active')) {
-      document.getElementById('btn-r-playtime').click();
-    }
-    hsBtn.disabled = !(rankData.length > 0 && rankData[0].hs !== undefined);
-    if (hsBtn.disabled && hsBtn.classList.contains('active')) {
-      document.getElementById('btn-r-kd').click();
-    }
-
-    const activeRankMode = document.querySelector('[id^="btn-r-"].active').id.replace('btn-r-', '');
-    updateRankChart(activeRankMode);
-    const activeMapMode = document.querySelector('[id^="btn-m-"].active').id.replace('btn-m-', '');
-    updateMapChart(activeMapMode);
-    refreshWeaponChart();
-    refreshAgentChart();
-  };
 });
 </script>
