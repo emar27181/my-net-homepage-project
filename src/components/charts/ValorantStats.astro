@@ -59,6 +59,7 @@ const S = getStylePresets(COLORS);
     <span class="mode-label">MODE</span>
     <button onclick="toggleMode('competitive')" id="btn-mode-competitive" class="mode-btn mode-btn-competitive active">COMPETITIVE</button>
     <button onclick="toggleMode('unrated')" id="btn-mode-unrated" class="mode-btn mode-btn-unrated active">UNRATED</button>
+    <button onclick="toggleMode('swiftplay')" id="btn-mode-swiftplay" class="mode-btn mode-btn-swiftplay">SWIFT PLAY</button>
     <button onclick="toggleMode('deathmatch')" id="btn-mode-deathmatch" class="mode-btn mode-btn-deathmatch active">DEATHMATCH</button>
     <button onclick="toggleMode('overall')" id="btn-mode-overall" class="mode-btn mode-btn-overall">OVERALL</button>
   </div>
@@ -193,10 +194,11 @@ const S = getStylePresets(COLORS);
     margin-right: 4px;
   }
   /* per-mode color variables */
-  .mode-btn-competitive { --mc: #A6F7FF; --mc-rgb: 166, 247, 255; }
-  .mode-btn-unrated     { --mc: #FFB347; --mc-rgb: 255, 179, 71; }
-  .mode-btn-deathmatch  { --mc: #90EE90; --mc-rgb: 144, 238, 144; }
-  .mode-btn-overall     { --mc: #FFD700; --mc-rgb: 255, 215, 0; }
+  .mode-btn-competitive { --mc: #FFC000; --mc-rgb: 255, 192, 0; }
+  .mode-btn-unrated     { --mc: #4488FF; --mc-rgb: 68, 136, 255; }
+  .mode-btn-swiftplay   { --mc: #00C8FF; --mc-rgb: 0, 200, 255; }
+  .mode-btn-deathmatch  { --mc: #FF4444; --mc-rgb: 255, 68, 68; }
+  .mode-btn-overall     { --mc: #44DD44; --mc-rgb: 68, 221, 68; }
 
   .mode-btn {
     background: transparent;
@@ -427,8 +429,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const TOOLTIP_BG  = attr('data-chart-tooltip', 'rgba(5,10,20,0.95)');
 
   // --- モードカラー ---
-  const MODE_COLORS  = { competitive: '#A6F7FF', unrated: '#FFB347', deathmatch: '#90EE90' };
-  const MODE_LABELS  = { competitive: 'COMP', unrated: 'UNRATED', deathmatch: 'DM' };
+  const MODE_COLORS  = { competitive: '#FFD040', unrated: '#4488FF', swiftplay: '#00C8FF', deathmatch: '#FF4444' };
+  const MODE_LABELS  = { competitive: 'COMP', unrated: 'UNRATED', swiftplay: 'SWIFT', deathmatch: 'DM' };
   let activeModes    = new Set(['competitive', 'unrated', 'deathmatch']);
 
   // --- 定数 ---
@@ -465,7 +467,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function getUnifiedActIds() {
     const seen = new Set(), ids = [];
     (gameData.competitive?.rank || []).forEach(d => { if (!seen.has(d.act_id)) { seen.add(d.act_id); ids.push(d.act_id); } });
-    ['unrated','deathmatch'].forEach(m => {
+    ['unrated','swiftplay','deathmatch'].forEach(m => {
       (gameData[m]?.rank || []).forEach(d => { if (!seen.has(d.act_id)) { seen.add(d.act_id); ids.push(d.act_id); } });
     });
     return ids;
@@ -474,8 +476,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentRankMode = 'rank';
 
   // --- OVERALL 集計ヘルパー ---
-  const OVERALL_COLOR = '#FFD700';
-  const ALL_RANK_MODES = ['competitive', 'unrated', 'deathmatch'];
+  const OVERALL_COLOR = '#44DD44';
+  const ALL_RANK_MODES = ['competitive', 'unrated', 'swiftplay', 'deathmatch'];
 
   function buildOverallRankDataset(metricMode, labels) {
     if (metricMode === 'rank') return null; // ランクは合計できない
@@ -525,10 +527,7 @@ document.addEventListener("DOMContentLoaded", () => {
       data = labels.map(() => null);
     }
     return {
-      label: 'OVERALL',
-      data,
-      borderColor: OVERALL_COLOR, borderWidth: 2,
-      borderDash: [6, 3],
+      borderColor: OVERALL_COLOR, borderWidth: 1.5,
       pointStyle: 'rect', pointRadius: getResponsiveRadius,
       pointBackgroundColor: OVERALL_COLOR, pointBorderColor: OVERALL_COLOR, pointBorderWidth: 1,
       tension: 0, spanGaps: true,
@@ -571,8 +570,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return {
       label: 'OVERALL',
       data: allNames.map(n => val(combined[n])),
-      borderColor: OVERALL_COLOR, borderWidth: 2,
-      borderDash: [6, 3],
+      borderColor: OVERALL_COLOR, borderWidth: 1.5,
       pointStyle: 'rect', pointRadius: getResponsiveRadius,
       pointBackgroundColor: allNames.map(n => agentColors[n] || OVERALL_COLOR),
       pointBorderColor: OVERALL_COLOR, pointBorderWidth: 1,
@@ -611,7 +609,7 @@ document.addEventListener("DOMContentLoaded", () => {
         data = labels.map(l => dataMap[l] ? dataMap[l][metricMode] : null);
         ptColors = MODE_COLORS[m];
       }
-      datasets.push({ label: MODE_LABELS[m], data, borderColor: MODE_COLORS[m], borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: ptColors, pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: true });
+      datasets.push({ label: MODE_LABELS[m], data, borderColor: MODE_COLORS[m], borderWidth: 1.5, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: ptColors, pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: true });
     }
     if (activeModes.has('overall')) {
       const od = buildOverallRankDataset(metricMode, labels);
@@ -646,7 +644,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return {
         label: MODE_LABELS[m],
         data: allNames.map(n => agentMap[n]?.[agentCurrentStat] ?? null),
-        borderColor: MODE_COLORS[m], borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius,
+        borderColor: MODE_COLORS[m], borderWidth: 1.5, pointStyle: 'rect', pointRadius: getResponsiveRadius,
         pointBackgroundColor: allNames.map(n => agentMap[n] ? (agentColors[n] || MODE_COLORS[m]) : 'transparent'),
         pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: false,
       };
@@ -762,7 +760,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const wChart = new Chart(document.getElementById('weaponChart').getContext('2d'), {
     type: 'line',
-    data: { labels: filteredWeapons.map(w=>w.weapon), datasets: [{ data: filteredWeapons.map(w=>w.kd), borderColor: THEME_COLOR, borderWidth:2, pointStyle:'rect', pointRadius:getResponsiveRadius, pointBackgroundColor:THEME_COLOR, pointBorderColor:THEME_COLOR, pointBorderWidth:1, tension:0 }] },
+    data: { labels: filteredWeapons.map(w=>w.weapon), datasets: [{ data: filteredWeapons.map(w=>w.kd), borderColor: MODE_COLORS.competitive, borderWidth:1.5, pointStyle:'rect', pointRadius:getResponsiveRadius, pointBackgroundColor:MODE_COLORS.competitive, pointBorderColor:MODE_COLORS.competitive, pointBorderWidth:1, tension:0 }] },
     options: (() => { const s=kdScale(filteredWeapons.map(w=>w.kd)); return { ...commonOptions, _baselineValue:1.0, scales:{ x:{ ticks:{color:THEME_COLOR,autoSkip:false,maxRotation:45,minRotation:45}, grid:{color:GRID_V,lineWidth:GRID_V_W} }, y:{ min:s.min, max:s.max, ticks:{color:THEME_COLOR,stepSize:s.step,callback:v=>v.toFixed(1)}, grid:{color:GRID_H,lineWidth:GRID_H_W} } }, plugins:{ ...commonOptions.plugins, tooltip:{ ...commonOptions.plugins.tooltip, callbacks:{ label:(item)=>{ const w=filteredWeapons[item.dataIndex]; return [` KILLS   : ${w.kills}`,` DEATHS  : ${w.deaths}`,` K/D     : ${w.kd.toFixed(2)}`,` HS %    : ${(w.hs_rate*100).toFixed(1)}%`,` ADR     : ${w.adr}`,` K/ROUND : ${w.kpr}`]; } } } } }; })(),
   });
 
@@ -799,7 +797,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- 3. MAP CHART (competitive only) ---
   const mChart = new Chart(document.getElementById('mapChart').getContext('2d'), {
     type: 'line',
-    data: { labels: mapData.map(m=>m.map), datasets: [{ data: mapData.map(m=>(m.win_rate*100).toFixed(1)), borderColor:THEME_COLOR, borderWidth:2, pointStyle:'rect', pointRadius:getResponsiveRadius, pointBackgroundColor:THEME_COLOR, pointBorderColor:THEME_COLOR, pointBorderWidth:1, tension:0 }] },
+    data: { labels: mapData.map(m=>m.map), datasets: [{ data: mapData.map(m=>(m.win_rate*100).toFixed(1)), borderColor:MODE_COLORS.competitive, borderWidth:1.5, pointStyle:'rect', pointRadius:getResponsiveRadius, pointBackgroundColor:MODE_COLORS.competitive, pointBorderColor:MODE_COLORS.competitive, pointBorderWidth:1, tension:0 }] },
     options: (() => { const s=wrScale(mapData.map(m=>m.win_rate*100)); return { ...commonOptions, _baselineValue:50, scales:{ y:{ min:s.min, max:s.max, ticks:{stepSize:s.step,callback:v=>v+'%'}, grid:{color:GRID_H,lineWidth:GRID_H_W} }, x:{ ticks:{color:THEME_COLOR}, grid:{color:GRID_V,lineWidth:GRID_V_W} } }, plugins:{ ...commonOptions.plugins, tooltip:{ ...commonOptions.plugins.tooltip, callbacks:{ label:(item)=>{ const m=mapData[item.dataIndex]; return [` WIN %   : ${(m.win_rate*100).toFixed(1)}%`,` MATCHES : ${m.wins+m.losses}`,` W / L   : ${m.wins} / ${m.losses}`,` K/D     : ${m.kd.toFixed(2)}`,` ADR     : ${m.adr}`,` ACS     : ${m.acs}`]; } } } } }; })(),
   });
   window.updateMapChart = function(mode) {
