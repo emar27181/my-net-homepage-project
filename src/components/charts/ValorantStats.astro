@@ -109,10 +109,10 @@ const S = getStylePresets(COLORS);
       <div class="container">
         <h3 style={`${S.subTitle} margin-bottom: 10px; text-align: center;`}>WEAPON SCORE</h3>
         <div class="controls weapon-category-controls">
-          <button onclick="toggleWeaponCategory('assault')" id="btn-wc-assault" class="active">Assault</button>
-          <button onclick="toggleWeaponCategory('sniper')" id="btn-wc-sniper">Sniper</button>
-          <button onclick="toggleWeaponCategory('smg')" id="btn-wc-smg">SMG</button>
-          <button onclick="toggleWeaponCategory('shotgun')" id="btn-wc-shotgun">Shotgun</button>
+          <button onclick="toggleWeaponCategory('assault')" id="btn-wc-assault" class="active">AR</button>
+          <button onclick="toggleWeaponCategory('sniper')" id="btn-wc-sniper">SR</button>
+          <button onclick="toggleWeaponCategory('smg')" id="btn-wc-smg">SUB</button>
+          <button onclick="toggleWeaponCategory('shotgun')" id="btn-wc-shotgun">SG</button>
           <button onclick="toggleWeaponCategory('sidearm')" id="btn-wc-sidearm">Sidearm</button>
           <button onclick="toggleWeaponCategory('lmg')" id="btn-wc-lmg">LMG</button>
           <button onclick="toggleWeaponCategory('other')" id="btn-wc-other">Other</button>
@@ -165,8 +165,8 @@ const S = getStylePresets(COLORS);
               id="agent-match-slider"
               min="0"
               max="300"
-              step="10"
-              value="20"
+              step="5"
+              value="0"
               oninput="updateAgentThreshold(this.value)"
             />
             <div class="agent-threshold-value" id="agent-threshold-display">MIN ≥ 20</div>
@@ -660,7 +660,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- Agent chart helpers ---
-  let agentThreshold = 20;
+  let agentThreshold = 0;
   let agentCurrentStat = 'time';
   let activeAgentRoles = new Set(['Controller','Initiator','Duelist','Sentinel']);
   let agentViewMode = 'agent'; // 'agent' | 'role'
