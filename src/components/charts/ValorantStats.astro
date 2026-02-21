@@ -60,6 +60,7 @@ const S = getStylePresets(COLORS);
     <button onclick="toggleMode('competitive')" id="btn-mode-competitive" class="mode-btn mode-btn-competitive active">COMPETITIVE</button>
     <button onclick="toggleMode('unrated')" id="btn-mode-unrated" class="mode-btn mode-btn-unrated active">UNRATED</button>
     <button onclick="toggleMode('deathmatch')" id="btn-mode-deathmatch" class="mode-btn mode-btn-deathmatch active">DEATHMATCH</button>
+    <button onclick="toggleMode('overall')" id="btn-mode-overall" class="mode-btn mode-btn-overall">OVERALL</button>
   </div>
 
   <div class="charts-grid" id="charts-grid">
@@ -195,6 +196,7 @@ const S = getStylePresets(COLORS);
   .mode-btn-competitive { --mc: #A6F7FF; --mc-rgb: 166, 247, 255; }
   .mode-btn-unrated     { --mc: #FFB347; --mc-rgb: 255, 179, 71; }
   .mode-btn-deathmatch  { --mc: #90EE90; --mc-rgb: 144, 238, 144; }
+  .mode-btn-overall     { --mc: #FFD700; --mc-rgb: 255, 215, 0; }
 
   .mode-btn {
     background: transparent;
@@ -471,10 +473,118 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentRankMode = 'rank';
 
+  // --- OVERALL 集計ヘルパー ---
+  const OVERALL_COLOR = '#FFD700';
+  const ALL_RANK_MODES = ['competitive', 'unrated', 'deathmatch'];
+
+  function buildOverallRankDataset(metricMode, labels) {
+    if (metricMode === 'rank') return null; // ランクは合計できない
+    const dataMaps = Object.fromEntries(
+      ALL_RANK_MODES.map(m => [m, Object.fromEntries((gameData[m]?.rank || []).map(d => [d.act_id, d]))])
+    );
+    let data;
+    if (metricMode === 'hs') {
+      // hs はコンペのみ存在 → そのまま転用
+      data = labels.map(l => dataMaps.competitive[l]?.hs != null ? dataMaps.competitive[l].hs * 100 : null);
+    } else if (metricMode === 'playtime') {
+      data = labels.map(l => {
+        const s = ALL_RANK_MODES.reduce((acc, m) => acc + (dataMaps[m][l]?.playtime || 0), 0);
+        return s > 0 ? s : null;
+      });
+    } else if (metricMode === 'playtime_cumulative') {
+      let cum = 0;
+      data = labels.map(l => {
+        const s = ALL_RANK_MODES.reduce((acc, m) => acc + (dataMaps[m][l]?.playtime || 0), 0);
+        if (s > 0) { cum += s; return Math.round(cum * 10) / 10; }
+        return null;
+      });
+    } else if (metricMode === 'wins') {
+      data = labels.map(l => {
+        const s = ALL_RANK_MODES.reduce((acc, m) => acc + (dataMaps[m][l]?.wins || 0), 0);
+        return s > 0 ? s : null;
+      });
+    } else if (metricMode === 'win_rate') {
+      data = labels.map(l => {
+        let totalWins = 0, totalMatches = 0;
+        ALL_RANK_MODES.forEach(m => {
+          const d = dataMaps[m][l];
+          if (d?.wins != null && d.win_rate > 0) { totalWins += d.wins; totalMatches += d.wins / d.win_rate; }
+        });
+        return totalMatches > 0 ? parseFloat(((totalWins / totalMatches) * 100).toFixed(1)) : null;
+      });
+    } else if (metricMode === 'kd') {
+      data = labels.map(l => {
+        let sumPt = 0, sumKdPt = 0;
+        ALL_RANK_MODES.forEach(m => {
+          const d = dataMaps[m][l];
+          if (d?.kd != null && d.playtime > 0) { sumPt += d.playtime; sumKdPt += d.kd * d.playtime; }
+        });
+        return sumPt > 0 ? parseFloat((sumKdPt / sumPt).toFixed(2)) : null;
+      });
+    } else {
+      data = labels.map(() => null);
+    }
+    return {
+      label: 'OVERALL',
+      data,
+      borderColor: OVERALL_COLOR, borderWidth: 2,
+      borderDash: [6, 3],
+      pointStyle: 'rect', pointRadius: getResponsiveRadius,
+      pointBackgroundColor: OVERALL_COLOR, pointBorderColor: OVERALL_COLOR, pointBorderWidth: 1,
+      tension: 0, spanGaps: true,
+    };
+  }
+
+  function buildOverallAgentDataset(allNames) {
+    // competitive + unrated を合算
+    const combined = {};
+    ['competitive', 'unrated'].forEach(m => {
+      (gameData[m]?.agent || [])
+        .filter(a => a.matches >= agentThreshold && activeAgentRoles.has(a.role))
+        .forEach(a => {
+          if (!combined[a.name]) combined[a.name] = { totalMatches: 0, totalTime: 0, totalWins: 0, wKd: 0, wAdr: 0, wAcs: 0, wHs: 0, wKast: 0 };
+          const e = combined[a.name];
+          e.totalMatches += a.matches;
+          e.totalTime    += a.time;
+          e.totalWins    += Math.round(a.matches * a.win_rate / 100);
+          e.wKd   += a.kd   * a.matches;
+          e.wAdr  += a.adr  * a.matches;
+          e.wAcs  += a.acs  * a.matches;
+          e.wHs   += a.hs   * a.matches;
+          e.wKast += a.kast * a.matches;
+        });
+    });
+    const stat = agentCurrentStat;
+    const val = (e) => {
+      if (!e) return null;
+      const m = e.totalMatches;
+      if (stat === 'matches')  return m;
+      if (stat === 'time')     return e.totalTime;
+      if (stat === 'win_rate') return m > 0 ? parseFloat((e.totalWins / m * 100).toFixed(1)) : null;
+      if (stat === 'kd')       return m > 0 ? parseFloat((e.wKd   / m).toFixed(2)) : null;
+      if (stat === 'adr')      return m > 0 ? parseFloat((e.wAdr  / m).toFixed(1)) : null;
+      if (stat === 'acs')      return m > 0 ? parseFloat((e.wAcs  / m).toFixed(1)) : null;
+      if (stat === 'hs')       return m > 0 ? parseFloat((e.wHs   / m).toFixed(1)) : null;
+      if (stat === 'kast')     return m > 0 ? parseFloat((e.wKast / m).toFixed(1)) : null;
+      return null;
+    };
+    return {
+      label: 'OVERALL',
+      data: allNames.map(n => val(combined[n])),
+      borderColor: OVERALL_COLOR, borderWidth: 2,
+      borderDash: [6, 3],
+      pointStyle: 'rect', pointRadius: getResponsiveRadius,
+      pointBackgroundColor: allNames.map(n => agentColors[n] || OVERALL_COLOR),
+      pointBorderColor: OVERALL_COLOR, pointBorderWidth: 1,
+      tension: 0, spanGaps: false,
+    };
+  }
+
   function buildRankDatasets(metricMode) {
     const labels = getUnifiedActIds();
     const datasets = [];
     for (const m of activeModes) {
+      if (m === 'overall') continue; // 後で追加
       const modeRank = gameData[m]?.rank || [];
       if (!modeRank.length) continue;
       // rank/hs はコンペのみ
@@ -503,6 +613,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       datasets.push({ label: MODE_LABELS[m], data, borderColor: MODE_COLORS[m], borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: ptColors, pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: true });
     }
+    if (activeModes.has('overall')) {
+      const od = buildOverallRankDataset(metricMode, labels);
+      if (od) datasets.push(od);
+    }
     return { labels, datasets };
   }
 
@@ -514,28 +628,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function buildAgentDatasets() {
     const supportedModes = ['competitive','unrated'].filter(m => activeModes.has(m) && (gameData[m]?.agent?.length));
+    // OVERALL 表示時はすべてのエージェント名を収集（非アクティブモードも含む）
+    const nameSources = activeModes.has('overall')
+      ? ['competitive','unrated'].filter(m => gameData[m]?.agent?.length)
+      : supportedModes;
     const allNames = [...new Set(
-      supportedModes.flatMap(m =>
+      nameSources.flatMap(m =>
         (gameData[m].agent || [])
           .filter(a => a.matches >= agentThreshold && activeAgentRoles.has(a.role))
           .map(a => a.name)
       )
     )];
-    return {
-      labels: allNames,
-      datasets: supportedModes.map(m => {
-        const agentMap = Object.fromEntries(
-          (gameData[m].agent || []).filter(a => a.matches >= agentThreshold && activeAgentRoles.has(a.role)).map(a => [a.name, a])
-        );
-        return {
-          label: MODE_LABELS[m],
-          data: allNames.map(n => agentMap[n]?.[agentCurrentStat] ?? null),
-          borderColor: MODE_COLORS[m], borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius,
-          pointBackgroundColor: allNames.map(n => agentMap[n] ? (agentColors[n] || MODE_COLORS[m]) : 'transparent'),
-          pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: false,
-        };
-      }),
-    };
+    const datasets = supportedModes.map(m => {
+      const agentMap = Object.fromEntries(
+        (gameData[m].agent || []).filter(a => a.matches >= agentThreshold && activeAgentRoles.has(a.role)).map(a => [a.name, a])
+      );
+      return {
+        label: MODE_LABELS[m],
+        data: allNames.map(n => agentMap[n]?.[agentCurrentStat] ?? null),
+        borderColor: MODE_COLORS[m], borderWidth: 2, pointStyle: 'rect', pointRadius: getResponsiveRadius,
+        pointBackgroundColor: allNames.map(n => agentMap[n] ? (agentColors[n] || MODE_COLORS[m]) : 'transparent'),
+        pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: false,
+      };
+    });
+    if (activeModes.has('overall')) {
+      datasets.push(buildOverallAgentDataset(allNames));
+    }
+    return { labels: allNames, datasets };
   }
 
   // --- Chart.js 共通設定 ---
@@ -766,8 +885,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- MODE TOGGLE ---
   window.toggleMode = function(mode) {
     if (activeModes.has(mode)) {
-      if (activeModes.size <= 1) return; // 最低1つは残す
-      activeModes.delete(mode);
+      if (mode === 'overall') {
+        activeModes.delete(mode); // overall は単独でトグル可能
+      } else {
+        // regular modes: overall を除いた regular モードが1つ以上残るか確認
+        const regularActive = [...activeModes].filter(m => m !== 'overall');
+        if (regularActive.length <= 1 && !activeModes.has('overall')) return;
+        activeModes.delete(mode);
+      }
     } else {
       activeModes.add(mode);
     }
@@ -775,7 +900,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btn) btn.classList.toggle('active', activeModes.has(mode));
     refreshRankChart();
     refreshAgentChart();
-    // weapon/map はコンペのみなので更新不要
   };
 
   // --- 初期描画 ---
