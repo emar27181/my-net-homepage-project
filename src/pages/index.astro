@@ -1891,6 +1891,37 @@ document.addEventListener("DOMContentLoaded", () => {
             mChart.update();
         }
 
+        const emptyChartPlugin = {
+            id: 'emptyChart',
+            afterDraw(chart, args, options) {
+                const { datasets } = chart.data;
+                let hasData = false;
+                if (datasets) {
+                    for (const dataset of datasets) {
+                        if (dataset.data && dataset.data.length > 0) {
+                            hasData = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!hasData) {
+                    const { chartArea: { left, top, right, bottom }, ctx } = chart;
+                    const centerX = (left + right) / 2;
+                    const centerY = (top + bottom) / 2;
+
+                    ctx.save();
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.font = `14px '${Chart.defaults.font.family}'`;
+                    ctx.fillStyle = 'rgba(166, 247, 255, 0.6)';
+                    ctx.fillText('選択されたモードのデータは現在準備中です', centerX, centerY);
+                    ctx.restore();
+                }
+            }
+        };
+        Chart.register(emptyChartPlugin);
+
         let currentGameMode = 'competitive';
         window.switchGameMode = function(mode) {
             if (mode === currentGameMode) return;
@@ -1899,8 +1930,23 @@ document.addEventListener("DOMContentLoaded", () => {
             currentGameMode = mode;
             const grid = document.getElementById('charts-grid');
             const msg = document.getElementById('mode-unavailable');
-            if (mode === 'competitive') { grid.style.display = ''; msg.style.display = 'none'; }
-            else { grid.style.display = 'none'; msg.style.display = ''; }
+
+            if (mode === 'competitive') {
+                window.location.reload();
+            } else {
+                grid.style.display = '';
+                msg.style.display = 'none';
+
+                [rChart, wChart, mChart, agentChart].forEach(chart => {
+                    if (chart) {
+                        chart.data.labels = [];
+                        chart.data.datasets.forEach((dataset) => {
+                            dataset.data = [];
+                        });
+                        chart.update();
+                    }
+                });
+            }
         }
 });
 </script>
