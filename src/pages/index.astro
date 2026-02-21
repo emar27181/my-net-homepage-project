@@ -3,6 +3,9 @@ import competitiveAgentData from '../data/competitive_agent.json';
 import competitiveRankData from '../data/competitive_rank.json';
 import competitiveWeaponData from '../data/competitive_weapon.json';
 import competitiveMapData from '../data/competitive_map.json';
+import unratedAgentData from '../data/unrate_agent.json';
+import unratedPerformanceData from '../data/unrate_performance.json';
+import deathmatchPerformanceData from '../data/deathmatch_performance.json';
 import SimpleLayout from "../layouts/SimpleLayout.astro";
 import YouTubeClipViewer from "../components/YouTubeClipViewer.astro";
 import { applyTypographyPreset } from "../utils/typography";
@@ -32,6 +35,9 @@ const S = getStylePresets(COLORS);
 <script type="application/json" id="competitive-rank-data" set:html={JSON.stringify(competitiveRankData)}></script>
 <script type="application/json" id="competitive-weapon-data" set:html={JSON.stringify(competitiveWeaponData)}></script>
 <script type="application/json" id="competitive-map-data" set:html={JSON.stringify(competitiveMapData)}></script>
+<script type="application/json" id="unrated-agent-data" set:html={JSON.stringify(unratedAgentData)}></script>
+<script type="application/json" id="unrated-performance-data" set:html={JSON.stringify(unratedPerformanceData)}></script>
+<script type="application/json" id="deathmatch-performance-data" set:html={JSON.stringify(deathmatchPerformanceData)}></script>
 
 <SimpleLayout title="nodoame's Portfolio">
   <div
@@ -1503,9 +1509,18 @@ const S = getStylePresets(COLORS);
         transition: all 0.15s ease;
         border-radius: 2px;
     }
-    .controls button:hover {
+    .controls button:hover:not(:disabled) {
         background: rgba(166, 247, 255, 0.15);
         border-color: rgba(166, 247, 255, 0.6);
+    }
+    .controls button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        background: transparent;
+        border-color: rgba(166, 247, 255, 0.2);
+        color: rgba(166, 247, 255, 0.4);
+        text-shadow: none;
+        box-shadow: none;
     }
     .controls button.active {
         background: rgba(166, 247, 255, 0.25);
@@ -1673,15 +1688,31 @@ document.addEventListener("DOMContentLoaded", () => {
         const wrScale = (values) => { const dev = Math.max(...values.map(v => Math.abs(v - 50)), 5); const step = dev <= 15 ? 5 : 10; const steps = Math.ceil(dev / step) + 1; return { min: Math.max(0, 50 - steps * step), max: Math.min(100, 50 + steps * step), step }; };
 
         // DATASETS
-        const rankData = JSON.parse(document.getElementById('competitive-rank-data').textContent);
-        const weaponData = JSON.parse(document.getElementById('competitive-weapon-data').textContent);
-        const mapData = JSON.parse(document.getElementById('competitive-map-data').textContent);
-        const agentData = JSON.parse(document.getElementById('competitive-agent-data').textContent);
+        const gameData = {
+            competitive: {
+                agent: JSON.parse(document.getElementById('competitive-agent-data').textContent),
+                rank: JSON.parse(document.getElementById('competitive-rank-data').textContent),
+                weapon: JSON.parse(document.getElementById('competitive-weapon-data').textContent),
+                map: JSON.parse(document.getElementById('competitive-map-data').textContent)
+            },
+            unrated: {
+                agent: JSON.parse(document.getElementById('unrated-agent-data').textContent),
+                rank: JSON.parse(document.getElementById('unrated-performance-data').textContent),
+            },
+            deathmatch: {
+                rank: JSON.parse(document.getElementById('deathmatch-performance-data').textContent),
+            }
+        };
+
+        let rankData = gameData.competitive.rank;
+        let weaponData = gameData.competitive.weapon;
+        let mapData = gameData.competitive.map;
+        let agentData = gameData.competitive.agent;
 
         const allWeaponCats = ['assault', 'sniper', 'smg', 'shotgun', 'sidearm', 'lmg', 'other'];
         let activeWeaponCategories = new Set(['assault']);
         let currentWeaponMode = 'kd';
-        const getFilteredWeapons = () => activeWeaponCategories.size === 0 ? weaponData : weaponData.filter(w => activeWeaponCategories.has(w.cat));
+        let getFilteredWeapons = () => activeWeaponCategories.size === 0 ? weaponData : weaponData.filter(w => activeWeaponCategories.has(w.cat));
         let filteredWeapons = getFilteredWeapons();
 
         const agentColors = {
@@ -1723,7 +1754,7 @@ document.addEventListener("DOMContentLoaded", () => {
             options: (() => { const s = wrScale(mapData.map(m => m.win_rate * 100)); return { ...commonOptions, _baselineValue: 50, scales: { y: { min: s.min, max: s.max, ticks: { stepSize: s.step, callback: v => v + '%' }, grid: { color: GRID_H, lineWidth: GRID_H_W } }, x: { ticks: { color: THEME_COLOR }, grid: { color: GRID_V, lineWidth: GRID_V_W } } }, plugins: { ...commonOptions.plugins, tooltip: { ...commonOptions.plugins.tooltip, callbacks: { label: (item) => { const m = mapData[item.dataIndex]; return [` WIN %   : ${(m.win_rate * 100).toFixed(1)}%`, ` MATCHES : ${m.wins + m.losses}`, ` W / L   : ${m.wins} / ${m.losses}`, ` K/D     : ${m.kd.toFixed(2)}`, ` ADR     : ${m.adr}`, ` ACS     : ${m.acs}`]; } } } } }; })()
         });
         const agentThresholdDisplay = document.getElementById('agent-threshold-display');
-        const getAgentFilteredData = () => agentData.filter(a => a.matches >= agentThreshold && activeAgentRoles.has(a.role));
+        let getAgentFilteredData = () => agentData.filter(a => a.matches >= agentThreshold && activeAgentRoles.has(a.role));
         const agentChartEl = document.getElementById('agentChart');
         const agentChart = agentChartEl ? new Chart(agentChartEl.getContext('2d'), {
             type: 'line',
@@ -1822,131 +1853,121 @@ document.addEventListener("DOMContentLoaded", () => {
         refreshAgentChart();
 
         // UPDATE FUNCTIONS (window に登録してonclickからアクセス可能にする)
-        window.updateRankChart = function(mode) {
-            document.querySelectorAll('[id^="btn-r-"]').forEach(b => b.classList.remove('active'));
-            document.getElementById(`btn-r-${mode}`).classList.add('active');
-            let isRank = (mode === 'rank');
-            let isCumulative = (mode === 'playtime_cumulative');
-            if (isCumulative) {
-                let cumulative = 0;
-                rChart.data.datasets[0].data = rankData.map(d => { cumulative += d.playtime; return Math.round(cumulative * 10) / 10; });
-            } else {
-                rChart.data.datasets[0].data = isRank ? rankData.map(d => allRanks.indexOf(d.rank)) : (mode === 'kd' ? rankData.map(d => d.kd) : rankData.map(d => d[mode === 'hs' ? 'hs' : mode] * (mode === 'playtime' || mode === 'wins' ? 1 : 100)));
-            }
-            if (isRank) { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = 24; rChart.options.scales.y.ticks.stepSize = 1; rChart.options.scales.y.ticks.callback = rankLabelFunc; }
-            else if (mode === 'kd') { const s = kdScale(rankData.map(d => d.kd)); rChart.options.scales.y.min = s.min; rChart.options.scales.y.max = s.max; rChart.options.scales.y.ticks.stepSize = s.step; rChart.options.scales.y.ticks.callback = v => v.toFixed(1); }
-            else if (mode === 'win_rate') { const s = wrScale(rankData.map(d => d.win_rate * 100)); rChart.options.scales.y.min = s.min; rChart.options.scales.y.max = s.max; rChart.options.scales.y.ticks.stepSize = s.step; rChart.options.scales.y.ticks.callback = v => v + '%'; }
-            else if (mode === 'hs') { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = 100; rChart.options.scales.y.ticks.stepSize = 10; rChart.options.scales.y.ticks.callback = v => v + '%'; }
-            else if (isCumulative) { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = undefined; rChart.options.scales.y.ticks.stepSize = undefined; rChart.options.scales.y.ticks.callback = v => v + 'h'; }
-            else { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = undefined; rChart.options.scales.y.ticks.stepSize = undefined; rChart.options.scales.y.ticks.callback = v => v; }
-            rChart.options._baselineValue = mode === 'kd' ? 1.0 : mode === 'win_rate' ? 50 : null;
-            rChart.update();
-        }
-
-        function refreshWeaponChart() {
-            wChart.data.labels = filteredWeapons.map(w => w.weapon);
-            const mode = currentWeaponMode;
-            wChart.data.datasets[0].data = filteredWeapons.map(w => mode === 'hs_rate' ? (w.hs_rate * 100).toFixed(1) : w[mode]);
-            if (mode === 'hs_rate') { wChart.options.scales.y.min = 0; wChart.options.scales.y.max = 100; wChart.options.scales.y.ticks.stepSize = 10; wChart.options.scales.y.ticks.callback = v => v + '%'; }
-            else if (mode === 'kd') { const s = kdScale(filteredWeapons.map(w => w.kd)); wChart.options.scales.y.min = s.min; wChart.options.scales.y.max = s.max; wChart.options.scales.y.ticks.stepSize = s.step; wChart.options.scales.y.ticks.callback = v => v.toFixed(1); }
-            else { wChart.options.scales.y.min = 0; wChart.options.scales.y.max = undefined; wChart.options.scales.y.ticks.stepSize = undefined; wChart.options.scales.y.ticks.callback = v => v; }
-            wChart.options._baselineValue = mode === 'kd' ? 1.0 : null;
-            wChart.update();
-        }
-
-        const syncWeaponCatButtons = () => {
-            allWeaponCats.forEach(c => document.getElementById(`btn-wc-${c}`).classList.toggle('active', activeWeaponCategories.has(c)));
-            document.getElementById('btn-wc-all').classList.toggle('active', activeWeaponCategories.size === allWeaponCats.length);
-        };
-        window.toggleWeaponCategory = function(cat) {
-            if (activeWeaponCategories.has(cat)) { if (activeWeaponCategories.size > 1) activeWeaponCategories.delete(cat); }
-            else activeWeaponCategories.add(cat);
-            syncWeaponCatButtons();
-            filteredWeapons = getFilteredWeapons();
-            refreshWeaponChart();
-        }
-        window.toggleAllWeaponCategories = function() {
-            if (activeWeaponCategories.size === allWeaponCats.length) { activeWeaponCategories = new Set(['assault']); }
-            else { activeWeaponCategories = new Set(allWeaponCats); }
-            syncWeaponCatButtons();
-            filteredWeapons = getFilteredWeapons();
-            refreshWeaponChart();
-        }
-
-        window.updateWeaponChart = function(mode) {
-            document.querySelectorAll('[id^="btn-w-"]').forEach(b => b.classList.remove('active'));
-            document.getElementById(mode === 'kpr' ? 'btn-w-kpr' : `btn-w-${mode}`).classList.add('active');
-            currentWeaponMode = mode;
-            refreshWeaponChart();
-        }
-
-        window.updateMapChart = function(mode) {
-            document.querySelectorAll('[id^="btn-m-"]').forEach(b => b.classList.remove('active'));
-            document.getElementById(`btn-m-${mode}`).classList.add('active');
-            mChart.data.datasets[0].data = mapData.map(m => mode === 'win_rate' ? (m.win_rate * 100).toFixed(1) : m[mode]);
-            if (mode === 'win_rate') { const s = wrScale(mapData.map(m => m.win_rate * 100)); mChart.options.scales.y.min = s.min; mChart.options.scales.y.max = s.max; mChart.options.scales.y.ticks.stepSize = s.step; mChart.options.scales.y.ticks.callback = v => v + '%'; }
-            else if (mode === 'kd') { const s = kdScale(mapData.map(m => m.kd)); mChart.options.scales.y.min = s.min; mChart.options.scales.y.max = s.max; mChart.options.scales.y.ticks.stepSize = s.step; mChart.options.scales.y.ticks.callback = v => v.toFixed(1); }
-            else { mChart.options.scales.y.min = 0; mChart.options.scales.y.max = undefined; mChart.options.scales.y.ticks.stepSize = undefined; mChart.options.scales.y.ticks.callback = v => v; }
-            mChart.options._baselineValue = mode === 'kd' ? 1.0 : mode === 'win_rate' ? 50 : null;
-            mChart.update();
-        }
-
-        const emptyChartPlugin = {
-            id: 'emptyChart',
-            afterDraw(chart, args, options) {
-                const { datasets } = chart.data;
-                let hasData = false;
-                if (datasets) {
-                    for (const dataset of datasets) {
-                        if (dataset.data && dataset.data.length > 0) {
-                            hasData = true;
-                            break;
-                        }
+                window.updateRankChart = function(mode) {
+                    document.querySelectorAll('[id^="btn-r-"]').forEach(b => b.classList.remove('active'));
+                    document.getElementById(`btn-r-${mode}`).classList.add('active');
+                    let isRank = (mode === 'rank');
+                    let isCumulative = (mode === 'playtime_cumulative');
+                    rChart.data.labels = rankData.map(d => d.act_id);
+                    if (isCumulative) {
+                        let cumulative = 0;
+                        rChart.data.datasets[0].data = rankData.map(d => { cumulative += d.playtime; return Math.round(cumulative * 10) / 10; });
+                    } else {
+                        rChart.data.datasets[0].data = isRank ? rankData.map(d => allRanks.indexOf(d.rank)) : (mode === 'kd' ? rankData.map(d => d.kd) : rankData.map(d => d[mode === 'hs' ? 'hs' : mode] * (mode === 'playtime' || mode === 'wins' ? 1 : 100)));
                     }
+                    rChart.data.datasets[0].pointBackgroundColor = isRank ? rankData.map(d => rankColors[d.rank.split(' ')[0]] || THEME_COLOR) : THEME_COLOR;
+                    if (isRank) { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = 24; rChart.options.scales.y.ticks.stepSize = 1; rChart.options.scales.y.ticks.callback = rankLabelFunc; }
+                    else if (mode === 'kd') { const s = kdScale(rankData.map(d => d.kd || 0)); rChart.options.scales.y.min = s.min; rChart.options.scales.y.max = s.max; rChart.options.scales.y.ticks.stepSize = s.step; rChart.options.scales.y.ticks.callback = v => v.toFixed(1); }
+                    else if (mode === 'win_rate') { const s = wrScale(rankData.map(d => d.win_rate * 100)); rChart.options.scales.y.min = s.min; rChart.options.scales.y.max = s.max; rChart.options.scales.y.ticks.stepSize = s.step; rChart.options.scales.y.ticks.callback = v => v + '%'; }
+                    else if (mode === 'hs') { const s = wrScale(rankData.map(d => (d.hs || 0) * 100)); rChart.options.scales.y.min = s.min; rChart.options.scales.y.max = s.max; rChart.options.scales.y.ticks.stepSize = s.step; rChart.options.scales.y.ticks.callback = v => v + '%'; }
+                    else if (isCumulative) { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = undefined; rChart.options.scales.y.ticks.stepSize = undefined; rChart.options.scales.y.ticks.callback = v => v + 'h'; }
+                    else { rChart.options.scales.y.min = 0; rChart.options.scales.y.max = undefined; rChart.options.scales.y.ticks.stepSize = undefined; rChart.options.scales.y.ticks.callback = v => v; }
+                    rChart.options._baselineValue = mode === 'kd' ? 1.0 : mode === 'win_rate' ? 50 : null;
+                    rChart.update();
                 }
-
-                if (!hasData) {
-                    const { chartArea: { left, top, right, bottom }, ctx } = chart;
-                    const centerX = (left + right) / 2;
-                    const centerY = (top + bottom) / 2;
-
-                    ctx.save();
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.font = `14px '${Chart.defaults.font.family}'`;
-                    ctx.fillStyle = 'rgba(166, 247, 255, 0.6)';
-                    ctx.fillText('選択されたモードのデータは現在準備中です', centerX, centerY);
-                    ctx.restore();
+        
+                function refreshWeaponChart() {
+                    filteredWeapons = getFilteredWeapons();
+                    wChart.data.labels = filteredWeapons.map(w => w.weapon);
+                    const mode = currentWeaponMode;
+                    wChart.data.datasets[0].data = filteredWeapons.map(w => mode === 'hs_rate' ? (w.hs_rate * 100).toFixed(1) : w[mode]);
+                    if (mode === 'hs_rate') { const s = wrScale(filteredWeapons.map(m => m.hs_rate * 100)); wChart.options.scales.y.min = s.min; wChart.options.scales.y.max = s.max; wChart.options.scales.y.ticks.stepSize = s.step; wChart.options.scales.y.ticks.callback = v => v + '%'; }
+                    else if (mode === 'kd') { const s = kdScale(filteredWeapons.map(w => w.kd)); wChart.options.scales.y.min = s.min; wChart.options.scales.y.max = s.max; wChart.options.scales.y.ticks.stepSize = s.step; wChart.options.scales.y.ticks.callback = v => v.toFixed(1); }
+                    else { wChart.options.scales.y.min = 0; wChart.options.scales.y.max = undefined; wChart.options.scales.y.ticks.stepSize = undefined; wChart.options.scales.y.ticks.callback = v => v; }
+                    wChart.options._baselineValue = mode === 'kd' ? 1.0 : null;
+                    wChart.update();
                 }
-            }
-        };
-        Chart.register(emptyChartPlugin);
-
-        let currentGameMode = 'competitive';
-        window.switchGameMode = function(mode) {
-            if (mode === currentGameMode) return;
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(`btn-mode-${mode}`).classList.add('active');
-            currentGameMode = mode;
-            const grid = document.getElementById('charts-grid');
-            const msg = document.getElementById('mode-unavailable');
-
-            if (mode === 'competitive') {
-                window.location.reload();
-            } else {
-                grid.style.display = '';
-                msg.style.display = 'none';
-
-                [rChart, wChart, mChart, agentChart].forEach(chart => {
-                    if (chart) {
-                        chart.data.labels = [];
-                        chart.data.datasets.forEach((dataset) => {
-                            dataset.data = [];
-                        });
-                        chart.update();
+        
+                const syncWeaponCatButtons = () => {
+                    allWeaponCats.forEach(c => document.getElementById(`btn-wc-${c}`).classList.toggle('active', activeWeaponCategories.has(c)));
+                    document.getElementById('btn-wc-all').classList.toggle('active', activeWeaponCategories.size === allWeaponCats.length);
+                };
+                window.toggleWeaponCategory = function(cat) {
+                    if (activeWeaponCategories.has(cat)) { if (activeWeaponCategories.size > 1) activeWeaponCategories.delete(cat); }
+                    else activeWeaponCategories.add(cat);
+                    syncWeaponCatButtons();
+                    refreshWeaponChart();
+                }
+                window.toggleAllWeaponCategories = function() {
+                    if (activeWeaponCategories.size === allWeaponCats.length) { activeWeaponCategories = new Set(['assault']); }
+                    else { activeWeaponCategories = new Set(allWeaponCats); }
+                    syncWeaponCatButtons();
+                    refreshWeaponChart();
+                }
+        
+                window.updateWeaponChart = function(mode) {
+                    document.querySelectorAll('[id^="btn-w-"]').forEach(b => b.classList.remove('active'));
+                    document.getElementById(mode === 'kpr' ? 'btn-w-kpr' : `btn-w-${mode}`).classList.add('active');
+                    currentWeaponMode = mode;
+                    refreshWeaponChart();
+                }
+        
+                window.updateMapChart = function(mode) {
+                    mChart.data.labels = mapData.map(m => m.map);
+                    document.querySelectorAll('[id^="btn-m-"]').forEach(b => b.classList.remove('active'));
+                    document.getElementById(`btn-m-${mode}`).classList.add('active');
+                    mChart.data.datasets[0].data = mapData.map(m => mode === 'win_rate' ? (m.win_rate * 100).toFixed(1) : m[mode]);
+                    if (mode === 'win_rate') { const s = wrScale(mapData.map(m => m.win_rate * 100)); mChart.options.scales.y.min = s.min; mChart.options.scales.y.max = s.max; mChart.options.scales.y.ticks.stepSize = s.step; mChart.options.scales.y.ticks.callback = v => v + '%'; }
+                    else if (mode === 'kd') { const s = kdScale(mapData.map(m => m.kd)); mChart.options.scales.y.min = s.min; mChart.options.scales.y.max = s.max; mChart.options.scales.y.ticks.stepSize = s.step; mChart.options.scales.y.ticks.callback = v => v.toFixed(1); }
+                    else { mChart.options.scales.y.min = 0; mChart.options.scales.y.max = undefined; mChart.options.scales.y.ticks.stepSize = undefined; mChart.options.scales.y.ticks.callback = v => v; }
+                    mChart.options._baselineValue = mode === 'kd' ? 1.0 : mode === 'win_rate' ? 50 : null;
+                    mChart.update();
+                }
+        
+                let currentGameMode = 'competitive';
+                window.switchGameMode = function(mode) {
+                    if (mode === currentGameMode) return;
+                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                    document.getElementById(`btn-mode-${mode}`).classList.add('active');
+                    currentGameMode = mode;
+        
+                    const modeData = gameData[mode];
+        
+                    if (!modeData) {
+                        rankData = []; agentData = []; weaponData = []; mapData = [];
+                    } else {
+                        rankData = modeData.rank || [];
+                        agentData = modeData.agent || [];
+                        weaponData = modeData.weapon || [];
+                        mapData = modeData.map || [];
                     }
-                });
-            }
-        }
-});
-</script>
+                    
+                    getFilteredWeapons = () => activeWeaponCategories.size === 0 ? weaponData : weaponData.filter(w => activeWeaponCategories.has(w.cat));
+                    getAgentFilteredData = () => agentData.filter(a => a.matches >= agentThreshold && activeAgentRoles.has(a.role));
+        
+                    // --- Update UI Controls ---
+                    const rankBtn = document.getElementById('btn-r-rank');
+                    const hsBtn = document.getElementById('btn-r-hs');
+                    
+                    rankBtn.disabled = !(rankData.length > 0 && rankData[0].rank);
+                    if (rankBtn.disabled && rankBtn.classList.contains('active')) {
+                        document.getElementById('btn-r-playtime').click();
+                    }
+                    
+                    hsBtn.disabled = !(rankData.length > 0 && rankData[0].hs !== undefined);
+                    if (hsBtn.disabled && hsBtn.classList.contains('active')) {
+                        document.getElementById('btn-r-kd').click();
+                    }
+        
+                    // --- Refresh all charts ---
+                    const activeRankMode = document.querySelector('[id^="btn-r-"].active').id.replace('btn-r-', '');
+                    updateRankChart(activeRankMode);
+                    
+                    const activeMapMode = document.querySelector('[id^="btn-m-"].active').id.replace('btn-m-', '');
+                    updateMapChart(activeMapMode);
+        
+                    refreshWeaponChart();
+                    refreshAgentChart();
+                }
+            });
+        </script>
