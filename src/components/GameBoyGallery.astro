@@ -3,9 +3,10 @@
 // 画像ナビゲーション + CRT/GB/VHS フィルター切り替え機能付き
 ---
 
-<!-- VHS SVGフィルター定義 -->
+<!-- SVGフィルター定義 -->
 <svg style="display:none" width="0" height="0" aria-hidden="true">
   <defs>
+    <!-- VHS: RGBチャンネルずれ -->
     <filter id="svg-vhs-filter" color-interpolation-filters="sRGB" x="-5%" y="-5%" width="110%" height="110%">
       <feColorMatrix type="matrix" in="SourceGraphic" result="r"
         values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"/>
@@ -15,6 +16,14 @@
       <feOffset dx="-6" dy="-2" in="b" result="b-shift"/>
       <feBlend in="r-shift" in2="SourceGraphic" mode="screen" result="step1"/>
       <feBlend in="step1" in2="b-shift" mode="screen"/>
+    </filter>
+    <!-- DOT: ポスタリゼーション（色数削減でドット絵風） -->
+    <filter id="svg-dot-filter" color-interpolation-filters="sRGB">
+      <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0 0.2 0.4 0.6 0.8 1"/>
+        <feFuncG type="discrete" tableValues="0 0.2 0.4 0.6 0.8 1"/>
+        <feFuncB type="discrete" tableValues="0 0.2 0.4 0.6 0.8 1"/>
+      </feComponentTransfer>
     </filter>
   </defs>
 </svg>
@@ -198,7 +207,7 @@
   /* 本体 */
   .gb-body {
     width: 100%;
-    max-width: 500px;
+    max-width: 380px;
     margin: 0 auto;
     /* GB特徴の下膨らみシェイプ */
     background: linear-gradient(160deg, #22223a 0%, #1a1a2e 50%, #14142a 100%);
@@ -341,7 +350,7 @@
   /* 画像 */
   .viewer-img {
     width: 100%;
-    height: 280px;
+    height: 220px;
     display: block;
     object-fit: contain;
     object-position: center;
@@ -602,6 +611,11 @@
   .gb-filter-name.mode-vhs {
     color: #ff44cc;
     text-shadow: 0 0 8px rgba(255,0,180,0.7), 1px 1px 0 #000;
+  }
+
+  .gb-filter-name.mode-dot {
+    color: #ffdd44;
+    text-shadow: 0 0 8px rgba(255,200,0,0.7), 1px 1px 0 #000;
   }
 
   /* SELECT / START */
@@ -887,10 +901,31 @@
     ) !important;
   }
 
+  /* DOT: ドット絵風（ポスタリゼーション + ピクセルグリッド） */
+  .viewer-frame.filter-dot .viewer-img {
+    filter: url(#svg-dot-filter) contrast(1.6) saturate(1.8) brightness(0.9);
+    image-rendering: pixelated;
+  }
+
+  .viewer-frame.filter-dot .viewer-scanlines {
+    opacity: 1 !important;
+    background:
+      repeating-linear-gradient(0deg,  rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 1px, transparent 4px) !important;
+  }
+
+  .viewer-frame.filter-dot::after {
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      transparent 50%,
+      rgba(0, 0, 10, 0.35) 100%
+    ) !important;
+  }
+
   /* レスポンシブ */
   @media (max-width: 520px) {
     .gb-body { padding: 10px 12px 22px; }
-    .viewer-img { height: 200px; }
+    .viewer-img { height: 160px; }
     .gb-controls { gap: 4px; }
     .gb-filter-mini { min-width: 70px; }
     .gb-filter-name { font-size: 9px; }
@@ -917,6 +952,7 @@
     { key: "crt",  label: "CRT",    mode: "mode-crt" },
     { key: "gb",   label: "G·BOY", mode: "mode-gb" },
     { key: "vhs",  label: "VHS",    mode: "mode-vhs" },
+    { key: "dot",  label: "DOT",    mode: "mode-dot" },
   ];
 
   let imgIdx = 0;
@@ -957,7 +993,7 @@
     const display = document.getElementById("filter-display");
     if (!frame || !display) return;
 
-    frame.classList.remove("filter-crt", "filter-gb", "filter-vhs");
+    frame.classList.remove("filter-crt", "filter-gb", "filter-vhs", "filter-dot");
     if (f.key !== "none") frame.classList.add(`filter-${f.key}`);
 
     display.textContent = f.label;
