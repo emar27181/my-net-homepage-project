@@ -129,18 +129,18 @@
 
   </div><!-- /gb-body -->
 
-  <!-- カートリッジ選択ストリップ -->
+  <!-- ドットナビ -->
   <div class="viewer-dots" id="viewer-dots">
-    <button class="viewer-dot active" data-index="0"><span class="dot-num">1</span></button>
-    <button class="viewer-dot" data-index="1"><span class="dot-num">2</span></button>
-    <button class="viewer-dot" data-index="2"><span class="dot-num">3</span></button>
-    <button class="viewer-dot" data-index="3"><span class="dot-num">4</span></button>
-    <button class="viewer-dot" data-index="4"><span class="dot-num">5</span></button>
-    <button class="viewer-dot" data-index="5"><span class="dot-num">6</span></button>
-    <button class="viewer-dot" data-index="6"><span class="dot-num">7</span></button>
-    <button class="viewer-dot" data-index="7"><span class="dot-num">8</span></button>
-    <button class="viewer-dot" data-index="8"><span class="dot-num">9</span></button>
-    <button class="viewer-dot" data-index="9"><span class="dot-num">10</span></button>
+    <button class="viewer-dot active" data-index="0" aria-label="画像1"></button>
+    <button class="viewer-dot" data-index="1" aria-label="画像2"></button>
+    <button class="viewer-dot" data-index="2" aria-label="画像3"></button>
+    <button class="viewer-dot" data-index="3" aria-label="画像4"></button>
+    <button class="viewer-dot" data-index="4" aria-label="画像5"></button>
+    <button class="viewer-dot" data-index="5" aria-label="画像6"></button>
+    <button class="viewer-dot" data-index="6" aria-label="画像7"></button>
+    <button class="viewer-dot" data-index="7" aria-label="画像8"></button>
+    <button class="viewer-dot" data-index="8" aria-label="画像9"></button>
+    <button class="viewer-dot" data-index="9" aria-label="画像10"></button>
   </div>
 
 </div><!-- /gb-outer -->
@@ -756,62 +756,34 @@
   .viewer-dots {
     display: flex;
     justify-content: center;
-    gap: 4px;
+    gap: 8px;
     flex-wrap: wrap;
-    padding: 4px 0;
+    padding: 8px 0 4px;
   }
 
   .viewer-dot {
-    width: 28px;
-    height: 22px;
-    border-radius: 2px;
-    background: #0c0c22;
-    border: 2px solid #1e1e38;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #1e1e38;
+    border: 2px solid #2a2a4a;
     cursor: pointer;
     padding: 0;
-    transition: all 0.1s ease;
-    image-rendering: pixelated;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 2px 0 #040410;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+    transition: all 0.15s ease;
+    box-shadow: 0 0 0 1px #0a0a1a;
   }
 
-  .dot-num {
-    font-family: var(--font-pixel);
-    font-size: 7px;
-    color: #2a2a44;
-    text-shadow: 1px 1px 0 #000;
-    image-rendering: pixelated;
-    line-height: 1;
+  .viewer-dot:hover {
+    background: #3a3a66;
+    border-color: #5566aa;
+    box-shadow: 0 0 6px rgba(77,121,255,0.4), 0 0 0 1px #0a0a1a;
   }
-
-  .viewer-dot:hover { background: #1a1a38; border-color: #3a3a60; }
-  .viewer-dot:hover .dot-num { color: #5566aa; }
 
   .viewer-dot.active {
-    background: linear-gradient(180deg, #3355cc 0%, #2244aa 100%);
-    border-color: #7799ff;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 2px 0 #050510, 0 0 8px rgba(77,121,255,0.65);
-  }
-
-  .viewer-dot.active .dot-num {
-    color: #ffffff;
-    text-shadow: 0 0 6px rgba(200,220,255,0.8), 1px 1px 0 #000;
-  }
-
-  .viewer-dot.active::before {
-    content: '▼';
-    position: absolute;
-    top: -13px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 8px;
-    color: #4d79ff;
-    text-shadow: 0 0 6px #4d79ff;
-    animation: gb-blink 0.7s step-end infinite;
-    font-family: var(--font-pixel);
+    background: #4d79ff;
+    border-color: #88aaff;
+    box-shadow: 0 0 8px rgba(77,121,255,0.8), 0 0 0 1px #0a0a1a;
+    transform: scale(1.25);
   }
 
   /* ===== フィルター効果 ===== */
@@ -922,8 +894,7 @@
     .gb-controls { gap: 4px; }
     .gb-filter-mini { min-width: 70px; }
     .gb-filter-name { font-size: 9px; }
-    .viewer-dot { width: 22px; height: 18px; }
-    .dot-num { font-size: 6px; }
+    .viewer-dot { width: 8px; height: 8px; }
   }
 </style>
 
