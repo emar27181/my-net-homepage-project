@@ -87,7 +87,7 @@ const S = getStylePresets(COLORS);
                   <p
                     style={`${S.bodyText}`}
                   >
-                    VALORANTをメインにプレイしている猫好きなゲーマー、nodoame (のどあめん / nodoamen) です。<br />
+                    VALORANTをメインにプレイしている猫好きなゲーマー、nodoame です。<br />
                     <br />
                     ゲーム以外にもWeb制作やプログラミングに興味があり、<br />
                     このポートフォリオサイトを制作しました。<br />
@@ -1036,6 +1036,57 @@ const S = getStylePresets(COLORS);
         </div>
       </div>
     </div>
+    <!-- イラストギャラリー -->
+    <div
+      style={`background: ${COLORS.primaryAlpha10}; border: 4px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; box-shadow: inset 2px 2px 0px rgba(255,255,255,0.15), inset -2px -2px 0px rgba(0,0,0,0.5), 0 0 20px rgba(77,121,255,0.25);`}
+      class="illust-gallery-section"
+    >
+      <!-- レトロゲーム風ヘッダー -->
+      <div class="illust-header-row">
+        <h2 style={`${S.sectionTitle} margin-bottom: 0;`}>▶▶ GALLERY MODE ◀◀</h2>
+        <span class="illust-status-bar">WORKS: 10 / 10 LOADED &nbsp;<span class="illust-blink">█</span></span>
+      </div>
+      <hr style={`${S.divider} margin: 10px auto 18px auto; width: 100%;`} />
+
+      <div class="illust-grid">
+        {[
+          { id: 10,  title: "Cat Sketch #1",    w: 400, h: 520 },
+          { id: 20,  title: "Fantasy Landscape", w: 400, h: 260 },
+          { id: 30,  title: "Pixel Character",   w: 400, h: 400 },
+          { id: 40,  title: "Night City",        w: 400, h: 300 },
+          { id: 50,  title: "Portrait Study",    w: 400, h: 560 },
+          { id: 60,  title: "Abstract Flow",     w: 400, h: 400 },
+          { id: 70,  title: "Creature Design",   w: 400, h: 340 },
+          { id: 80,  title: "Neon Alley",        w: 400, h: 480 },
+          { id: 90,  title: "Chibi Character",   w: 400, h: 400 },
+          { id: 100, title: "Scenery Draft",     w: 400, h: 280 },
+        ].map(({ id, title, w, h }, i) => (
+          <div class="illust-item">
+            <div class="illust-img-wrap">
+              <!-- 番号バッジ -->
+              <span class="illust-num">NO.{String(i + 1).padStart(2, '0')}</span>
+              <img
+                src={`https://picsum.photos/seed/${id}/${w}/${h}`}
+                alt={title}
+                loading="lazy"
+                class="illust-img"
+              />
+              <!-- スキャンラインオーバーレイ -->
+              <div class="illust-scanlines"></div>
+              <!-- ホバーオーバーレイ -->
+              <div class="illust-overlay">
+                <span class="illust-cursor">▶ ZOOM</span>
+              </div>
+            </div>
+            <p class="illust-title">[ {title} ]</p>
+          </div>
+        ))}
+      </div>
+
+      <!-- フッターステータス -->
+      <p class="illust-footer-bar">★ &nbsp; ILLUSTRATION GALLERY &nbsp; ★ &nbsp; TOTAL 10 WORKS &nbsp; ★</p>
+    </div>
+
     <!-- フッター -->
     <div
       style="text-align: center; padding: 20px 0; border-top: 1px solid #333333;"
@@ -1187,6 +1238,191 @@ const S = getStylePresets(COLORS);
 
     .mobile-layout {
       display: none !important;
+    }
+  }
+
+  /* ===== イラストギャラリー（レトロゲーム風） ===== */
+
+  @keyframes retro-blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  @keyframes illust-select-glow {
+    0%, 100% { box-shadow: inset 2px 2px 0 rgba(255,255,255,0.25), inset -2px -2px 0 rgba(0,0,0,0.6), 0 0 0 2px #0a0a1a, 0 0 18px rgba(77,121,255,0.6); }
+    50%       { box-shadow: inset 2px 2px 0 rgba(255,255,255,0.25), inset -2px -2px 0 rgba(0,0,0,0.6), 0 0 0 2px #0a0a1a, 0 0 32px rgba(136,170,255,0.9); }
+  }
+
+  .illust-header-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .illust-status-bar {
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    color: #5577aa;
+    text-shadow: 1px 1px 0 #000;
+    image-rendering: pixelated;
+    white-space: nowrap;
+  }
+
+  .illust-blink {
+    animation: retro-blink 0.9s step-end infinite;
+    color: #4d79ff;
+  }
+
+  /* Masonryレイアウト（Pinterest風） */
+  .illust-grid {
+    columns: 3;
+    column-gap: 12px;
+  }
+
+  .illust-item {
+    break-inside: avoid;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  /* 8bitフレーム */
+  .illust-img-wrap {
+    position: relative;
+    overflow: hidden;
+    border: 4px solid #4d79ff;
+    box-shadow:
+      inset 2px 2px 0 rgba(255,255,255,0.25),
+      inset -2px -2px 0 rgba(0,0,0,0.6),
+      0 0 0 2px #0a0a1a,
+      0 0 12px rgba(77,121,255,0.3);
+    background: #050510;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+    image-rendering: pixelated;
+  }
+
+  .illust-img-wrap:hover {
+    border-color: #88aaff;
+    animation: illust-select-glow 1.2s ease-in-out infinite;
+  }
+
+  .illust-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: filter 0.2s ease;
+    image-rendering: auto;
+  }
+
+  .illust-img-wrap:hover .illust-img {
+    filter: brightness(0.55) contrast(1.1);
+  }
+
+  /* スキャンライン */
+  .illust-scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 0, 0, 0.18) 3px,
+      rgba(0, 0, 0, 0.18) 4px
+    );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 1;
+  }
+
+  .illust-img-wrap:hover .illust-scanlines {
+    opacity: 1;
+  }
+
+  /* ホバーオーバーレイ */
+  .illust-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 20, 0.55);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .illust-img-wrap:hover .illust-overlay {
+    opacity: 1;
+  }
+
+  .illust-cursor {
+    font-family: var(--font-pixel);
+    font-size: 11px;
+    color: #ffffff;
+    text-shadow: 0 0 10px #4d79ff, 0 0 20px #4d79ff, 1px 1px 0 #000;
+    animation: retro-blink 0.75s step-end infinite;
+    image-rendering: pixelated;
+    letter-spacing: 1px;
+  }
+
+  /* 番号バッジ */
+  .illust-num {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #4d79ff;
+    color: #000000;
+    font-family: var(--font-pixel);
+    font-size: 7px;
+    padding: 2px 5px;
+    z-index: 3;
+    text-shadow: none;
+    image-rendering: pixelated;
+    line-height: 1.4;
+    letter-spacing: 0.5px;
+  }
+
+  /* タイトル */
+  .illust-title {
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    color: #7799cc;
+    text-align: center;
+    margin: 5px 0 0 0;
+    text-shadow: 0 0 6px rgba(77,121,255,0.5), 1px 1px 0 #000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    image-rendering: pixelated;
+    letter-spacing: 0.5px;
+  }
+
+  /* フッターバー */
+  .illust-footer-bar {
+    font-family: var(--font-pixel);
+    font-size: 8px;
+    color: #334466;
+    text-align: center;
+    margin: 18px 0 0 0;
+    text-shadow: 1px 1px 0 #000;
+    letter-spacing: 2px;
+    image-rendering: pixelated;
+  }
+
+  @media (max-width: 768px) {
+    .illust-grid {
+      columns: 2;
+      column-gap: 10px;
+    }
+    .illust-item {
+      margin-bottom: 10px;
+    }
+    .illust-cursor {
+      font-size: 9px;
     }
   }
 </style>
