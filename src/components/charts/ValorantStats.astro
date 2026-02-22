@@ -41,7 +41,7 @@ const S = getStylePresets(COLORS);
 
 <!-- 統計データセクション -->
 <div
-  style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+  style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px; overflow: hidden; min-width: 0;`}
   class="stats-section"
   data-chart-color={CHART_GRID.themeColor}
   data-chart-grid-h={CHART_GRID.horizontal.color}
@@ -234,18 +234,23 @@ const S = getStylePresets(COLORS);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+    min-width: 0;
+    width: 100%;
   }
   .chart-container {
     background: var(--color-bg-secondary);
     border: 2px solid var(--theme-primary);
     padding: 20px;
     border-radius: 8px;
+    min-width: 0;
+    overflow: hidden;
   }
   .chart-wrapper {
     position: relative;
     width: 100%;
     aspect-ratio: 1.7;
     max-height: 400px;
+    overflow: hidden;
   }
   .controls {
     display: flex;
