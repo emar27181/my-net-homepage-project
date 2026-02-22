@@ -32,7 +32,7 @@ const S = getStylePresets(COLORS);
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
-<SimpleLayout title="nodoame's Portfolio">
+<SimpleLayout title="nodoamen's Portfolio">
   <div
     style={`max-width: 1000px; margin: 0 auto; padding: 20px; background: var(--color-bg-secondary); border: 4px solid ${COLORS.primary}; border-radius: 12px; box-shadow: inset 2px 2px 0px ${COLORS.shadowWhite}, inset -2px -2px 0px ${COLORS.shadowBlack}, 0 0 20px ${COLORS.primaryShadow}; min-height: 100vh;`}
     class="main-container mobile-main"
@@ -87,7 +87,7 @@ const S = getStylePresets(COLORS);
                   <p
                     style={`${S.bodyText}`}
                   >
-                    VALORANTをメインにプレイしている猫好きなゲーマー、nodoame です。<br />
+                    VALORANTをメインにプレイしている猫好きなゲーマー、nodoamen です。<br />
                     <br />
                     ゲーム以外にもWeb制作やプログラミングに興味があり、<br />
                     このポートフォリオサイトを制作しました。<br />
@@ -126,7 +126,7 @@ const S = getStylePresets(COLORS);
           <p
             style={`${S.bodyText}`}
           >
-            名前: nodoame<br />
+            名前: nodoamen<br />
             メインロール: コントローラー(オーメン/クローブ/アストラ) <br />
           </p>
 
@@ -1048,39 +1048,89 @@ const S = getStylePresets(COLORS);
       </div>
       <hr style={`${S.divider} margin: 10px auto 18px auto; width: 100%;`} />
 
-      <div class="illust-grid">
-        {[
-          { id: 10,  title: "Cat Sketch #1",    w: 400, h: 520 },
-          { id: 20,  title: "Fantasy Landscape", w: 400, h: 260 },
-          { id: 30,  title: "Pixel Character",   w: 400, h: 400 },
-          { id: 40,  title: "Night City",        w: 400, h: 300 },
-          { id: 50,  title: "Portrait Study",    w: 400, h: 560 },
-          { id: 60,  title: "Abstract Flow",     w: 400, h: 400 },
-          { id: 70,  title: "Creature Design",   w: 400, h: 340 },
-          { id: 80,  title: "Neon Alley",        w: 400, h: 480 },
-          { id: 90,  title: "Chibi Character",   w: 400, h: 400 },
-          { id: 100, title: "Scenery Draft",     w: 400, h: 280 },
-        ].map(({ id, title, w, h }, i) => (
-          <div class="illust-item">
-            <div class="illust-img-wrap">
-              <!-- 番号バッジ -->
-              <span class="illust-num">NO.{String(i + 1).padStart(2, '0')}</span>
-              <img
-                src={`https://picsum.photos/seed/${id}/${w}/${h}`}
-                alt={title}
-                loading="lazy"
-                class="illust-img"
-              />
-              <!-- スキャンラインオーバーレイ -->
-              <div class="illust-scanlines"></div>
-              <!-- ホバーオーバーレイ -->
-              <div class="illust-overlay">
-                <span class="illust-cursor">▶ ZOOM</span>
-              </div>
-            </div>
-            <p class="illust-title">[ {title} ]</p>
+      <!-- SVGフィルター定義（VHSのRGBチャンネル分離用） -->
+      <svg style="display:none" width="0" height="0" aria-hidden="true">
+        <defs>
+          <filter id="svg-vhs-filter" color-interpolation-filters="sRGB" x="-5%" y="-5%" width="110%" height="110%">
+            <feColorMatrix type="matrix" in="SourceGraphic" result="r"
+              values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"/>
+            <feOffset dx="6" dy="2" in="r" result="r-shift"/>
+            <feColorMatrix type="matrix" in="SourceGraphic" result="b"
+              values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+            <feOffset dx="-6" dy="-2" in="b" result="b-shift"/>
+            <feBlend in="r-shift" in2="SourceGraphic" mode="screen" result="step1"/>
+            <feBlend in="step1" in2="b-shift" mode="screen"/>
+          </filter>
+        </defs>
+      </svg>
+
+      <!-- ゲームコンソール風フィルターセレクター -->
+      <div class="retro-console" id="filter-console">
+        <!-- 左: D-pad -->
+        <div class="console-side console-left">
+          <div class="console-dpad">
+            <button class="dpad-btn" id="filter-prev" aria-label="前のフィルター">◀</button>
+            <span class="dpad-cross">✛</span>
+            <button class="dpad-btn" id="filter-next" aria-label="次のフィルター">▶</button>
           </div>
-        ))}
+          <span class="console-tiny-label">◀ CYCLE ▶</span>
+        </div>
+
+        <!-- 中央: スクリーン -->
+        <div class="console-center">
+          <div class="console-screen">
+            <div class="console-screen-top">▶ FILTER MODE ◀</div>
+            <div class="console-screen-main" id="filter-display">NORMAL</div>
+            <div class="console-screen-sub" id="filter-desc">NO FILTER APPLIED</div>
+          </div>
+        </div>
+
+        <!-- 右: フィルターボタン -->
+        <div class="console-side console-right">
+          <div class="filter-chip-group">
+            <button class="filter-chip active" data-filter="none" aria-pressed="true">NORMAL</button>
+            <button class="filter-chip" data-filter="crt" aria-pressed="false">CRT</button>
+            <button class="filter-chip" data-filter="gb" aria-pressed="false">G・BOY</button>
+            <button class="filter-chip" data-filter="vhs" aria-pressed="false">VHS</button>
+          </div>
+          <span class="console-tiny-label">FILTER SELECT</span>
+        </div>
+      </div>
+
+      <!-- 単一画像ビューワー -->
+      <div class="illust-viewer-wrap">
+        <button class="viewer-nav viewer-prev" id="illust-prev" aria-label="前の画像">◀</button>
+        <div class="illust-img-wrap viewer-frame" id="viewer-frame">
+          <span class="illust-num" id="viewer-num">NO.01</span>
+          <img
+            class="illust-img"
+            id="viewer-img"
+            src="https://picsum.photos/seed/10/800/520"
+            alt="Cat Sketch #1"
+          />
+          <div class="illust-scanlines"></div>
+        </div>
+        <button class="viewer-nav viewer-next" id="illust-next" aria-label="次の画像">▶</button>
+      </div>
+
+      <!-- タイトル & カウンター -->
+      <div class="viewer-info">
+        <p class="illust-title" id="viewer-title">[ Cat Sketch #1 ]</p>
+        <span class="viewer-counter" id="viewer-counter">01 / 10</span>
+      </div>
+
+      <!-- ドットナビゲーション -->
+      <div class="viewer-dots" id="viewer-dots">
+        <button class="viewer-dot active" data-index="0" aria-label="画像1"></button>
+        <button class="viewer-dot" data-index="1" aria-label="画像2"></button>
+        <button class="viewer-dot" data-index="2" aria-label="画像3"></button>
+        <button class="viewer-dot" data-index="3" aria-label="画像4"></button>
+        <button class="viewer-dot" data-index="4" aria-label="画像5"></button>
+        <button class="viewer-dot" data-index="5" aria-label="画像6"></button>
+        <button class="viewer-dot" data-index="6" aria-label="画像7"></button>
+        <button class="viewer-dot" data-index="7" aria-label="画像8"></button>
+        <button class="viewer-dot" data-index="8" aria-label="画像9"></button>
+        <button class="viewer-dot" data-index="9" aria-label="画像10"></button>
       </div>
 
       <!-- フッターステータス -->
@@ -1094,7 +1144,7 @@ const S = getStylePresets(COLORS);
       <p
         style={`color: ${COLORS.textDarkGray}; font-size: ${FONT_SIZES.footer}; margin: 0; font-family: ${FONTS.pixel}; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
       >
-        © 2024 nodoame's Portfolio - Made with passion for gaming
+        © 2024 nodoamen's Portfolio - Made with passion for gaming
       </p>
     </div>
   </div>
@@ -1248,9 +1298,9 @@ const S = getStylePresets(COLORS);
     50%, 100% { opacity: 0; }
   }
 
-  @keyframes illust-select-glow {
-    0%, 100% { box-shadow: inset 2px 2px 0 rgba(255,255,255,0.25), inset -2px -2px 0 rgba(0,0,0,0.6), 0 0 0 2px #0a0a1a, 0 0 18px rgba(77,121,255,0.6); }
-    50%       { box-shadow: inset 2px 2px 0 rgba(255,255,255,0.25), inset -2px -2px 0 rgba(0,0,0,0.6), 0 0 0 2px #0a0a1a, 0 0 32px rgba(136,170,255,0.9); }
+  @keyframes viewer-fadein {
+    from { opacity: 0; transform: scale(0.98); }
+    to   { opacity: 1; transform: scale(1); }
   }
 
   .illust-header-row {
@@ -1275,52 +1325,133 @@ const S = getStylePresets(COLORS);
     color: #4d79ff;
   }
 
-  /* Masonryレイアウト（Pinterest風） */
-  .illust-grid {
-    columns: 3;
-    column-gap: 12px;
+  /* ===== 単一ビューワー ===== */
+  .illust-viewer-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
   }
 
-  .illust-item {
-    break-inside: avoid;
-    margin-bottom: 12px;
-    display: block;
+  /* ナビボタン */
+  .viewer-nav {
+    flex-shrink: 0;
+    background: #1a1a35;
+    border: 3px solid #4d79ff;
+    color: #4d79ff;
+    font-family: var(--font-pixel);
+    font-size: 16px;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    border-radius: 6px;
+    text-shadow: 0 0 8px #4d79ff, 1px 1px 0 #000;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.1), 0 3px 0 #0d0d22, 0 0 10px rgba(77,121,255,0.3);
+    transition: all 0.1s ease;
+    image-rendering: pixelated;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  /* 8bitフレーム */
-  .illust-img-wrap {
+  .viewer-nav:hover {
+    background: #2a2a55;
+    border-color: #88aaff;
+    color: #88aaff;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.15), 0 3px 0 #0d0d22, 0 0 18px rgba(77,121,255,0.6);
+  }
+
+  .viewer-nav:active {
+    transform: translateY(2px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 1px 0 #0d0d22;
+  }
+
+  /* CRT フリッカーアニメーション */
+  @keyframes crt-flicker {
+    0%   { opacity: 1; }
+    92%  { opacity: 1; }
+    93%  { opacity: 0.92; }
+    94%  { opacity: 1; }
+    97%  { opacity: 1; }
+    98%  { opacity: 0.88; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes crt-scanroll {
+    from { background-position: 0 0; }
+    to   { background-position: 0 100px; }
+  }
+
+  /* ビューワーフレーム（デフォルトでモニターっぽく） */
+  .viewer-frame {
+    flex: 1;
+    min-width: 0;
     position: relative;
     overflow: hidden;
-    border: 4px solid #4d79ff;
+    /* CRTモニター風ベゼル */
+    border: 6px solid #222244;
+    outline: 2px solid #111133;
+    outline-offset: -1px;
     box-shadow:
-      inset 2px 2px 0 rgba(255,255,255,0.25),
-      inset -2px -2px 0 rgba(0,0,0,0.6),
-      0 0 0 2px #0a0a1a,
-      0 0 12px rgba(77,121,255,0.3);
-    background: #050510;
-    cursor: pointer;
-    transition: border-color 0.15s ease;
+      inset 4px 4px 0 rgba(255,255,255,0.08),
+      inset -4px -4px 0 rgba(0,0,0,0.7),
+      0 0 0 3px #0a0a1a,
+      0 0 30px rgba(77,121,255,0.5),
+      0 0 60px rgba(50,80,200,0.2);
+    background: #010108;
     image-rendering: pixelated;
+    /* 画面全体のフォスファグロー */
+    filter: brightness(1) contrast(1.05);
   }
 
-  .illust-img-wrap:hover {
-    border-color: #88aaff;
-    animation: illust-select-glow 1.2s ease-in-out infinite;
+  /* デフォルト: 常時薄スキャンライン＋ヴィネット */
+  .viewer-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* 薄いスキャンライン（常時） */
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.12) 2px,
+        rgba(0, 0, 0, 0.12) 3px
+      );
+    pointer-events: none;
+    z-index: 2;
   }
 
-  .illust-img {
+  /* デフォルト: 端暗化ヴィネット（常時） */
+  .viewer-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      transparent 55%,
+      rgba(0, 0, 10, 0.45) 100%
+    );
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .viewer-frame .illust-img {
     width: 100%;
-    height: auto;
+    height: 420px;
     display: block;
-    transition: filter 0.2s ease;
+    object-fit: contain;
+    object-position: center;
+    transition: filter 0.3s ease, opacity 0.2s ease;
     image-rendering: auto;
+    animation: viewer-fadein 0.25s ease;
+    /* デフォルト: 軽いコントラスト調整でゲーム画面っぽく */
+    filter: contrast(1.1) brightness(0.95);
+    position: relative;
+    z-index: 1;
   }
 
-  .illust-img-wrap:hover .illust-img {
-    filter: brightness(0.55) contrast(1.1);
-  }
-
-  /* スキャンライン */
+  /* スキャンライン（フィルター別の上書き用） */
   .illust-scanlines {
     position: absolute;
     inset: 0;
@@ -1333,40 +1464,8 @@ const S = getStylePresets(COLORS);
     );
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.3s ease;
     z-index: 1;
-  }
-
-  .illust-img-wrap:hover .illust-scanlines {
-    opacity: 1;
-  }
-
-  /* ホバーオーバーレイ */
-  .illust-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 20, 0.55);
-    opacity: 0;
-    transition: opacity 0.15s ease;
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  .illust-img-wrap:hover .illust-overlay {
-    opacity: 1;
-  }
-
-  .illust-cursor {
-    font-family: var(--font-pixel);
-    font-size: 11px;
-    color: #ffffff;
-    text-shadow: 0 0 10px #4d79ff, 0 0 20px #4d79ff, 1px 1px 0 #000;
-    animation: retro-blink 0.75s step-end infinite;
-    image-rendering: pixelated;
-    letter-spacing: 1px;
   }
 
   /* 番号バッジ */
@@ -1378,27 +1477,73 @@ const S = getStylePresets(COLORS);
     color: #000000;
     font-family: var(--font-pixel);
     font-size: 7px;
-    padding: 2px 5px;
-    z-index: 3;
+    padding: 3px 7px;
+    z-index: 4;
     text-shadow: none;
     image-rendering: pixelated;
     line-height: 1.4;
     letter-spacing: 0.5px;
   }
 
-  /* タイトル */
+  /* タイトル & カウンター行 */
+  .viewer-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
   .illust-title {
     font-family: var(--font-pixel);
     font-size: 9px;
     color: #7799cc;
-    text-align: center;
-    margin: 5px 0 0 0;
+    margin: 0;
     text-shadow: 0 0 6px rgba(77,121,255,0.5), 1px 1px 0 #000;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     image-rendering: pixelated;
     letter-spacing: 0.5px;
+  }
+
+  .viewer-counter {
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    color: #4d79ff;
+    text-shadow: 0 0 6px rgba(77,121,255,0.5), 1px 1px 0 #000;
+    white-space: nowrap;
+    image-rendering: pixelated;
+    flex-shrink: 0;
+  }
+
+  /* ドットナビゲーション */
+  .viewer-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .viewer-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 0;
+    background: #1e1e38;
+    border: 2px solid #333366;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.12s ease;
+    image-rendering: pixelated;
+  }
+
+  .viewer-dot:hover {
+    background: #3a3a66;
+    border-color: #6677aa;
+  }
+
+  .viewer-dot.active {
+    background: #4d79ff;
+    border-color: #88aaff;
+    box-shadow: 0 0 6px rgba(77,121,255,0.8);
   }
 
   /* フッターバー */
@@ -1407,22 +1552,381 @@ const S = getStylePresets(COLORS);
     font-size: 8px;
     color: #334466;
     text-align: center;
-    margin: 18px 0 0 0;
+    margin: 0;
     text-shadow: 1px 1px 0 #000;
     letter-spacing: 2px;
     image-rendering: pixelated;
   }
 
-  @media (max-width: 768px) {
-    .illust-grid {
-      columns: 2;
-      column-gap: 10px;
+  @media (max-width: 600px) {
+    .viewer-frame .illust-img {
+      height: 260px;
     }
-    .illust-item {
-      margin-bottom: 10px;
+    .viewer-nav {
+      width: 36px;
+      height: 36px;
+      font-size: 13px;
     }
-    .illust-cursor {
-      font-size: 9px;
+  }
+
+  /* ===== レトロコンソール フィルター UI ===== */
+
+  .retro-console {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: linear-gradient(160deg, #1e1e2e 0%, #16162a 60%, #1a1a30 100%);
+    border: 3px solid #333355;
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    box-shadow:
+      inset 0 2px 0 rgba(255,255,255,0.08),
+      inset 0 -2px 0 rgba(0,0,0,0.6),
+      0 0 0 1px #0a0a1a,
+      0 0 20px rgba(30,30,80,0.8);
+    image-rendering: pixelated;
+  }
+
+  .console-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  /* D-pad */
+  .console-dpad {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .dpad-cross {
+    font-family: var(--font-pixel);
+    font-size: 14px;
+    color: #333355;
+    text-shadow: none;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .dpad-btn {
+    background: #2a2a45;
+    border: 2px solid #444466;
+    color: #8899cc;
+    font-family: var(--font-pixel);
+    font-size: 11px;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    text-shadow: 1px 1px 0 #000;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.1), 0 3px 0 #111122;
+    transition: all 0.1s ease;
+    image-rendering: pixelated;
+  }
+
+  .dpad-btn:hover {
+    background: #3a3a60;
+    color: #aabbff;
+    border-color: #6677aa;
+  }
+
+  .dpad-btn:active {
+    transform: translateY(2px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 1px 0 #111122;
+  }
+
+  /* 中央スクリーン */
+  .console-center {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .console-screen {
+    background: #0a1a0a;
+    border: 3px solid #1a3a1a;
+    border-radius: 6px;
+    padding: 10px 14px;
+    text-align: center;
+    box-shadow:
+      inset 0 0 12px rgba(0, 255, 0, 0.08),
+      inset 2px 2px 0 rgba(0,0,0,0.5),
+      0 0 8px rgba(0, 200, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* LCD グリッドパターン */
+  .console-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 0, 0, 0.15) 3px,
+      rgba(0, 0, 0, 0.15) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 0, 0, 0.08) 3px,
+      rgba(0, 0, 0, 0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .console-screen > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  .console-screen-top {
+    font-family: var(--font-pixel);
+    font-size: 7px;
+    color: #336633;
+    text-shadow: 0 0 4px rgba(0,200,0,0.3), 1px 1px 0 #000;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+    image-rendering: pixelated;
+  }
+
+  .console-screen-main {
+    font-family: var(--font-pixel);
+    font-size: 16px;
+    color: #44ff44;
+    text-shadow: 0 0 8px rgba(0,255,0,0.6), 0 0 16px rgba(0,200,0,0.4), 1px 1px 0 #000;
+    letter-spacing: 2px;
+    image-rendering: pixelated;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+  }
+
+  .console-screen-sub {
+    font-family: var(--font-pixel);
+    font-size: 7px;
+    color: #228822;
+    text-shadow: 0 0 4px rgba(0,200,0,0.3), 1px 1px 0 #000;
+    margin-top: 4px;
+    letter-spacing: 1px;
+    image-rendering: pixelated;
+  }
+
+  /* フィルターボタン */
+  .filter-chip-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+  }
+
+  .filter-chip {
+    background: #1e1e38;
+    border: 2px solid #333355;
+    color: #5566aa;
+    font-family: var(--font-pixel);
+    font-size: 7px;
+    padding: 5px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    text-shadow: 1px 1px 0 #000;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 2px 0 #0a0a1a;
+    transition: all 0.12s ease;
+    letter-spacing: 0.5px;
+    image-rendering: pixelated;
+    white-space: nowrap;
+  }
+
+  .filter-chip:hover {
+    background: #2a2a50;
+    color: #8899dd;
+    border-color: #5566aa;
+  }
+
+  .filter-chip.active {
+    background: #4d79ff;
+    border-color: #88aaff;
+    color: #000000;
+    text-shadow: none;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 2px 0 #1a3a99, 0 0 8px rgba(77,121,255,0.5);
+  }
+
+  .console-tiny-label {
+    font-family: var(--font-pixel);
+    font-size: 6px;
+    color: #333355;
+    text-shadow: 1px 1px 0 #000;
+    letter-spacing: 1px;
+    image-rendering: pixelated;
+    white-space: nowrap;
+  }
+
+  /* ===== フィルター効果 CSS ===== */
+
+  /* ===== CRT フィルター（強化版） ===== */
+
+  /* フレーム全体: フリッカー + 強グロー */
+  #viewer-frame.filter-crt {
+    border-color: #1a3366;
+    box-shadow:
+      inset 4px 4px 0 rgba(255,255,255,0.06),
+      inset -4px -4px 0 rgba(0,0,0,0.9),
+      0 0 0 3px #050510,
+      0 0 30px rgba(100,160,255,0.7),
+      0 0 70px rgba(60,100,220,0.4),
+      0 0 120px rgba(30,60,180,0.2);
+    animation: crt-flicker 6s linear infinite;
+    filter: brightness(0.95) contrast(1.15);
+  }
+
+  /* 画像: フォスファー発光っぽい色合い */
+  #viewer-frame.filter-crt .illust-img {
+    filter: contrast(1.5) brightness(0.78) saturate(1.4) hue-rotate(-8deg) sepia(0.12);
+    transition: filter 0.3s ease;
+  }
+
+  /* スキャンライン: 強め2段階 */
+  #viewer-frame.filter-crt .illust-scanlines {
+    opacity: 1 !important;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 0, 0, 0) 1px,
+        rgba(0, 0, 0, 0.5) 1px,
+        rgba(0, 0, 0, 0.5) 2px,
+        rgba(0, 10, 30, 0.1) 2px,
+        rgba(0, 10, 30, 0.1) 4px
+      ) !important;
+    z-index: 5 !important;
+  }
+
+  /* CRT vignette 強化: 深いすり鉢形 */
+  #viewer-frame.filter-crt::after {
+    background:
+      radial-gradient(
+        ellipse at 50% 50%,
+        transparent 38%,
+        rgba(0, 0, 20, 0.4) 65%,
+        rgba(0, 0, 30, 0.85) 100%
+      ) !important;
+    z-index: 6;
+  }
+
+  /* CRT 走査線ロールオーバーレイ */
+  #viewer-frame.filter-crt::before {
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 1px,
+        rgba(0, 0, 0, 0.22) 1px,
+        rgba(0, 0, 0, 0.22) 2px
+      ),
+      linear-gradient(
+        180deg,
+        rgba(100, 150, 255, 0.03) 0%,
+        transparent 50%,
+        rgba(0, 0, 50, 0.05) 100%
+      ) !important;
+    animation: crt-scanroll 8s linear infinite !important;
+  }
+
+  /* Game Boy: グレースケール + 緑ティント + 高コントラスト */
+  #viewer-frame.filter-gb .illust-img {
+    filter: grayscale(1) contrast(2.8) brightness(0.65);
+    transition: filter 0.3s ease;
+  }
+
+  /* 緑ティントオーバーレイ */
+  #viewer-frame.filter-gb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 56, 15, 0.42);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* GB ドットグリッドオーバーレイ */
+  #viewer-frame.filter-gb .illust-scanlines {
+    opacity: 1 !important;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,20,0,0.22) 3px,
+      rgba(0,20,0,0.22) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(0,20,0,0.12) 3px,
+      rgba(0,20,0,0.12) 4px
+    ) !important;
+  }
+
+  /* VHS: RGBずれ(SVGフィルター) + 色彩強め + トラッキングノイズ */
+  @keyframes vhs-tracking {
+    0%   { transform: translateX(0) skewX(0deg); }
+    94%  { transform: translateX(0) skewX(0deg); }
+    95%  { transform: translateX(-4px) skewX(-0.4deg); filter: url(#svg-vhs-filter) saturate(2.8) contrast(1.3) brightness(0.82) hue-rotate(8deg) blur(0.3px); }
+    96%  { transform: translateX(3px) skewX(0.3deg); }
+    97%  { transform: translateX(0) skewX(0deg); }
+    100% { transform: translateX(0) skewX(0deg); }
+  }
+
+  #viewer-frame.filter-vhs .illust-img {
+    filter: url(#svg-vhs-filter) saturate(2.6) contrast(1.25) brightness(0.85) hue-rotate(5deg);
+    animation: vhs-tracking 4s step-end infinite;
+    transition: filter 0.3s ease;
+  }
+
+  /* VHS ノイズライン */
+  #viewer-frame.filter-vhs .illust-scanlines {
+    opacity: 1 !important;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 4px,
+      rgba(255, 80, 80, 0.05) 4px,
+      rgba(255, 80, 80, 0.05) 5px
+    ) !important;
+  }
+
+  /* スクリーン表示色（フィルター別） */
+  .console-screen-main.mode-crt {
+    color: #ff8844;
+    text-shadow: 0 0 8px rgba(255,100,0,0.7), 0 0 16px rgba(200,60,0,0.4), 1px 1px 0 #000;
+  }
+
+  .console-screen-main.mode-gb {
+    color: #44ff66;
+    text-shadow: 0 0 8px rgba(0,255,80,0.7), 0 0 16px rgba(0,200,60,0.4), 1px 1px 0 #000;
+  }
+
+  .console-screen-main.mode-vhs {
+    color: #ff44cc;
+    text-shadow: 0 0 8px rgba(255,0,180,0.7), 0 0 16px rgba(200,0,140,0.4), 1px 1px 0 #000;
+  }
+
+  @media (max-width: 600px) {
+    .retro-console {
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px;
+    }
+    .console-center {
+      width: 100%;
+    }
+    .filter-chip-group {
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 </style>
@@ -1505,6 +2009,82 @@ const S = getStylePresets(COLORS);
     showVideo(prevIndex);
   }
 
+  // ===== ギャラリー 画像データ =====
+  const ILLUST_IMAGES = [
+    { src: "https://picsum.photos/seed/10/800/520",  title: "Cat Sketch #1" },
+    { src: "https://picsum.photos/seed/20/800/520",  title: "Fantasy Landscape" },
+    { src: "https://picsum.photos/seed/30/800/520",  title: "Pixel Character" },
+    { src: "https://picsum.photos/seed/40/800/520",  title: "Night City" },
+    { src: "https://picsum.photos/seed/50/800/520",  title: "Portrait Study" },
+    { src: "https://picsum.photos/seed/60/800/520",  title: "Abstract Flow" },
+    { src: "https://picsum.photos/seed/70/800/520",  title: "Creature Design" },
+    { src: "https://picsum.photos/seed/80/800/520",  title: "Neon Alley" },
+    { src: "https://picsum.photos/seed/90/800/520",  title: "Chibi Character" },
+    { src: "https://picsum.photos/seed/100/800/520", title: "Scenery Draft" },
+  ];
+
+  let currentIllustIndex = 0;
+
+  function showIllust(index) {
+    const img     = document.getElementById("viewer-img");
+    const num     = document.getElementById("viewer-num");
+    const title   = document.getElementById("viewer-title");
+    const counter = document.getElementById("viewer-counter");
+    const dots    = document.querySelectorAll(".viewer-dot");
+
+    if (!img) return;
+
+    const data = ILLUST_IMAGES[index];
+    img.style.opacity = "0";
+    setTimeout(() => {
+      img.src = data.src;
+      img.alt = data.title;
+      img.style.opacity = "1";
+    }, 150);
+
+    if (num)     num.textContent     = `NO.${String(index + 1).padStart(2, "0")}`;
+    if (title)   title.textContent   = `[ ${data.title} ]`;
+    if (counter) counter.textContent = `${String(index + 1).padStart(2, "0")} / ${ILLUST_IMAGES.length}`;
+
+    dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
+    currentIllustIndex = index;
+  }
+
+  // ===== ギャラリーフィルター =====
+  const FILTERS = [
+    { key: "none", label: "NORMAL",   desc: "NO FILTER APPLIED",       mode: "" },
+    { key: "crt",  label: "CRT",      desc: "PHOSPHOR + SCANLINES",     mode: "mode-crt" },
+    { key: "gb",   label: "G・BOY",   desc: "4-COLOR GREEN PALETTE",    mode: "mode-gb" },
+    { key: "vhs",  label: "VHS",      desc: "RGB SHIFT + TRACKING",     mode: "mode-vhs" },
+  ];
+
+  let currentFilterIndex = 0;
+
+  function applyFilter(index) {
+    const f      = FILTERS[index];
+    const frame  = document.getElementById("viewer-frame");
+    const display = document.getElementById("filter-display");
+    const desc   = document.getElementById("filter-desc");
+    const chips  = document.querySelectorAll(".filter-chip");
+
+    if (!frame || !display || !desc) return;
+
+    frame.classList.remove("filter-crt", "filter-gb", "filter-vhs");
+    if (f.key !== "none") frame.classList.add(`filter-${f.key}`);
+
+    display.textContent = f.label;
+    display.className   = `console-screen-main ${f.mode}`;
+    desc.textContent    = f.desc;
+
+    chips.forEach((chip) => {
+      const active = chip.dataset.filter === f.key;
+      chip.classList.toggle("active", active);
+      chip.setAttribute("aria-pressed", String(active));
+    });
+
+    currentFilterIndex = index;
+  }
+
   // DOM読み込み完了後に実行
   document.addEventListener("DOMContentLoaded", function () {
     const copyIcon = document.getElementById("copy-crosshair-text");
@@ -1524,6 +2104,46 @@ const S = getStylePresets(COLORS);
 
     // 動画のオリジナルsrcを保存
     initializeVideoSources();
+
+    // フィルターコンソール
+    // フィルターコンソール
+    document.getElementById("filter-prev")?.addEventListener("click", () => {
+      applyFilter((currentFilterIndex - 1 + FILTERS.length) % FILTERS.length);
+    });
+
+    document.getElementById("filter-next")?.addEventListener("click", () => {
+      applyFilter((currentFilterIndex + 1) % FILTERS.length);
+    });
+
+    document.querySelectorAll(".filter-chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const key = (chip as HTMLElement).dataset.filter;
+        const idx = FILTERS.findIndex((f) => f.key === key);
+        if (idx !== -1) applyFilter(idx);
+      });
+    });
+
+    // 画像ナビゲーション
+    document.getElementById("illust-prev")?.addEventListener("click", () => {
+      showIllust((currentIllustIndex - 1 + ILLUST_IMAGES.length) % ILLUST_IMAGES.length);
+    });
+
+    document.getElementById("illust-next")?.addEventListener("click", () => {
+      showIllust((currentIllustIndex + 1) % ILLUST_IMAGES.length);
+    });
+
+    document.querySelectorAll(".viewer-dot").forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const idx = parseInt((dot as HTMLElement).dataset.index ?? "0", 10);
+        showIllust(idx);
+      });
+    });
+
+    // キーボード操作（←→）
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft")  showIllust((currentIllustIndex - 1 + ILLUST_IMAGES.length) % ILLUST_IMAGES.length);
+      if (e.key === "ArrowRight") showIllust((currentIllustIndex + 1) % ILLUST_IMAGES.length);
+    });
   });
 </script>
 
