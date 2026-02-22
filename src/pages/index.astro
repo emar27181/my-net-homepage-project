@@ -1045,7 +1045,7 @@ const S = getStylePresets(COLORS);
       <!-- レトロゲーム風ヘッダー -->
       <div class="illust-header-row">
         <h2 style={`${S.sectionTitle} margin-bottom: 0;`}>▶▶ GALLERY MODE ◀◀</h2>
-        <span class="illust-status-bar">WORKS: 10 / 10 LOADED &nbsp;<span class="illust-blink">█</span></span>
+        <span class="illust-status-bar">WORKS: 10 / 10 LOADED</span>
       </div>
       <hr style={`${S.divider} margin: 10px auto 18px auto; width: 100%;`} />
 
@@ -1211,11 +1211,6 @@ const S = getStylePresets(COLORS);
 
   /* ===== イラストギャラリー（レトロゲーム風） ===== */
 
-  @keyframes retro-blink {
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0; }
-  }
-
   .illust-header-row {
     display: flex;
     align-items: baseline;
@@ -1233,10 +1228,6 @@ const S = getStylePresets(COLORS);
     white-space: nowrap;
   }
 
-  .illust-blink {
-    animation: retro-blink 0.9s step-end infinite;
-    color: #4d79ff;
-  }
 
   /* フッターバー */
   .illust-footer-bar {
