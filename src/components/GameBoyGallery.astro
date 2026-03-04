@@ -50,13 +50,14 @@
             <span class="hud-left">▶ GALLERY</span>
             <span class="hud-right"></span>
           </div>
-          <!-- メイン画像 -->
-          <img
-            class="viewer-img"
-            id="viewer-img"
-            src="https://picsum.photos/seed/10/800/520"
-            alt="Cat Sketch #1"
-          />
+          <!-- メイン画像: Canvasダウンスケールでドット絵描画 -->
+          <canvas
+            class="viewer-canvas"
+            id="viewer-canvas"
+            width="344"
+            height="270"
+            aria-label="Cat Sketch #1"
+          ></canvas>
           <!-- フラッシュ -->
           <div class="viewer-flash" id="viewer-flash"></div>
           <!-- スキャンライン -->
@@ -102,6 +103,7 @@
         <div class="gb-filter-mini">
           <span class="gb-filter-label">FILTER</span>
           <span class="gb-filter-name" id="filter-display">NORMAL</span>
+          <button class="gb-dot-toggle" id="dot-toggle" aria-label="ドット/スムーズ切り替え">▓ DOT</button>
         </div>
         <div class="gb-ss-row">
           <div class="gb-ss-slot">
@@ -196,21 +198,65 @@
 
   /* 本体 */
   .gb-body {
+    position: relative;
     width: 100%;
     max-width: 380px;
     margin: 0 auto;
-    /* GB特徴の下膨らみシェイプ */
-    background: linear-gradient(160deg, #22223a 0%, #1a1a2e 50%, #14142a 100%);
-    border-radius: 10px 10px 40px 40px / 10px 10px 28px 28px;
-    border: 3px solid #333355;
+    /* ピクセルアート: フラットカラー + シャープコーナー */
+    background: #1e1e38;
+    border-radius: 4px 4px 24px 24px / 4px 4px 14px 14px;
+    border: 4px solid #3355bb;
     box-shadow:
-      inset 3px 3px 0 rgba(255,255,255,0.07),
-      inset -3px -3px 0 rgba(0,0,0,0.5),
-      0 0 0 1px #0a0a1a,
-      0 6px 0 #08081a,
-      0 0 30px rgba(77,121,255,0.18);
+      /* 8-bit ステップシャドウ（左上ハイライト） */
+      inset 4px 4px 0 rgba(255,255,255,0.08),
+      inset -4px -4px 0 rgba(0,0,0,0.6),
+      /* ピクセル押出しシャドウ */
+      4px 4px 0 #0a0a1a,
+      8px 8px 0 #060610,
+      0 0 30px rgba(77,121,255,0.5),
+      0 0 70px rgba(77,121,255,0.15);
     padding: 14px 18px 28px;
     image-rendering: pixelated;
+    overflow: hidden;
+  }
+
+  /* ドットグリッドテクスチャ（本体全体） */
+  .gb-body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(77, 121, 255, 0.14) 1px, transparent 1px);
+    background-size: 6px 6px;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ピクセル段差ライン（本体上部の区切り感） */
+  .gb-body::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.12) 0px,
+      rgba(255,255,255,0.12) 4px,
+      transparent 4px,
+      transparent 8px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* 子要素をドットオーバーレイの上に表示 */
+  .gb-brand-row,
+  .gb-screen-shell,
+  .gb-title-strip,
+  .gb-controls,
+  .gb-speaker-row {
+    position: relative;
+    z-index: 2;
   }
 
   /* ブランド行 */
@@ -237,23 +283,32 @@
 
   .gb-vents i {
     display: block;
-    width: 3px;
-    height: 14px;
-    background: linear-gradient(180deg, #2a2a45 0%, #1a1a35 100%);
-    border-radius: 2px;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+    width: 4px;
+    height: 16px;
+    background: #111128;
+    border-radius: 0; /* ピクセルアート: 角なし */
+    box-shadow:
+      2px 0 0 rgba(255,255,255,0.05),
+      0 2px 0 rgba(0,0,0,0.5),
+      inset 0 -2px 0 rgba(77,121,255,0.08);
   }
 
   /* スクリーンシェル */
   .gb-screen-shell {
-    background: #0d0d1e;
-    border-radius: 8px;
+    background: #080816;
+    border-radius: 2px; /* ピクセルアート: シャープ */
     padding: 10px;
     margin-bottom: 10px;
-    border: 2px solid #1a1a38;
+    /* 4px ピクセル枠線 */
+    border: 4px solid #111128;
     box-shadow:
-      inset 0 3px 0 rgba(0,0,0,0.6),
-      inset 0 -1px 0 rgba(255,255,255,0.04);
+      inset 4px 4px 0 rgba(0,0,0,0.7),
+      inset -2px -2px 0 rgba(255,255,255,0.03),
+      0 0 0 2px #0d0d22,
+      0 0 12px rgba(77,121,255,0.25);
+    /* スクリーン周りの段差 */
+    outline: 2px solid #1a1a35;
+    outline-offset: 2px;
   }
 
   /* インジケーター行 */
@@ -268,7 +323,8 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #dd2222;
+    background: #4d79ff;
+    box-shadow: 0 0 6px rgba(77,121,255,0.9);
     flex-shrink: 0;
   }
 
@@ -289,11 +345,14 @@
   /* スクリーンフレーム（内側の黒枠） */
   .gb-screen-frame {
     background: #020208;
-    border: 4px solid #0d0d1a;
+    border: 4px solid #0a0a18;
     box-shadow:
       inset 0 0 0 2px #060610,
-      inset 0 3px 10px rgba(0,0,0,0.9);
-    border-radius: 2px;
+      inset 4px 4px 0 rgba(0,0,0,0.9),
+      0 0 16px rgba(77,121,255,0.35);
+    border-radius: 0; /* ピクセルアート: 完全シャープ */
+    /* ピクセルライン装飾 */
+    outline: 2px solid #060612;
   }
 
   /* ===== ビューワーフレーム本体 ===== */
@@ -302,22 +361,19 @@
     overflow: hidden;
     background: #010108;
     image-rendering: pixelated;
-    /* デフォルト: 薄いCRT効果 */
-    filter: brightness(1) contrast(1.05);
+    /* デフォルト: ドット感を強めるコントラスト */
+    filter: brightness(0.98) contrast(1.08);
   }
 
-  /* デフォルト スキャンライン（常時） */
+  /* ドットマトリクス LCD格子（常時）: ピクセル間に格子を重ねてLCD画面感を演出 */
   .viewer-frame::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 0, 0, 0.12) 2px,
-      rgba(0, 0, 0, 0.12) 3px
-    );
+    background-image:
+      repeating-linear-gradient(0deg,  rgba(0,0,10,0.5)  0px, rgba(0,0,10,0.5)  1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(90deg, rgba(0,0,10,0.42) 0px, rgba(0,0,10,0.42) 1px, transparent 1px, transparent 4px);
+    background-size: 4px 4px;
     pointer-events: none;
     z-index: 2;
   }
@@ -336,19 +392,24 @@
     z-index: 3;
   }
 
-  /* 画像 */
-  .viewer-img {
+  /* キャンバス: Canvasダウンスケールで描画されるドット絵スクリーン */
+  .viewer-canvas {
     width: 100%;
-    height: 300px;
+    height: 270px;
     display: block;
-    object-fit: contain;
-    object-position: center;
     transition: filter 0.3s ease, opacity 0.15s ease, transform 0.15s ease;
-    image-rendering: auto;
+    image-rendering: auto; /* smooth mode デフォルト: JSでdot-modeクラスを付与して切り替え */
     animation: gb-img-fadein 0.2s ease;
     filter: contrast(1.1) brightness(0.95);
     position: relative;
     z-index: 1;
+  }
+
+  /* ドットモード: nearest-neighbor でピクセルブロックをくっきり表示 */
+  .viewer-canvas.dot-mode {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
   }
 
   /* HUD 上部 */
@@ -431,10 +492,15 @@
     align-items: center;
     gap: 6px;
     padding: 5px 8px;
-    background: #09091a;
-    border: 1px solid #1a1a32;
+    background: #060612;
+    /* ピクセルアート: 上下4px、左右2pxのドット枠 */
+    border-top: 4px solid #0d0d22;
+    border-bottom: 4px solid #0d0d22;
+    border-left: 2px solid #0d0d22;
+    border-right: 2px solid #0d0d22;
     margin-bottom: 14px;
     flex-wrap: wrap;
+    box-shadow: inset 2px 0 0 rgba(77,121,255,0.06);
   }
 
   .gb-label-tag {
@@ -509,17 +575,22 @@
   }
 
   .gbdpad-btn {
-    background: #1e1e38;
-    border: none;
-    color: #3a3a66;
+    background: #181830;
+    border: 2px solid #111128;
+    color: #2e2e55;
     font-size: 9px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     image-rendering: pixelated;
-    transition: all 0.07s ease;
+    transition: all 0.07s steps(1); /* ピクセルアート: ステップ遷移 */
     font-family: var(--font-pixel);
+    border-radius: 0; /* ピクセルアート: シャープ */
+    box-shadow:
+      inset 2px 2px 0 rgba(255,255,255,0.06),
+      inset -2px -2px 0 rgba(0,0,0,0.4),
+      2px 2px 0 #0a0a1a;
   }
 
   .gbdpad-v {
@@ -533,13 +604,22 @@
   }
 
   .gbdpad-btn:not([disabled]):hover {
-    background: #2e2e55;
-    color: #6677cc;
+    background: #282848;
+    color: #5566bb;
+    box-shadow:
+      inset 2px 2px 0 rgba(255,255,255,0.1),
+      inset -2px -2px 0 rgba(0,0,0,0.3),
+      2px 2px 0 #0a0a1a,
+      0 0 8px rgba(77,121,255,0.3);
   }
 
   .gbdpad-btn:not([disabled]):active {
-    background: #141428;
-    color: #4455aa;
+    background: #0e0e20;
+    color: #3344aa;
+    transform: translate(2px, 2px);
+    box-shadow:
+      inset 2px 2px 0 rgba(0,0,0,0.5),
+      0 0 0 #0a0a1a;
   }
 
   /* 中央コントロール */
@@ -580,6 +660,43 @@
     letter-spacing: 2px;
     image-rendering: pixelated;
     transition: color 0.2s, text-shadow 0.2s;
+    margin-bottom: 4px;
+  }
+
+  /* ドット/スムーズ切り替えボタン */
+  .gb-dot-toggle {
+    display: block;
+    width: 100%;
+    font-family: var(--font-pixel);
+    font-size: 6px;
+    padding: 2px 4px;
+    background: #0d1a12;
+    border: 1px solid #1a3322;
+    border-radius: 0;
+    color: #44ff88;
+    text-shadow: 0 0 6px rgba(0,255,100,0.7), 1px 1px 0 #000;
+    cursor: pointer;
+    letter-spacing: 1px;
+    image-rendering: pixelated;
+    box-shadow: 0 1px 0 #0a0a1a, inset 1px 1px 0 rgba(255,255,255,0.04);
+    transition: all 0.07s steps(1);
+  }
+
+  .gb-dot-toggle:hover {
+    background: #142210;
+    box-shadow: 0 1px 0 #0a0a1a, 0 0 8px rgba(0,255,100,0.3);
+  }
+
+  .gb-dot-toggle.smooth-mode {
+    background: #0d0d22;
+    border-color: #1a1a44;
+    color: #aaaaff;
+    text-shadow: 0 0 6px rgba(100,100,255,0.7), 1px 1px 0 #000;
+  }
+
+  .gb-dot-toggle.smooth-mode:hover {
+    background: #10102a;
+    box-shadow: 0 1px 0 #0a0a1a, 0 0 8px rgba(100,100,255,0.3);
   }
 
   .gb-filter-name.mode-crt {
@@ -618,23 +735,30 @@
   .gb-ss-btn {
     width: 32px;
     height: 9px;
-    background: linear-gradient(180deg, #2a2a45 0%, #1e1e38 100%);
-    border: 1px solid #333355;
-    border-radius: 5px;
+    background: #222240;
+    border: 2px solid #2a2a48;
+    border-radius: 0; /* ピクセルアート: シャープ */
     cursor: pointer;
-    box-shadow: 0 2px 0 #0a0a1a, inset 0 1px 0 rgba(255,255,255,0.08);
-    transition: all 0.07s ease;
+    box-shadow:
+      0 2px 0 #0a0a1a,
+      2px 0 0 #0a0a1a,
+      inset 2px 2px 0 rgba(255,255,255,0.06);
+    transition: all 0.07s steps(1);
     padding: 0;
   }
 
   .gb-ss-btn:hover {
-    background: linear-gradient(180deg, #3a3a60 0%, #2a2a50 100%);
-    border-color: #444466;
+    background: #2e2e55;
+    border-color: #3a3a60;
+    box-shadow:
+      0 2px 0 #0a0a1a,
+      2px 0 0 #0a0a1a,
+      inset 2px 2px 0 rgba(255,255,255,0.1);
   }
 
   .gb-ss-btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 1px 0 #0a0a1a;
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 #0a0a1a;
   }
 
   .gb-ss-label {
@@ -668,62 +792,75 @@
   .gb-btn {
     width: 32px;
     height: 32px;
-    border-radius: 50%;
+    border-radius: 50%; /* ボタンは丸を維持（ピクセルアートの丸ボタン表現） */
     cursor: pointer;
-    border: 2px solid;
-    transition: all 0.07s ease;
+    border: 3px solid;
+    transition: all 0.07s steps(1); /* ステップ遷移でピクセル感 */
     image-rendering: pixelated;
+    /* ピクセルアート: フラット + ドット状ハイライト */
+    position: relative;
+  }
+
+  /* A/Bボタン上の「ドット」ハイライト */
+  .gb-btn::before {
+    content: '';
+    position: absolute;
+    top: 5px; left: 6px;
+    width: 6px; height: 6px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 50%;
+    pointer-events: none;
   }
 
   .gb-a-btn {
-    background: radial-gradient(circle at 38% 33%, #ee3355 0%, #bb1133 100%);
-    border-color: #cc2244;
+    background: #2255cc;
+    border-color: #3366dd;
     box-shadow:
-      inset 0 2px 0 rgba(255,150,150,0.28),
-      inset 0 -2px 0 rgba(0,0,0,0.5),
-      0 4px 0 #660022,
-      0 0 10px rgba(200,30,60,0.35);
+      inset 2px 2px 0 rgba(160,200,255,0.2),
+      inset -2px -2px 0 rgba(0,0,0,0.6),
+      0 4px 0 #001166,
+      0 0 12px rgba(77,121,255,0.5);
   }
 
   .gb-b-btn {
-    background: radial-gradient(circle at 38% 33%, #cc2244 0%, #881133 100%);
-    border-color: #991133;
+    background: #661199;
+    border-color: #7733bb;
     box-shadow:
-      inset 0 2px 0 rgba(255,100,120,0.22),
-      inset 0 -2px 0 rgba(0,0,0,0.5),
-      0 4px 0 #440011,
-      0 0 8px rgba(150,20,40,0.35);
+      inset 2px 2px 0 rgba(200,150,255,0.18),
+      inset -2px -2px 0 rgba(0,0,0,0.6),
+      0 4px 0 #330055,
+      0 0 10px rgba(128,0,255,0.4);
   }
 
   .gb-a-btn:hover {
-    background: radial-gradient(circle at 38% 33%, #ff4466 0%, #cc2244 100%);
+    background: #3366ee;
     box-shadow:
-      inset 0 2px 0 rgba(255,160,160,0.35),
-      inset 0 -2px 0 rgba(0,0,0,0.4),
-      0 4px 0 #660022,
-      0 0 18px rgba(220,40,80,0.7);
+      inset 2px 2px 0 rgba(180,210,255,0.25),
+      inset -2px -2px 0 rgba(0,0,0,0.5),
+      0 4px 0 #001166,
+      0 0 22px rgba(77,121,255,0.8);
   }
 
   .gb-b-btn:hover {
-    background: radial-gradient(circle at 38% 33%, #dd3355 0%, #991133 100%);
+    background: #7722bb;
     box-shadow:
-      inset 0 2px 0 rgba(255,120,130,0.28),
-      inset 0 -2px 0 rgba(0,0,0,0.4),
-      0 4px 0 #440011,
-      0 0 14px rgba(180,30,50,0.6);
+      inset 2px 2px 0 rgba(210,160,255,0.22),
+      inset -2px -2px 0 rgba(0,0,0,0.5),
+      0 4px 0 #330055,
+      0 0 18px rgba(128,0,255,0.7);
   }
 
   .gb-a-btn:active, .gb-b-btn:active {
-    transform: translateY(3px);
+    transform: translateY(4px);
     box-shadow:
-      inset 0 1px 0 rgba(255,100,120,0.2),
-      0 1px 0 #440011;
+      inset 2px 2px 0 rgba(0,0,0,0.4),
+      0 0 0 #001155;
   }
 
   .gb-ab-label {
     font-family: var(--font-pixel);
     font-size: 8px;
-    color: #882233;
+    color: #223388;
     text-shadow: 1px 1px 0 #000;
     image-rendering: pixelated;
   }
@@ -743,11 +880,13 @@
 
   .gb-speaker i {
     display: block;
-    width: 3px;
-    height: 14px;
-    background: #111130;
-    border-radius: 2px;
-    box-shadow: inset 0 1px 0 rgba(0,0,0,0.6);
+    width: 4px;
+    height: 16px;
+    background: #0a0a1e;
+    border-radius: 0; /* ピクセルアート: 角なし */
+    box-shadow:
+      2px 0 0 rgba(255,255,255,0.04),
+      0 -2px 0 rgba(77,121,255,0.06);
   }
 
   /* ===== ドットナビ ===== */
@@ -762,26 +901,33 @@
   .viewer-dot {
     width: 10px;
     height: 10px;
-    border-radius: 50%;
-    background: #1e1e38;
-    border: 2px solid #2a2a4a;
+    /* ピクセルアート: 丸でなく正方形のドット */
+    border-radius: 0;
+    background: #1a1a32;
+    border: 2px solid #252540;
     cursor: pointer;
     padding: 0;
-    transition: all 0.15s ease;
-    box-shadow: 0 0 0 1px #0a0a1a;
+    transition: all 0.08s steps(1); /* ステップ遷移 */
+    box-shadow:
+      2px 2px 0 #0a0a1a,
+      inset 1px 1px 0 rgba(255,255,255,0.05);
   }
 
   .viewer-dot:hover {
-    background: #3a3a66;
-    border-color: #5566aa;
-    box-shadow: 0 0 6px rgba(77,121,255,0.4), 0 0 0 1px #0a0a1a;
+    background: #2e2e55;
+    border-color: #4455aa;
+    box-shadow:
+      2px 2px 0 #0a0a1a,
+      0 0 6px rgba(77,121,255,0.4);
   }
 
   .viewer-dot.active {
     background: #4d79ff;
     border-color: #88aaff;
-    box-shadow: 0 0 8px rgba(77,121,255,0.8), 0 0 0 1px #0a0a1a;
-    transform: scale(1.25);
+    box-shadow:
+      2px 2px 0 #001166,
+      0 0 8px rgba(77,121,255,0.9);
+    transform: scale(1.2);
   }
 
   /* ===== フィルター効果 ===== */
@@ -794,7 +940,7 @@
     box-shadow: 0 0 20px rgba(100,160,255,0.5);
   }
 
-  .viewer-frame.filter-crt .viewer-img {
+  .viewer-frame.filter-crt .viewer-canvas {
     filter: contrast(1.5) brightness(0.78) saturate(1.4) hue-rotate(-8deg) sepia(0.12);
   }
 
@@ -840,7 +986,7 @@
   }
 
   /* Game Boy */
-  .viewer-frame.filter-gb .viewer-img {
+  .viewer-frame.filter-gb .viewer-canvas {
     filter: grayscale(1) contrast(2.8) brightness(0.65);
   }
 
@@ -869,7 +1015,7 @@
   }
 
   /* VHS */
-  .viewer-frame.filter-vhs .viewer-img {
+  .viewer-frame.filter-vhs .viewer-canvas {
     filter: url(#svg-vhs-filter) saturate(2.6) contrast(1.25) brightness(0.85) hue-rotate(5deg);
     animation: vhs-tracking 4s step-end infinite;
   }
@@ -885,34 +1031,36 @@
     ) !important;
   }
 
-  /* DOT: ドット絵風（ポスタリゼーション + ピクセルグリッド） */
-  .viewer-frame.filter-dot .viewer-img {
-    filter: url(#svg-dot-filter) contrast(1.6) saturate(1.8) brightness(0.9);
-    image-rendering: pixelated;
+  /* DOT: 最大ピクセルアート（JSでpixelSizeを大きくして再描画 + 格子を強化） */
+  .viewer-frame.filter-dot .viewer-canvas {
+    filter: saturate(1.8) contrast(1.4) brightness(0.9);
+  }
+
+  /* DOTモード: 格子をより太く大きく（8x8ピクセルグリッド） */
+  .viewer-frame.filter-dot::before {
+    background-image:
+      repeating-linear-gradient(0deg,  rgba(0,0,10,0.7) 0px, rgba(0,0,10,0.7) 2px, transparent 2px, transparent 8px),
+      repeating-linear-gradient(90deg, rgba(0,0,10,0.6) 0px, rgba(0,0,10,0.6) 2px, transparent 2px, transparent 8px) !important;
+    background-size: 8px 8px !important;
   }
 
   .viewer-frame.filter-dot .viewer-scanlines {
     opacity: 1 !important;
-    background:
-      repeating-linear-gradient(0deg,  rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 1px, transparent 4px),
-      repeating-linear-gradient(90deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 1px, transparent 4px) !important;
+    background: none !important;
   }
 
   .viewer-frame.filter-dot::after {
-    background: radial-gradient(
-      ellipse at 50% 50%,
-      transparent 50%,
-      rgba(0, 0, 10, 0.35) 100%
-    ) !important;
+    background: radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,10,0.35) 100%) !important;
   }
 
   /* レスポンシブ */
   @media (max-width: 520px) {
     .gb-body { padding: 10px 12px 22px; }
-    .viewer-img { height: 210px; }
+    .viewer-canvas { height: 210px; }
     .gb-controls { gap: 4px; }
     .gb-filter-mini { min-width: 70px; }
     .gb-filter-name { font-size: 9px; }
+    .gb-dot-toggle { font-size: 5px; }
     .viewer-dot { width: 8px; height: 8px; }
   }
 </style>
@@ -932,24 +1080,93 @@
   ];
 
   const FILTERS = [
-    { key: "none", label: "NORMAL", mode: "" },
-    { key: "crt",  label: "CRT",    mode: "mode-crt" },
-    { key: "gb",   label: "G·BOY", mode: "mode-gb" },
-    { key: "vhs",  label: "VHS",    mode: "mode-vhs" },
-    { key: "dot",  label: "DOT",    mode: "mode-dot" },
+    { key: "none", label: "NORMAL", mode: "",         pixelSize: 5  },
+    { key: "crt",  label: "CRT",    mode: "mode-crt", pixelSize: 3  },
+    { key: "gb",   label: "G·BOY", mode: "mode-gb",  pixelSize: 10 },
+    { key: "vhs",  label: "VHS",    mode: "mode-vhs", pixelSize: 4  },
+    { key: "dot",  label: "DOT",    mode: "mode-dot", pixelSize: 16 },
   ];
 
-  let imgIdx = 0;
+  let imgIdx    = 0;
   let filterIdx = 0;
+  let dotMode   = true; // true=ドット絵, false=スムーズ
+
+  // =====================================================
+  // Canvas描画: dotMode に応じてドット絵 or スムーズ切り替え
+  // =====================================================
+  function renderToCanvas(
+    src: string,
+    canvas: HTMLCanvasElement,
+    pixelSize: number,
+    smooth: boolean,
+    onDone?: () => void
+  ) {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      // object-fit: contain 相当の配置計算
+      const ir = img.naturalWidth / img.naturalHeight;
+      const cr = cw / ch;
+      let dw: number, dh: number, dx: number, dy: number;
+      if (ir > cr) {
+        dw = cw; dh = Math.round(cw / ir);
+      } else {
+        dh = ch; dw = Math.round(ch * ir);
+      }
+      dx = Math.round((cw - dw) / 2);
+      dy = Math.round((ch - dh) / 2);
+
+      ctx.fillStyle = "#010108";
+      ctx.fillRect(0, 0, cw, ch);
+
+      if (smooth) {
+        // ─── スムーズモード: 高品質リサンプリングで直接描画 ───
+        ctx.imageSmoothingEnabled = true;
+        (ctx as any).imageSmoothingQuality = "high";
+        ctx.drawImage(img, dx, dy, dw, dh);
+      } else {
+        // ─── ドットモード: ダウンスケール→アップスケールでピクセルブロック化 ───
+        const smallW = Math.max(1, Math.floor(dw / pixelSize));
+        const smallH = Math.max(1, Math.floor(dh / pixelSize));
+
+        const offscreen = document.createElement("canvas");
+        offscreen.width  = smallW;
+        offscreen.height = smallH;
+        const offCtx = offscreen.getContext("2d");
+        if (!offCtx) return;
+        offCtx.imageSmoothingEnabled = false;
+        offCtx.drawImage(img, 0, 0, smallW, smallH);
+
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(offscreen, 0, 0, smallW, smallH, dx, dy, dw, dh);
+      }
+
+      onDone?.();
+    };
+    img.onerror = () => {
+      const ctx = canvas.getContext("2d");
+      if (ctx) { ctx.fillStyle = "#111122"; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+    };
+    img.src = src;
+  }
+
+  function getCanvas(): HTMLCanvasElement | null {
+    return document.getElementById("viewer-canvas") as HTMLCanvasElement | null;
+  }
 
   function showImage(idx: number) {
-    const img     = document.getElementById("viewer-img") as HTMLImageElement | null;
+    const canvas  = getCanvas();
     const title   = document.getElementById("viewer-title");
     const counter = document.getElementById("viewer-counter");
     const hudCtr  = document.getElementById("viewer-hud-counter");
     const flash   = document.getElementById("viewer-flash");
     const dots    = document.querySelectorAll(".viewer-dot");
-    if (!img) return;
+    if (!canvas) return;
 
     const d = IMAGES[idx];
     const n = String(idx + 1).padStart(2, "0");
@@ -957,11 +1174,15 @@
 
     if (flash) { flash.classList.add("active"); setTimeout(() => flash.classList.remove("active"), 80); }
 
-    img.style.opacity = "0";
-    img.style.transform = "scaleX(0.92)";
+    canvas.style.opacity   = "0";
+    canvas.style.transform = "scaleX(0.92)";
+
     setTimeout(() => {
-      img.src = d.src; img.alt = d.title;
-      img.style.opacity = "1"; img.style.transform = "scaleX(1)";
+      renderToCanvas(d.src, canvas, FILTERS[filterIdx].pixelSize, !dotMode, () => {
+        canvas.style.opacity   = "1";
+        canvas.style.transform = "scaleX(1)";
+      });
+      canvas.setAttribute("aria-label", d.title);
     }, 120);
 
     if (title)   title.textContent = d.title;
@@ -974,8 +1195,9 @@
   function applyFilter(idx: number) {
     const f       = FILTERS[idx];
     const frame   = document.getElementById("viewer-frame");
+    const canvas  = getCanvas();
     const display = document.getElementById("filter-display");
-    if (!frame || !display) return;
+    if (!frame || !display || !canvas) return;
 
     frame.classList.remove("filter-crt", "filter-gb", "filter-vhs", "filter-dot");
     if (f.key !== "none") frame.classList.add(`filter-${f.key}`);
@@ -983,9 +1205,31 @@
     display.textContent = f.label;
     display.className   = `gb-filter-name ${f.mode}`;
     filterIdx = idx;
+
+    renderToCanvas(IMAGES[imgIdx].src, canvas, f.pixelSize, !dotMode);
   }
 
-  // イベントリスナー
+  // ドット/スムーズ切り替え
+  document.getElementById("dot-toggle")?.addEventListener("click", () => {
+    dotMode = !dotMode;
+    const btn    = document.getElementById("dot-toggle");
+    const canvas = getCanvas();
+    if (!btn || !canvas) return;
+
+    if (dotMode) {
+      btn.textContent = "▓ DOT";
+      btn.classList.remove("smooth-mode");
+      canvas.classList.add("dot-mode");
+    } else {
+      btn.textContent = "▒ SMOOTH";
+      btn.classList.add("smooth-mode");
+      canvas.classList.remove("dot-mode");
+    }
+
+    renderToCanvas(IMAGES[imgIdx].src, canvas, FILTERS[filterIdx].pixelSize, !dotMode);
+  });
+
+  // ===== イベントリスナー =====
   document.getElementById("illust-prev")?.addEventListener("click", () =>
     showImage((imgIdx - 1 + IMAGES.length) % IMAGES.length));
   document.getElementById("illust-next")?.addEventListener("click", () =>
@@ -1009,4 +1253,11 @@
     if (e.key === "ArrowLeft")  showImage((imgIdx - 1 + IMAGES.length) % IMAGES.length);
     if (e.key === "ArrowRight") showImage((imgIdx + 1) % IMAGES.length);
   });
+
+  // ===== 初期表示 =====
+  const initCanvas = getCanvas();
+  if (initCanvas) {
+    initCanvas.classList.add("dot-mode"); // デフォルトはドットモード
+    renderToCanvas(IMAGES[0].src, initCanvas, FILTERS[0].pixelSize, false);
+  }
 </script>
