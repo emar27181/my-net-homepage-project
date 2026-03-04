@@ -156,6 +156,21 @@
 
 </div><!-- /gb-outer -->
 
+<!-- ライトボックスモーダル -->
+<div class="gb-modal" id="gb-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="gb-modal-backdrop" id="gb-modal-backdrop"></div>
+  <button class="gb-modal-arrow gb-modal-prev" id="modal-prev" aria-label="前の画像">&#9664;</button>
+  <div class="gb-modal-content">
+    <button class="gb-modal-close" id="gb-modal-close" aria-label="閉じる">&#10005;</button>
+    <img class="gb-modal-img" id="gb-modal-img" src="" alt="" />
+    <div class="gb-modal-footer">
+      <span class="gb-modal-title" id="gb-modal-title"></span>
+      <span class="gb-modal-counter" id="gb-modal-counter"></span>
+    </div>
+  </div>
+  <button class="gb-modal-arrow gb-modal-next" id="modal-next" aria-label="次の画像">&#9654;</button>
+</div>
+
 <style>
   /* ===== アニメーション ===== */
   @keyframes gb-img-fadein {
@@ -348,6 +363,7 @@
     filter: contrast(1.1) brightness(0.95);
     position: relative;
     z-index: 1;
+    cursor: pointer;
   }
 
   /* ドットモード: nearest-neighbor でピクセルブロックをくっきり表示 */
@@ -960,6 +976,152 @@
     .gb-dot-toggle { font-size: 5px; }
     .viewer-dot { width: 8px; height: 8px; }
   }
+
+  /* ===== ライトボックスモーダル ===== */
+  .gb-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gb-modal.open {
+    display: flex;
+  }
+
+  .gb-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 12, 0.88);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+
+  .gb-modal-content {
+    position: relative;
+    z-index: 1;
+    max-width: min(90vw, 900px);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    background: #0a0a1a;
+    border: 2px solid #2a4a99;
+    box-shadow:
+      0 0 0 1px #0a0a1a,
+      0 0 40px rgba(77,121,255,0.5),
+      0 0 100px rgba(77,121,255,0.2);
+  }
+
+  .gb-modal-img {
+    display: block;
+    max-width: 100%;
+    max-height: calc(90vh - 50px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .gb-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: #060612;
+    border-top: 1px solid #1a1a32;
+    gap: 12px;
+  }
+
+  .gb-modal-title {
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    color: #6688bb;
+    text-shadow: 0 0 8px rgba(77,121,255,0.5), 1px 1px 0 #000;
+    letter-spacing: 1px;
+    image-rendering: pixelated;
+  }
+
+  .gb-modal-counter {
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    color: #334466;
+    text-shadow: 1px 1px 0 #000;
+    letter-spacing: 1px;
+    image-rendering: pixelated;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .gb-modal-close {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    width: 32px;
+    height: 32px;
+    background: #1a1a38;
+    border: 2px solid #3355bb;
+    border-radius: 50%;
+    color: #4d79ff;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px rgba(77,121,255,0.5);
+    transition: all 0.12s ease;
+    line-height: 1;
+    padding: 0;
+    font-family: var(--font-pixel);
+  }
+
+  .gb-modal-close:hover {
+    background: #2a2a55;
+    box-shadow: 0 0 20px rgba(77,121,255,0.8);
+    color: #88aaff;
+  }
+
+  .gb-modal-arrow {
+    position: relative;
+    z-index: 1;
+    width: 52px;
+    height: 52px;
+    background: rgba(20, 20, 50, 0.85);
+    border: 2px solid #2a4a99;
+    border-radius: 50%;
+    color: #4d79ff;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin: 0 12px;
+    box-shadow:
+      0 0 0 1px #0a0a1a,
+      0 0 16px rgba(77,121,255,0.4);
+    transition: all 0.12s ease;
+    padding: 0;
+    font-family: var(--font-pixel);
+  }
+
+  .gb-modal-arrow:hover {
+    background: rgba(40, 60, 120, 0.95);
+    box-shadow:
+      0 0 0 1px #0a0a1a,
+      0 0 28px rgba(77,121,255,0.8);
+    color: #88aaff;
+    transform: scale(1.08);
+  }
+
+  .gb-modal-arrow:active {
+    transform: scale(0.95);
+  }
+
+  @media (max-width: 600px) {
+    .gb-modal-arrow { width: 40px; height: 40px; font-size: 16px; margin: 0 6px; }
+    .gb-modal-close { width: 28px; height: 28px; font-size: 12px; top: -14px; right: -14px; }
+  }
 </style>
 
 <script>
@@ -1146,9 +1308,76 @@
     dot.addEventListener("click", () =>
       showImage(parseInt((dot as HTMLElement).dataset.index ?? "0", 10))));
 
+  // ===== ライトボックスモーダル =====
+  let modalOpen = false;
+
+  function openModal(idx: number) {
+    const modal   = document.getElementById("gb-modal");
+    const img     = document.getElementById("gb-modal-img") as HTMLImageElement | null;
+    const title   = document.getElementById("gb-modal-title");
+    const counter = document.getElementById("gb-modal-counter");
+    if (!modal || !img) return;
+
+    modalOpen = true;
+    imgIdx = idx;
+
+    const d = IMAGES[idx];
+    const n = String(idx + 1).padStart(2, "0");
+    const t = String(IMAGES.length).padStart(2, "0");
+    img.src = d.src;
+    img.alt = d.title;
+    if (title)   title.textContent  = d.title;
+    if (counter) counter.textContent = `${n} / ${t}`;
+
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    const modal = document.getElementById("gb-modal");
+    if (!modal) return;
+    modalOpen = false;
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  function modalNav(dir: 1 | -1) {
+    const next = (imgIdx + dir + IMAGES.length) % IMAGES.length;
+    // メインギャラリーも同期
+    showImage(next);
+    // モーダルの画像・カウンター更新
+    const img     = document.getElementById("gb-modal-img") as HTMLImageElement | null;
+    const title   = document.getElementById("gb-modal-title");
+    const counter = document.getElementById("gb-modal-counter");
+    if (!img) return;
+    const d = IMAGES[next];
+    const n = String(next + 1).padStart(2, "0");
+    const t = String(IMAGES.length).padStart(2, "0");
+    img.src = d.src;
+    img.alt = d.title;
+    if (title)   title.textContent  = d.title;
+    if (counter) counter.textContent = `${n} / ${t}`;
+  }
+
+  // キャンバスクリックでモーダルを開く
+  getCanvas()?.addEventListener("click", () => openModal(imgIdx));
+
+  document.getElementById("gb-modal-close")?.addEventListener("click", closeModal);
+  document.getElementById("gb-modal-backdrop")?.addEventListener("click", closeModal);
+  document.getElementById("modal-prev")?.addEventListener("click", () => modalNav(-1));
+  document.getElementById("modal-next")?.addEventListener("click", () => modalNav(1));
+
   document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft")  showImage((imgIdx - 1 + IMAGES.length) % IMAGES.length);
-    if (e.key === "ArrowRight") showImage((imgIdx + 1) % IMAGES.length);
+    if (modalOpen) {
+      if (e.key === "ArrowLeft")  modalNav(-1);
+      if (e.key === "ArrowRight") modalNav(1);
+      if (e.key === "Escape")     closeModal();
+    } else {
+      if (e.key === "ArrowLeft")  showImage((imgIdx - 1 + IMAGES.length) % IMAGES.length);
+      if (e.key === "ArrowRight") showImage((imgIdx + 1) % IMAGES.length);
+    }
   });
 
   // ===== 初期表示 =====
