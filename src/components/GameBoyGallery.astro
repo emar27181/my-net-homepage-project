@@ -198,65 +198,20 @@
 
   /* 本体 */
   .gb-body {
-    position: relative;
     width: 100%;
     max-width: 380px;
     margin: 0 auto;
-    /* ピクセルアート: フラットカラー + シャープコーナー */
-    background: #1e1e38;
-    border-radius: 4px 4px 24px 24px / 4px 4px 14px 14px;
-    border: 4px solid #3355bb;
+    background: linear-gradient(160deg, #22223a 0%, #1a1a2e 50%, #14142a 100%);
+    border-radius: 10px 10px 40px 40px / 10px 10px 28px 28px;
+    border: 3px solid #2a4a99;
     box-shadow:
-      /* 8-bit ステップシャドウ（左上ハイライト） */
-      inset 4px 4px 0 rgba(255,255,255,0.08),
-      inset -4px -4px 0 rgba(0,0,0,0.6),
-      /* ピクセル押出しシャドウ */
-      4px 4px 0 #0a0a1a,
-      8px 8px 0 #060610,
+      inset 3px 3px 0 rgba(255,255,255,0.07),
+      inset -3px -3px 0 rgba(0,0,0,0.5),
+      0 0 0 1px #0a0a1a,
+      0 6px 0 #08081a,
       0 0 30px rgba(77,121,255,0.5),
       0 0 70px rgba(77,121,255,0.15);
     padding: 14px 18px 28px;
-    image-rendering: pixelated;
-    overflow: hidden;
-  }
-
-  /* ドットグリッドテクスチャ（本体全体） */
-  .gb-body::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(77, 121, 255, 0.14) 1px, transparent 1px);
-    background-size: 6px 6px;
-    border-radius: inherit;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ピクセル段差ライン（本体上部の区切り感） */
-  .gb-body::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    background: repeating-linear-gradient(
-      90deg,
-      rgba(255,255,255,0.12) 0px,
-      rgba(255,255,255,0.12) 4px,
-      transparent 4px,
-      transparent 8px
-    );
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  /* 子要素をドットオーバーレイの上に表示 */
-  .gb-brand-row,
-  .gb-screen-shell,
-  .gb-title-strip,
-  .gb-controls,
-  .gb-speaker-row {
-    position: relative;
-    z-index: 2;
   }
 
   /* ブランド行 */
@@ -283,32 +238,24 @@
 
   .gb-vents i {
     display: block;
-    width: 4px;
-    height: 16px;
-    background: #111128;
-    border-radius: 0; /* ピクセルアート: 角なし */
-    box-shadow:
-      2px 0 0 rgba(255,255,255,0.05),
-      0 2px 0 rgba(0,0,0,0.5),
-      inset 0 -2px 0 rgba(77,121,255,0.08);
+    width: 3px;
+    height: 14px;
+    background: linear-gradient(180deg, #2a2a45 0%, #1a1a35 100%);
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
   }
 
   /* スクリーンシェル */
   .gb-screen-shell {
-    background: #080816;
-    border-radius: 2px; /* ピクセルアート: シャープ */
+    background: #0d0d1e;
+    border-radius: 8px;
     padding: 10px;
     margin-bottom: 10px;
-    /* 4px ピクセル枠線 */
-    border: 4px solid #111128;
+    border: 2px solid #1e3060;
     box-shadow:
-      inset 4px 4px 0 rgba(0,0,0,0.7),
-      inset -2px -2px 0 rgba(255,255,255,0.03),
-      0 0 0 2px #0d0d22,
-      0 0 12px rgba(77,121,255,0.25);
-    /* スクリーン周りの段差 */
-    outline: 2px solid #1a1a35;
-    outline-offset: 2px;
+      inset 0 3px 0 rgba(0,0,0,0.6),
+      inset 0 -1px 0 rgba(255,255,255,0.04),
+      0 0 12px rgba(77,121,255,0.2);
   }
 
   /* インジケーター行 */
@@ -345,14 +292,12 @@
   /* スクリーンフレーム（内側の黒枠） */
   .gb-screen-frame {
     background: #020208;
-    border: 4px solid #0a0a18;
+    border: 4px solid #0d0d1a;
     box-shadow:
       inset 0 0 0 2px #060610,
-      inset 4px 4px 0 rgba(0,0,0,0.9),
+      inset 0 3px 10px rgba(0,0,0,0.9),
       0 0 16px rgba(77,121,255,0.35);
-    border-radius: 0; /* ピクセルアート: 完全シャープ */
-    /* ピクセルライン装飾 */
-    outline: 2px solid #060612;
+    border-radius: 2px;
   }
 
   /* ===== ビューワーフレーム本体 ===== */
@@ -492,15 +437,10 @@
     align-items: center;
     gap: 6px;
     padding: 5px 8px;
-    background: #060612;
-    /* ピクセルアート: 上下4px、左右2pxのドット枠 */
-    border-top: 4px solid #0d0d22;
-    border-bottom: 4px solid #0d0d22;
-    border-left: 2px solid #0d0d22;
-    border-right: 2px solid #0d0d22;
+    background: #09091a;
+    border: 1px solid #1a1a32;
     margin-bottom: 14px;
     flex-wrap: wrap;
-    box-shadow: inset 2px 0 0 rgba(77,121,255,0.06);
   }
 
   .gb-label-tag {
@@ -575,22 +515,17 @@
   }
 
   .gbdpad-btn {
-    background: #181830;
-    border: 2px solid #111128;
-    color: #2e2e55;
+    background: #1e1e38;
+    border: none;
+    color: #3a3a66;
     font-size: 9px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     image-rendering: pixelated;
-    transition: all 0.07s steps(1); /* ピクセルアート: ステップ遷移 */
+    transition: all 0.07s ease;
     font-family: var(--font-pixel);
-    border-radius: 0; /* ピクセルアート: シャープ */
-    box-shadow:
-      inset 2px 2px 0 rgba(255,255,255,0.06),
-      inset -2px -2px 0 rgba(0,0,0,0.4),
-      2px 2px 0 #0a0a1a;
   }
 
   .gbdpad-v {
@@ -604,22 +539,13 @@
   }
 
   .gbdpad-btn:not([disabled]):hover {
-    background: #282848;
-    color: #5566bb;
-    box-shadow:
-      inset 2px 2px 0 rgba(255,255,255,0.1),
-      inset -2px -2px 0 rgba(0,0,0,0.3),
-      2px 2px 0 #0a0a1a,
-      0 0 8px rgba(77,121,255,0.3);
+    background: #2e2e55;
+    color: #6677cc;
   }
 
   .gbdpad-btn:not([disabled]):active {
-    background: #0e0e20;
-    color: #3344aa;
-    transform: translate(2px, 2px);
-    box-shadow:
-      inset 2px 2px 0 rgba(0,0,0,0.5),
-      0 0 0 #0a0a1a;
+    background: #141428;
+    color: #4455aa;
   }
 
   /* 中央コントロール */
@@ -735,30 +661,23 @@
   .gb-ss-btn {
     width: 32px;
     height: 9px;
-    background: #222240;
-    border: 2px solid #2a2a48;
-    border-radius: 0; /* ピクセルアート: シャープ */
+    background: linear-gradient(180deg, #2a2a45 0%, #1e1e38 100%);
+    border: 1px solid #333355;
+    border-radius: 5px;
     cursor: pointer;
-    box-shadow:
-      0 2px 0 #0a0a1a,
-      2px 0 0 #0a0a1a,
-      inset 2px 2px 0 rgba(255,255,255,0.06);
-    transition: all 0.07s steps(1);
+    box-shadow: 0 2px 0 #0a0a1a, inset 0 1px 0 rgba(255,255,255,0.08);
+    transition: all 0.07s ease;
     padding: 0;
   }
 
   .gb-ss-btn:hover {
-    background: #2e2e55;
-    border-color: #3a3a60;
-    box-shadow:
-      0 2px 0 #0a0a1a,
-      2px 0 0 #0a0a1a,
-      inset 2px 2px 0 rgba(255,255,255,0.1);
+    background: linear-gradient(180deg, #3a3a60 0%, #2a2a50 100%);
+    border-color: #444466;
   }
 
   .gb-ss-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: 0 0 0 #0a0a1a;
+    transform: translateY(1px);
+    box-shadow: 0 1px 0 #0a0a1a;
   }
 
   .gb-ss-label {
@@ -792,75 +711,62 @@
   .gb-btn {
     width: 32px;
     height: 32px;
-    border-radius: 50%; /* ボタンは丸を維持（ピクセルアートの丸ボタン表現） */
-    cursor: pointer;
-    border: 3px solid;
-    transition: all 0.07s steps(1); /* ステップ遷移でピクセル感 */
-    image-rendering: pixelated;
-    /* ピクセルアート: フラット + ドット状ハイライト */
-    position: relative;
-  }
-
-  /* A/Bボタン上の「ドット」ハイライト */
-  .gb-btn::before {
-    content: '';
-    position: absolute;
-    top: 5px; left: 6px;
-    width: 6px; height: 6px;
-    background: rgba(255,255,255,0.25);
     border-radius: 50%;
-    pointer-events: none;
+    cursor: pointer;
+    border: 2px solid;
+    transition: all 0.07s ease;
+    image-rendering: pixelated;
   }
 
   .gb-a-btn {
-    background: #2255cc;
-    border-color: #3366dd;
+    background: radial-gradient(circle at 38% 33%, #ee3355 0%, #bb1133 100%);
+    border-color: #cc2244;
     box-shadow:
-      inset 2px 2px 0 rgba(160,200,255,0.2),
-      inset -2px -2px 0 rgba(0,0,0,0.6),
-      0 4px 0 #001166,
-      0 0 12px rgba(77,121,255,0.5);
+      inset 0 2px 0 rgba(255,150,150,0.28),
+      inset 0 -2px 0 rgba(0,0,0,0.5),
+      0 4px 0 #660022,
+      0 0 10px rgba(200,30,60,0.35);
   }
 
   .gb-b-btn {
-    background: #661199;
-    border-color: #7733bb;
+    background: radial-gradient(circle at 38% 33%, #cc2244 0%, #881133 100%);
+    border-color: #991133;
     box-shadow:
-      inset 2px 2px 0 rgba(200,150,255,0.18),
-      inset -2px -2px 0 rgba(0,0,0,0.6),
-      0 4px 0 #330055,
-      0 0 10px rgba(128,0,255,0.4);
+      inset 0 2px 0 rgba(255,100,120,0.22),
+      inset 0 -2px 0 rgba(0,0,0,0.5),
+      0 4px 0 #440011,
+      0 0 8px rgba(150,20,40,0.35);
   }
 
   .gb-a-btn:hover {
-    background: #3366ee;
+    background: radial-gradient(circle at 38% 33%, #ff4466 0%, #cc2244 100%);
     box-shadow:
-      inset 2px 2px 0 rgba(180,210,255,0.25),
-      inset -2px -2px 0 rgba(0,0,0,0.5),
-      0 4px 0 #001166,
-      0 0 22px rgba(77,121,255,0.8);
+      inset 0 2px 0 rgba(255,160,160,0.35),
+      inset 0 -2px 0 rgba(0,0,0,0.4),
+      0 4px 0 #660022,
+      0 0 18px rgba(220,40,80,0.7);
   }
 
   .gb-b-btn:hover {
-    background: #7722bb;
+    background: radial-gradient(circle at 38% 33%, #dd3355 0%, #991133 100%);
     box-shadow:
-      inset 2px 2px 0 rgba(210,160,255,0.22),
-      inset -2px -2px 0 rgba(0,0,0,0.5),
-      0 4px 0 #330055,
-      0 0 18px rgba(128,0,255,0.7);
+      inset 0 2px 0 rgba(255,120,130,0.28),
+      inset 0 -2px 0 rgba(0,0,0,0.4),
+      0 4px 0 #440011,
+      0 0 14px rgba(180,30,50,0.6);
   }
 
   .gb-a-btn:active, .gb-b-btn:active {
-    transform: translateY(4px);
+    transform: translateY(3px);
     box-shadow:
-      inset 2px 2px 0 rgba(0,0,0,0.4),
-      0 0 0 #001155;
+      inset 0 1px 0 rgba(255,100,120,0.2),
+      0 1px 0 #440011;
   }
 
   .gb-ab-label {
     font-family: var(--font-pixel);
     font-size: 8px;
-    color: #223388;
+    color: #882233;
     text-shadow: 1px 1px 0 #000;
     image-rendering: pixelated;
   }
@@ -880,13 +786,11 @@
 
   .gb-speaker i {
     display: block;
-    width: 4px;
-    height: 16px;
-    background: #0a0a1e;
-    border-radius: 0; /* ピクセルアート: 角なし */
-    box-shadow:
-      2px 0 0 rgba(255,255,255,0.04),
-      0 -2px 0 rgba(77,121,255,0.06);
+    width: 3px;
+    height: 14px;
+    background: #111130;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 rgba(0,0,0,0.6);
   }
 
   /* ===== ドットナビ ===== */
@@ -901,33 +805,26 @@
   .viewer-dot {
     width: 10px;
     height: 10px;
-    /* ピクセルアート: 丸でなく正方形のドット */
-    border-radius: 0;
-    background: #1a1a32;
-    border: 2px solid #252540;
+    border-radius: 50%;
+    background: #1e1e38;
+    border: 2px solid #2a2a4a;
     cursor: pointer;
     padding: 0;
-    transition: all 0.08s steps(1); /* ステップ遷移 */
-    box-shadow:
-      2px 2px 0 #0a0a1a,
-      inset 1px 1px 0 rgba(255,255,255,0.05);
+    transition: all 0.15s ease;
+    box-shadow: 0 0 0 1px #0a0a1a;
   }
 
   .viewer-dot:hover {
-    background: #2e2e55;
-    border-color: #4455aa;
-    box-shadow:
-      2px 2px 0 #0a0a1a,
-      0 0 6px rgba(77,121,255,0.4);
+    background: #3a3a66;
+    border-color: #5566aa;
+    box-shadow: 0 0 6px rgba(77,121,255,0.4), 0 0 0 1px #0a0a1a;
   }
 
   .viewer-dot.active {
     background: #4d79ff;
     border-color: #88aaff;
-    box-shadow:
-      2px 2px 0 #001166,
-      0 0 8px rgba(77,121,255,0.9);
-    transform: scale(1.2);
+    box-shadow: 0 0 8px rgba(77,121,255,0.8), 0 0 0 1px #0a0a1a;
+    transform: scale(1.25);
   }
 
   /* ===== フィルター効果 ===== */
