@@ -1726,7 +1726,7 @@ function capFirst(s: string) { return s.charAt(0).toUpperCase() + s.slice(1); }
           const videoId = el.dataset.videoId;
           el.classList.add('playing');
           const iframe = document.createElement('iframe');
-          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&fs=1`;
+          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&fs=1&vq=hd1080`;
           iframe.allow = 'autoplay; encrypted-media; fullscreen';
           iframe.allowFullscreen = true;
           iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block;';
