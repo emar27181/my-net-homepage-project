@@ -376,16 +376,17 @@
     background: #0a0a14;
     position: relative;
     z-index: 1;
+    image-rendering: auto; /* 親のpixelatedを上書きしてテキストをなめらかに */
   }
 
   .preparing-text {
-    font-family: var(--font-pixel);
-    font-size: 11px;
+    font-family: var(--font-pixel-jp);
+    font-size: 14px;
     color: #4d79ff;
     text-shadow: 0 0 8px #4d79ff, 1px 1px 0 #000;
-    image-rendering: pixelated;
     letter-spacing: 2px;
     animation: preparing-blink 1.4s ease-in-out infinite;
+    -webkit-font-smoothing: antialiased;
   }
 
   @keyframes preparing-blink {
@@ -850,9 +851,9 @@
   .viewer-dots {
     display: flex;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     flex-wrap: wrap;
-    padding: 8px 0 4px;
+    padding: 14px 0 10px;
   }
 
   .viewer-dot {
