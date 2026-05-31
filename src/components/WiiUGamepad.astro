@@ -144,20 +144,7 @@
   }
 
   .wiiu-trigger {
-    background: linear-gradient(180deg, #666 0%, #444 100%);
-    color: #ccc;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 7px;
-    width: 56px;
-    height: 20px;
-    border-radius: 6px 6px 0 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: inset 0 2px 3px rgba(255,255,255,0.15), 0 2px 4px rgba(0,0,0,0.4);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-    letter-spacing: 1px;
-    image-rendering: pixelated;
+    display: none;
   }
 
   .wiiu-top-logo {
@@ -187,14 +174,14 @@
     width: 72px;
   }
 
-  /* アナログスティック */
+  /* アナログスティック（白） */
   .wiiu-stick {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #555, #222);
-    box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.5);
-    border: 2px solid #1a1a1a;
+    background: radial-gradient(circle at 35% 35%, #f0f0f0, #c8c8c8);
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.8), inset 0 -1px 3px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.4);
+    border: 2px solid #aaa;
   }
 
   /* Dパッド */
@@ -265,10 +252,11 @@
     text-shadow: 0 1px 1px rgba(0,0,0,0.6);
   }
 
-  .wiiu-btn-x { background: #3060c0; top: 0;    left: 50%; transform: translateX(-50%); }
-  .wiiu-btn-y { background: #888;    top: 50%;  left: 0;   transform: translateY(-50%); }
-  .wiiu-btn-a { background: #c03030; top: 50%;  right: 0;  transform: translateY(-50%); }
-  .wiiu-btn-b { background: #3a9a3a; bottom: 0; left: 50%; transform: translateX(-50%); }
+  /* ABXY ボタン（白） */
+  .wiiu-btn-x { background: linear-gradient(135deg, #f5f5f5, #d8d8d8); color: #555; top: 0;    left: 50%; transform: translateX(-50%); }
+  .wiiu-btn-y { background: linear-gradient(135deg, #f5f5f5, #d8d8d8); color: #555; top: 50%;  left: 0;   transform: translateY(-50%); }
+  .wiiu-btn-a { background: linear-gradient(135deg, #f5f5f5, #d8d8d8); color: #555; top: 50%;  right: 0;  transform: translateY(-50%); }
+  .wiiu-btn-b { background: linear-gradient(135deg, #f5f5f5, #d8d8d8); color: #555; bottom: 0; left: 50%; transform: translateX(-50%); }
 
   /* 小ボタン */
   .wiiu-btn-row {
