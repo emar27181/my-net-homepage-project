@@ -1,0 +1,102 @@
+[
+  {
+    "id": "valorant",
+    "name": "Valorant",
+    "category": "FPS",
+    "note": "",
+    "playTime": "DATA LOADING...",
+    "period": "DATA LOADING...",
+    "maxRank": "DATA LOADING...",
+    "comment": "DATA LOADING..."
+  },
+  {
+    "id": "apex",
+    "name": "Apex",
+    "category": "FPS",
+    "note": "",
+    "playTime": "DATA LOADING...",
+    "period": "DATA LOADING...",
+    "maxRank": "DATA LOADING...",
+    "comment": "DATA LOADING..."
+  },
+  {
+    "id": "ow2",
+    "name": "OW2",
+    "category": "FPS",
+    "note": "",
+    "playTime": "DATA LOADING...",
+    "period": "DATA LOADING...",
+    "maxRank": "DATA LOADING...",
+    "comment": "DATA LOADING..."
+  },
+  {
+    "id": "bf",
+    "name": "BF",
+    "category": "FPS",
+    "note": "",
+    "playTime": "DATA LOADING...",
+    "period": "DATA LOADING...",
+    "maxRank": "DATA LOADING...",
+    "comment": "DATA LOADING..."
+  },
+  {
+    "id": "cod",
+    "name": "COD",
+    "category": "FPS",
+    "note": "",
+    "playTime": "DATA LOADING...",
+    "period": "DATA LOADING...",
+    "maxRank": "DATA LOADING...",
+    "comment": "DATA LOADING..."
+  },
+  {
+    "id": "fortnite",
+    "name": "Fortnite",
+    "category": "FPS",
+    "note": "昔",
+    "playTime": "DATA LOADING...",
+    "period": "DATA LOADING...",
+    "maxRank": "DATA LOADING...",
+    "comment": "DATA LOADING..."
+  },
+  {
+    "id": "puzzdra",
+    "name": "パズドラ",
+    "category": "ソシャゲ",
+    "note": "",
+    "playTime": "DATA LOADING...",
+    "period": "DATA LOADING...",
+    "maxRank": "DATA LOADING...",
+    "comment": "DATA LOADING..."
+  },
+  {
+    "id": "monst",
+    "name": "モンスト",
+    "category": "ソシャゲ",
+    "note": "",
+    "playTime": "DATA LOADING...",
+    "period": "DATA LOADING...",
+    "maxRank": "DATA LOADING...",
+    "comment": "DATA LOADING..."
+  },
+  {
+    "id": "pokepoke",
+    "name": "ポケポケ",
+    "category": "ソシャゲ",
+    "note": "",
+    "playTime": "DATA LOADING...",
+    "period": "DATA LOADING...",
+    "maxRank": "DATA LOADING...",
+    "comment": "DATA LOADING..."
+  },
+  {
+    "id": "janship",
+    "name": "雀魂",
+    "category": "ソシャゲ",
+    "note": "",
+    "playTime": "DATA LOADING...",
+    "period": "DATA LOADING...",
+    "maxRank": "DATA LOADING...",
+    "comment": "DATA LOADING..."
+  }
+]

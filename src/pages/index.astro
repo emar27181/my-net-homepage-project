@@ -1,5 +1,6 @@
 ---
 import competitiveAgentData from '../data/competitive_agent.json';
+import gamesData from '../data/games.json';
 import competitiveRankData from '../data/competitive_rank.json';
 import competitiveWeaponData from '../data/competitive_weapon.json';
 import competitiveMapData from '../data/competitive_map.json';
@@ -78,6 +79,8 @@ const clipGalleryData: ClipData[] = [
 const clipMaps   = [...new Set(clipGalleryData.map(c => c.map))];
 const clipAgents = [...new Set(clipGalleryData.map(c => c.agent))];
 function capFirst(s: string) { return s.charAt(0).toUpperCase() + s.slice(1); }
+const fpsGames    = gamesData.filter((g: any) => g.category === "FPS");
+const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 ---
 
 <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
@@ -185,13 +188,27 @@ function capFirst(s: string) { return s.charAt(0).toUpperCase() + s.slice(1); }
           <h3
             style={`${S.subTitle} margin-bottom: 10px; margin-top: 15px;`}
           >
-            プレイ中のゲーム
+            ゲームジャンル
           </h3>
-          <p
-            style={`${S.bodyText}`}
-          >
-            FPS: Valorant / Apex / OW2 / BF / COD / Fortnite(昔)<br />
-            ソシャゲ: パズドラ / モンスト / ポケポケ / 雀魂
+          <p style={`${S.bodyText} line-height: 2;`}>
+            FPS:&nbsp;
+            {fpsGames.map((g: any, i: number) => (
+              <>
+                <button class="game-chip" data-game-id={g.id} data-game-json={JSON.stringify(g)}>
+                  {g.name}{g.note ? <span class="game-chip-note">({g.note})</span> : ''}
+                </button>
+                {i < fpsGames.length - 1 && <span class="game-sep"> / </span>}
+              </>
+            ))}<br />
+            ソシャゲ:&nbsp;
+            {socialGames.map((g: any, i: number) => (
+              <>
+                <button class="game-chip" data-game-id={g.id} data-game-json={JSON.stringify(g)}>
+                  {g.name}
+                </button>
+                {i < socialGames.length - 1 && <span class="game-sep"> / </span>}
+              </>
+            ))}
           </p>
         </div>
 
@@ -1191,6 +1208,41 @@ function capFirst(s: string) { return s.charAt(0).toUpperCase() + s.slice(1); }
   </div>
 </SimpleLayout>
 
+<!-- ゲーム詳細モーダル -->
+<div id="game-modal" class="game-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="game-modal-box" id="game-modal-box">
+    <!-- ヘッダー -->
+    <div class="gm-header">
+      <span class="gm-cursor">▶</span>
+      <span class="gm-title" id="gm-title">GAME NAME</span>
+      <span class="gm-category" id="gm-category">FPS</span>
+      <button class="gm-close" id="gm-close" aria-label="閉じる">✕</button>
+    </div>
+    <div class="gm-divider"></div>
+    <!-- ステータス -->
+    <div class="gm-stats">
+      <div class="gm-row">
+        <span class="gm-label">⏱ プレイ時間</span>
+        <span class="gm-value" id="gm-playtime">---</span>
+      </div>
+      <div class="gm-row">
+        <span class="gm-label">📅 プレイ時期</span>
+        <span class="gm-value" id="gm-period">---</span>
+      </div>
+      <div class="gm-row">
+        <span class="gm-label">🏆 最高ランク</span>
+        <span class="gm-value" id="gm-maxrank">---</span>
+      </div>
+    </div>
+    <div class="gm-divider"></div>
+    <!-- コメント -->
+    <div class="gm-comment-wrap">
+      <span class="gm-comment-icon">💬</span>
+      <p class="gm-comment" id="gm-comment">---</p>
+    </div>
+  </div>
+</div>
+
 <style>
   /* 文字溢れ防止 - ページ全体の自動改行ルール */
   * {
@@ -1351,6 +1403,202 @@ function capFirst(s: string) { return s.charAt(0).toUpperCase() + s.slice(1); }
     white-space: nowrap;
   }
 
+
+  /* ===== ゲームチップ ===== */
+  .game-chip {
+    display: inline-block;
+    font-family: var(--font-pixel-jp);
+    font-size: 12px;
+    color: var(--text-accessible-blue);
+    background: rgba(77, 121, 255, 0.1);
+    border: 1px solid rgba(77, 121, 255, 0.45);
+    border-radius: 3px;
+    padding: 1px 6px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000, 0 0 5px rgba(77,121,255,0.4);
+    image-rendering: pixelated;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    vertical-align: middle;
+  }
+
+  .game-chip:hover {
+    background: rgba(77, 121, 255, 0.28);
+    border-color: var(--text-accessible-blue);
+    color: #fff;
+    text-shadow: 1px 1px 0 #000, 0 0 8px var(--text-accessible-blue);
+  }
+
+  .game-chip-note {
+    font-size: 9px;
+    color: #8899bb;
+    margin-left: 1px;
+  }
+
+  .game-sep {
+    color: #556677;
+  }
+
+  /* ===== ゲーム詳細モーダル ===== */
+  .game-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 10, 0.82);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .game-modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .game-modal-box {
+    background: #06060f;
+    border: 3px solid #4d79ff;
+    box-shadow:
+      0 0 0 1px #000,
+      0 0 0 4px #4d79ff,
+      0 0 0 5px #000,
+      0 0 24px rgba(77,121,255,0.5);
+    padding: 18px 22px 16px;
+    min-width: 280px;
+    max-width: 480px;
+    width: 90vw;
+    image-rendering: pixelated;
+    animation: gm-appear 0.12s ease;
+  }
+
+  @keyframes gm-appear {
+    from { transform: scale(0.92); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+  }
+
+  .gm-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .gm-cursor {
+    font-family: var(--font-pixel);
+    font-size: 10px;
+    color: #4d79ff;
+    text-shadow: 0 0 6px #4d79ff;
+    animation: gm-blink 1s step-end infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes gm-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+
+  .gm-title {
+    font-family: var(--font-pixel);
+    font-size: 11px;
+    color: #ffffff;
+    text-shadow: 1px 1px 0 #000, 0 0 8px rgba(77,121,255,0.6);
+    image-rendering: pixelated;
+    flex: 1;
+    letter-spacing: 1px;
+  }
+
+  .gm-category {
+    font-family: var(--font-pixel);
+    font-size: 7px;
+    padding: 2px 6px;
+    background: rgba(77,121,255,0.2);
+    border: 1px solid rgba(77,121,255,0.5);
+    color: #99aaff;
+    text-shadow: 1px 1px 0 #000;
+    flex-shrink: 0;
+  }
+
+  .gm-close {
+    background: none;
+    border: 1px solid #334466;
+    color: #556688;
+    font-size: 10px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: var(--font-pixel-jp);
+    transition: border-color 0.1s, color 0.1s;
+    flex-shrink: 0;
+    padding: 0;
+  }
+
+  .gm-close:hover {
+    border-color: #ff4466;
+    color: #ff4466;
+  }
+
+  .gm-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #4d79ff 20%, #4d79ff 80%, transparent);
+    margin: 8px 0;
+    opacity: 0.6;
+  }
+
+  .gm-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin: 10px 0;
+  }
+
+  .gm-row {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+
+  .gm-label {
+    font-family: var(--font-pixel-jp);
+    font-size: 10px;
+    color: #6677aa;
+    text-shadow: 1px 1px 0 #000;
+    min-width: 110px;
+    flex-shrink: 0;
+  }
+
+  .gm-value {
+    font-family: var(--font-pixel-jp);
+    font-size: 10px;
+    color: #ccdeff;
+    text-shadow: 1px 1px 0 #000;
+  }
+
+  .gm-comment-wrap {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-top: 8px;
+  }
+
+  .gm-comment-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .gm-comment {
+    font-family: var(--font-pixel-jp);
+    font-size: 10px;
+    color: #aabbcc;
+    text-shadow: 1px 1px 0 #000;
+    line-height: 1.8;
+    margin: 0;
+  }
 
   /* フッターバー */
   .illust-footer-bar {
@@ -1651,6 +1899,47 @@ function capFirst(s: string) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
     // 動画のオリジナルsrcを保存
     initializeVideoSources();
+
+    // ===== ゲーム詳細モーダル =====
+    const overlay  = document.getElementById('game-modal') as HTMLElement;
+    const gmTitle  = document.getElementById('gm-title');
+    const gmCat    = document.getElementById('gm-category');
+    const gmTime   = document.getElementById('gm-playtime');
+    const gmPeriod = document.getElementById('gm-period');
+    const gmRank   = document.getElementById('gm-maxrank');
+    const gmCom    = document.getElementById('gm-comment');
+
+    function openGameModal(g: any) {
+      if (!overlay || !gmTitle || !gmCat || !gmTime || !gmPeriod || !gmRank || !gmCom) return;
+      gmTitle.textContent  = g.name.toUpperCase() + (g.note ? ` (${g.note})` : '');
+      gmCat.textContent    = g.category;
+      gmTime.textContent   = g.playTime;
+      gmPeriod.textContent = g.period;
+      gmRank.textContent   = g.maxRank;
+      gmCom.textContent    = g.comment;
+      overlay.classList.add('open');
+      overlay.removeAttribute('aria-hidden');
+    }
+
+    function closeGameModal() {
+      overlay?.classList.remove('open');
+      overlay?.setAttribute('aria-hidden', 'true');
+    }
+
+    document.querySelectorAll('.game-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const raw = (btn as HTMLElement).dataset.gameJson;
+        if (raw) openGameModal(JSON.parse(raw));
+      });
+    });
+
+    document.getElementById('gm-close')?.addEventListener('click', closeGameModal);
+    overlay?.addEventListener('click', (e) => {
+      if (e.target === overlay) closeGameModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeGameModal();
+    });
   });
 
   // ===== クリップギャラリー =====
