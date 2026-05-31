@@ -1,0 +1,404 @@
+---
+// DSLite.astro - DS Lite風2画面フレーム
+// slot="top"   : 上画面（プレビュー等）
+// slot="bottom": 下画面（説明・リンク等）
+---
+
+<div class="ds-outer">
+  <div class="ds-body">
+
+    <!-- ===== 上部ハーフ: 上画面 ===== -->
+    <div class="ds-top-half">
+      <!-- スピーカー -->
+      <div class="ds-top-speakers">
+        <div class="ds-speaker-grille">
+          <i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div class="ds-speaker-grille">
+          <i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </div>
+      <!-- 上画面ベゼル -->
+      <div class="ds-screen-bezel ds-top-bezel">
+        <div class="ds-screen ds-top-screen">
+          <slot name="top" />
+        </div>
+        <!-- カメラ（DS Liteにはないが装飾として）
+        <div class="ds-power-led"></div> -->
+      </div>
+    </div>
+
+    <!-- ===== ヒンジ ===== -->
+    <div class="ds-hinge">
+      <div class="ds-hinge-left"></div>
+      <div class="ds-hinge-center"></div>
+      <div class="ds-hinge-right"></div>
+    </div>
+
+    <!-- ===== 下部ハーフ: 下画面 + コントロール ===== -->
+    <div class="ds-bottom-half">
+
+      <!-- 左: Dパッド -->
+      <div class="ds-bottom-left">
+        <div class="ds-dpad">
+          <div class="ds-dpad-v"></div>
+          <div class="ds-dpad-h"></div>
+          <div class="ds-dpad-center"></div>
+        </div>
+        <div class="ds-select-start">
+          <button class="ds-ss-btn" tabindex="-1" aria-hidden="true">SELECT</button>
+        </div>
+      </div>
+
+      <!-- 中央: 下画面 -->
+      <div class="ds-bottom-center">
+        <div class="ds-screen-bezel ds-bottom-bezel">
+          <div class="ds-screen ds-bottom-screen">
+            <slot name="bottom" />
+          </div>
+        </div>
+        <!-- マイク -->
+        <div class="ds-bottom-icons">
+          <div class="ds-mic-dot"></div>
+          <div class="ds-power-btn">
+            <span class="ds-power-label">POWER</span>
+            <div class="ds-power-led"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右: ABXYボタン -->
+      <div class="ds-bottom-right">
+        <div class="ds-abxy">
+          <button class="ds-abxy-btn ds-btn-x" tabindex="-1" aria-hidden="true">X</button>
+          <button class="ds-abxy-btn ds-btn-y" tabindex="-1" aria-hidden="true">Y</button>
+          <button class="ds-abxy-btn ds-btn-a" tabindex="-1" aria-hidden="true">A</button>
+          <button class="ds-abxy-btn ds-btn-b" tabindex="-1" aria-hidden="true">B</button>
+        </div>
+        <div class="ds-select-start">
+          <button class="ds-ss-btn" tabindex="-1" aria-hidden="true">START</button>
+        </div>
+      </div>
+
+    </div><!-- /ds-bottom-half -->
+
+    <!-- L/R バンパー -->
+    <div class="ds-bumper ds-bumper-l">L</div>
+    <div class="ds-bumper ds-bumper-r">R</div>
+
+  </div><!-- /ds-body -->
+</div><!-- /ds-outer -->
+
+<style>
+  /* ===== DS Lite ===== */
+  .ds-outer {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0 16px;
+  }
+
+  .ds-body {
+    position: relative;
+    background: linear-gradient(160deg, #f8f8f4 0%, #e8e8e0 50%, #d8d8d0 100%);
+    border-radius: 16px 16px 20px 20px;
+    box-shadow:
+      inset 0 2px 4px rgba(255,255,255,0.9),
+      inset 0 -2px 4px rgba(0,0,0,0.15),
+      0 8px 24px rgba(0,0,0,0.45),
+      0 2px 6px rgba(0,0,0,0.25);
+    max-width: 540px;
+    width: 100%;
+    border: 1.5px solid #bbb;
+    padding-bottom: 14px;
+  }
+
+  /* ===== 上部ハーフ ===== */
+  .ds-top-half {
+    padding: 10px 16px 6px;
+    border-radius: 16px 16px 0 0;
+    background: linear-gradient(180deg, #f0f0ec 0%, #e4e4dc 100%);
+    border-bottom: 2px solid #c8c8c0;
+  }
+
+  .ds-top-speakers {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    padding: 0 6px;
+  }
+
+  .ds-speaker-grille {
+    display: flex;
+    gap: 3px;
+  }
+
+  .ds-speaker-grille i {
+    display: block;
+    width: 2px;
+    height: 8px;
+    background: #aaa;
+    border-radius: 1px;
+  }
+
+  .ds-screen-bezel {
+    background: #1a1a1a;
+    border-radius: 6px;
+    box-shadow:
+      inset 0 2px 6px rgba(0,0,0,0.9),
+      0 0 0 1px #888;
+  }
+
+  .ds-top-bezel {
+    padding: 8px 12px;
+  }
+
+  .ds-screen {
+    border-radius: 3px;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .ds-top-screen {
+    aspect-ratio: 4 / 3;
+    width: 100%;
+  }
+
+  /* ===== ヒンジ ===== */
+  .ds-hinge {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 12px;
+    background: #bbb;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #999;
+  }
+
+  .ds-hinge-left,
+  .ds-hinge-right {
+    flex: 1;
+    height: 100%;
+    background: linear-gradient(90deg, #ccc 0%, #b8b8b8 100%);
+  }
+
+  .ds-hinge-right {
+    background: linear-gradient(90deg, #b8b8b8 0%, #ccc 100%);
+  }
+
+  .ds-hinge-center {
+    width: 60px;
+    height: 100%;
+    background: linear-gradient(180deg, #999 0%, #777 50%, #999 100%);
+    border-left: 1px solid #888;
+    border-right: 1px solid #888;
+  }
+
+  /* ===== 下部ハーフ ===== */
+  .ds-bottom-half {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px 4px;
+  }
+
+  /* 左右コントロール */
+  .ds-bottom-left,
+  .ds-bottom-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    width: 60px;
+  }
+
+  /* Dパッド */
+  .ds-dpad {
+    position: relative;
+    width: 42px;
+    height: 42px;
+  }
+
+  .ds-dpad-v,
+  .ds-dpad-h {
+    position: absolute;
+    background: linear-gradient(180deg, #555 0%, #333 100%);
+    border-radius: 3px;
+  }
+
+  .ds-dpad-v {
+    width: 13px;
+    height: 42px;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .ds-dpad-h {
+    width: 42px;
+    height: 13px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+
+  .ds-dpad-center {
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    background: #3a3a3a;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+
+  /* ABXY */
+  .ds-abxy {
+    position: relative;
+    width: 50px;
+    height: 50px;
+  }
+
+  .ds-abxy-btn {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: none;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 5px;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 2px 3px rgba(0,0,0,0.4);
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 1px 1px rgba(0,0,0,0.6);
+    image-rendering: pixelated;
+  }
+
+  .ds-btn-x { background: #3060c0; top: 0;    left: 50%; transform: translateX(-50%); }
+  .ds-btn-y { background: #888;    top: 50%;  left: 0;   transform: translateY(-50%); }
+  .ds-btn-a { background: #c03030; top: 50%;  right: 0;  transform: translateY(-50%); }
+  .ds-btn-b { background: #3a9a3a; bottom: 0; left: 50%; transform: translateX(-50%); }
+
+  /* SELECT/START */
+  .ds-select-start {
+    display: flex;
+    justify-content: center;
+  }
+
+  .ds-ss-btn {
+    background: linear-gradient(180deg, #888 0%, #666 100%);
+    border: 1px solid #555;
+    border-radius: 8px;
+    color: #ddd;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 4px;
+    padding: 2px 4px;
+    cursor: default;
+    letter-spacing: 0;
+    image-rendering: pixelated;
+  }
+
+  /* ===== 中央: 下画面 ===== */
+  .ds-bottom-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ds-bottom-bezel {
+    width: 100%;
+    padding: 6px 10px;
+  }
+
+  .ds-bottom-screen {
+    width: 100%;
+    min-height: 120px;
+  }
+
+  .ds-bottom-icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 4px;
+  }
+
+  .ds-mic-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #999;
+    border: 1px solid #777;
+  }
+
+  .ds-power-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .ds-power-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 4px;
+    color: #999;
+    image-rendering: pixelated;
+  }
+
+  .ds-power-led {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #3a3;
+    box-shadow: 0 0 4px #3f3;
+    animation: ds-led-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes ds-led-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.5; }
+  }
+
+  /* ===== L/R バンパー ===== */
+  .ds-bumper {
+    position: absolute;
+    top: 0;
+    width: 44px;
+    height: 12px;
+    background: linear-gradient(180deg, #ddd 0%, #bbb 100%);
+    border: 1px solid #aaa;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    image-rendering: pixelated;
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.6);
+  }
+
+  .ds-bumper-l { left: 10px; border-radius: 8px 4px 0 0; }
+  .ds-bumper-r { right: 10px; border-radius: 4px 8px 0 0; }
+
+  /* ===== レスポンシブ ===== */
+  @media (max-width: 600px) {
+    .ds-body { border-radius: 12px 12px 16px 16px; }
+    .ds-top-half { padding: 7px 10px 4px; }
+    .ds-bottom-half { gap: 6px; padding: 7px 8px 4px; }
+    .ds-bottom-left, .ds-bottom-right { width: 44px; gap: 6px; }
+    .ds-dpad { width: 32px; height: 32px; }
+    .ds-dpad-v { width: 10px; }
+    .ds-dpad-h { height: 10px; }
+    .ds-abxy { width: 38px; height: 38px; }
+    .ds-abxy-btn { width: 13px; height: 13px; }
+    .ds-bumper { width: 32px; font-size: 5px; }
+    .ds-bumper-l { left: 6px; }
+    .ds-bumper-r { right: 6px; }
+  }
+</style>

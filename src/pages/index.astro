@@ -12,6 +12,8 @@ import SimpleLayout from "../layouts/SimpleLayout.astro";
 import ValorantStats from "../components/charts/ValorantStats.astro";
 import YouTubeClipViewer from "../components/YouTubeClipViewer.astro";
 import GameBoyGallery from "../components/GameBoyGallery.astro";
+import WiiUGamepad from "../components/WiiUGamepad.astro";
+import DSLite from "../components/DSLite.astro";
 import { applyTypographyPreset } from "../utils/typography";
 import {
   THEME_CONFIG,
@@ -311,11 +313,13 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     
 
 
-                <YouTubeClipViewer
-                  clipUrl="https://youtu.be/eAx-dZ3_wEI?si=LM3jptJTQAkeco-o"
-                  title="VALORANT Gameplay"
-                  autoplay={false}
-                />
+                <WiiUGamepad>
+                  <YouTubeClipViewer
+                    clipUrl="https://youtu.be/eAx-dZ3_wEI?si=LM3jptJTQAkeco-o"
+                    title=""
+                    autoplay={false}
+                  />
+                </WiiUGamepad>
 
         </div>
 
@@ -366,6 +370,10 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
           <span><span id="clips-count">{clipGalleryData.length}</span> 件のクリップ</span>
           <button class="clips-sort-btn active" id="clips-sort-custom">★ カスタム順</button>
           <button class="clips-sort-btn" id="clips-sort-views">⬇ 再生回数順</button>
+          <span style="color:#334455; margin: 0 4px;">|</span>
+          <button class="clips-col-btn" data-cols="1">1列</button>
+          <button class="clips-col-btn active" data-cols="2">2列</button>
+          <button class="clips-col-btn" data-cols="3">3列</button>
         </div>
       </div>
 
@@ -518,9 +526,39 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
       <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
         <!-- VALORANT Point Viewer -->
-        <div
-          style={`background: ${COLORS.primaryAlpha5}; border: 1px solid ${COLORS.primary}; padding: 15px; border-radius: 6px;`}
-        >
+        <DSLite>
+          <!-- 上画面: サイトプレビュー -->
+          <div slot="top" style="width:100%; height:100%;">
+            <iframe
+              src="https://valorant-point-viewer.netlify.app/"
+              width="100%"
+              height="100%"
+              frameborder="0"
+              scrolling="no"
+              style="display:block; width:100%; height:100%; background:#fff;"
+              title="VALORANT Point Viewer"
+              loading="lazy"
+            ></iframe>
+          </div>
+          <!-- 下画面: 説明・リンク -->
+          <div slot="bottom" style={`padding: 10px; font-family: var(--font-pixel-jp); color: ${COLORS.textGray}; background: #0a0a18;`}>
+            <p style={`${S.subTitle} color: ${COLORS.primary}; margin-bottom: 8px; font-size: var(--fs-small);`}>
+              VALORANT Point Viewer
+            </p>
+            <p style={`font-size: var(--fs-small); line-height: 1.6; margin-bottom: 10px; color: ${COLORS.textGray}; text-shadow: 1px 1px 0 #000;`}>
+              マップ上に定点動画のリンクを直接プロットし、必要な場所の動画だけを素早く確認できるツール。
+            </p>
+            <a
+              href="https://valorant-point-viewer.netlify.app/"
+              target="_blank"
+              rel="noopener"
+              style={`display: inline-block; padding: 4px 10px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: var(--fs-small); font-family: var(--font-pixel); text-shadow: none;`}
+            >サイトを見る →</a>
+          </div>
+        </DSLite>
+
+        <!-- (旧レイアウト・非表示) -->
+        <div style="display:none;">
           <!-- デスクトップ: 左右レイアウト -->
           <div
             style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;"
@@ -617,6 +655,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
             </div>
           </div>
         </div>
+        </div>{/* /display:none */}
       </div>
     </div>
     <!-- イラストギャラリー -->
@@ -1237,6 +1276,25 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     border-color: var(--text-accessible-blue);
   }
 
+  .clips-col-btn {
+    font-family: var(--font-pixel-jp);
+    font-size: var(--fs-small);
+    padding: 3px 7px;
+    background: none;
+    color: #556677;
+    border: 1px solid #334455;
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000;
+    transition: all 0.15s;
+  }
+
+  .clips-col-btn.active,
+  .clips-col-btn:hover {
+    color: var(--text-accessible-blue);
+    border-color: var(--text-accessible-blue);
+  }
+
   .clips-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1668,6 +1726,19 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
       }
       document.getElementById('clips-sort-custom')?.addEventListener('click', () => setSort('custom'));
       document.getElementById('clips-sort-views')?.addEventListener('click',  () => setSort('views'));
+
+      // 列数切り替え（モバイルでは強制1列）
+      const isMobile = () => window.innerWidth <= 768;
+      document.querySelectorAll('.clips-col-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (isMobile()) return;
+          const cols = (btn as HTMLElement).dataset.cols ?? '2';
+          document.querySelectorAll('.clips-col-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const grid = document.getElementById('clips-grid');
+          if (grid) grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        });
+      });
 
       // もっと見るボタン
       document.getElementById('clips-show-more')?.addEventListener('click', () => {

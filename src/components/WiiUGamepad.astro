@@ -1,0 +1,465 @@
+---
+// WiiUGamepad.astro - Wii U GamePad風フレームで動画を包む
+---
+
+<!-- 通常表示に戻すボタン -->
+<div class="wiiu-toggle-wrap">
+  <button class="wiiu-toggle-btn" id="wiiu-toggle">📺 通常表示</button>
+</div>
+
+<div class="wiiu-outer" id="wiiu-frame-wrap">
+  <div class="wiiu-body">
+
+    <!-- 上部: ZL/ZR トリガー -->
+    <div class="wiiu-top-bar">
+      <div class="wiiu-trigger wiiu-zl">ZL</div>
+      <div class="wiiu-top-logo">Wii U</div>
+      <div class="wiiu-trigger wiiu-zr">ZR</div>
+    </div>
+
+    <!-- メイン部 -->
+    <div class="wiiu-main">
+
+      <!-- 左コントロール -->
+      <div class="wiiu-left">
+        <div class="wiiu-stick wiiu-stick-l"></div>
+        <div class="wiiu-dpad">
+          <div class="wiiu-dpad-v"></div>
+          <div class="wiiu-dpad-h"></div>
+          <div class="wiiu-dpad-center"></div>
+        </div>
+        <div class="wiiu-btn-row">
+          <button class="wiiu-small-btn" tabindex="-1" aria-hidden="true">−</button>
+          <button class="wiiu-small-btn wiiu-home-btn" tabindex="-1" aria-hidden="true">⌂</button>
+        </div>
+      </div>
+
+      <!-- 中央スクリーン -->
+      <div class="wiiu-screen-area">
+        <div class="wiiu-screen-bezel">
+          <div class="wiiu-screen" id="wiiu-screen">
+            <slot />
+          </div>
+        </div>
+        <!-- カメラ -->
+        <div class="wiiu-camera"></div>
+      </div>
+
+      <!-- 右コントロール -->
+      <div class="wiiu-right">
+        <div class="wiiu-abxy">
+          <button class="wiiu-abxy-btn wiiu-btn-x" tabindex="-1" aria-hidden="true">X</button>
+          <button class="wiiu-abxy-btn wiiu-btn-y" tabindex="-1" aria-hidden="true">Y</button>
+          <button class="wiiu-abxy-btn wiiu-btn-a" tabindex="-1" aria-hidden="true">A</button>
+          <button class="wiiu-abxy-btn wiiu-btn-b" tabindex="-1" aria-hidden="true">B</button>
+        </div>
+        <div class="wiiu-stick wiiu-stick-r"></div>
+        <div class="wiiu-btn-row wiiu-btn-row-r">
+          <button class="wiiu-small-btn" tabindex="-1" aria-hidden="true">+</button>
+        </div>
+      </div>
+
+    </div><!-- /wiiu-main -->
+
+    <!-- 下部: スピーカー + マイク -->
+    <div class="wiiu-bottom-bar">
+      <div class="wiiu-speaker wiiu-speaker-l">
+        <i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="wiiu-bottom-center">
+        <div class="wiiu-mic"></div>
+        <div class="wiiu-charge-port"></div>
+      </div>
+      <div class="wiiu-speaker wiiu-speaker-r">
+        <i></i><i></i><i></i><i></i><i></i>
+      </div>
+    </div>
+
+  </div><!-- /wiiu-body -->
+</div><!-- /wiiu-outer -->
+
+<!-- 通常表示（Gamepad非表示時） -->
+<div class="wiiu-plain-wrap" id="wiiu-plain-wrap">
+  <slot />
+</div>
+
+<script>
+  const toggle    = document.getElementById('wiiu-toggle');
+  const frame     = document.getElementById('wiiu-frame-wrap');
+  const plain     = document.getElementById('wiiu-plain-wrap');
+  let showGamepad = true;
+
+  toggle?.addEventListener('click', () => {
+    showGamepad = !showGamepad;
+    if (showGamepad) {
+      frame?.classList.remove('hidden');
+      plain?.classList.remove('active');
+      if (toggle) toggle.textContent = '📺 通常表示';
+    } else {
+      frame?.classList.add('hidden');
+      plain?.classList.add('active');
+      if (toggle) toggle.textContent = '🎮 Gamepad表示';
+    }
+  });
+</script>
+
+<style>
+  /* ===== Wii U GamePad ===== */
+  .wiiu-outer {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0 16px;
+  }
+
+  .wiiu-body {
+    background: linear-gradient(160deg, #e8e8e8 0%, #d0d0d0 40%, #c0c0c0 100%);
+    border-radius: 40px;
+    padding: 14px 12px 12px;
+    box-shadow:
+      inset 0 2px 4px rgba(255,255,255,0.8),
+      inset 0 -2px 4px rgba(0,0,0,0.2),
+      0 6px 20px rgba(0,0,0,0.5),
+      0 2px 6px rgba(0,0,0,0.3);
+    max-width: 680px;
+    width: 100%;
+    position: relative;
+    border: 2px solid #aaa;
+  }
+
+  /* ===== 上部トリガーバー ===== */
+  .wiiu-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 0 4px;
+  }
+
+  .wiiu-trigger {
+    background: linear-gradient(180deg, #666 0%, #444 100%);
+    color: #ccc;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    width: 56px;
+    height: 20px;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 2px 3px rgba(255,255,255,0.15), 0 2px 4px rgba(0,0,0,0.4);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    letter-spacing: 1px;
+    image-rendering: pixelated;
+  }
+
+  .wiiu-top-logo {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #888;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+    letter-spacing: 2px;
+    image-rendering: pixelated;
+  }
+
+  /* ===== メイン ===== */
+  .wiiu-main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* ===== 左右コントロール ===== */
+  .wiiu-left,
+  .wiiu-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    width: 72px;
+  }
+
+  /* アナログスティック */
+  .wiiu-stick {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #555, #222);
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.5);
+    border: 2px solid #1a1a1a;
+  }
+
+  /* Dパッド */
+  .wiiu-dpad {
+    position: relative;
+    width: 44px;
+    height: 44px;
+  }
+
+  .wiiu-dpad-v,
+  .wiiu-dpad-h {
+    position: absolute;
+    background: linear-gradient(180deg, #3a3a3a 0%, #222 100%);
+    border-radius: 3px;
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.1);
+  }
+
+  .wiiu-dpad-v {
+    width: 14px;
+    height: 44px;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .wiiu-dpad-h {
+    width: 44px;
+    height: 14px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+
+  .wiiu-dpad-center {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: #2a2a2a;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+
+  /* ABXY ボタン */
+  .wiiu-abxy {
+    position: relative;
+    width: 54px;
+    height: 54px;
+  }
+
+  .wiiu-abxy-btn {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: none;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    font-weight: bold;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 2px 3px rgba(0,0,0,0.4);
+    image-rendering: pixelated;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 1px 1px rgba(0,0,0,0.6);
+  }
+
+  .wiiu-btn-x { background: #3060c0; top: 0;    left: 50%; transform: translateX(-50%); }
+  .wiiu-btn-y { background: #888;    top: 50%;  left: 0;   transform: translateY(-50%); }
+  .wiiu-btn-a { background: #c03030; top: 50%;  right: 0;  transform: translateY(-50%); }
+  .wiiu-btn-b { background: #3a9a3a; bottom: 0; left: 50%; transform: translateX(-50%); }
+
+  /* 小ボタン */
+  .wiiu-btn-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .wiiu-btn-row-r {
+    justify-content: flex-end;
+  }
+
+  .wiiu-small-btn {
+    width: 22px;
+    height: 12px;
+    border-radius: 6px;
+    background: linear-gradient(180deg, #555 0%, #333 100%);
+    border: 1px solid #222;
+    color: #aaa;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+    image-rendering: pixelated;
+  }
+
+  .wiiu-home-btn {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #3060c0, #1a3a80);
+    color: #fff;
+    font-size: 8px;
+  }
+
+  /* ===== スクリーン ===== */
+  .wiiu-screen-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .wiiu-camera {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #222;
+    border: 1px solid #444;
+    margin-bottom: 2px;
+  }
+
+  .wiiu-screen-bezel {
+    width: 100%;
+    background: #111;
+    border-radius: 8px;
+    padding: 6px;
+    box-shadow:
+      inset 0 2px 6px rgba(0,0,0,0.8),
+      0 0 0 1px #888,
+      0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  .wiiu-screen {
+    width: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #000;
+  }
+
+  /* スロット内の YouTubeClipViewer の余白・ボーダーをリセット */
+  .wiiu-screen :global(.youtube-clip-viewer) {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .wiiu-screen :global(.clip-title) {
+    display: none !important;
+  }
+
+  .wiiu-screen :global(.video-container) {
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* 通常表示ラップ（Gamepad非表示時に動画を直接表示） */
+  .wiiu-plain-wrap {
+    display: none;
+  }
+
+  .wiiu-plain-wrap.active {
+    display: block;
+  }
+
+  .wiiu-outer.hidden {
+    display: none;
+  }
+
+  /* トグルボタン */
+  .wiiu-toggle-wrap {
+    text-align: right;
+    margin-bottom: 6px;
+  }
+
+  .wiiu-toggle-btn {
+    font-family: var(--font-pixel-jp);
+    font-size: var(--fs-small);
+    padding: 4px 10px;
+    background: rgba(77,121,255,0.1);
+    color: var(--text-accessible-blue);
+    border: 1px solid rgba(77,121,255,0.4);
+    border-radius: 4px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000;
+    transition: all 0.15s;
+  }
+
+  .wiiu-toggle-btn:hover {
+    background: rgba(77,121,255,0.25);
+  }
+
+  /* ===== 下部 ===== */
+  .wiiu-bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    padding: 0 8px;
+  }
+
+  .wiiu-speaker {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+  }
+
+  .wiiu-speaker i {
+    display: block;
+    width: 2px;
+    height: 10px;
+    background: #999;
+    border-radius: 1px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.3);
+  }
+
+  .wiiu-bottom-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .wiiu-mic {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #888;
+    border: 1px solid #666;
+  }
+
+  .wiiu-charge-port {
+    width: 14px;
+    height: 4px;
+    background: #777;
+    border-radius: 2px;
+    border: 1px solid #555;
+  }
+
+  /* ===== レスポンシブ ===== */
+  @media (max-width: 600px) {
+    .wiiu-body {
+      border-radius: 24px;
+      padding: 10px 6px 8px;
+    }
+
+    .wiiu-left,
+    .wiiu-right {
+      width: 48px;
+      gap: 6px;
+    }
+
+    .wiiu-stick { width: 22px; height: 22px; }
+    .wiiu-dpad  { width: 32px; height: 32px; }
+    .wiiu-dpad-v { width: 10px; }
+    .wiiu-dpad-h { height: 10px; }
+
+    .wiiu-abxy { width: 40px; height: 40px; }
+    .wiiu-abxy-btn { width: 14px; height: 14px; font-size: 5px; }
+
+    .wiiu-trigger { width: 40px; height: 16px; font-size: 6px; }
+    .wiiu-top-logo { font-size: 6px; }
+    .wiiu-small-btn { display: none; }
+    .wiiu-speaker i { height: 7px; }
+  }
+</style>
