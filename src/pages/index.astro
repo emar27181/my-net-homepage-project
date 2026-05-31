@@ -1406,36 +1406,33 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   /* ===== ゲームチップ ===== */
   .game-chip {
-    display: inline-block;
-    font-family: var(--font-pixel-jp);
-    font-size: 12px;
+    display: inline;
+    font-family: inherit;
+    font-size: inherit;
     color: var(--text-accessible-blue);
-    background: rgba(77, 121, 255, 0.1);
-    border: 1px solid rgba(77, 121, 255, 0.45);
-    border-radius: 3px;
-    padding: 1px 6px;
+    background: none;
+    border: none;
+    padding: 0;
     cursor: pointer;
-    text-shadow: 1px 1px 0 #000, 0 0 5px rgba(77,121,255,0.4);
-    image-rendering: pixelated;
-    transition: background 0.15s, border-color 0.15s, color 0.15s;
-    vertical-align: middle;
+    text-shadow: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(77, 121, 255, 0.5);
+    text-underline-offset: 2px;
+    transition: color 0.15s, text-decoration-color 0.15s;
   }
 
   .game-chip:hover {
-    background: rgba(77, 121, 255, 0.28);
-    border-color: var(--text-accessible-blue);
     color: #fff;
-    text-shadow: 1px 1px 0 #000, 0 0 8px var(--text-accessible-blue);
+    text-decoration-color: #fff;
   }
 
   .game-chip-note {
     font-size: 9px;
     color: #8899bb;
-    margin-left: 1px;
   }
 
   .game-sep {
-    color: #556677;
+    color: inherit;
   }
 
   /* ===== ゲーム詳細モーダル ===== */
