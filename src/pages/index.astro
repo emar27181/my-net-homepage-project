@@ -27,6 +27,23 @@ const COLORS = { ...themeColors, ...FIXED_COLORS };
 
 // スタイルプリセット（テンプレート内で S.title, S.bodyText 等で使用）
 const S = getStylePresets(COLORS);
+
+// クリップギャラリーデータ（マップ・エージェントを実際の情報に更新してください）
+interface ClipData { id: string; title: string; map: string; agent: string; }
+const CLIPS_INITIAL_SHOW = 6;
+const clipGalleryData: ClipData[] = [
+  { id: "eAx-dZ3_wEI", title: "Clip #1", map: "haven",   agent: "omen"  },
+  { id: "KTwFA1jQgFY",  title: "Clip #2", map: "bind",    agent: "omen"  },
+  { id: "oos2PYWiRGM",  title: "Clip #3", map: "split",   agent: "clove" },
+  { id: "5IET-4mL9pA",  title: "Clip #4", map: "ascent",  agent: "omen"  },
+  { id: "46a0f7dNVW4",  title: "Clip #5", map: "haven",   agent: "astra" },
+  { id: "Yznxiz_tS4g",  title: "Clip #6", map: "icebox",  agent: "clove" },
+  { id: "ooJdHWZ3KyU",  title: "Clip #7", map: "bind",    agent: "omen"  },
+  { id: "Aazj-kAuxdY",  title: "Clip #8", map: "split",   agent: "omen"  },
+];
+const clipMaps   = [...new Set(clipGalleryData.map(c => c.map))];
+const clipAgents = [...new Set(clipGalleryData.map(c => c.agent))];
+function capFirst(s: string) { return s.charAt(0).toUpperCase() + s.slice(1); }
 ---
 
 <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
@@ -826,6 +843,78 @@ const S = getStylePresets(COLORS);
 
         </div>
 
+    <!-- クリップギャラリーセクション -->
+    <div
+      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      class="clips-gallery-section"
+    >
+      <h2 style={`${S.sectionTitle} margin-bottom: 15px;`}>Clip Gallery</h2>
+      <hr style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`} />
+
+      <!-- フィルターUI -->
+      <div class="clips-filters">
+        <div class="filter-row">
+          <span class="filter-label">MAP</span>
+          <div class="filter-btns">
+            <button class="clips-filter-btn active" data-filter-type="map" data-filter-value="all">ALL</button>
+            {clipMaps.map(map => (
+              <button class="clips-filter-btn" data-filter-type="map" data-filter-value={map}>
+                {capFirst(map)}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">AGENT</span>
+          <div class="filter-btns">
+            <button class="clips-filter-btn active" data-filter-type="agent" data-filter-value="all">ALL</button>
+            {clipAgents.map(agent => (
+              <button class="clips-filter-btn" data-filter-type="agent" data-filter-value={agent}>
+                {capFirst(agent)}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div class="clips-result-info">
+          <span id="clips-count">{clipGalleryData.length}</span> 件のクリップ
+        </div>
+      </div>
+
+      <!-- クリップグリッド -->
+      <div class="clips-grid" id="clips-grid">
+        {clipGalleryData.map((clip, i) => (
+          <div
+            class="clip-card"
+            data-map={clip.map}
+            data-agent={clip.agent}
+            data-index={String(i)}
+            style={i >= CLIPS_INITIAL_SHOW ? "display:none" : ""}
+          >
+            <div class="clip-thumbnail-wrapper" data-video-id={clip.id}>
+              <img
+                src={`https://img.youtube.com/vi/${clip.id}/hqdefault.jpg`}
+                alt={clip.title}
+                loading="lazy"
+                class="clip-thumb-img"
+              />
+              <div class="clip-play-overlay">▶</div>
+            </div>
+            <div class="clip-meta">
+              <span class="clip-map-badge">{capFirst(clip.map)}</span>
+              <span class="clip-agent-badge">{capFirst(clip.agent)}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- もっと見るボタン -->
+      <div style="text-align: center; margin-top: 20px;">
+        <button id="clips-show-more" class="clips-expand-btn">
+          もっと見る (あと{Math.max(0, clipGalleryData.length - CLIPS_INITIAL_SHOW)}件) ▼
+        </button>
+      </div>
+    </div>
+
     <!-- 統計データセクション -->
     <ValorantStats
       competitiveAgentData={competitiveAgentData}
@@ -1240,6 +1329,195 @@ const S = getStylePresets(COLORS);
     letter-spacing: 2px;
     image-rendering: pixelated;
   }
+
+  /* ===== クリップギャラリー ===== */
+  .clips-filters {
+    margin-bottom: 20px;
+  }
+
+  .filter-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-family: var(--font-pixel);
+    font-size: 8px;
+    color: var(--text-accessible-blue);
+    text-shadow: 1px 1px 0 #000;
+    image-rendering: pixelated;
+    min-width: 50px;
+    flex-shrink: 0;
+  }
+
+  .filter-btns {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .clips-filter-btn {
+    font-family: var(--font-pixel-jp);
+    font-size: 9px;
+    padding: 4px 10px;
+    background: rgba(77, 121, 255, 0.1);
+    color: #aabbdd;
+    border: 1px solid rgba(77, 121, 255, 0.35);
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000;
+    image-rendering: pixelated;
+    transition: all 0.2s ease;
+  }
+
+  .clips-filter-btn.active,
+  .clips-filter-btn:hover {
+    background: rgba(77, 121, 255, 0.3);
+    color: #ffffff;
+    border-color: var(--text-accessible-blue);
+    text-shadow: 0 0 6px var(--text-accessible-blue), 1px 1px 0 #000;
+  }
+
+  .clips-result-info {
+    font-family: var(--font-pixel-jp);
+    font-size: 10px;
+    color: #778899;
+    text-shadow: 1px 1px 0 #000;
+    margin-top: 4px;
+  }
+
+  .clips-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 10px;
+  }
+
+  .clip-card {
+    background: rgba(0, 0, 20, 0.4);
+    border: 1px solid rgba(77, 121, 255, 0.3);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .clip-card:hover {
+    border-color: var(--text-accessible-blue);
+    transform: translateY(-2px);
+  }
+
+  .clip-thumbnail-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    cursor: pointer;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .clip-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.2s ease;
+  }
+
+  .clip-thumbnail-wrapper:hover .clip-thumb-img {
+    filter: brightness(0.55);
+  }
+
+  .clip-play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: var(--text-accessible-blue);
+    text-shadow: 0 0 15px var(--text-accessible-blue), 1px 1px 0 #000;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    image-rendering: pixelated;
+  }
+
+  .clip-thumbnail-wrapper:hover .clip-play-overlay {
+    opacity: 1;
+  }
+
+  .clip-thumbnail-wrapper.playing .clip-thumb-img,
+  .clip-thumbnail-wrapper.playing .clip-play-overlay {
+    display: none;
+  }
+
+  .clip-thumbnail-wrapper.playing iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .clip-meta {
+    display: flex;
+    gap: 5px;
+    padding: 6px 8px;
+    flex-wrap: wrap;
+  }
+
+  .clip-map-badge,
+  .clip-agent-badge {
+    font-family: var(--font-pixel);
+    font-size: 7px;
+    padding: 2px 6px;
+    border-radius: 2px;
+    text-shadow: 1px 1px 0 #000;
+    image-rendering: pixelated;
+    white-space: nowrap;
+  }
+
+  .clip-map-badge {
+    background: rgba(77, 121, 255, 0.2);
+    color: #99bbff;
+    border: 1px solid rgba(77, 121, 255, 0.4);
+  }
+
+  .clip-agent-badge {
+    background: rgba(128, 0, 255, 0.2);
+    color: #cc99ff;
+    border: 1px solid rgba(128, 0, 255, 0.4);
+  }
+
+  .clips-expand-btn {
+    font-family: var(--font-pixel-jp);
+    font-size: 10px;
+    padding: 8px 22px;
+    background: rgba(77, 121, 255, 0.12);
+    color: var(--text-accessible-blue);
+    border: 2px solid rgba(77, 121, 255, 0.45);
+    border-radius: 4px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000, 0 0 8px var(--text-accessible-blue);
+    image-rendering: pixelated;
+    transition: all 0.2s ease;
+  }
+
+  .clips-expand-btn:hover {
+    background: rgba(77, 121, 255, 0.28);
+    border-color: var(--text-accessible-blue);
+    transform: scale(1.04);
+  }
+
+  @media (max-width: 768px) {
+    .clips-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 
 <script>
@@ -1340,5 +1618,89 @@ const S = getStylePresets(COLORS);
     // 動画のオリジナルsrcを保存
     initializeVideoSources();
   });
+
+  // ===== クリップギャラリー =====
+  (function () {
+    const INITIAL = 6;
+    let activeMap = 'all';
+    let activeAgent = 'all';
+    let expanded = false;
+
+    function allCards() {
+      return Array.from(document.querySelectorAll('.clip-card')) as HTMLElement[];
+    }
+
+    function filtered() {
+      return allCards().filter(card => {
+        const mapOk   = activeMap   === 'all' || card.dataset.map   === activeMap;
+        const agentOk = activeAgent === 'all' || card.dataset.agent === activeAgent;
+        return mapOk && agentOk;
+      });
+    }
+
+    function render() {
+      const f = filtered();
+      allCards().forEach(c => (c.style.display = 'none'));
+      const limit = expanded ? f.length : Math.min(INITIAL, f.length);
+      f.slice(0, limit).forEach(c => (c.style.display = ''));
+
+      const countEl = document.getElementById('clips-count');
+      if (countEl) countEl.textContent = String(f.length);
+
+      const btn = document.getElementById('clips-show-more') as HTMLButtonElement | null;
+      if (!btn) return;
+      const remaining = f.length - limit;
+      if (!expanded && remaining > 0) {
+        btn.style.display = 'inline-block';
+        btn.textContent = `もっと見る (あと${remaining}件) ▼`;
+      } else if (expanded && f.length > INITIAL) {
+        btn.style.display = 'inline-block';
+        btn.textContent = '折りたたむ ▲';
+      } else {
+        btn.style.display = 'none';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // フィルターボタン
+      document.querySelectorAll('.clips-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const el   = btn as HTMLButtonElement;
+          const type = el.dataset.filterType  as string;
+          const val  = el.dataset.filterValue as string;
+          document.querySelectorAll(`.clips-filter-btn[data-filter-type="${type}"]`)
+            .forEach(b => b.classList.remove('active'));
+          el.classList.add('active');
+          if (type === 'map')   activeMap   = val;
+          if (type === 'agent') activeAgent = val;
+          expanded = false;
+          render();
+        });
+      });
+
+      // もっと見るボタン
+      document.getElementById('clips-show-more')?.addEventListener('click', () => {
+        expanded = !expanded;
+        render();
+      });
+
+      // サムネイルクリックで動画再生
+      document.querySelectorAll('.clip-thumbnail-wrapper').forEach(wrapper => {
+        wrapper.addEventListener('click', () => {
+          const el = wrapper as HTMLElement;
+          if (el.classList.contains('playing')) return;
+          const videoId = el.dataset.videoId;
+          el.classList.add('playing');
+          const iframe = document.createElement('iframe');
+          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&fs=1`;
+          iframe.allow = 'autoplay; encrypted-media; fullscreen';
+          iframe.allowFullscreen = true;
+          el.appendChild(iframe);
+        });
+      });
+
+      render();
+    });
+  })();
 </script>
 
