@@ -41,10 +41,10 @@ const CLIPS_INITIAL_SHOW = 6;
 function getClipTags(title: string): string[] {
   const t = title.toLowerCase();
   const tags: string[] = [];
-  const clutchM = t.match(/1v(\d)/);
+  const clutchM = t.match(/(\d)v(\d)/);
   if (clutchM) {
-    tags.push(`Clutch`);
-    tags.push(`1v${clutchM[1]}`);
+    tags.push('Clutch');
+    tags.push(`${clutchM[1]}v${clutchM[2]}`);
   } else if (t.includes('clutch')) {
     tags.push('Clutch');
   }
