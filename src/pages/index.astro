@@ -1264,7 +1264,15 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   </div>
 </div>
 
-<style>
+<style define:vars={{
+  "fs-body":    FONT_SIZES.bodyText,
+  "fs-small":   FONT_SIZES.smallText,
+  "fs-footer":  FONT_SIZES.footer,
+  "fs-title":   FONT_SIZES.sectionTitle,
+  "col-primary": COLORS.primary,
+  "col-text":    COLORS.textGray,
+  "col-white":   COLORS.textWhite,
+}}>
   /* 文字溢れ防止 - ページ全体の自動改行ルール */
   * {
     word-wrap: break-word !important;
@@ -1417,7 +1425,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .illust-status-bar {
     font-family: var(--font-pixel);
-    font-size: 9px;
+    font-size: var(--fs-small);
     color: #5577aa;
     text-shadow: 1px 1px 0 #000;
     image-rendering: pixelated;
@@ -1439,12 +1447,12 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     transform: translateY(4px);
     transition: opacity 0.1s ease, transform 0.1s ease;
     max-width: 220px;
-    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
+    font-family: var(--font-pixel-jp) !important;
     image-rendering: pixelated;
   }
 
   .game-tooltip * {
-    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
+    font-family: var(--font-pixel-jp) !important;
     image-rendering: pixelated;
   }
 
@@ -1507,7 +1515,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   }
 
   .game-chip-note {
-    font-size: 9px;
+    font-size: var(--fs-small);
     color: #8899bb;
   }
 
@@ -1536,7 +1544,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   /* SimpleLayout外に配置するため font-family を明示指定（!important必須） */
   .game-modal-overlay * {
-    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
+    font-family: var(--font-pixel-jp) !important;
     image-rendering: pixelated;
   }
 
@@ -1570,9 +1578,9 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .gm-cursor {
     font-family: var(--font-pixel);
-    font-size: 10px;
-    color: #4d79ff;
-    text-shadow: 0 0 6px #4d79ff;
+    font-size: var(--fs-body);
+    color: var(--text-accessible-blue);
+    text-shadow: 0 0 6px var(--text-accessible-blue);
     animation: gm-blink 1s step-end infinite;
     flex-shrink: 0;
   }
@@ -1584,8 +1592,8 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .gm-title {
     font-family: var(--font-pixel);
-    font-size: 11px;
-    color: #ffffff;
+    font-size: var(--fs-body);
+    color: var(--col-white);
     text-shadow: 1px 1px 0 #000, 0 0 8px rgba(77,121,255,0.6);
     image-rendering: pixelated;
     flex: 1;
@@ -1594,7 +1602,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .gm-category {
     font-family: var(--font-pixel);
-    font-size: 7px;
+    font-size: var(--fs-small);
     padding: 2px 6px;
     background: rgba(77,121,255,0.2);
     border: 1px solid rgba(77,121,255,0.5);
@@ -1607,7 +1615,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     background: none;
     border: 1px solid #334466;
     color: #556688;
-    font-size: 10px;
+    font-size: var(--fs-small);
     width: 20px;
     height: 20px;
     display: flex;
@@ -1699,7 +1707,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   /* フッターバー */
   .illust-footer-bar {
     font-family: var(--font-pixel);
-    font-size: 8px;
+    font-size: var(--fs-footer);
     color: #334466;
     text-align: center;
     margin: 12px 0 0;
@@ -1724,11 +1732,11 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .filter-label {
     font-family: var(--font-pixel);
-    font-size: 8px;
+    font-size: var(--fs-body);
     color: var(--text-accessible-blue);
     text-shadow: 1px 1px 0 #000;
     image-rendering: pixelated;
-    min-width: 50px;
+    min-width: 60px;
     flex-shrink: 0;
   }
 
@@ -1740,7 +1748,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .clips-filter-btn {
     font-family: var(--font-pixel-jp);
-    font-size: 9px;
+    font-size: var(--fs-body);
     padding: 4px 10px;
     background: rgba(77, 121, 255, 0.1);
     color: #aabbdd;
@@ -1762,7 +1770,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .clips-result-info {
     font-family: var(--font-pixel-jp);
-    font-size: 10px;
+    font-size: var(--fs-body);
     color: #778899;
     text-shadow: 1px 1px 0 #000;
     margin-top: 4px;
@@ -1852,7 +1860,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .clip-map-badge,
   .clip-agent-badge {
     font-family: var(--font-pixel);
-    font-size: 7px;
+    font-size: var(--fs-small);
     padding: 2px 6px;
     border-radius: 2px;
     text-shadow: 1px 1px 0 #000;
@@ -1874,7 +1882,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .clips-expand-btn {
     font-family: var(--font-pixel-jp);
-    font-size: 10px;
+    font-size: var(--fs-body);
     padding: 8px 22px;
     background: rgba(77, 121, 255, 0.12);
     color: var(--text-accessible-blue);
