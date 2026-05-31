@@ -103,34 +103,29 @@
         </div>
       </div>
 
-      <!-- 中央: SELECT/START + フィルター表示 -->
+      <!-- 中央: SEL / STA ボタン（装飾のみ） -->
       <div class="gb-mid-area">
-        <div class="gb-filter-mini">
-          <span class="gb-filter-label">FILTER</span>
-          <span class="gb-filter-name" id="filter-display">NORMAL</span>
-          <button class="gb-dot-toggle" id="dot-toggle" aria-label="ドット/スムーズ切り替え">▓ DOT</button>
-        </div>
         <div class="gb-ss-row">
           <div class="gb-ss-slot">
-            <button class="gb-ss-btn" id="filter-prev" aria-label="前のフィルター"></button>
+            <button class="gb-ss-btn" tabindex="-1" aria-hidden="true"></button>
             <span class="gb-ss-label">SEL</span>
           </div>
           <div class="gb-ss-slot">
-            <button class="gb-ss-btn" id="filter-next" aria-label="次のフィルター"></button>
+            <button class="gb-ss-btn" tabindex="-1" aria-hidden="true"></button>
             <span class="gb-ss-label">STA</span>
           </div>
         </div>
       </div>
 
-      <!-- 右: A / B ボタン -->
+      <!-- 右: A / B ボタン（装飾のみ） -->
       <div class="gb-ab-area">
         <div class="gb-ab-grid">
           <div class="gb-b-wrap">
-            <button class="gb-btn gb-b-btn" id="gb-btn-b" aria-label="フィルター前へ"></button>
+            <button class="gb-btn gb-b-btn" tabindex="-1" aria-hidden="true"></button>
             <span class="gb-ab-label">B</span>
           </div>
           <div class="gb-a-wrap">
-            <button class="gb-btn gb-a-btn" id="gb-btn-a" aria-label="フィルター次へ"></button>
+            <button class="gb-btn gb-a-btn" tabindex="-1" aria-hidden="true"></button>
             <span class="gb-ab-label">A</span>
           </div>
         </div>
@@ -1189,8 +1184,8 @@
   ];
 
   let imgIdx    = 0;
-  let filterIdx = 0;
-  let dotMode   = true; // true=ドット絵, false=スムーズ
+  const filterIdx = 0; // フィルターなし固定
+  const dotMode   = true; // ドット絵固定
 
   // =====================================================
   // Canvas描画: dotMode に応じてドット絵 or スムーズ切り替え
@@ -1310,41 +1305,11 @@
     renderToCanvas(IMAGES[imgIdx].src, canvas, f.pixelSize, !dotMode);
   }
 
-  // ドット/スムーズ切り替え
-  document.getElementById("dot-toggle")?.addEventListener("click", () => {
-    dotMode = !dotMode;
-    const btn    = document.getElementById("dot-toggle");
-    const canvas = getCanvas();
-    if (!btn || !canvas) return;
-
-    if (dotMode) {
-      btn.textContent = "▓ DOT";
-      btn.classList.remove("smooth-mode");
-      canvas.classList.add("dot-mode");
-    } else {
-      btn.textContent = "▒ SMOOTH";
-      btn.classList.add("smooth-mode");
-      canvas.classList.remove("dot-mode");
-    }
-
-    renderToCanvas(IMAGES[imgIdx].src, canvas, FILTERS[filterIdx].pixelSize, !dotMode);
-  });
-
   // ===== イベントリスナー =====
   document.getElementById("illust-prev")?.addEventListener("click", () =>
     showImage((imgIdx - 1 + IMAGES.length) % IMAGES.length));
   document.getElementById("illust-next")?.addEventListener("click", () =>
     showImage((imgIdx + 1) % IMAGES.length));
-
-  document.getElementById("filter-prev")?.addEventListener("click", () =>
-    applyFilter((filterIdx - 1 + FILTERS.length) % FILTERS.length));
-  document.getElementById("filter-next")?.addEventListener("click", () =>
-    applyFilter((filterIdx + 1) % FILTERS.length));
-
-  document.getElementById("gb-btn-a")?.addEventListener("click", () =>
-    applyFilter((filterIdx + 1) % FILTERS.length));
-  document.getElementById("gb-btn-b")?.addEventListener("click", () =>
-    applyFilter((filterIdx - 1 + FILTERS.length) % FILTERS.length));
 
   document.querySelectorAll(".viewer-dot").forEach((dot) =>
     dot.addEventListener("click", () =>
