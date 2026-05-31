@@ -511,6 +511,10 @@
     flex-direction: column;
     align-items: center;
     gap: 0;
+    /* クロス全体に影をかけて実機GB風の浮き上がり感 */
+    filter:
+      drop-shadow(0 3px 5px rgba(0,0,0,0.85))
+      drop-shadow(0 1px 2px rgba(0,0,0,0.6));
   }
 
   .gbdpad-col {
@@ -526,12 +530,12 @@
   .gbdpad-center {
     width: 26px;
     height: 26px;
-    background: #1e1e38;
+    background: #1c1c34;
     flex-shrink: 0;
   }
 
   .gbdpad-btn {
-    background: #1e1e38;
+    background: linear-gradient(160deg, #272744 0%, #1c1c34 55%, #161628 100%);
     border: none;
     color: #3a3a66;
     font-size: 9px;
@@ -540,9 +544,15 @@
     align-items: center;
     justify-content: center;
     image-rendering: pixelated;
-    transition: all 0.07s ease;
+    transition: background 0.07s ease, color 0.07s ease;
     font-family: var(--font-pixel);
   }
+
+  /* 外側の角だけ丸める（実機GBのDパッド形状） */
+  .gbdpad-col:first-child .gbdpad-btn { border-radius: 4px 4px 0 0; }
+  .gbdpad-col:last-child  .gbdpad-btn { border-radius: 0 0 4px 4px; }
+  .gbdpad-mid #illust-prev            { border-radius: 4px 0 0 4px; }
+  .gbdpad-mid #illust-next            { border-radius: 0 4px 4px 0; }
 
   .gbdpad-v {
     width: 26px;
@@ -555,12 +565,12 @@
   }
 
   .gbdpad-btn:not([disabled]):hover {
-    background: #2e2e55;
-    color: #6677cc;
+    background: linear-gradient(160deg, #303060 0%, #262650 55%, #1e1e40 100%);
+    color: #5566bb;
   }
 
   .gbdpad-btn:not([disabled]):active {
-    background: #141428;
+    background: #111122;
     color: #4455aa;
   }
 
