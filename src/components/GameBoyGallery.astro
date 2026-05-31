@@ -216,7 +216,7 @@
   /* 本体 */
   .gb-body {
     width: 100%;
-    max-width: 380px;
+    max-width: min(380px, 100%);
     margin: 0 auto;
     background: linear-gradient(160deg, #22223a 0%, #1a1a2e 50%, #14142a 100%);
     border-radius: 10px 10px 40px 40px / 10px 10px 28px 28px;
@@ -1206,6 +1206,7 @@
                      + Math.sin(t * 1.7 + r * 0.2 - c * 0.5) * 0.4;
           const norm = (wave + 1.4) / 2.8; // 0〜1
           const idx  = Math.min(Math.floor(norm * PAL.length), PAL.length - 1);
+          if (!ctx) return;
           ctx.fillStyle = PAL[idx];
           ctx.fillRect(c * PIXEL, r * PIXEL, PIXEL - 1, PIXEL - 1);
         }
@@ -1227,8 +1228,8 @@
   })();
 
   let imgIdx    = 0;
-  const filterIdx = 0; // フィルターなし固定
-  const dotMode   = true; // ドット絵固定
+  let filterIdx = 0; // フィルターなし固定
+  const dotMode = true; // ドット絵固定
 
   // =====================================================
   // Canvas描画: dotMode に応じてドット絵 or スムーズ切り替え
@@ -1329,23 +1330,6 @@
     if (hudCtr)  hudCtr.textContent  = `${n} / ${t}`;
     dots.forEach((dot, i) => dot.classList.toggle("active", i === idx));
     imgIdx = idx;
-  }
-
-  function applyFilter(idx: number) {
-    const f       = FILTERS[idx];
-    const frame   = document.getElementById("viewer-frame");
-    const canvas  = getCanvas();
-    const display = document.getElementById("filter-display");
-    if (!frame || !display || !canvas) return;
-
-    frame.classList.remove("filter-crt", "filter-gb", "filter-vhs", "filter-dot");
-    if (f.key !== "none") frame.classList.add(`filter-${f.key}`);
-
-    display.textContent = f.label;
-    display.className   = `gb-filter-name ${f.mode}`;
-    filterIdx = idx;
-
-    renderToCanvas(IMAGES[imgIdx].src, canvas, f.pixelSize, !dotMode);
   }
 
   // ===== イベントリスナー =====

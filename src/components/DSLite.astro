@@ -106,15 +106,15 @@
       inset 0 -2px 4px rgba(0,0,0,0.15),
       0 8px 24px rgba(0,0,0,0.45),
       0 2px 6px rgba(0,0,0,0.25);
-    max-width: 400px;
+    max-width: 100%;
     width: 100%;
     border: 1.5px solid #bbb;
-    padding-bottom: 10px;
+    padding-bottom: 8px;
   }
 
   /* ===== 上部ハーフ ===== */
   .ds-top-half {
-    padding: 10px 16px 6px;
+    padding: 6px 10px 4px;
     border-radius: 16px 16px 0 0;
     background: linear-gradient(180deg, #f0f0ec 0%, #e4e4dc 100%);
     border-bottom: 2px solid #c8c8c0;
@@ -149,18 +149,28 @@
   }
 
   .ds-top-bezel {
-    padding: 8px 12px;
+    padding: 4px 6px;
   }
 
   .ds-screen {
     border-radius: 3px;
     overflow: hidden;
     background: #000;
+    position: relative;
+    aspect-ratio: 4 / 3;
+    width: 100%;
+  }
+
+  /* スロット内コンテンツを画面いっぱいに広げる */
+  .ds-screen :global(> *) {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
   }
 
   .ds-top-screen {
-    width: 100%;
-    /* アスペクト比はスロット内容に従う */
+    /* aspect-ratio は .ds-screen で一括設定 */
   }
 
   /* ===== ヒンジ ===== */
@@ -197,8 +207,8 @@
   .ds-bottom-half {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    padding: 10px 14px 4px;
+    gap: 6px;
+    padding: 6px 8px 4px;
   }
 
   /* 左右コントロール */
@@ -313,12 +323,12 @@
 
   .ds-bottom-bezel {
     width: 100%;
-    padding: 6px 10px;
+    padding: 4px 6px;
   }
 
   .ds-bottom-screen {
-    width: 100%;
-    min-height: 120px;
+    /* aspect-ratio は .ds-screen で一括設定・内容はスクロール */
+    overflow-y: auto;
   }
 
   .ds-bottom-icons {
