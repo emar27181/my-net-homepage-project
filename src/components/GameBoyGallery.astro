@@ -59,9 +59,9 @@
             aria-label="Cat Sketch #1"
             style="display:none"
           ></canvas>
-          <!-- Preparing表示 -->
+          <!-- Preparing表示: 8bitピクセルアニメーション -->
           <div class="viewer-preparing" aria-label="準備中">
-            <span class="preparing-text">Preparing...</span>
+            <canvas class="preparing-canvas" id="preparing-canvas" width="344" height="270"></canvas>
           </div>
           <!-- フラッシュ -->
           <div class="viewer-flash" id="viewer-flash"></div>
@@ -370,28 +370,18 @@
   .viewer-preparing {
     width: 100%;
     height: 270px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #0a0a14;
+    display: block;
     position: relative;
     z-index: 1;
-    image-rendering: auto; /* 親のpixelatedを上書きしてテキストをなめらかに */
+    background: #060610;
   }
 
-  .preparing-text {
-    font-family: var(--font-pixel-jp);
-    font-size: 14px;
-    color: #4d79ff;
-    text-shadow: 0 0 8px #4d79ff, 1px 1px 0 #000;
-    letter-spacing: 2px;
-    animation: preparing-blink 1.4s ease-in-out infinite;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  @keyframes preparing-blink {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.3; }
+  .preparing-canvas {
+    display: block;
+    width: 100%;
+    height: 270px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
   }
 
   /* ドットモード: nearest-neighbor でピクセルブロックをくっきり表示 */
@@ -1183,6 +1173,56 @@
     { key: "vhs",  label: "VHS",    mode: "mode-vhs", pixelSize: 4  },
     { key: "dot",  label: "DOT",    mode: "mode-dot", pixelSize: 16 },
   ];
+
+  // =====================================================
+  // Preparing: 8bitピクセルアニメーション
+  // =====================================================
+  (function startPreparingAnim() {
+    const pc = document.getElementById("preparing-canvas") as HTMLCanvasElement | null;
+    if (!pc) return;
+    const ctx = pc.getContext("2d");
+    if (!ctx) return;
+
+    const PIXEL = 8;
+    const cols  = Math.floor(pc.width  / PIXEL);
+    const rows  = Math.floor(pc.height / PIXEL);
+
+    // 暗→明 のネオンブルー系パレット（8色）
+    const PAL = [
+      "#030308", "#070720", "#0d1040",
+      "#1a2260", "#2a3890", "#4d79ff",
+      "#7099ff", "#aabbff",
+    ];
+
+    let animId: number;
+    function draw() {
+      const t = Date.now() / 500;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          // 斜めの波 + ランダムなちらつき
+          const wave = Math.sin(t + r * 0.45 + c * 0.35)
+                     + Math.sin(t * 1.7 + r * 0.2 - c * 0.5) * 0.4;
+          const norm = (wave + 1.4) / 2.8; // 0〜1
+          const idx  = Math.min(Math.floor(norm * PAL.length), PAL.length - 1);
+          ctx.fillStyle = PAL[idx];
+          ctx.fillRect(c * PIXEL, r * PIXEL, PIXEL - 1, PIXEL - 1);
+        }
+      }
+      animId = requestAnimationFrame(draw);
+    }
+    draw();
+
+    // 画像表示に切り替わったらアニメーション停止
+    const observer = new MutationObserver(() => {
+      const canvas = document.getElementById("viewer-canvas") as HTMLCanvasElement | null;
+      if (canvas && canvas.style.display !== "none") {
+        cancelAnimationFrame(animId);
+        observer.disconnect();
+      }
+    });
+    const viewerCanvas = document.getElementById("viewer-canvas");
+    if (viewerCanvas) observer.observe(viewerCanvas, { attributes: true, attributeFilter: ["style"] });
+  })();
 
   let imgIdx    = 0;
   const filterIdx = 0; // フィルターなし固定
