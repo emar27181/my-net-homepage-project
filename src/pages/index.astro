@@ -30,10 +30,20 @@ const COLORS = { ...themeColors, ...FIXED_COLORS };
 // スタイルプリセット（テンプレート内で S.title, S.bodyText 等で使用）
 const S = getStylePresets(COLORS);
 
-// クリップギャラリーデータ（src/data/clips.json で管理・order で並び順を制御）
-interface ClipData { order: number; id: string; title: string; map: string; agent: string; views: number; }
+// クリップギャラリーデータ（src/data/clips.json で管理・scoreの合計が高いほど上位）
+interface ClipScore { smooth: number; rotation: number; clutch: number; highlight: number; }
+interface ClipData  { id: string; title: string; map: string; agent: string; views: number; score: ClipScore; }
 const CLIPS_INITIAL_SHOW = 6;
-const clipGalleryData: ClipData[] = [...(clipsRaw as ClipData[])].sort((a, b) => a.order - b.order);
+
+function totalScore(c: ClipData) {
+  const s = c.score;
+  return (s.smooth ?? 3) + (s.rotation ?? 3) + (s.clutch ?? 3) + (s.highlight ?? 3);
+}
+
+// デフォルト: スコア合計の高い順
+const clipGalleryData: ClipData[] = [...(clipsRaw as ClipData[])].sort(
+  (a, b) => totalScore(b) - totalScore(a)
+);
 const clipMaps   = [...new Set(clipGalleryData.map(c => c.map))];
 const clipAgents = [...new Set(clipGalleryData.map(c => c.agent))];
 function capFirst(s: string) { return s.charAt(0).toUpperCase() + s.slice(1); }
@@ -354,8 +364,8 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
         </div>
         <div class="clips-result-info" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
           <span><span id="clips-count">{clipGalleryData.length}</span> 件のクリップ</span>
+          <button class="clips-sort-btn active" id="clips-sort-custom">★ カスタム順</button>
           <button class="clips-sort-btn" id="clips-sort-views">⬇ 再生回数順</button>
-          <button class="clips-sort-btn active" id="clips-sort-default">⬇ デフォルト順</button>
         </div>
       </div>
 
@@ -368,6 +378,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
             data-agent={clip.agent}
             data-title={clip.title.toLowerCase()}
             data-views={String(clip.views)}
+            data-score={String(totalScore(clip))}
             data-index={String(i)}
             style={i >= CLIPS_INITIAL_SHOW ? "display:none" : ""}
           >
@@ -1565,7 +1576,8 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     let activeMap   = 'all';
     let activeAgent = 'all';
     let activeKw    = 'all';
-    let sortByViews = false;
+    type SortMode = 'custom' | 'views';
+    let sortMode: SortMode = 'custom';
     let expanded    = false;
 
     // キーワードマッチ（OPのみ単語境界チェック）
@@ -1590,9 +1602,14 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     }
 
     function sorted(cards: HTMLElement[]) {
-      if (!sortByViews) return cards;
+      if (sortMode === 'views') {
+        return [...cards].sort((a, b) =>
+          Number(b.dataset.views ?? 0) - Number(a.dataset.views ?? 0)
+        );
+      }
+      // custom: スコア合計の高い順（data-score はサーバー側で計算済み）
       return [...cards].sort((a, b) =>
-        Number(b.dataset.views ?? 0) - Number(a.dataset.views ?? 0)
+        Number(b.dataset.score ?? 0) - Number(a.dataset.score ?? 0)
       );
     }
 
@@ -1641,20 +1658,16 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
       });
 
       // ソートボタン
-      document.getElementById('clips-sort-views')?.addEventListener('click', () => {
-        sortByViews = true;
-        document.getElementById('clips-sort-views')?.classList.add('active');
-        document.getElementById('clips-sort-default')?.classList.remove('active');
+      const sortBtns = ['clips-sort-custom', 'clips-sort-views'];
+      function setSort(mode: SortMode) {
+        sortMode = mode;
+        sortBtns.forEach(id => document.getElementById(id)?.classList.remove('active'));
+        document.getElementById(mode === 'custom' ? 'clips-sort-custom' : 'clips-sort-views')?.classList.add('active');
         expanded = false;
         render();
-      });
-      document.getElementById('clips-sort-default')?.addEventListener('click', () => {
-        sortByViews = false;
-        document.getElementById('clips-sort-default')?.classList.add('active');
-        document.getElementById('clips-sort-views')?.classList.remove('active');
-        expanded = false;
-        render();
-      });
+      }
+      document.getElementById('clips-sort-custom')?.addEventListener('click', () => setSort('custom'));
+      document.getElementById('clips-sort-views')?.addEventListener('click',  () => setSort('views'));
 
       // もっと見るボタン
       document.getElementById('clips-show-more')?.addEventListener('click', () => {
