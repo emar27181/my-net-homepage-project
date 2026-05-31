@@ -268,6 +268,23 @@
   → `getPixelEmoji()`と組み合わせた8-bit風デザイン維持
   → SimpleLayoutで全体に強制適用（`* { font-family: var(--font-pixel-jp) !important; }`）
 
+- **🚨 SimpleLayout外要素のフォント必須ルール（最重要）**  
+  → `position: fixed` のモーダル・ツールチップ・オーバーレイ等は **SimpleLayoutのフォントルールが届かない**  
+  → これらの要素には必ず以下を明示指定すること（`!important` 必須）  
+  ```css
+  .my-overlay,
+  .my-overlay * {
+    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
+    image-rendering: pixelated;
+  }
+  ```
+  → 違反するとブラウザデフォルトフォント（非ドット）で表示されてしまう
+
+- **🚨 モーダル・ツールチップのフォントサイズルール（最重要）**  
+  → モーダル・ツールチップ内のラベル・値・リンク・コメント等すべてのテキストは **本文と同じ `${FONT_SIZES.bodyText}`（14px）** に統一すること  
+  → 小さいフォント（8px・9px・10px等）は視認性が悪く使用禁止  
+  → タイトル行（ゲーム名・見出し）はこれより大きくても可、バッジ等の補助要素は例外として可
+
 - **コードテキスト統一ルール**  
   → クロスヘアコード・設定値等もピクセルフォント統一必須
   → `font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace`
