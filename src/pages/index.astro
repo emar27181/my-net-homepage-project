@@ -967,6 +967,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     </div>
 
     <!-- 統計データセクション -->
+    <div id="valorant-stats"></div>
     <ValorantStats
       competitiveAgentData={competitiveAgentData}
       competitiveRankData={competitiveRankData}
@@ -1248,6 +1249,10 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
       <div class="gm-row" id="gm-trn-row">
         <span class="gm-label">📊 TRN</span>
         <a class="gm-trn-link" id="gm-trn-link" href="#" target="_blank" rel="noopener">プロフィールを見る</a>
+      </div>
+      <div class="gm-row" id="gm-inpage-row">
+        <span class="gm-label">📈 詳細統計</span>
+        <a class="gm-trn-link" id="gm-inpage-link" href="#">このページ内で見る ↓</a>
       </div>
     </div>
     <div class="gm-divider"></div>
@@ -2002,8 +2007,10 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     const gmCom      = document.getElementById('gm-comment');
     const gmPidRow   = document.getElementById('gm-playerid-row');
     const gmPid      = document.getElementById('gm-playerid');
-    const gmTrnRow   = document.getElementById('gm-trn-row');
-    const gmTrnLink  = document.getElementById('gm-trn-link') as HTMLAnchorElement | null;
+    const gmTrnRow    = document.getElementById('gm-trn-row');
+    const gmTrnLink   = document.getElementById('gm-trn-link') as HTMLAnchorElement | null;
+    const gmInPageRow = document.getElementById('gm-inpage-row');
+    const gmInPageLink= document.getElementById('gm-inpage-link') as HTMLAnchorElement | null;
 
     function openGameModal(g: any) {
       if (!overlay || !gmTitle || !gmCat || !gmTime || !gmPeriod || !gmRank || !gmCom) return;
@@ -2027,6 +2034,15 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
           (gmTrnRow as HTMLElement).style.display = '';
         } else {
           (gmTrnRow as HTMLElement).style.display = 'none';
+        }
+      }
+      if (gmInPageLink && gmInPageRow) {
+        if (g.inPageUrl) {
+          gmInPageLink.href = g.inPageUrl;
+          gmInPageLink.onclick = () => closeGameModal();
+          (gmInPageRow as HTMLElement).style.display = '';
+        } else {
+          (gmInPageRow as HTMLElement).style.display = 'none';
         }
       }
       overlay.classList.add('open');

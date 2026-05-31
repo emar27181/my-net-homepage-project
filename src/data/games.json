@@ -6,6 +6,7 @@
     "note": "",
     "playerId": "nodoame#27181",
     "trnUrl": "https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview?platform=pc&playlist=competitive&season=4c4b8cff-43eb-13d3-8f14-96b783c90cd2",
+    "inPageUrl": "#valorant-stats",
     "playTime": "2000h",
     "period": "2022年〜現在",
     "maxRank": "Ascendant",
@@ -44,7 +45,7 @@
     "trnUrl": "",
     "playTime": "100h未満",
     "period": "NO DATA",
-    "maxRank": "ゴールド以下",
+    "maxRank": "NO DATA",
     "comment": "NO DATA"
   },
   {
