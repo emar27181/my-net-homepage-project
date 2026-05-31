@@ -84,13 +84,14 @@
 </div>
 
 <script>
-  const toggle    = document.getElementById('wiiu-toggle');
-  const frame     = document.getElementById('wiiu-frame-wrap');
-  const plain     = document.getElementById('wiiu-plain-wrap');
-  let showGamepad = true;
+  const toggle = document.getElementById('wiiu-toggle');
+  const frame  = document.getElementById('wiiu-frame-wrap');
+  const plain  = document.getElementById('wiiu-plain-wrap');
 
-  toggle?.addEventListener('click', () => {
-    showGamepad = !showGamepad;
+  const isMobile = () => window.innerWidth <= 768;
+  let showGamepad = !isMobile(); // スマホはデフォルト通常表示
+
+  function applyState() {
     if (showGamepad) {
       frame?.classList.remove('hidden');
       plain?.classList.remove('active');
@@ -100,6 +101,13 @@
       plain?.classList.add('active');
       if (toggle) toggle.textContent = '🎮 Gamepad表示';
     }
+  }
+
+  applyState();
+
+  toggle?.addEventListener('click', () => {
+    showGamepad = !showGamepad;
+    applyState();
   });
 </script>
 
@@ -114,13 +122,13 @@
   .wiiu-body {
     background: linear-gradient(160deg, #e8e8e8 0%, #d0d0d0 40%, #c0c0c0 100%);
     border-radius: 40px;
-    padding: 14px 12px 12px;
+    padding: 16px 14px 14px;
     box-shadow:
       inset 0 2px 4px rgba(255,255,255,0.8),
       inset 0 -2px 4px rgba(0,0,0,0.2),
       0 6px 20px rgba(0,0,0,0.5),
       0 2px 6px rgba(0,0,0,0.3);
-    max-width: 680px;
+    max-width: 860px;
     width: 100%;
     position: relative;
     border: 2px solid #aaa;
