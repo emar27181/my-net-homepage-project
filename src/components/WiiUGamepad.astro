@@ -435,27 +435,45 @@
   /* ===== レスポンシブ ===== */
   @media (max-width: 600px) {
     .wiiu-body {
-      border-radius: 24px;
-      padding: 10px 6px 8px;
+      border-radius: 20px;
+      padding: 8px 4px 6px;
     }
+
+    .wiiu-top-bar { margin-bottom: 4px; padding: 0 2px; }
+    .wiiu-top-logo { display: none; }
+    .wiiu-trigger  { display: none; }
+
+    .wiiu-main { gap: 4px; }
 
     .wiiu-left,
     .wiiu-right {
-      width: 48px;
+      width: 38px;
       gap: 6px;
     }
 
-    .wiiu-stick { width: 22px; height: 22px; }
-    .wiiu-dpad  { width: 32px; height: 32px; }
-    .wiiu-dpad-v { width: 10px; }
-    .wiiu-dpad-h { height: 10px; }
+    /* スティック */
+    .wiiu-stick { width: 18px; height: 18px; }
 
-    .wiiu-abxy { width: 40px; height: 40px; }
-    .wiiu-abxy-btn { width: 14px; height: 14px; font-size: 5px; }
+    /* Dパッド: 幅・高さを一致させて十字が突き出ないように */
+    .wiiu-dpad  { width: 30px; height: 30px; }
+    .wiiu-dpad-v { width: 10px; height: 30px; }
+    .wiiu-dpad-h { width: 30px; height: 10px; }
+    .wiiu-dpad-center { width: 10px; height: 10px; }
 
-    .wiiu-trigger { width: 40px; height: 16px; font-size: 6px; }
-    .wiiu-top-logo { font-size: 6px; }
-    .wiiu-small-btn { display: none; }
-    .wiiu-speaker i { height: 7px; }
+    /* ABXY */
+    .wiiu-abxy { width: 36px; height: 36px; }
+    .wiiu-abxy-btn { width: 13px; height: 13px; font-size: 5px; }
+
+    /* 小ボタン */
+    .wiiu-btn-row { gap: 3px; }
+    .wiiu-small-btn { width: 16px; height: 9px; font-size: 4px; }
+    .wiiu-home-btn  { width: 14px; height: 14px; font-size: 7px; }
+
+    /* スクリーン */
+    .wiiu-screen-bezel { padding: 4px; }
+
+    /* ボトムバー */
+    .wiiu-bottom-bar { margin-top: 4px; padding: 0 4px; }
+    .wiiu-speaker i  { height: 6px; width: 2px; }
   }
 </style>
