@@ -51,8 +51,9 @@ function getEmbedUrl(url: string, auto: boolean = false): string {
   params.set('fs', '1');
   params.set('cc_load_policy', '0');
   params.set('enablejsapi', '1');
+  params.set('playsinline', '1');
   params.set('loop', '0'); // 繰り返し再生を無効化
-  params.set('vq', 'highres'); // 利用可能な最高画質を要求
+  params.set('vq', 'hd1080'); // 1080p画質を要求
   
   return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
 }
@@ -339,12 +340,68 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
 </style>
 
 <script>
-  // YouTube Player API読み込み
-  if (!window.YT) {
+  const preferredQualityOrder = ['hd1080', 'hd720', 'large'];
+
+  function loadYouTubeApi() {
+    if (window.YT && window.YT.Player) {
+      return Promise.resolve(window.YT);
+    }
+
+    if (window.youtubeIframeApiReadyPromise) {
+      return window.youtubeIframeApiReadyPromise;
+    }
+
+    window.youtubeIframeApiReadyPromise = new Promise((resolve) => {
+      const previousCallback = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = function() {
+        if (typeof previousCallback === 'function') previousCallback();
+        resolve(window.YT);
+      };
+    });
+
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     const firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    return window.youtubeIframeApiReadyPromise;
+  }
+
+  function requestBestAvailableQuality(player) {
+    try {
+      const qualityLevels = player.getAvailableQualityLevels?.() || [];
+      const preferredQuality = preferredQualityOrder.find((quality) => qualityLevels.includes(quality)) || 'hd1080';
+      player.setPlaybackQuality(preferredQuality);
+
+      setTimeout(() => player.setPlaybackQuality(preferredQuality), 500);
+      setTimeout(() => player.setPlaybackQuality(preferredQuality), 1500);
+    } catch (error) {
+      console.log('YouTube quality request failed:', error);
+    }
+  }
+
+  function bindQualityPreference(iframe) {
+    if (!iframe || iframe.dataset.qualityBound === 'true') return;
+    iframe.dataset.qualityBound = 'true';
+
+    loadYouTubeApi().then(() => {
+      try {
+        new YT.Player(iframe.id, {
+          events: {
+            onReady(event) {
+              requestBestAvailableQuality(event.target);
+            },
+            onStateChange(event) {
+              if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.BUFFERING) {
+                requestBestAvailableQuality(event.target);
+              }
+            }
+          }
+        });
+      } catch (error) {
+        console.log('YouTube Player API initialization failed:', error);
+      }
+    });
   }
 
   // 動画読み込み状態管理
@@ -359,38 +416,13 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
         // 各iframeにユニークIDを設定
         const playerId = `youtube-player-${index}`;
         iframe.id = playerId;
+        bindQualityPreference(iframe);
         
         // iframe読み込み完了時にオーバーレイを非表示
         iframe.addEventListener('load', function() {
           setTimeout(() => {
             overlay.style.opacity = '0';
             overlay.style.pointerEvents = 'none';
-            
-            // YouTube Player APIで画質を強制設定
-            if (window.YT && window.YT.Player) {
-              try {
-                const player = new YT.Player(playerId, {
-                  events: {
-                    'onReady': function(event) {
-                      // 利用可能な画質レベルを取得
-                      const qualityLevels = event.target.getAvailableQualityLevels();
-                      console.log('Available quality levels:', qualityLevels);
-                      
-                      // 1080p -> 720p -> 480p の順で設定を試行
-                      if (qualityLevels.includes('hd1080')) {
-                        event.target.setPlaybackQuality('hd1080');
-                      } else if (qualityLevels.includes('hd720')) {
-                        event.target.setPlaybackQuality('hd720');
-                      } else if (qualityLevels.includes('large')) {
-                        event.target.setPlaybackQuality('large');
-                      }
-                    }
-                  }
-                });
-              } catch (error) {
-                console.log('YouTube Player API initialization failed:', error);
-              }
-            }
           }, 1000);
         });
         
@@ -406,8 +438,5 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
     });
   });
 
-  // YouTube Player API読み込み完了時のコールバック
-  window.onYouTubeIframeAPIReady = function() {
-    console.log('YouTube Player API loaded successfully');
-  };
+  loadYouTubeApi();
 </script>

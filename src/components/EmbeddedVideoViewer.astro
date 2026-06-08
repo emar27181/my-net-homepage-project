@@ -49,6 +49,9 @@ function getEmbedUrl(vid: string, start: number = 0, auto: boolean = false): str
   params.set('rel', '0');
   params.set('fs', '1');
   params.set('cc_load_policy', '0');
+  params.set('enablejsapi', '1');
+  params.set('playsinline', '1');
+  params.set('vq', 'hd1080');
   
   return `https://www.youtube.com/embed/${vid}?${params.toString()}`;
 }
