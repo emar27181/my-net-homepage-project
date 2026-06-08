@@ -338,6 +338,19 @@
     }
   },
   {
+    "id": "bT70Au5LD6I",
+    "title": "HavenClove UltEntryAce",
+    "map": "haven",
+    "agent": "clove",
+    "views": 0,
+    "score": {
+      "smooth": 3,
+      "rotation": 3,
+      "clutch": 1,
+      "highlight": 3
+    }
+  },
+  {
     "id": "bcWBmsi--uM",
     "title": "Breeze Waylay 1v3Clutch Ace",
     "map": "breeze",
