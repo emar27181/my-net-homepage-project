@@ -1,5 +1,37 @@
 # 🌐 nodoame's Cyber Space - 開発・設計ドキュメント統合
 
+## 📌 重要リソース
+
+### クリップ動画プレイリスト
+- **YouTube再生リスト**: https://youtube.com/playlist?list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct
+- 動画データは `src/data/clips.json` で管理
+
+#### 新動画追加手順
+1. プレイリストの全IDを取得:
+   ```bash
+   curl -s "https://www.youtube.com/playlist?list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct" \
+     | grep -oP '"videoId":"[^"]{11}"' | sort -u | sed 's/"videoId":"//;s/"//'
+   ```
+2. clips.json の既存IDと比較して差分を特定
+3. 新IDのタイトルを取得:
+   ```bash
+   curl -s "https://www.youtube.com/watch?v=VIDEO_ID" | grep -oP '"title":"[^"]*"' | head -1
+   ```
+4. clips.json にエントリを追加（IDのアルファベット順を維持）:
+   ```json
+   {
+     "id": "VIDEO_ID",
+     "title": "タイトル（例: HavenClove UltEntryAce）",
+     "map": "マップ名（小文字）",
+     "agent": "エージェント名（小文字）",
+     "views": 0,
+     "score": { "smooth": 3, "rotation": 3, "clutch": 1, "highlight": 3 }
+   }
+   ```
+   - `clutch` はタイトルの 1v2→2, 1v3→3, 1v4→4, 1v5→5、それ以外は 1
+
+---
+
 ## 📘 開発・設計 汎用ルール集
 
 ### 🚨 最重要ルール（絶対遵守）
