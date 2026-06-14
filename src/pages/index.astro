@@ -33,12 +33,22 @@ const COLORS = { ...themeColors, ...FIXED_COLORS };
 const S = getStylePresets(COLORS);
 
 // クリップギャラリーデータ（src/data/clips.json で管理・scoreの合計が高いほど上位）
-interface ClipScore { smooth: number; rotation: number; clutch: number; highlight: number; "6kills": number; }
-interface ClipData  { id: string; title: string; map: string; agent: string; views: number; tags: string[]; score: ClipScore; }
+interface ClipScore { smooth: number; clutch: number; tap: number; "6kills": number; onemag: number; }
+interface ClipData  { id: string; url: string; title: string; map: string; agent: string; views: number; tags: string[]; score: ClipScore; }
 const CLIPS_INITIAL_SHOW = 6;
 
-// タイトルからキーワードタグを抽出
-function getClipTags(title: string): string[] {
+const SCORE_DEFAULTS: ClipScore = { smooth: 2, clutch: 0, tap: 3, "6kills": 0, onemag: 0 };
+
+const TAG_LABELS: Record<string, string> = {
+  op:       'OP',
+  guardian: 'Guardian',
+  '6kills': '6kills',
+  smooth:   'Smooth',
+  onemag:   'OneMagazine',
+};
+
+// タイトル + JSONタグを統合して表示用バッジリストを生成
+function getClipTags(title: string, jsonTags: string[]): string[] {
   const t = title.toLowerCase();
   const tags: string[] = [];
   const clutchM = t.match(/(\d)v(\d)/);
@@ -48,15 +58,19 @@ function getClipTags(title: string): string[] {
   } else if (t.includes('clutch')) {
     tags.push('Clutch');
   }
-  if (t.includes('vandal')) tags.push('Vandal');
-  if (/\bop\b|opace/.test(t)) tags.push('OP');
   if (t.includes('ult')) tags.push('Ult');
+  if (t.includes('ghost')) tags.push('Ghost');
+  tags.push(...jsonTags.map(tag => TAG_LABELS[tag] ?? tag));
   return tags;
 }
 
 function totalScore(c: ClipData) {
   const s = c.score;
-  return (s.smooth ?? 3) + (s.rotation ?? 3) + (s.clutch ?? 0) + (s.highlight ?? 3) + (s["6kills"] ?? 0);
+  return (s.smooth    ?? SCORE_DEFAULTS.smooth)
+       + (s.clutch    ?? SCORE_DEFAULTS.clutch)
+       + (s.tap       ?? SCORE_DEFAULTS.tap)
+       + (s["6kills"] ?? SCORE_DEFAULTS["6kills"])
+       + (s.onemag    ?? SCORE_DEFAULTS.onemag);
 }
 
 // デフォルト: スコア合計の高い順
@@ -379,6 +393,10 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
             <button class="clips-filter-btn active" data-filter-type="kw" data-filter-value="all">ALL</button>
             <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="clutch">Clutch</button>
             <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="ult">Ult</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="op">OP</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="guardian">Guardian</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="ghost">Ghost</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="onemag">OneMagazine</button>
             <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="6kills">6kills</button>
           </div>
         </div>
@@ -408,6 +426,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
             data-index={String(i)}
             style={i >= CLIPS_INITIAL_SHOW ? "display:none" : ""}
           >
+            <div class="clip-video-title">{clip.title}</div>
             <div class="clip-thumbnail-wrapper" data-video-id={clip.id}>
               <img
                 src={`https://img.youtube.com/vi/${clip.id}/hqdefault.jpg`}
@@ -420,16 +439,16 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
             <div class="clip-meta">
               <span class="clip-map-badge">{capFirst(clip.map)}</span>
               <span class="clip-agent-badge">{capFirst(clip.agent)}</span>
-              {[...getClipTags(clip.title), ...(clip.tags ?? [])].map(tag => (
+              {getClipTags(clip.title, clip.tags ?? []).map(tag => (
                 <span class="clip-kw-badge">{tag}</span>
               ))}
             </div>
             <div class="clip-debug-overlay">
-              <div>smooth: {clip.score.smooth ?? 3}</div>
-              <div>rotation: {clip.score.rotation ?? 3}</div>
-              <div>clutch: {clip.score.clutch ?? 0}</div>
-              <div>highlight: {clip.score.highlight ?? 3}</div>
-              <div>6kills: {clip.score["6kills"] ?? 0}</div>
+              <div>smooth: {clip.score.smooth ?? SCORE_DEFAULTS.smooth}</div>
+              <div>clutch: {clip.score.clutch ?? SCORE_DEFAULTS.clutch}</div>
+              <div>tap: {clip.score.tap ?? SCORE_DEFAULTS.tap}</div>
+              <div>6kills: {clip.score["6kills"] ?? SCORE_DEFAULTS["6kills"]}</div>
+              <div>onemag: {clip.score.onemag ?? SCORE_DEFAULTS.onemag}</div>
               <div class="dbg-total">total: {totalScore(clip)} (#{i + 1})</div>
             </div>
           </div>
@@ -504,7 +523,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
           <p
             style={`${S.bodyText}`}
           >
-            感度: 0.18 800DPI (振り向き 45.4cm)<br />
+            感度: <span id="sens-value-btn" style="cursor:pointer; text-decoration:underline; color:var(--text-accessible-blue);" title="クリックで感度履歴を表示">0.18 800DPI</span> (振り向き 45.4cm)<br />
             クロスヘア: 青色・アウトライン有<br />
             <span
               id="copy-crosshair-text"
@@ -772,6 +791,23 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   </div>
 </div>
 
+<!-- 感度履歴モーダル -->
+<div id="sens-modal" class="sens-modal-overlay" aria-hidden="true">
+  <div class="sens-modal-box">
+    <div class="sens-modal-header">
+      <span class="sens-modal-title">Sensitivity History</span>
+      <button id="sens-modal-close" class="sens-modal-close">×</button>
+    </div>
+    <div class="sens-mode-toggle">
+      <button class="sens-mode-btn active" data-mode="sens">Sens</button>
+      <button class="sens-mode-btn" data-mode="edpi">eDPI</button>
+    </div>
+    <div class="sens-chart-wrapper">
+      <canvas id="sens-chart"></canvas>
+    </div>
+  </div>
+</div>
+
 <style define:vars={{
   "fs-body":    FONT_SIZES.bodyText,
   "fs-small":   FONT_SIZES.smallText,
@@ -1033,6 +1069,86 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   }
 
   /* ===== ゲーム詳細モーダル ===== */
+  .sens-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 10, 0.82);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+  .sens-modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .sens-modal-overlay,
+  .sens-modal-overlay * {
+    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
+    image-rendering: pixelated;
+  }
+  .sens-modal-box {
+    background: #06060f;
+    border: 3px solid #4d79ff;
+    box-shadow: 0 0 0 1px #000, 0 0 0 4px #4d79ff, 0 0 30px rgba(77,121,255,0.4);
+    border-radius: 8px;
+    padding: 20px;
+    width: min(720px, 94vw);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .sens-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .sens-modal-title {
+    font-size: 16px !important;
+    color: #4d79ff !important;
+    text-shadow: 0 0 8px rgba(77,121,255,0.7), 1px 1px 0 #000 !important;
+  }
+  .sens-modal-close {
+    background: transparent;
+    border: 1px solid #4d79ff;
+    color: #fff !important;
+    font-size: 18px !important;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    border-radius: 4px;
+    line-height: 1;
+  }
+  .sens-modal-close:hover { background: rgba(77,121,255,0.2); }
+  .sens-chart-wrapper {
+    width: 100%;
+    height: 300px;
+    position: relative;
+  }
+  .sens-mode-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .sens-mode-btn {
+    background: transparent;
+    border: 1px solid #4d79ff;
+    color: #aaa !important;
+    font-size: 12px !important;
+    padding: 4px 14px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .sens-mode-btn.active,
+  .sens-mode-btn:hover {
+    background: rgba(77,121,255,0.2);
+    color: #fff !important;
+    border-color: #4d79ff;
+  }
+
   .game-modal-overlay {
     position: fixed;
     inset: 0;
@@ -1387,6 +1503,19 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     display: none;
   }
 
+  .clip-video-title {
+    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
+    font-size: 16px !important;
+    color: #fff !important;
+    text-shadow: 1px 1px 0 #000 !important;
+    image-rendering: pixelated;
+    background: rgba(77, 121, 255, 0.1);
+    padding: 6px 8px 6px 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .clip-thumbnail-wrapper.playing iframe {
     width: 100%;
     height: 100%;
@@ -1443,9 +1572,12 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .clip-debug-overlay {
     display: none;
     position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.88);
-    padding: 10px;
+    top: 6px;
+    right: 6px;
+    background: rgba(0, 0, 0, 0.82);
+    border: 1px solid rgba(77, 121, 255, 0.6);
+    border-radius: 4px;
+    padding: 6px 8px;
     z-index: 10;
     font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
     font-size: 11px !important;
@@ -1695,6 +1827,159 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     });
   });
 
+  // ===== 感度履歴グラフ =====
+  const SENS_HISTORY = [
+    { label: 'Start',      sens: 0.28286, dpi: 800 },
+    { label: 'Unknown',    sens: 0.198,   dpi: 800 },
+    { label: '2021/09/27', sens: 0.215,   dpi: 800 },
+    { label: '2022/01/25', sens: 0.22,    dpi: 800 },
+    { label: '2022/01/27', sens: 0.225,   dpi: 800 },
+    { label: '2022/01/28', sens: 0.23,    dpi: 800 },
+    { label: '2022/01/31', sens: 0.24,    dpi: 800 },
+    { label: '2022/02/01', sens: 0.25,    dpi: 800 },
+    { label: '2022/02/02', sens: 0.255,   dpi: 800 },
+    { label: '2022/02/06', sens: 0.27,    dpi: 800 },
+    { label: '2022/02/12', sens: 0.28,    dpi: 800 },
+    { label: '2022/02/13', sens: 0.29,    dpi: 800 },
+    { label: '2022/02/14', sens: 0.30,    dpi: 800 },
+    { label: '2022/02/16', sens: 0.31,    dpi: 800 },
+    { label: '2022/02/18', sens: 0.33,    dpi: 800 },
+    { label: '2022/09/26', sens: 0.31,    dpi: 800 },
+    { label: '2022/10/15', sens: 0.28,    dpi: 800 },
+    { label: '2022/10/22', sens: 0.30,    dpi: 800 },
+    { label: 'Unknown',    sens: 0.27,    dpi: 800 },
+    { label: '2023/03/07', sens: 0.26,    dpi: 800 },
+    { label: '2023/03/16', sens: 0.27,    dpi: 800 },
+    { label: '2023/04/09', sens: 0.25,    dpi: 800 },
+    { label: '2023/06/10', sens: 0.24,    dpi: 800 },
+    { label: '2023/08/27', sens: 0.245,   dpi: 800 },
+    { label: '2024/02/06', sens: 0.25,    dpi: 800 },
+    { label: '2024/05/07', sens: 0.26,    dpi: 800 },
+    { label: '2024/07/13', sens: 0.25,    dpi: 800 },
+    { label: '2024/07/24', sens: 0.24,    dpi: 800 },
+    { label: '2024/08/04', sens: 0.235,   dpi: 800 },
+    { label: '2024/09/20', sens: 0.23,    dpi: 800 },
+    { label: '2025/05/27', sens: 0.22,    dpi: 800 },
+    { label: '2025/05/28', sens: 0.21,    dpi: 800 },
+    { label: '2025/06/10', sens: 0.205,   dpi: 800 },
+    { label: '2025/06/28', sens: 0.20,    dpi: 800 },
+    { label: '2025/09/09', sens: 0.19,    dpi: 800 },
+    { label: '2025/10/19', sens: 0.185,   dpi: 800 },
+    { label: '2025/11/16', sens: 0.09,    dpi: 1600 },
+    { label: '2026/01/16', sens: 0.19,    dpi: 800 },
+    { label: '2026/03/01', sens: 0.17,    dpi: 800 },
+  ];
+
+  let sensChartInstance: any = null;
+  let sensMode: 'sens' | 'edpi' = 'sens';
+
+  function getSensChartData() {
+    return SENS_HISTORY.map(d => sensMode === 'edpi' ? Math.round(d.sens * d.dpi * 10) / 10 : d.sens);
+  }
+
+  function openSensModal() {
+    const modal = document.getElementById('sens-modal') as HTMLElement;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    if (!sensChartInstance) {
+      const ctx = (document.getElementById('sens-chart') as HTMLCanvasElement).getContext('2d')!;
+      sensChartInstance = new (window as any).Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: SENS_HISTORY.map(d => d.label),
+          datasets: [{
+            label: 'Sensitivity',
+            data: getSensChartData(),
+            borderColor: '#4d79ff',
+            backgroundColor: 'rgba(77,121,255,0.12)',
+            pointBackgroundColor: SENS_HISTORY.map(d =>
+              d.dpi === 1600 ? '#ff6b6b' : '#4d79ff'
+            ),
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            borderWidth: 2,
+            fill: true,
+            tension: 0.3,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(6,6,15,0.92)',
+              borderColor: '#4d79ff',
+              borderWidth: 1,
+              titleColor: '#4d79ff',
+              bodyColor: '#ffffff',
+              titleFont: { family: "'DotGothic16', monospace" },
+              bodyFont:  { family: "'DotGothic16', monospace" },
+              callbacks: {
+                label: (ctx: any) => {
+                  const d = SENS_HISTORY[ctx.dataIndex];
+                  const edpi = Math.round(d.sens * d.dpi * 10) / 10;
+                  return [` DPI: ${d.dpi}`, ` Sens: ${d.sens}`, ` eDPI: ${edpi}`];
+                },
+              },
+            },
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: '#aaaaaa',
+                font: { family: "'DotGothic16', monospace", size: 9 },
+                maxRotation: 60,
+                minRotation: 45,
+              },
+              grid: { color: 'rgba(77,121,255,0.12)', lineWidth: 1 },
+            },
+            y: {
+              ticks: {
+                color: '#aaaaaa',
+                font: { family: "'DotGothic16', monospace", size: 10 },
+              },
+              grid: { color: 'rgba(77,121,255,0.12)', lineWidth: 1 },
+              title: {
+                display: true,
+                text: 'Sensitivity',
+                color: '#aaaaaa',
+                font: { family: "'DotGothic16', monospace", size: 10 },
+              },
+            },
+          },
+        },
+      });
+    }
+  }
+
+  function closeSensModal() {
+    const modal = document.getElementById('sens-modal') as HTMLElement;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  document.getElementById('sens-value-btn')?.addEventListener('click', openSensModal);
+  document.getElementById('sens-modal-close')?.addEventListener('click', closeSensModal);
+  document.getElementById('sens-modal')?.addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeSensModal();
+  });
+
+  document.querySelectorAll('.sens-mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = (btn as HTMLElement).dataset.mode as 'sens' | 'edpi';
+      if (mode === sensMode) return;
+      sensMode = mode;
+      document.querySelectorAll('.sens-mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (sensChartInstance) {
+        sensChartInstance.data.datasets[0].data = getSensChartData();
+        sensChartInstance.options.scales.y.title.text = mode === 'edpi' ? 'eDPI' : 'Sensitivity';
+        sensChartInstance.update();
+      }
+    });
+  });
+
   // ===== クリップギャラリー =====
   (function () {
     const INITIAL = 6;
@@ -1707,9 +1992,11 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
     // キーワードマッチ（OPのみ単語境界チェック）
     const KW_PATTERNS: Record<string, RegExp> = {
-      clutch: /clutch/i,
-      ult:    /ult/i,
+      clutch:  /clutch/i,
+      ult:     /ult/i,
+      ghost:   /ghost/i,
     };
+    const KW_TAG_FILTERS = ['op', 'guardian', '6kills', 'onemag'];
 
     function allCards() {
       return Array.from(document.querySelectorAll('.clip-card')) as HTMLElement[];
@@ -1721,7 +2008,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
         const agentOk = activeAgent === 'all' || card.dataset.agent === activeAgent;
         const cardTags = (card.dataset.tags ?? '').split(',');
         const kwOk    = activeKw    === 'all'
-          || (activeKw === '6kills' ? cardTags.includes('6kills') : KW_PATTERNS[activeKw]?.test(card.dataset.title ?? ''));
+          || (KW_TAG_FILTERS.includes(activeKw) ? cardTags.includes(activeKw) : KW_PATTERNS[activeKw]?.test(card.dataset.title ?? ''));
         return mapOk && agentOk && kwOk;
       });
     }
@@ -1821,7 +2108,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
           const videoId = el.dataset.videoId;
           el.classList.add('playing');
           const iframe = document.createElement('iframe');
-          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&fs=1&enablejsapi=1&playsinline=1&vq=hd1080`;
+          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&fs=1&enablejsapi=1&playsinline=1&vq=hd1080&hd=1`;
           iframe.allow = 'autoplay; encrypted-media; fullscreen';
           iframe.allowFullscreen = true;
           iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block;';
