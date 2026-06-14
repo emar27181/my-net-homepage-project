@@ -7,7 +7,13 @@
     "agent": "waylay",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "1-ZWIAqR2sY",
@@ -17,17 +23,29 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 1, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 1,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "1eNG96G7AEE",
     "url": "https://youtu.be/1eNG96G7AEE",
-    "title": "AsentClove AmainGhostAce",
+    "title": "AscentClove AmainGhostAce",
     "map": "ascent",
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "46a0f7dNVW4",
@@ -36,8 +54,16 @@
     "map": "lotus",
     "agent": "clove",
     "views": 0,
-    "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "tags": [
+      "op"
+    ],
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "471RvqnX2b0",
@@ -47,7 +73,13 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "5vqrKEoRYUI",
@@ -57,7 +89,13 @@
     "agent": "jett",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "7hmRh7a0aOk",
@@ -67,7 +105,13 @@
     "agent": "viper",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 5,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "7w6fo0I36LI",
@@ -77,17 +121,31 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "89-XDPmumUE",
     "url": "https://youtu.be/89-XDPmumUE",
-    "title": "BreezeChamber GurdianAce",
+    "title": "BreezeChamber GuardianAce",
     "map": "breeze",
     "agent": "chamber",
     "views": 0,
-    "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "tags": [
+      "guardian"
+    ],
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "8fKkBfd_St0",
@@ -97,7 +155,13 @@
     "agent": "chamber",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "AQCEUsw5PSc",
@@ -107,7 +171,13 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 2, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 2,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "Bx_StGqEbps",
@@ -117,7 +187,13 @@
     "agent": "chamber",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "EDLxam5-O7s",
@@ -127,7 +203,13 @@
     "agent": "chamber",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 4,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "ERb40ovB060",
@@ -136,8 +218,17 @@
     "map": "split",
     "agent": "jett",
     "views": 0,
-    "tags": ["smooth"],
-    "score": { "smooth": 5, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "tags": [
+      "smooth",
+      "onemag"
+    ],
+    "score": {
+      "smooth": 5,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 2
+    }
   },
   {
     "id": "EWMlL4fZrDA",
@@ -147,7 +238,13 @@
     "agent": "chamber",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "G0v9xTi48Gs",
@@ -157,7 +254,13 @@
     "agent": "omen",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "HiuCIyQBTuA",
@@ -167,7 +270,13 @@
     "agent": "astra",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "KTwFA1jQgFY",
@@ -176,18 +285,34 @@
     "map": "bind",
     "agent": "cypher",
     "views": 0,
-    "tags": ["6kills"],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 4, "highlight": 3, "6kills": 2 }
+    "tags": [
+      "6kills"
+    ],
+    "score": {
+      "smooth": 2,
+      "clutch": 4,
+      "6kills": 2,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "KlgpnsWbaB4",
     "url": "https://youtu.be/KlgpnsWbaB4",
-    "title": "Ascent Clove Garden Ace",
+    "title": "Ascent Clove Guardian Ace",
     "map": "ascent",
     "agent": "clove",
     "views": 0,
-    "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "tags": [
+      "guardian"
+    ],
+    "score": {
+      "smooth": 3,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "LwHGuy6Aim4",
@@ -197,7 +322,13 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 3, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 3,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "MTzDHYeHkCU",
@@ -207,7 +338,13 @@
     "agent": "chamber",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 4,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "Na88qgPFLdY",
@@ -216,8 +353,16 @@
     "map": "sunset",
     "agent": "clove",
     "views": 0,
-    "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 2, "highlight": 3, "6kills": 0 }
+    "tags": [
+      "guardian"
+    ],
+    "score": {
+      "smooth": 2,
+      "clutch": 2,
+      "6kills": 0,
+      "tap": 5,
+      "onemag": 0
+    }
   },
   {
     "id": "O52Jtotu4i8",
@@ -227,7 +372,13 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "VN8g-57N2K4",
@@ -237,7 +388,13 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 4,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "Yznxiz_tS4g",
@@ -247,7 +404,13 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 4,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "ZaZhZKNV1zo",
@@ -256,8 +419,16 @@
     "map": "split",
     "agent": "clove",
     "views": 0,
-    "tags": [],
-    "score": { "smooth": 4, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "tags": [
+      "onemag"
+    ],
+    "score": {
+      "smooth": 4,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 2
+    }
   },
   {
     "id": "bT70Au5LD6I",
@@ -267,7 +438,13 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "bcWBmsi--uM",
@@ -277,7 +454,13 @@
     "agent": "waylay",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 2, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 2,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "fJZP_eAKJvo",
@@ -287,7 +470,13 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "it45ShfTm4M",
@@ -296,8 +485,16 @@
     "map": "fracture",
     "agent": "chamber",
     "views": 0,
-    "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "tags": [
+      "guardian"
+    ],
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 2,
+      "onemag": 0
+    }
   },
   {
     "id": "kNc8Uly578s",
@@ -307,7 +504,13 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 4, "rotation": 3, "clutch": 4, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 4,
+      "clutch": 4,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "o7MzPYng680",
@@ -317,7 +520,13 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 5,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "ooJdHWZ3KyU",
@@ -327,7 +536,13 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "oos2PYWiRGM",
@@ -336,8 +551,16 @@
     "map": "ascent",
     "agent": "chamber",
     "views": 0,
-    "tags": ["smooth"],
-    "score": { "smooth": 5, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "tags": [
+      "smooth"
+    ],
+    "score": {
+      "smooth": 5,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "p35K09NJv8M",
@@ -346,8 +569,16 @@
     "map": "breeze",
     "agent": "clove",
     "views": 0,
-    "tags": ["6kills"],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 2 }
+    "tags": [
+      "6kills"
+    ],
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 2,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "qPOMfYDTVBg",
@@ -357,7 +588,13 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "sYukq2KxnUs",
@@ -366,8 +603,16 @@
     "map": "lotus",
     "agent": "clove",
     "views": 0,
-    "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "tags": [
+      "onemag"
+    ],
+    "score": {
+      "smooth": 4,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 2
+    }
   },
   {
     "id": "u2Vc9xUDxo8",
@@ -377,7 +622,13 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 3, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 3,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "u5yhldgN1i4",
@@ -387,7 +638,13 @@
     "agent": "omen",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "ukZkgIRBK5o",
@@ -397,7 +654,13 @@
     "agent": "clove",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 2, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 2,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "vU79pWsoA-I",
@@ -407,17 +670,29 @@
     "agent": "chamber",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "wnhM3KOPWHM",
     "url": "https://youtu.be/wnhM3KOPWHM",
-    "title": "Bind Waylay Spector Ace",
+    "title": "Bind Waylay Spectre Ace",
     "map": "bind",
     "agent": "waylay",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 0,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   },
   {
     "id": "zw9QJLeZ2Uo",
@@ -427,6 +702,12 @@
     "agent": "waylay",
     "views": 0,
     "tags": [],
-    "score": { "smooth": 3, "rotation": 3, "clutch": 2, "highlight": 3, "6kills": 0 }
+    "score": {
+      "smooth": 2,
+      "clutch": 2,
+      "6kills": 0,
+      "tap": 3,
+      "onemag": 0
+    }
   }
 ]
