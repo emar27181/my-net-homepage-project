@@ -6,12 +6,8 @@
     "map": "corrode",
     "agent": "waylay",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "1-ZWIAqR2sY",
@@ -20,12 +16,8 @@
     "map": "bind",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 2,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 1, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "1eNG96G7AEE",
@@ -34,12 +26,8 @@
     "map": "ascent",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "46a0f7dNVW4",
@@ -48,12 +36,8 @@
     "map": "lotus",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "471RvqnX2b0",
@@ -62,12 +46,8 @@
     "map": "bind",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "5vqrKEoRYUI",
@@ -76,12 +56,8 @@
     "map": "sunset",
     "agent": "jett",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "7hmRh7a0aOk",
@@ -90,12 +66,8 @@
     "map": "icebox",
     "agent": "viper",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "7w6fo0I36LI",
@@ -104,12 +76,8 @@
     "map": "haven",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "89-XDPmumUE",
@@ -118,12 +86,8 @@
     "map": "breeze",
     "agent": "chamber",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "8fKkBfd_St0",
@@ -132,12 +96,8 @@
     "map": "ascent",
     "agent": "chamber",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "AQCEUsw5PSc",
@@ -146,12 +106,8 @@
     "map": "bind",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 3,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 2, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "Bx_StGqEbps",
@@ -160,12 +116,8 @@
     "map": "split",
     "agent": "chamber",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "EDLxam5-O7s",
@@ -174,12 +126,8 @@
     "map": "split",
     "agent": "chamber",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "ERb40ovB060",
@@ -188,12 +136,8 @@
     "map": "split",
     "agent": "jett",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": ["smooth"],
+    "score": { "smooth": 5, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "EWMlL4fZrDA",
@@ -202,12 +146,8 @@
     "map": "split",
     "agent": "chamber",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "G0v9xTi48Gs",
@@ -216,12 +156,8 @@
     "map": "haven",
     "agent": "omen",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "HiuCIyQBTuA",
@@ -230,12 +166,8 @@
     "map": "pearl",
     "agent": "astra",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "KTwFA1jQgFY",
@@ -244,12 +176,8 @@
     "map": "bind",
     "agent": "cypher",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 5,
-      "highlight": 3
-    }
+    "tags": ["6kills"],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 4, "highlight": 3, "6kills": 2 }
   },
   {
     "id": "KlgpnsWbaB4",
@@ -258,12 +186,8 @@
     "map": "ascent",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "LwHGuy6Aim4",
@@ -272,12 +196,8 @@
     "map": "corrode",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 3,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 3, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "MTzDHYeHkCU",
@@ -286,12 +206,8 @@
     "map": "corrode",
     "agent": "chamber",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "Na88qgPFLdY",
@@ -300,12 +216,8 @@
     "map": "sunset",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 3,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 2, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "O52Jtotu4i8",
@@ -314,12 +226,8 @@
     "map": "ascent",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "VN8g-57N2K4",
@@ -328,12 +236,8 @@
     "map": "split",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "Yznxiz_tS4g",
@@ -342,12 +246,8 @@
     "map": "haven",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "ZaZhZKNV1zo",
@@ -356,12 +256,8 @@
     "map": "split",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 4, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "bT70Au5LD6I",
@@ -370,12 +266,8 @@
     "map": "haven",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "bcWBmsi--uM",
@@ -384,12 +276,8 @@
     "map": "breeze",
     "agent": "waylay",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 3,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 2, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "fJZP_eAKJvo",
@@ -398,12 +286,8 @@
     "map": "haven",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "it45ShfTm4M",
@@ -412,12 +296,8 @@
     "map": "fracture",
     "agent": "chamber",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "kNc8Uly578s",
@@ -426,12 +306,8 @@
     "map": "sunset",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 5,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 4, "rotation": 3, "clutch": 4, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "o7MzPYng680",
@@ -440,12 +316,8 @@
     "map": "sunset",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "ooJdHWZ3KyU",
@@ -454,12 +326,8 @@
     "map": "haven",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "oos2PYWiRGM",
@@ -468,12 +336,8 @@
     "map": "ascent",
     "agent": "chamber",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": ["smooth"],
+    "score": { "smooth": 5, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "p35K09NJv8M",
@@ -482,12 +346,8 @@
     "map": "breeze",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": ["6kills"],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 2 }
   },
   {
     "id": "qPOMfYDTVBg",
@@ -496,12 +356,8 @@
     "map": "sunset",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "sYukq2KxnUs",
@@ -510,12 +366,8 @@
     "map": "lotus",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "u2Vc9xUDxo8",
@@ -524,12 +376,8 @@
     "map": "sunset",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 3,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 3, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "u5yhldgN1i4",
@@ -538,12 +386,8 @@
     "map": "haven",
     "agent": "omen",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "ukZkgIRBK5o",
@@ -552,12 +396,8 @@
     "map": "sunset",
     "agent": "clove",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 3,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 2, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "vU79pWsoA-I",
@@ -566,12 +406,8 @@
     "map": "sunset",
     "agent": "chamber",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "wnhM3KOPWHM",
@@ -580,12 +416,8 @@
     "map": "bind",
     "agent": "waylay",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 1,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
   },
   {
     "id": "zw9QJLeZ2Uo",
@@ -594,11 +426,7 @@
     "map": "ascent",
     "agent": "waylay",
     "views": 0,
-    "score": {
-      "smooth": 3,
-      "rotation": 3,
-      "clutch": 3,
-      "highlight": 3
-    }
+    "tags": [],
+    "score": { "smooth": 3, "rotation": 3, "clutch": 2, "highlight": 3, "6kills": 0 }
   }
 ]

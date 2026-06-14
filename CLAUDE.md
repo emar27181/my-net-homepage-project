@@ -21,14 +21,16 @@
    ```json
    {
      "id": "VIDEO_ID",
+     "url": "https://youtu.be/VIDEO_ID",
      "title": "タイトル（例: HavenClove UltEntryAce）",
      "map": "マップ名（小文字）",
      "agent": "エージェント名（小文字）",
      "views": 0,
-     "score": { "smooth": 3, "rotation": 3, "clutch": 1, "highlight": 3 }
+     "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
    }
    ```
-   - `clutch` はタイトルの 1v2→2, 1v3→3, 1v4→4, 1v5→5、それ以外は 1
+   - `clutch` = (vの後ろ) − (vの前) の値。例: 1v3→2, 1v4→3, 1v5→4, 2v5→3。クラッチなしは 0
+   - `6kills` = 6キルエースは 2（暫定）、それ以外は 0
 
 ---
 
