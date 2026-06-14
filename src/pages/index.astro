@@ -80,6 +80,24 @@ const clipGalleryData: ClipData[] = [...(clipsRaw as ClipData[])].sort(
 const clipMaps   = [...new Set(clipGalleryData.map(c => c.map))];
 const clipAgents = [...new Set(clipGalleryData.map(c => c.agent))];
 function capFirst(s: string) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+// フィルター件数カウント（ビルド時に静的計算）
+const mapCounts = Object.fromEntries(
+  clipMaps.map(m => [m, clipGalleryData.filter(c => c.map === m).length])
+);
+const agentCounts = Object.fromEntries(
+  clipAgents.map(a => [a, clipGalleryData.filter(c => c.agent === a).length])
+);
+const typeCounts: Record<string, number> = {
+  all:      clipGalleryData.length,
+  clutch:   clipGalleryData.filter(c => /clutch|\dv\d/i.test(c.title)).length,
+  ult:      clipGalleryData.filter(c => /ult/i.test(c.title)).length,
+  ghost:    clipGalleryData.filter(c => /ghost/i.test(c.title)).length,
+  op:       clipGalleryData.filter(c => c.tags.includes('op')).length,
+  guardian: clipGalleryData.filter(c => c.tags.includes('guardian')).length,
+  '6kills': clipGalleryData.filter(c => c.tags.includes('6kills')).length,
+  onemag:   clipGalleryData.filter(c => c.tags.includes('onemag')).length,
+};
 const fpsGames    = gamesData.filter((g: any) => g.category === "FPS");
 const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 ---
@@ -368,10 +386,10 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
         <div class="filter-row">
           <span class="filter-label">MAP</span>
           <div class="filter-btns">
-            <button class="clips-filter-btn active" data-filter-type="map" data-filter-value="all">ALL</button>
+            <button class="clips-filter-btn active" data-filter-type="map" data-filter-value="all">ALL ({clipGalleryData.length})</button>
             {clipMaps.map(map => (
               <button class="clips-filter-btn" data-filter-type="map" data-filter-value={map}>
-                {capFirst(map)}
+                {capFirst(map)} ({mapCounts[map]})
               </button>
             ))}
           </div>
@@ -379,10 +397,10 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
         <div class="filter-row">
           <span class="filter-label">AGENT</span>
           <div class="filter-btns">
-            <button class="clips-filter-btn active" data-filter-type="agent" data-filter-value="all">ALL</button>
+            <button class="clips-filter-btn active" data-filter-type="agent" data-filter-value="all">ALL ({clipGalleryData.length})</button>
             {clipAgents.map(agent => (
               <button class="clips-filter-btn" data-filter-type="agent" data-filter-value={agent}>
-                {capFirst(agent)}
+                {capFirst(agent)} ({agentCounts[agent]})
               </button>
             ))}
           </div>
@@ -390,14 +408,14 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
         <div class="filter-row">
           <span class="filter-label">TYPE</span>
           <div class="filter-btns">
-            <button class="clips-filter-btn active" data-filter-type="kw" data-filter-value="all">ALL</button>
-            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="clutch">Clutch</button>
-            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="ult">Ult</button>
-            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="op">OP</button>
-            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="guardian">Guardian</button>
-            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="ghost">Ghost</button>
-            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="onemag">OneMagazine</button>
-            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="6kills">6kills</button>
+            <button class="clips-filter-btn active" data-filter-type="kw" data-filter-value="all">ALL ({typeCounts.all})</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="clutch">Clutch ({typeCounts.clutch})</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="ult">Ult ({typeCounts.ult})</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="op">OP ({typeCounts.op})</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="guardian">Guardian ({typeCounts.guardian})</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="ghost">Ghost ({typeCounts.ghost})</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="onemag">OneMagazine ({typeCounts.onemag})</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="6kills">6kills ({typeCounts['6kills']})</button>
           </div>
         </div>
         <div class="clips-result-info" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
@@ -523,7 +541,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
           <p
             style={`${S.bodyText}`}
           >
-            感度: <span id="sens-value-btn" style="cursor:pointer; text-decoration:underline; color:var(--text-accessible-blue);" title="クリックで感度履歴を表示">0.18 800DPI</span> (振り向き 45.4cm)<br />
+            感度: <span id="sens-value-btn" style="cursor:pointer; text-decoration:underline; color:var(--text-accessible-blue);" title="クリックで感度履歴を表示">0.17 800DPI</span> (振り向き 48.1cm)<br />
             クロスヘア: 青色・アウトライン有<br />
             <span
               id="copy-crosshair-text"
