@@ -354,14 +354,15 @@
     "agent": "clove",
     "views": 0,
     "tags": [
-      "guardian"
+      "guardian",
+      "onemag"
     ],
     "score": {
       "smooth": 2,
       "clutch": 2,
       "6kills": 0,
       "tap": 5,
-      "onemag": 0
+      "onemag": 2
     }
   },
   {
