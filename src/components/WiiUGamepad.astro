@@ -89,7 +89,7 @@
   const plain  = document.getElementById('wiiu-plain-wrap');
 
   const isMobile = () => window.innerWidth <= 768;
-  let showGamepad = !isMobile(); // スマホはデフォルト通常表示
+  let showGamepad = false;
 
   function applyState() {
     if (showGamepad) {
