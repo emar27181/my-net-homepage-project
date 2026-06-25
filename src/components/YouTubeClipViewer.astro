@@ -237,6 +237,15 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
     filter: brightness(1.2);
   }
 
+  /* 横画面スマホ: 幅を90px狭めることで高さが約50px下がる(16:9比) */
+  @media (orientation: landscape) and (max-width: 960px) {
+    .youtube-clip-viewer {
+      max-width: calc(100% - 90px);
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
   /* レスポンシブ対応 */
   @media (max-width: 768px) {
     .youtube-clip-viewer {
@@ -269,26 +278,26 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
       padding: 0;
       margin: 0;
     }
-    
+
     .clip-title {
       font-size: 10px;
       margin-bottom: 8px;
       padding: 0;
       line-height: 1.3;
     }
-    
+
     .external-link {
       font-size: 6px;
       padding: 0.1rem 0.2rem;
     }
-    
+
     .clip-description {
       padding: 0.05rem;
       margin-top: 1px;
       font-size: 7px;
       line-height: 1.1;
     }
-    
+
     .video-container {
       border: 2px solid var(--theme-primary) !important;
       border-radius: 4px;
@@ -296,6 +305,7 @@ const embedUrl = getEmbedUrl(clipUrl, autoplay);
       box-shadow: 0 0 10px rgba(var(--theme-primary-rgb), 0.3) !important;
     }
   }
+
 
   /* アクセシビリティ対応 */
   @media (prefers-reduced-motion: reduce) {

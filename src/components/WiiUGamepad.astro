@@ -432,6 +432,39 @@
     border: 1px solid #555;
   }
 
+  /* ===== 横画面スマホ: ゲームパッドの縦幅をビューポートに収める ===== */
+  @media (orientation: landscape) and (max-height: 600px) {
+    .wiiu-outer {
+      padding: 4px 0 8px;
+    }
+
+    .wiiu-body {
+      padding: 6px 6px 6px;
+    }
+
+    .wiiu-top-bar { margin-bottom: 2px; }
+    .wiiu-bottom-bar { margin-top: 2px; }
+
+    .wiiu-left,
+    .wiiu-right {
+      width: 40px;
+      gap: 5px;
+    }
+
+    .wiiu-stick { width: 18px; height: 18px; }
+    .wiiu-dpad  { width: 28px; height: 28px; }
+    .wiiu-dpad-v { width: 9px; height: 28px; }
+    .wiiu-dpad-h { width: 28px; height: 9px; }
+    .wiiu-dpad-center { width: 9px; height: 9px; }
+    .wiiu-abxy { width: 34px; height: 34px; }
+    .wiiu-abxy-btn { width: 12px; height: 12px; font-size: 4px; }
+    .wiiu-small-btn { width: 14px; height: 8px; font-size: 4px; }
+    .wiiu-home-btn  { width: 13px; height: 13px; font-size: 6px; }
+
+    .wiiu-screen-bezel { padding: 3px; }
+
+  }
+
   /* ===== レスポンシブ ===== */
   @media (max-width: 600px) {
     .wiiu-body {

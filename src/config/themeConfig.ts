@@ -114,13 +114,13 @@ export const getThemeColorsByHue = (hue: number) => generateThemeColors(hue);
 // フォントサイズ設定
 // ========================================
 export const FONT_SIZES = {
-  title: '24px',        // メインタイトル
-  subtitle: '16px',     // サブタイトル
-  sectionTitle: '18px', // セクション見出し（h2レベル）
-  subTitle: '16px',     // 小見出し（h3レベル）
-  bodyText: '14px',     // 本文テキスト
-  smallText: '10px',    // 小さいテキスト
-  footer: '10px',       // フッター
+  title: 'var(--fs-title)',
+  subtitle: 'var(--fs-subtitle)',
+  sectionTitle: 'var(--fs-section)',
+  subTitle: 'var(--fs-subtitle)',
+  bodyText: 'var(--fs-body)',
+  smallText: 'var(--fs-small)',
+  footer: 'var(--fs-footer)',
 } as const;
 
 // ========================================

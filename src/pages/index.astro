@@ -827,10 +827,6 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 </div>
 
 <style define:vars={{
-  "fs-body":    FONT_SIZES.bodyText,
-  "fs-small":   FONT_SIZES.smallText,
-  "fs-footer":  FONT_SIZES.footer,
-  "fs-title":   FONT_SIZES.sectionTitle,
   "col-primary": COLORS.primary,
   "col-text":    COLORS.textGray,
   "col-white":   COLORS.textWhite,
@@ -1523,7 +1519,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .clip-video-title {
     font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
-    font-size: 16px !important;
+    font-size: var(--fs-section) !important;
     color: #fff !important;
     text-shadow: 1px 1px 0 #000 !important;
     image-rendering: pixelated;
@@ -1640,6 +1636,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
       grid-template-columns: 1fr;
     }
   }
+
 </style>
 
 <script>
