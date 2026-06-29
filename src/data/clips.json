@@ -116,6 +116,7 @@
     "agent": "viper",
     "views": 0,
     "tags": [
+      "smooth",
       "vandal"
     ],
     "score": {
@@ -430,6 +431,7 @@
     "agent": "clove",
     "views": 0,
     "tags": [
+      "smooth",
       "onemagazine",
       "bundit"
     ],
@@ -438,7 +440,7 @@
       "clutch": 0,
       "6kills": 0,
       "tap": 0,
-      "onemag": 3
+      "onemag": 5
     }
   },
   {
@@ -596,6 +598,7 @@
     "agent": "clove",
     "views": 0,
     "tags": [
+      "smooth",
       "vandal"
     ],
     "score": {
@@ -651,7 +654,7 @@
     "views": 0,
     "tags": [
       "smooth",
-      "vandal"
+      "classic"
     ],
     "score": {
       "smooth": 5,
@@ -706,11 +709,12 @@
     "agent": "clove",
     "views": 0,
     "tags": [
+      "smooth",
       "onemagazine",
       "vandal"
     ],
     "score": {
-      "smooth": 4,
+      "smooth": 5,
       "clutch": 0,
       "6kills": 0,
       "tap": 3,
