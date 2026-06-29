@@ -40,28 +40,35 @@ const CLIPS_INITIAL_SHOW = 6;
 const SCORE_DEFAULTS: ClipScore = { smooth: 2, clutch: 0, tap: 3, "6kills": 0, onemag: 0 };
 
 const TAG_LABELS: Record<string, string> = {
-  op:       'OP',
-  guardian: 'Guardian',
-  '6kills': '6kills',
-  smooth:   'Smooth',
-  onemag:   'OneMagazine',
+  op:          'OP',
+  guardian:    'Guardian',
+  ghost:       'Ghost',
+  bundit:      'Bundit',
+  vandal:      'Vandal',
+  bucky:       'Bucky',
+  spectre:     'Spectre',
+  classic:     'Classic',
+  '6kills':    '6kills',
+  smooth:      'Smooth',
+  onemagazine: '1Mag',
 };
 
-// タイトル + JSONタグを統合して表示用バッジリストを生成
-function getClipTags(title: string, jsonTags: string[]): string[] {
+type TagBadge = { label: string; type: string; value: string };
+
+// タイトル + JSONタグを統合してバッジリストを生成
+function getClipTags(title: string, jsonTags: string[]): TagBadge[] {
   const t = title.toLowerCase();
-  const tags: string[] = [];
-  const clutchM = t.match(/(\d)v(\d)/);
-  if (clutchM) {
-    tags.push('Clutch');
-    tags.push(`${clutchM[1]}v${clutchM[2]}`);
-  } else if (t.includes('clutch')) {
-    tags.push('Clutch');
+  const result: TagBadge[] = [];
+  if (t.includes('ult')) result.push({ label: 'Ult', type: 'kw', value: 'ult' });
+  for (const tag of jsonTags) {
+    if (tag === 'clutch') {
+      const m = t.match(/(\d)v(\d)/);
+      result.push({ label: m ? `${m[1]}v${m[2]}` : 'Clutch', type: 'kw', value: 'clutch' });
+    } else {
+      result.push({ label: TAG_LABELS[tag] ?? tag, type: 'kw', value: tag });
+    }
   }
-  if (t.includes('ult')) tags.push('Ult');
-  if (t.includes('ghost')) tags.push('Ghost');
-  tags.push(...jsonTags.map(tag => TAG_LABELS[tag] ?? tag));
-  return tags;
+  return result;
 }
 
 function totalScore(c: ClipData) {
@@ -89,14 +96,20 @@ const agentCounts = Object.fromEntries(
   clipAgents.map(a => [a, clipGalleryData.filter(c => c.agent === a).length])
 );
 const typeCounts: Record<string, number> = {
-  all:      clipGalleryData.length,
-  clutch:   clipGalleryData.filter(c => /clutch|\dv\d/i.test(c.title)).length,
-  ult:      clipGalleryData.filter(c => /ult/i.test(c.title)).length,
-  ghost:    clipGalleryData.filter(c => /ghost/i.test(c.title)).length,
-  op:       clipGalleryData.filter(c => c.tags.includes('op')).length,
-  guardian: clipGalleryData.filter(c => c.tags.includes('guardian')).length,
-  '6kills': clipGalleryData.filter(c => c.tags.includes('6kills')).length,
-  onemag:   clipGalleryData.filter(c => c.tags.includes('onemag')).length,
+  all:         clipGalleryData.length,
+  clutch:      clipGalleryData.filter(c => c.tags.includes('clutch')).length,
+  ult:         clipGalleryData.filter(c => /ult/i.test(c.title)).length,
+  onemagazine: clipGalleryData.filter(c => c.tags.includes('onemagazine')).length,
+  smooth:      clipGalleryData.filter(c => c.tags.includes('smooth')).length,
+  '6kills':    clipGalleryData.filter(c => c.tags.includes('6kills')).length,
+  vandal:      clipGalleryData.filter(c => c.tags.includes('vandal')).length,
+  ghost:       clipGalleryData.filter(c => c.tags.includes('ghost')).length,
+  guardian:    clipGalleryData.filter(c => c.tags.includes('guardian')).length,
+  bundit:      clipGalleryData.filter(c => c.tags.includes('bundit')).length,
+  op:          clipGalleryData.filter(c => c.tags.includes('op')).length,
+  bucky:       clipGalleryData.filter(c => c.tags.includes('bucky')).length,
+  spectre:     clipGalleryData.filter(c => c.tags.includes('spectre')).length,
+  classic:     clipGalleryData.filter(c => c.tags.includes('classic')).length,
 };
 const fpsGames    = gamesData.filter((g: any) => g.category === "FPS");
 const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
@@ -406,16 +419,28 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
           </div>
         </div>
         <div class="filter-row">
-          <span class="filter-label">TYPE</span>
+          <span class="filter-label">PLAY</span>
           <div class="filter-btns">
             <button class="clips-filter-btn active" data-filter-type="kw" data-filter-value="all">ALL ({typeCounts.all})</button>
             <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="clutch">Clutch ({typeCounts.clutch})</button>
             <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="ult">Ult ({typeCounts.ult})</button>
-            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="op">OP ({typeCounts.op})</button>
-            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="guardian">Guardian ({typeCounts.guardian})</button>
-            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="ghost">Ghost ({typeCounts.ghost})</button>
-            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="onemag">OneMagazine ({typeCounts.onemag})</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="onemagazine">1Mag ({typeCounts.onemagazine})</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="smooth">Smooth ({typeCounts.smooth})</button>
             <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="6kills">6kills ({typeCounts['6kills']})</button>
+          </div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">WEAPON</span>
+          <div class="filter-btns">
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="all">ALL ({typeCounts.all})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="vandal"   data-weapon="vandal">Vandal ({typeCounts.vandal})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="ghost"    data-weapon="ghost">Ghost ({typeCounts.ghost})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="guardian" data-weapon="guardian">Guardian ({typeCounts.guardian})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="bundit"   data-weapon="bundit">Bundit ({typeCounts.bundit})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="op"       data-weapon="op">OP ({typeCounts.op})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="bucky"    data-weapon="bucky">Bucky ({typeCounts.bucky})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="spectre"  data-weapon="spectre">Spectre ({typeCounts.spectre})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="classic"  data-weapon="classic">Classic ({typeCounts.classic})</button>
           </div>
         </div>
         <div class="clips-result-info" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
@@ -455,10 +480,14 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
               <div class="clip-play-overlay">▶</div>
             </div>
             <div class="clip-meta">
-              <span class="clip-map-badge">{capFirst(clip.map)}</span>
-              <span class="clip-agent-badge">{capFirst(clip.agent)}</span>
+              <span class="clip-map-badge clickable-badge" data-filter-type="map" data-filter-value={clip.map}>{capFirst(clip.map)}</span>
+              <span class="clip-agent-badge clickable-badge" data-filter-type="agent" data-filter-value={clip.agent}>{capFirst(clip.agent)}</span>
               {getClipTags(clip.title, clip.tags ?? []).map(tag => (
-                <span class="clip-kw-badge">{tag}</span>
+                <span class={`clip-kw-badge clickable-badge${['vandal','ghost','guardian','bundit','op','bucky','spectre','classic'].includes(tag.value) ? ' weapon-kw-badge' : ''}`}
+                  data-filter-type={tag.type}
+                  data-filter-value={tag.value}
+                  data-weapon={['vandal','ghost','guardian','bundit','op','bucky','spectre','classic'].includes(tag.value) ? tag.value : undefined}
+                >{tag.label}</span>
               ))}
             </div>
             <div class="clip-debug-overlay">
@@ -831,21 +860,10 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   "col-text":    COLORS.textGray,
   "col-white":   COLORS.textWhite,
 }}>
-  /* 文字溢れ防止 - ページ全体の自動改行ルール */
+  /* 文字溢れ防止 - 長いURLやコードのみ折り返す */
   * {
-    word-wrap: break-word !important;
-    word-break: break-all !important;
     overflow-wrap: break-word !important;
-  }
-
-  /* 長い文字列の特別対応 */
-  p,
-  span,
-  div {
-    hyphens: auto;
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    -ms-hyphens: auto;
+    word-break: normal !important;
   }
 
   /* クロスヘアコードコピーボタンのホバー効果 */
@@ -862,13 +880,14 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   /* スマートフォン向け追加改行ルール */
   @media screen and (max-width: 768px) {
     * {
-      word-break: break-all !important;
       overflow-wrap: anywhere !important;
-      line-break: anywhere !important;
+    }
+
+    p, span, div {
+      text-wrap: pretty;
     }
 
     /* 長いコード文字列用の強制改行 */
-    span,
     code {
       white-space: pre-wrap !important;
       word-break: break-all !important;
@@ -1407,6 +1426,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     text-shadow: 0 0 6px var(--text-accessible-blue), 1px 1px 0 #000;
   }
 
+
   .clips-result-info {
     font-family: var(--font-pixel-jp);
     font-size: var(--fs-body);
@@ -1478,6 +1498,8 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     width: 100%;
     aspect-ratio: 16 / 9;
     cursor: pointer;
+    border: 2px solid var(--text-accessible-blue);
+    box-shadow: inset 2px 2px 0px rgba(0,0,0,0.3);
     overflow: hidden;
     background: #000;
   }
@@ -1518,9 +1540,9 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   }
 
   .clip-video-title {
-    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
-    font-size: var(--fs-section) !important;
-    color: #fff !important;
+    font-family: var(--font-pixel) !important;
+    font-size: var(--fs-small) !important;
+    color: #aabbdd !important;
     text-shadow: 1px 1px 0 #000 !important;
     image-rendering: pixelated;
     background: rgba(77, 121, 255, 0.1);
@@ -1582,6 +1604,16 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     color: #ffcc66;
     border: 1px solid rgba(255, 160, 0, 0.4);
   }
+
+  /* クリック可能バッジ */
+  .clickable-badge {
+    cursor: pointer;
+    transition: filter 0.15s ease;
+  }
+  .clickable-badge:hover {
+    filter: brightness(1.4);
+  }
+
 
   .clip-debug-overlay {
     display: none;
@@ -2007,11 +2039,9 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
     // キーワードマッチ（OPのみ単語境界チェック）
     const KW_PATTERNS: Record<string, RegExp> = {
-      clutch:  /clutch/i,
-      ult:     /ult/i,
-      ghost:   /ghost/i,
+      ult: /ult/i,
     };
-    const KW_TAG_FILTERS = ['op', 'guardian', '6kills', 'onemag'];
+    const KW_TAG_FILTERS = ['clutch', 'smooth', 'op', 'guardian', 'ghost', 'bundit', 'vandal', 'bucky', 'spectre', 'classic', 'onemagazine', '6kills'];
 
     function allCards() {
       return Array.from(document.querySelectorAll('.clip-card')) as HTMLElement[];
@@ -2084,6 +2114,31 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
         });
       });
 
+      // バッジクリックでフィルター（map / agent / kw）
+      function activateFilter(type: string, val: string) {
+        if (type === 'map')   { activeMap   = val; }
+        if (type === 'agent') { activeAgent = val; }
+        if (type === 'kw')    { activeKw    = val; }
+        document.querySelectorAll(`.clips-filter-btn[data-filter-type="${type}"]`)
+          .forEach(b => b.classList.remove('active'));
+        document.querySelector(`.clips-filter-btn[data-filter-type="${type}"][data-filter-value="${val}"]`)
+          ?.classList.add('active');
+        expanded = false;
+        render();
+        // フィルターエリアにスクロール
+        document.querySelector('.filter-row')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      document.querySelectorAll('.clickable-badge').forEach(badge => {
+        badge.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const el   = badge as HTMLElement;
+          const type = el.dataset.filterType;
+          const val  = el.dataset.filterValue;
+          if (type && val) activateFilter(type, val);
+        });
+      });
+
       // ソートボタン
       const sortBtns = ['clips-sort-custom', 'clips-sort-views'];
       function setSort(mode: SortMode) {
@@ -2115,6 +2170,44 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
         render();
       });
 
+      // クリップギャラリー: YouTube API経由で画質を最高に設定
+      function applyMaxQualityToClipPlayer(player: any) {
+        try {
+          const levels: string[] = player.getAvailableQualityLevels?.() || [];
+          const best = ['hd1080', 'hd720', 'large'].find(q => levels.includes(q)) || 'hd1080';
+          player.setPlaybackQuality(best);
+          if (typeof player.setPlaybackQualityRange === 'function') {
+            player.setPlaybackQualityRange(best, 'highres');
+          }
+          [500, 2000, 4000].forEach(d => setTimeout(() => { try { player.setPlaybackQuality(best); } catch(_){} }, d));
+        } catch (_) {}
+      }
+
+      function bindClipQuality(iframe: HTMLIFrameElement) {
+        const tryBind = () => {
+          const YT = (window as any).YT;
+          if (YT?.Player) {
+            try {
+              new YT.Player(iframe.id, {
+                events: {
+                  onReady(e: any) { applyMaxQualityToClipPlayer(e.target); },
+                  onStateChange(e: any) {
+                    if (e.data === 1 || e.data === 3) applyMaxQualityToClipPlayer(e.target);
+                  },
+                  onPlaybackQualityChange(e: any) {
+                    const cur = e.target.getPlaybackQuality();
+                    if (cur !== 'hd1080' && cur !== 'highres') applyMaxQualityToClipPlayer(e.target);
+                  }
+                }
+              });
+            } catch (_) {}
+          } else {
+            setTimeout(tryBind, 500);
+          }
+        };
+        setTimeout(tryBind, 300);
+      }
+
       // サムネイルクリックで動画再生（inline styleでAstroスコープ問題を回避）
       document.querySelectorAll('.clip-thumbnail-wrapper').forEach(wrapper => {
         wrapper.addEventListener('click', () => {
@@ -2123,11 +2216,13 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
           const videoId = el.dataset.videoId;
           el.classList.add('playing');
           const iframe = document.createElement('iframe');
+          iframe.id = `clip-player-${videoId}-${Date.now()}`;
           iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&fs=1&enablejsapi=1&playsinline=1&vq=hd1080&hd=1`;
           iframe.allow = 'autoplay; encrypted-media; fullscreen';
           iframe.allowFullscreen = true;
           iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block;';
           el.appendChild(iframe);
+          bindClipQuality(iframe);
         });
       });
 
