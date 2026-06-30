@@ -16,7 +16,6 @@ import WiiUGamepad from "../components/WiiUGamepad.astro";
 import DSLite from "../components/DSLite.astro";
 import { applyTypographyPreset } from "../utils/typography";
 import {
-  THEME_CONFIG,
   getCurrentThemeColors,
   FIXED_COLORS,
   FONT_SIZES,
@@ -447,13 +446,19 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
           <span><span id="clips-count">{clipGalleryData.length}</span> 件のクリップ</span>
           <button class="clips-sort-btn active" id="clips-sort-custom">★ カスタム順</button>
           <button class="clips-sort-btn" id="clips-sort-views">⬇ 再生回数順</button>
-          <span style="color:#334455; margin: 0 4px;">|</span>
+          <span style="color:var(--col-border-mid); margin: 0 4px;">|</span>
           <button class="clips-col-btn" data-cols="1">1列</button>
           <button class="clips-col-btn active" data-cols="2">2列</button>
           <button class="clips-col-btn" data-cols="3">3列</button>
-          <span style="color:#334455; margin: 0 4px;">|</span>
+          <span style="color:var(--col-border-mid); margin: 0 4px;">|</span>
           <button class="clips-view-btn active" id="clips-view-grid">▦ GRID</button>
           <button class="clips-view-btn" id="clips-view-short">▶ SHORT</button>
+          <span style="color:var(--col-border-mid); margin: 0 4px;">|</span>
+          <a
+            href="https://www.youtube.com/watch?v=PxTPOOY-bcU&list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct"
+            id="clips-yt-link"
+            class="clips-yt-link"
+          >▶ YouTubeで見る</a>
         </div>
       </div>
 
@@ -513,12 +518,17 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
       </div>
     </div>
 
-    <!-- ショートモード: フルスクリーンスクロールコンテナ -->
-    <div id="short-scroll-container" class="short-scroll-container"></div>
-    <button id="short-close-btn" class="short-close-btn">✕ 閉じる</button>
+    <!-- ショートモード -->
+    <div id="short-scroll-container" class="short-scroll-container">
+      <div id="short-cards-track" class="short-cards-track"></div>
+    </div>
+    <div id="short-hud" class="short-hud">
+      <span id="short-counter" class="short-counter"></span>
+      <button id="short-close-btn" class="short-close-btn">✕</button>
+    </div>
 
     <!-- 統計データセクション -->
-    <div id="valorant-stats"></div>
+    <div id="valorant-stats" style="scroll-margin-top: 52px;"></div>
     <ValorantStats
       competitiveAgentData={competitiveAgentData}
       competitiveRankData={competitiveRankData}
@@ -938,6 +948,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     .clips-gallery-section {
       padding: 8px !important;
       margin-bottom: 15px !important;
+      scroll-margin-top: 52px;
     }
 
     /* グリッド内の個別要素の余白調整 */
@@ -1023,7 +1034,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .game-tooltip {
     position: fixed;
     z-index: 8000;
-    background: #06060f;
+    background: var(--col-bg-deeper);
     border: 2px solid var(--col-primary);
     box-shadow: 0 0 0 1px #000, 0 0 10px var(--col-primary-a40);
     padding: 8px 12px;
@@ -1070,10 +1081,10 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .gt-hint {
     font-family: var(--font-pixel-jp);
     font-size: 14px;
-    color: #445566;
+    color: var(--col-text-dim);
     text-shadow: 1px 1px 0 #000;
     margin-top: 5px;
-    border-top: 1px solid #1a2244;
+    border-top: 1px solid var(--col-border-dark);
     padding-top: 4px;
   }
 
@@ -1131,7 +1142,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     image-rendering: pixelated;
   }
   .sens-modal-box {
-    background: #06060f;
+    background: var(--col-bg-deeper);
     border: 3px solid var(--col-primary);
     box-shadow: 0 0 0 1px #000, 0 0 0 4px var(--col-primary), 0 0 30px var(--col-primary-a40);
     border-radius: 8px;
@@ -1214,7 +1225,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   }
 
   .game-modal-box {
-    background: #06060f;
+    background: var(--col-bg-deeper);
     border: 3px solid var(--col-primary);
     box-shadow:
       0 0 0 1px #000,
@@ -1271,15 +1282,15 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     padding: 2px 6px;
     background: var(--col-primary-a20);
     border: 1px solid var(--col-primary-a50);
-    color: #99aaff;
+    color: var(--col-text-light);
     text-shadow: 1px 1px 0 #000;
     flex-shrink: 0;
   }
 
   .gm-close {
     background: none;
-    border: 1px solid #334466;
-    color: #556688;
+    border: 1px solid var(--col-border-dim);
+    color: var(--col-text-muted);
     font-size: var(--fs-small);
     width: 20px;
     height: 20px;
@@ -1373,7 +1384,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .illust-footer-bar {
     font-family: var(--font-pixel);
     font-size: var(--fs-footer);
-    color: #334466;
+    color: var(--col-border-dim);
     text-align: center;
     margin: 12px 0 0;
     padding: 8px 0;
@@ -1447,8 +1458,8 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     font-size: var(--fs-small);
     padding: 3px 8px;
     background: none;
-    color: #556677;
-    border: 1px solid #334455;
+    color: var(--col-text-muted);
+    border: 1px solid var(--col-border-mid);
     border-radius: 3px;
     cursor: pointer;
     text-shadow: 1px 1px 0 #000;
@@ -1466,8 +1477,8 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     font-size: var(--fs-small);
     padding: 3px 7px;
     background: none;
-    color: #556677;
-    border: 1px solid #334455;
+    color: var(--col-text-muted);
+    border: 1px solid var(--col-border-mid);
     border-radius: 3px;
     cursor: pointer;
     text-shadow: 1px 1px 0 #000;
@@ -1485,8 +1496,8 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     font-size: var(--fs-small);
     padding: 3px 7px;
     background: none;
-    color: #556677;
-    border: 1px solid #334455;
+    color: var(--col-text-muted);
+    border: 1px solid var(--col-border-mid);
     border-radius: 3px;
     cursor: pointer;
     text-shadow: 1px 1px 0 #000;
@@ -1496,6 +1507,20 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .clips-view-btn:hover {
     color: var(--text-accessible-blue);
     border-color: var(--text-accessible-blue);
+  }
+
+  .clips-yt-link {
+    font-family: var(--font-pixel-jp);
+    font-size: var(--fs-small);
+    color: #ff4444;
+    text-shadow: 1px 1px 0 #000;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .clips-yt-link:hover {
+    color: #ff7777;
+    text-decoration: underline;
   }
 
   /* ショートモード */
@@ -1519,94 +1544,160 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     overflow: hidden;
     scroll-snap-align: start;
   }
+  /* ========== SHORT モード ========== */
   .short-scroll-container {
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-    height: 100svh;
     position: fixed;
-    top: 0; left: 0; right: 0;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
     z-index: 8000;
     background: #000;
     display: none;
+    touch-action: pan-y;
   }
-  .short-scroll-container.active {
-    display: block;
+  .short-scroll-container.active { display: block; }
+
+  /* カードを縦に並べるトラック — transform でスライド */
+  .short-cards-track {
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+    transition: transform 0.52s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .short-close-btn {
+  .short-cards-track.no-transition {
+    transition: none;
+  }
+
+  /* HUD */
+  .short-hud {
     position: fixed;
-    top: 48px; right: 12px;
+    top: 0; left: 0; right: 0;
     z-index: 8100;
-    font-family: var(--font-pixel) !important;
-    font-size: 12px;
-    background: rgba(0,0,0,0.7);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 4px;
-    padding: 6px 10px;
-    cursor: pointer;
-    text-shadow: 1px 1px 0 #000;
     display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: linear-gradient(rgba(0,0,0,0.6), transparent);
+    pointer-events: none;
   }
-  .short-scroll-container.active ~ .short-close-btn,
-  .short-close-btn.active {
-    display: block;
-  }
-  .short-card {
-    height: 100svh;
-    scroll-snap-align: start;
-    position: relative;
-    background: #000;
+  .short-hud.active { display: flex; }
+  .short-close-btn {
+    font-family: var(--font-pixel) !important;
+    font-size: 16px;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    cursor: pointer;
+    pointer-events: all;
+    text-shadow: 1px 1px 0 #000;
+    line-height: 1;
+    transition: background 0.15s;
   }
-  .short-card .short-video-area {
+  .short-close-btn:hover {
+    background: rgba(255,60,60,0.7);
+  }
+  .short-counter {
+    font-family: var(--font-pixel) !important;
+    font-size: 9px;
+    color: rgba(255,255,255,0.75);
+    text-shadow: 1px 1px 0 #000;
+  }
+
+  /* 各カード：ビューポート1枚分 */
+  /* JS動的生成要素 → :global() でスコープ解除 */
+  :global(.short-card) {
     width: 100%;
-    aspect-ratio: 16/9;
+    height: 100%;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
   }
-  .short-card .short-thumb {
+  :global(.short-bg) {
+    position: absolute;
+    inset: -10%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(28px) brightness(0.22);
+    pointer-events: none;
+  }
+  :global(.short-video-wrap) {
+    position: relative;
+    width: 100%;
+    max-width: min(100vw, calc(100vh * 16 / 9));
+    aspect-ratio: 16 / 9;
+    z-index: 1;
+    background: #000;
+    cursor: pointer;
+  }
+  :global(.short-video-wrap .short-thumb) {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }
-  .short-card .short-play-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    color: rgba(255,255,255,0.85);
-    cursor: pointer;
-    text-shadow: 0 0 20px rgba(255,255,255,0.5);
-  }
-  .short-card iframe {
+  :global(.short-video-wrap iframe) {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     border: none;
   }
-  .short-card .short-info {
+  :global(.short-play-overlay) {
     position: absolute;
-    bottom: 0; left: 0; right: 0;
-    padding: 12px 14px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  :global(.short-play-overlay .short-play-icon) {
+    font-size: 3.5rem;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 0 30px rgba(255,255,255,0.4);
+    transition: transform 0.15s;
     pointer-events: none;
   }
-  .short-card .short-title {
+  :global(.short-video-wrap:hover .short-play-icon) { transform: scale(1.1); }
+  :global(.short-play-overlay.hidden) { display: none; }
+  :global(.short-info) {
+    position: absolute;
+    bottom: 0; left: 50%; right: auto;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: min(100vw, calc(100vh * 16 / 9));
+    z-index: 3;
+    padding: 50px 16px 20px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.82));
+    pointer-events: none;
+    box-sizing: border-box;
+  }
+  :global(.short-title) {
     font-family: var(--font-pixel) !important;
-    font-size: 10px;
+    font-size: 9px;
     color: #fff;
     text-shadow: 1px 1px 0 #000;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    line-height: 1.6;
+    overflow-wrap: break-word;
   }
-  .short-card .short-badges {
+  :global(.short-badges) {
     display: flex;
     gap: 5px;
     flex-wrap: wrap;
+    pointer-events: all;
   }
 
   .clips-grid {
@@ -1834,7 +1925,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   let currentVideoIndex = 0;
   const totalVideos = 8;
-  let videoSources = []; // 各動画のオリジナルsrcを保存
+  let videoSources: string[] = []; // 各動画のオリジナルsrcを保存
 
   function initializeVideoSources() {
     const videos = document.querySelectorAll(".carousel-video");
@@ -1846,8 +1937,8 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     });
   }
 
-  function showVideo(index) {
-    const videos = document.querySelectorAll(".carousel-video");
+  function showVideo(index: number) {
+    const videos = document.querySelectorAll<HTMLElement>(".carousel-video");
     const counter = document.getElementById("video-counter");
 
     videos.forEach((video, i) => {
@@ -2307,51 +2398,150 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
       });
 
       // ========== ショートモード ==========
+      // ========== SHORT モード ==========
       const shortContainer = document.getElementById('short-scroll-container') as HTMLElement;
+      const shortTrack     = document.getElementById('short-cards-track') as HTMLElement;
+      const shortHud       = document.getElementById('short-hud') as HTMLElement;
       const shortCloseBtn  = document.getElementById('short-close-btn') as HTMLButtonElement;
+      const shortCounter   = document.getElementById('short-counter') as HTMLElement;
       const viewGridBtn    = document.getElementById('clips-view-grid') as HTMLButtonElement;
       const viewShortBtn   = document.getElementById('clips-view-short') as HTMLButtonElement;
 
+      let shortIndex = 0;
+      let shortTotal = 0;
+
+      function playShortAt(idx: number) {
+        const card = shortTrack.children[idx] as HTMLElement | undefined;
+        if (!card) return;
+        const videoId = card.dataset.videoId ?? '';
+        if (!videoId || card.querySelector('iframe')) return;
+        card.querySelector('.short-play-overlay')?.classList.add('hidden');
+        const wrap = card.querySelector<HTMLElement>('.short-video-wrap')!;
+        // iframe で直接再生（YT.Player経由だとユーザージェスチャー外になり autoplay がブロックされる）
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('allow', 'autoplay; encrypted-media; fullscreen; picture-in-picture');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute('frameborder', '0');
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&modestbranding=1&rel=0&cc_load_policy=0&vq=hd1080&hd=1`;
+        wrap.appendChild(iframe);
+      }
+
+      function stopShortAt(idx: number) {
+        const card = shortTrack.children[idx] as HTMLElement | undefined;
+        if (!card) return;
+        card.querySelector('iframe')?.remove();
+        card.querySelector('.short-play-overlay')?.classList.remove('hidden');
+      }
+
+      function setTrackY(offset: number) {
+        shortTrack.style.transform = `translateY(${offset}px)`;
+      }
+
+      function goToShort(idx: number, animate = true) {
+        const prev = shortIndex;
+        shortIndex = Math.max(0, Math.min(idx, shortTotal - 1));
+        if (prev !== shortIndex) stopShortAt(prev);
+        if (animate) {
+          shortTrack.classList.remove('no-transition');
+        } else {
+          shortTrack.classList.add('no-transition');
+        }
+        setTrackY(-shortIndex * shortContainer.clientHeight);
+        shortCounter.textContent = `${shortIndex + 1} / ${shortTotal}`;
+        // ユーザージェスチャーのコンテキスト内で同期的に iframe を生成する。
+        // setTimeout を挟むと autoplay がブロックされるため、スライド中でも即座に呼ぶ。
+        // （カードが画面外で再生開始 → スライド完了時には既に再生中になる）
+        playShortAt(shortIndex);
+      }
+
       function buildShortCards() {
         const visibleCards = allCards().filter(c => c.style.display !== 'none');
-        shortContainer.innerHTML = '';
-        visibleCards.forEach(card => {
+        shortTrack.innerHTML = '';
+        shortIndex = 0;
+        shortTotal = visibleCards.length;
+        shortCounter.textContent = `1 / ${shortTotal}`;
+
+        visibleCards.forEach((card, idx) => {
           const videoId  = card.querySelector<HTMLElement>('.clip-thumbnail-wrapper')?.dataset.videoId ?? '';
           const title    = card.querySelector('.clip-video-title')?.textContent ?? '';
           const metaHTML = card.querySelector('.clip-meta')?.innerHTML ?? '';
+          const thumbUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
 
           const sc = document.createElement('div');
           sc.className = 'short-card';
+          sc.dataset.index = String(idx);
           sc.dataset.videoId = videoId;
           sc.innerHTML = `
-            <img class="short-thumb" src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="${title}" />
-            <div class="short-play-overlay">▶</div>
+            <div class="short-bg" style="background-image:url('${thumbUrl}')"></div>
+            <div class="short-video-wrap">
+              <img class="short-thumb" src="${thumbUrl}" alt="${title}" loading="lazy" />
+              <div class="short-play-overlay"><span class="short-play-icon">▶</span></div>
+            </div>
             <div class="short-info">
               <div class="short-title">${title}</div>
               <div class="short-badges">${metaHTML}</div>
             </div>`;
 
-          // タップで動画再生
-          sc.addEventListener('click', (e) => {
-            if ((e.target as HTMLElement).closest('.short-badges')) return;
-            if (sc.querySelector('iframe')) return;
-            sc.querySelector<HTMLElement>('.short-play-overlay')!.style.display = 'none';
-            sc.querySelector<HTMLElement>('.short-thumb')!.style.display = 'none';
-            const iframe = document.createElement('iframe');
-            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&enablejsapi=1&playsinline=1&vq=hd1080&hd=1`;
-            iframe.allow = 'autoplay; encrypted-media; fullscreen';
-            iframe.allowFullscreen = true;
-            sc.appendChild(iframe);
+          // タップで手動再生
+          sc.querySelector('.short-video-wrap')?.addEventListener('click', () => {
+            playShortAt(idx);
           });
 
-          shortContainer.appendChild(sc);
+          shortTrack.appendChild(sc);
         });
       }
 
+      // ========== タッチ：指追従スライド ==========
+      let touchY0 = 0;
+      let touchDragging = false;
+      shortContainer.addEventListener('touchstart', (e) => {
+        touchY0 = e.touches[0].clientY;
+        touchDragging = true;
+        // ドラッグ中はアニメーション無効化（touchend で戻す）
+        shortTrack.classList.add('no-transition');
+      }, { passive: true });
+      shortContainer.addEventListener('touchmove', (e) => {
+        if (!touchDragging) return;
+        const dy = e.touches[0].clientY - touchY0;
+        const base = -shortIndex * shortContainer.clientHeight;
+        const resist = (dy > 0 && shortIndex === 0) || (dy < 0 && shortIndex === shortTotal - 1);
+        setTrackY(base + (resist ? dy * 0.25 : dy));
+      }, { passive: true });
+      shortContainer.addEventListener('touchend', (e) => {
+        if (!touchDragging) return;
+        touchDragging = false;
+        // アニメーション復活
+        shortTrack.classList.remove('no-transition');
+        const dy = touchY0 - e.changedTouches[0].clientY;
+        if (dy > 40) goToShort(shortIndex + 1);
+        else if (dy < -40) goToShort(shortIndex - 1);
+        else goToShort(shortIndex);
+      }, { passive: true });
+
+      // マウスホイール (PC)
+      let wheelLocked = false;
+      shortContainer.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        if (wheelLocked) return;
+        wheelLocked = true;
+        if (e.deltaY > 0) goToShort(shortIndex + 1);
+        else goToShort(shortIndex - 1);
+        setTimeout(() => { wheelLocked = false; }, 600);
+      }, { passive: false });
+
+      // キーボード
+      document.addEventListener('keydown', (e) => {
+        if (!shortHud.classList.contains('active')) return;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') goToShort(shortIndex + 1);
+        if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  goToShort(shortIndex - 1);
+        if (e.key === 'Escape') closeShortMode();
+      });
+
       function openShortMode() {
         buildShortCards();
+        goToShort(0, false);
         shortContainer.classList.add('active');
-        shortCloseBtn.classList.add('active');
+        shortHud.classList.add('active');
         document.body.style.overflow = 'hidden';
         viewGridBtn.classList.remove('active');
         viewShortBtn.classList.add('active');
@@ -2359,9 +2549,9 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
       function closeShortMode() {
         shortContainer.classList.remove('active');
-        shortCloseBtn.classList.remove('active');
+        shortHud.classList.remove('active');
         document.body.style.overflow = '';
-        shortContainer.innerHTML = '';
+        shortTrack.innerHTML = '';
         viewGridBtn.classList.add('active');
         viewShortBtn.classList.remove('active');
       }
@@ -2369,6 +2559,24 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
       viewShortBtn?.addEventListener('click', openShortMode);
       viewGridBtn?.addEventListener('click', closeShortMode);
       shortCloseBtn?.addEventListener('click', closeShortMode);
+
+      // YouTube プレイリストリンク: モバイルはアプリ起動、PCは新タブ
+      const ytLink = document.getElementById('clips-yt-link');
+      ytLink?.addEventListener('click', (e) => {
+        e.preventDefault();
+        // href 属性から URL を取得（Astro SSR で正しいURLが埋め込まれている）
+        const webUrl = (ytLink as HTMLAnchorElement).href;
+        const appUrl = webUrl.replace('https://', 'youtube://');
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        if (isMobile) {
+          const t = setTimeout(() => { window.location.href = webUrl; }, 2000);
+          window.location.href = appUrl;
+          const cancel = () => { clearTimeout(t); document.removeEventListener('visibilitychange', cancel); };
+          document.addEventListener('visibilitychange', cancel);
+        } else {
+          window.open(webUrl, '_blank', 'noopener');
+        }
+      });
 
       // クリップギャラリー: YouTube API経由で画質を最高に設定
       function applyMaxQualityToClipPlayer(player: any) {
