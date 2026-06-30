@@ -194,8 +194,8 @@ export const CHART_GRID = {
 // ========================================
 export const NAV_CONFIG = {
   links: [
-    { label: 'PLAYER', href: '#about-section' },
     { label: 'CLIPS',  href: '#clips-gallery-section' },
+    { label: 'STATS',  href: '#valorant-stats' },
     { label: 'DEVICE', href: '#device-section' },
     { label: 'WORKS',  href: '#works-section' },
   ],

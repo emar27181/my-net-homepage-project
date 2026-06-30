@@ -35,7 +35,7 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
   >
     <!-- ナビゲーションバー -->
     <nav id="page-nav">
-      <a href="#" class="nav-site-title">nodoame27181</a>
+      <a href="#" class="nav-site-title">nodoamen</a>
       <div class="nav-links">
         {NAV_CONFIG.links.map(link => (
           <a href={link.href} class="nav-link">{link.label}</a>
@@ -287,7 +287,11 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
         display: flex;
         gap: 20px;
         flex: 1;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
       }
+      .nav-links::-webkit-scrollbar { display: none; }
       .nav-link {
         font-family: var(--font-pixel) !important;
         font-size: 10px;
@@ -308,6 +312,8 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
         cursor: pointer;
         padding: 0;
         line-height: 1;
+        flex-shrink: 0;
+        margin-left: 12px;
       }
 
       /* ========== 設定パネル ========== */
