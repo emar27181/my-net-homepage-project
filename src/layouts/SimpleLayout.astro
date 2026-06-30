@@ -18,6 +18,11 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/icon_omencat_transparent.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="nodoamen" />
+    <meta name="theme-color" content="#0d1028" />
     <title>{pageTitle}</title>
     <meta
       name="keywords"
@@ -30,7 +35,7 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
     />
   </head>
   <body
-    style="margin: 0; padding: 0; background-color: #0f0f27; color: white; font-family: 'Press Start 2P', monospace; image-rendering: pixelated;"
+    style="margin: 0; padding: 0; color: white; font-family: 'Press Start 2P', monospace; image-rendering: pixelated;"
     class="mobile-body"
   >
     <!-- ナビゲーションバー -->
@@ -356,7 +361,7 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
       .hue-value-display {
         font-family: var(--font-pixel) !important;
         font-size: 9px;
-        color: #aabbdd;
+        color: var(--col-text-light);
         text-shadow: 1px 1px 0 #000;
         min-width: 28px;
         text-align: right;

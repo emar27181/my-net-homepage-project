@@ -653,7 +653,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
             ></iframe>
           </div>
           <!-- 下画面: 説明・リンク -->
-          <div slot="bottom" style={`padding: 10px; font-family: var(--font-pixel-jp); color: ${COLORS.textGray}; background: #0a0a18;`}>
+          <div slot="bottom" style={`padding: 10px; font-family: var(--font-pixel-jp); color: ${COLORS.textGray}; background: var(--col-bg-deeper);`}>
             <p style={`${S.subTitle} color: var(--col-primary); margin-bottom: 8px; font-size: var(--fs-small);`}>
               VALORANT Point Viewer
             </p>
@@ -789,7 +789,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
     <!-- フッター -->
     <div
-      style="text-align: center; padding: 20px 0; border-top: 1px solid #333333;"
+      style="text-align: center; padding: 20px 0; border-top: 1px solid var(--col-border-mid);"
     >
       <p
         style={`color: ${COLORS.textDarkGray}; font-size: ${FONT_SIZES.footer}; margin: 0; font-family: ${FONTS.pixel}; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
@@ -1022,7 +1022,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .illust-status-bar {
     font-family: var(--font-pixel);
     font-size: var(--fs-small);
-    color: #5577aa;
+    color: var(--col-text-soft);
     text-shadow: 1px 1px 0 #000;
     image-rendering: pixelated;
     white-space: nowrap;
@@ -1069,13 +1069,13 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .gt-row {
     font-family: var(--font-pixel-jp);
     font-size: 14px;
-    color: #aabbcc;
+    color: var(--col-text-soft);
     text-shadow: 1px 1px 0 #000;
     line-height: 1.7;
   }
 
   .gt-label {
-    color: #6677aa;
+    color: var(--col-text-soft);
   }
 
   .gt-hint {
@@ -1112,7 +1112,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .game-chip-note {
     font-size: var(--fs-small);
-    color: #8899bb;
+    color: var(--col-text-soft);
   }
 
   .game-sep {
@@ -1332,7 +1332,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .gm-label {
     font-family: var(--font-pixel-jp);
     font-size: 14px;
-    color: #6677aa;
+    color: var(--col-text-soft);
     text-shadow: 1px 1px 0 #000;
     min-width: 130px;
     flex-shrink: 0;
@@ -1341,7 +1341,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .gm-value {
     font-family: var(--font-pixel-jp);
     font-size: 14px;
-    color: #ccdeff;
+    color: var(--col-text-light);
     text-shadow: 1px 1px 0 #000;
   }
 
@@ -1374,7 +1374,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .gm-comment {
     font-family: var(--font-pixel-jp);
     font-size: 14px;
-    color: #aabbcc;
+    color: var(--col-text-soft);
     text-shadow: 1px 1px 0 #000;
     line-height: 1.8;
     margin: 0;
@@ -1427,7 +1427,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     font-size: var(--fs-body);
     padding: 4px 10px;
     background: var(--col-primary-a10);
-    color: #aabbdd;
+    color: var(--col-text-soft);
     border: 1px solid var(--col-primary-a35);
     border-radius: 3px;
     cursor: pointer;
@@ -1448,7 +1448,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .clips-result-info {
     font-family: var(--font-pixel-jp);
     font-size: var(--fs-body);
-    color: #778899;
+    color: var(--col-text-muted);
     text-shadow: 1px 1px 0 #000;
     margin-top: 4px;
   }
@@ -1769,7 +1769,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .clip-video-title {
     font-family: var(--font-pixel) !important;
     font-size: var(--fs-small) !important;
-    color: #aabbdd !important;
+    color: var(--col-text-light) !important;
     text-shadow: 1px 1px 0 #000 !important;
     image-rendering: pixelated;
     background: var(--col-primary-a10);
@@ -1809,14 +1809,14 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .clip-map-badge {
     background: var(--col-primary-a20);
-    color: #99bbff;
+    color: var(--col-text-light);
     border: 1px solid var(--col-primary-a40);
   }
 
   .clip-agent-badge {
-    background: rgba(128, 0, 255, 0.2);
-    color: #cc99ff;
-    border: 1px solid rgba(128, 0, 255, 0.4);
+    background: var(--col-primary-a20);
+    color: var(--col-accessible);
+    border: 1px solid var(--col-primary-a40);
   }
 
   .clip-kw-badge {
@@ -2182,7 +2182,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
           plugins: {
             legend: { display: false },
             tooltip: {
-              backgroundColor: 'rgba(6,6,15,0.92)',
+              backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--col-bg-deeper').trim() || 'hsl(225,82%,3%)',
               borderColor: 'var(--col-primary)',
               borderWidth: 1,
               titleColor: 'var(--col-primary)',
