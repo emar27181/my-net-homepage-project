@@ -121,7 +121,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
 <SimpleLayout title="nodoamen's Portfolio">
   <div
-    style={`max-width: 1000px; margin: 0 auto; padding: 20px; background: var(--color-bg-secondary); border: 4px solid ${COLORS.primary}; border-radius: 12px; box-shadow: inset 2px 2px 0px ${COLORS.shadowWhite}, inset -2px -2px 0px ${COLORS.shadowBlack}, 0 0 20px ${COLORS.primaryShadow}; min-height: 100vh;`}
+    style={`max-width: 1000px; margin: 0 auto; padding: 20px; padding-top: 56px; background: var(--color-bg-secondary); border: 4px solid ${COLORS.primary}; border-radius: 12px; box-shadow: inset 2px 2px 0px ${COLORS.shadowWhite}, inset -2px -2px 0px ${COLORS.shadowBlack}, 0 0 20px ${COLORS.primaryShadow}; min-height: 100vh;`}
     class="main-container mobile-main"
   >
     <!-- タイトル -->
@@ -157,7 +157,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     <!-- About Me -->
     <div
       style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="about-section"
+      id="about-section" class="about-section"
     >
       <h2
         style={`${S.sectionTitle} margin-bottom: 15px;`}
@@ -389,7 +389,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     <!-- クリップギャラリーセクション -->
     <div
       style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="clips-gallery-section"
+      id="clips-gallery-section" class="clips-gallery-section"
     >
       <h2 style={`${S.sectionTitle} margin-bottom: 15px;`}>Clip Gallery</h2>
       <hr style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`} />
@@ -451,6 +451,9 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
           <button class="clips-col-btn" data-cols="1">1列</button>
           <button class="clips-col-btn active" data-cols="2">2列</button>
           <button class="clips-col-btn" data-cols="3">3列</button>
+          <span style="color:#334455; margin: 0 4px;">|</span>
+          <button class="clips-view-btn active" id="clips-view-grid">▦ GRID</button>
+          <button class="clips-view-btn" id="clips-view-short">▶ SHORT</button>
         </div>
       </div>
 
@@ -510,6 +513,10 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
       </div>
     </div>
 
+    <!-- ショートモード: フルスクリーンスクロールコンテナ -->
+    <div id="short-scroll-container" class="short-scroll-container"></div>
+    <button id="short-close-btn" class="short-close-btn">✕ 閉じる</button>
+
     <!-- 統計データセクション -->
     <div id="valorant-stats"></div>
     <ValorantStats
@@ -527,7 +534,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     <!-- デバイス情報 -->
     <div
       style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="device-section"
+      id="device-section" class="device-section"
     >
       <h2
         style={`${S.sectionTitle} margin-bottom: 15px;`}
@@ -606,7 +613,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     <!-- Works -->
     <div
       style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="works-section"
+      id="works-section" class="works-section"
     >
       <h2
         style={`${S.sectionTitle} margin-bottom: 15px;`}
@@ -1473,6 +1480,135 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     border-color: var(--text-accessible-blue);
   }
 
+  .clips-view-btn {
+    font-family: var(--font-pixel-jp);
+    font-size: var(--fs-small);
+    padding: 3px 7px;
+    background: none;
+    color: #556677;
+    border: 1px solid #334455;
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000;
+    transition: all 0.15s;
+  }
+  .clips-view-btn.active,
+  .clips-view-btn:hover {
+    color: var(--text-accessible-blue);
+    border-color: var(--text-accessible-blue);
+  }
+
+  /* ショートモード */
+  .clips-grid.short-mode {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .clips-grid.short-mode .clip-card {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+    scroll-snap-align: start;
+  }
+  .short-scroll-container {
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    height: 100svh;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 8000;
+    background: #000;
+    display: none;
+  }
+  .short-scroll-container.active {
+    display: block;
+  }
+  .short-close-btn {
+    position: fixed;
+    top: 48px; right: 12px;
+    z-index: 8100;
+    font-family: var(--font-pixel) !important;
+    font-size: 12px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000;
+    display: none;
+  }
+  .short-scroll-container.active ~ .short-close-btn,
+  .short-close-btn.active {
+    display: block;
+  }
+  .short-card {
+    height: 100svh;
+    scroll-snap-align: start;
+    position: relative;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .short-card .short-video-area {
+    width: 100%;
+    aspect-ratio: 16/9;
+  }
+  .short-card .short-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .short-card .short-play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: rgba(255,255,255,0.85);
+    cursor: pointer;
+    text-shadow: 0 0 20px rgba(255,255,255,0.5);
+  }
+  .short-card iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  .short-card .short-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 12px 14px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    pointer-events: none;
+  }
+  .short-card .short-title {
+    font-family: var(--font-pixel) !important;
+    font-size: 10px;
+    color: #fff;
+    text-shadow: 1px 1px 0 #000;
+    margin-bottom: 6px;
+  }
+  .short-card .short-badges {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
   .clips-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -2169,6 +2305,70 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
         expanded = !expanded;
         render();
       });
+
+      // ========== ショートモード ==========
+      const shortContainer = document.getElementById('short-scroll-container') as HTMLElement;
+      const shortCloseBtn  = document.getElementById('short-close-btn') as HTMLButtonElement;
+      const viewGridBtn    = document.getElementById('clips-view-grid') as HTMLButtonElement;
+      const viewShortBtn   = document.getElementById('clips-view-short') as HTMLButtonElement;
+
+      function buildShortCards() {
+        const visibleCards = allCards().filter(c => c.style.display !== 'none');
+        shortContainer.innerHTML = '';
+        visibleCards.forEach(card => {
+          const videoId  = card.querySelector<HTMLElement>('.clip-thumbnail-wrapper')?.dataset.videoId ?? '';
+          const title    = card.querySelector('.clip-video-title')?.textContent ?? '';
+          const metaHTML = card.querySelector('.clip-meta')?.innerHTML ?? '';
+
+          const sc = document.createElement('div');
+          sc.className = 'short-card';
+          sc.dataset.videoId = videoId;
+          sc.innerHTML = `
+            <img class="short-thumb" src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="${title}" />
+            <div class="short-play-overlay">▶</div>
+            <div class="short-info">
+              <div class="short-title">${title}</div>
+              <div class="short-badges">${metaHTML}</div>
+            </div>`;
+
+          // タップで動画再生
+          sc.addEventListener('click', (e) => {
+            if ((e.target as HTMLElement).closest('.short-badges')) return;
+            if (sc.querySelector('iframe')) return;
+            sc.querySelector<HTMLElement>('.short-play-overlay')!.style.display = 'none';
+            sc.querySelector<HTMLElement>('.short-thumb')!.style.display = 'none';
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&enablejsapi=1&playsinline=1&vq=hd1080&hd=1`;
+            iframe.allow = 'autoplay; encrypted-media; fullscreen';
+            iframe.allowFullscreen = true;
+            sc.appendChild(iframe);
+          });
+
+          shortContainer.appendChild(sc);
+        });
+      }
+
+      function openShortMode() {
+        buildShortCards();
+        shortContainer.classList.add('active');
+        shortCloseBtn.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        viewGridBtn.classList.remove('active');
+        viewShortBtn.classList.add('active');
+      }
+
+      function closeShortMode() {
+        shortContainer.classList.remove('active');
+        shortCloseBtn.classList.remove('active');
+        document.body.style.overflow = '';
+        shortContainer.innerHTML = '';
+        viewGridBtn.classList.add('active');
+        viewShortBtn.classList.remove('active');
+      }
+
+      viewShortBtn?.addEventListener('click', openShortMode);
+      viewGridBtn?.addEventListener('click', closeShortMode);
+      shortCloseBtn?.addEventListener('click', closeShortMode);
 
       // クリップギャラリー: YouTube API経由で画質を最高に設定
       function applyMaxQualityToClipPlayer(player: any) {
