@@ -33,11 +33,11 @@ export const generateThemeColors = (hue: number = THEME_CONFIG.HUE) => {
     primaryAlpha5: `hsla(${hue}, 100%, 65%, 0.05)`,
     primaryShadow: `hsla(${hue}, 100%, 65%, 0.3)`,
 
-    // タイトル・見出しカラー
-    heading: '#A6F7FF',
+    // タイトル・見出しカラー（CSS変数で色相追従）
+    heading: 'var(--col-heading)',
 
-    // リンクカラー（headingと同系色相）
-    link: '#A6F7FF',
+    // リンクカラー
+    link: 'var(--col-heading)',
 
     // RGB形式（一部コンポーネント用）
     primaryRgb: hslToRgb(hue, 100, 65),
@@ -69,14 +69,14 @@ export const FIXED_COLORS = {
 export const COMPONENT_COLORS = {
   // 動画ビューア系
   video: {
-    title: '#4d79ff',
-    border: '#4d79ff',
-    shadow: 'rgba(77, 121, 255, 0.3)',
+    title: 'var(--col-primary)',
+    border: 'var(--col-primary)',
+    shadow: 'var(--col-primary-a30)',
   },
 
   // ナビゲーション
   navigation: {
-    shadow: 'rgba(77, 121, 255, 0.3)',
+    shadow: 'var(--col-primary-a30)',
   },
 } as const;
 
@@ -184,7 +184,7 @@ export const CHART_GRID = {
     lineWidth: 2.5,
   },
   // テーマカラー（ラベル・ポイント・ライン）
-  themeColor: '#A6F7FF',
+  themeColor: 'var(--col-heading)',
   // ツールチップ背景
   tooltipBg: 'rgba(5, 10, 20, 0.95)',
 } as const;

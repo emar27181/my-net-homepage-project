@@ -8,51 +8,94 @@
   --font-pixel-jp: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;
   --font-main-jp: 'DotGothic16', 'BIZ UDPGothic', sans-serif;
 
-  /* テーマカラー（src/config/themeConfig.ts から動的に設定される） */
-  /* コンポーネント用の統一変数 */
-  --theme-primary: #4d79ff;        /* メインカラー */
-  --theme-primary-rgb: 77, 121, 255; /* RGB形式 */
-  --theme-shadow: rgba(77, 121, 255, 0.3); /* シャドウ用 */
-  
-  /* ポケモンDP風カラーパレット（青系統一・クリスタル調） */
-  --retro-primary: #4a7fc7;     /* ダイヤモンドブルー（DP風） */
-  --retro-secondary: #6ba6cd;   /* パールブルー（DP風） */
-  --retro-tertiary: #8ec5d6;    /* ライトクリスタルブルー（DP風） */
-  --retro-accent: #2c5f8a;      /* ディープオーシャンブルー（DP風） */
-  --retro-blue: #357abd;        /* シンオウブルー（DP風） */
-  --retro-light: #a4d3e2;       /* アイスブルー（DP風） */
-  --retro-dark: #1a4668;        /* ミッドナイトブルー（DP風） */
-  --retro-electric: #5dade2;    /* エレクトリックタイプブルー（DP風） */
-  --retro-cyber: #48cae4;       /* サイバーパールブルー（DP風） */
-  --retro-diamond: #b8e6ff;     /* ダイヤモンドダスト（DP新色） */
-  --retro-pearl: #74a9cf;       /* パールラスター（DP新色） */
-  
-  /* ポケモンDP風背景色（コントラスト強化版） */
-  --game-bg-primary: #000914;          /* より深いディープクリスタルブルー（コントラスト強化） */
-  --game-bg-secondary: #0f1f35;        /* より濃いクリスタルケーブブルー（UI背景） */
-  --game-bg-tertiary: #1d3452;         /* より濃いジュエルパネルブルー（パネル背景） */
-  --game-border: #74a9cf;               /* パールラスター枠線（DP風） */
-  --game-text: #ffffff;                 /* 白文字 */
-  --game-text-dim: #e8f4f8;             /* より明るいクリスタル文字（コントラスト強化） */
-  
-  /* ポケモンDP風テキスト色（コントラスト強化版） */
-  --text-high-contrast: #ffffff;       /* 純白文字（最高コントラスト） */
-  --text-medium-contrast: #e8f4f8;     /* より明るいクリスタル文字（コントラスト強化） */
-  --text-accessible-blue: #a8d5e6;     /* より明るいアクセシブルクリスタルブルー */
-  --text-accessible-light: #c4e3f2;    /* より明るいアクセシブルアイスブルー */
-  --text-accessible-dark: #6a9fd7;     /* より明るいアクセシブルダイヤモンドブルー */
-  --text-accessible-purple: #8bc6dd;   /* より明るいアクセシブルパールブルー */
-  --text-electric-glow: #7dcdf2;       /* より明るいエレクトリック発光 */
-  --text-diamond-shine: #d8f6ff;       /* より明るいダイヤモンドシャイン */
+  /* ============================================================
+     テーマ色相 — themeConfig.ts の HUE がデフォルト値
+     JSで上書きすることで全色が連動する（フォールバック値）
+     ============================================================ */
+  --theme-hue: 225; /* フォールバック。実際の初期値はthemeConfig.tsのHUEから<html style>で注入 */
+
+  /* メインカラー (明度65%) */
+  --col-primary:     hsl(var(--theme-hue), 100%, 65%);
+  --col-primary-a5:  hsla(var(--theme-hue), 100%, 65%, 0.05);
+  --col-primary-a7:  hsla(var(--theme-hue), 100%, 65%, 0.07);
+  --col-primary-a10: hsla(var(--theme-hue), 100%, 65%, 0.10);
+  --col-primary-a12: hsla(var(--theme-hue), 100%, 65%, 0.12);
+  --col-primary-a15: hsla(var(--theme-hue), 100%, 65%, 0.15);
+  --col-primary-a20: hsla(var(--theme-hue), 100%, 65%, 0.20);
+  --col-primary-a25: hsla(var(--theme-hue), 100%, 65%, 0.25);
+  --col-primary-a28: hsla(var(--theme-hue), 100%, 65%, 0.28);
+  --col-primary-a30: hsla(var(--theme-hue), 100%, 65%, 0.30);
+  --col-primary-a35: hsla(var(--theme-hue), 100%, 65%, 0.35);
+  --col-primary-a40: hsla(var(--theme-hue), 100%, 65%, 0.40);
+  --col-primary-a45: hsla(var(--theme-hue), 100%, 65%, 0.45);
+  --col-primary-a50: hsla(var(--theme-hue), 100%, 65%, 0.50);
+  --col-primary-a60: hsla(var(--theme-hue), 100%, 65%, 0.60);
+  --col-primary-a70: hsla(var(--theme-hue), 100%, 65%, 0.70);
+  --col-primary-a80: hsla(var(--theme-hue), 100%, 65%, 0.80);
+  --col-primary-a90: hsla(var(--theme-hue), 100%, 65%, 0.90);
+
+  /* 見出し・アクセシブルテキスト */
+  --col-heading:      hsl(var(--theme-hue), 100%, 86%);
+  --col-accessible:   hsl(var(--theme-hue),  55%, 78%);
+  --col-accessible-l: hsl(var(--theme-hue),  60%, 86%);
+  --col-accessible-d: hsl(var(--theme-hue),  55%, 62%);
+
+  /* 背景 (低明度・低彩度) */
+  --col-bg-deep:    hsl(var(--theme-hue), 82%,  4%);
+  --col-bg-mid:     hsl(var(--theme-hue), 60%, 13%);
+  --col-bg-panel:   hsl(var(--theme-hue), 50%, 22%);
+
+  /* レトロアクセント */
+  --col-retro-pri:   hsl(var(--theme-hue), 57%, 53%);
+  --col-retro-sec:   hsl(var(--theme-hue), 46%, 61%);
+  --col-retro-ter:   hsl(var(--theme-hue), 43%, 69%);
+  --col-retro-light: hsl(var(--theme-hue), 52%, 79%);
+  --col-retro-dark:  hsl(var(--theme-hue), 58%, 25%);
+  --col-retro-el:    hsl(var(--theme-hue), 72%, 63%);
+
+  /* テーマカラー（SimpleLayout.astroの--theme-hueから全色派生） */
+  --theme-primary: var(--col-primary);
+  --theme-shadow:  var(--col-primary-a30);
+
+  /* レトロパレット → CSS派生変数に差し替え */
+  --retro-primary:   var(--col-retro-pri);
+  --retro-secondary: var(--col-retro-sec);
+  --retro-tertiary:  var(--col-retro-ter);
+  --retro-accent:    var(--col-retro-dark);
+  --retro-blue:      var(--col-retro-pri);
+  --retro-light:     var(--col-retro-light);
+  --retro-dark:      var(--col-retro-dark);
+  --retro-electric:  var(--col-retro-el);
+  --retro-cyber:     var(--col-accessible);
+  --retro-diamond:   var(--col-heading);
+  --retro-pearl:     var(--col-retro-sec);
+
+  /* 背景 → CSS派生変数に差し替え */
+  --game-bg-primary:   var(--col-bg-deep);
+  --game-bg-secondary: var(--col-bg-mid);
+  --game-bg-tertiary:  var(--col-bg-panel);
+  --game-border:       var(--col-retro-sec);
+  --game-text:         #ffffff;
+  --game-text-dim:     #e8f4f8;
+
+  /* アクセシブルテキスト → CSS派生変数に差し替え */
+  --text-high-contrast:    #ffffff;
+  --text-medium-contrast:  #e8f4f8;
+  --text-accessible-blue:  var(--col-accessible);
+  --text-accessible-light: var(--col-accessible-l);
+  --text-accessible-dark:  var(--col-accessible-d);
+  --text-accessible-purple:var(--col-accessible);
+  --text-electric-glow:    var(--col-accessible-l);
+  --text-diamond-shine:    var(--col-heading);
   
   /* ポケモンDP風グラデーション（コントラスト強化版） */
   --gradient-health: linear-gradient(90deg, var(--retro-accent), var(--retro-electric));
   --gradient-mana: linear-gradient(90deg, var(--retro-blue), var(--retro-pearl));
   --gradient-exp: linear-gradient(90deg, var(--retro-secondary), var(--retro-diamond));
   --gradient-rare: linear-gradient(45deg, var(--retro-dark), var(--retro-light));
-  --gradient-diamond: linear-gradient(135deg, #0a1c33, var(--retro-primary), var(--retro-diamond));
-  --gradient-pearl: linear-gradient(135deg, #122844, var(--retro-secondary), var(--retro-pearl));
-  --gradient-crystal: linear-gradient(45deg, #0f243d 0%, var(--retro-primary) 20%, var(--retro-diamond) 40%, var(--retro-secondary) 60%, var(--retro-pearl) 80%, var(--retro-tertiary) 100%);
+  --gradient-diamond: linear-gradient(135deg, var(--col-bg-deep), var(--retro-primary), var(--retro-diamond));
+  --gradient-pearl: linear-gradient(135deg, var(--col-bg-mid), var(--retro-secondary), var(--retro-pearl));
+  --gradient-crystal: linear-gradient(45deg, var(--col-bg-mid) 0%, var(--retro-primary) 20%, var(--retro-diamond) 40%, var(--retro-secondary) 60%, var(--retro-pearl) 80%, var(--retro-tertiary) 100%);
   
   /* ゲームUI表示テーマ変数（一元管理） */
   --ui-theme: 'retro-game'; /* 'cyber' | 'retro-game' | 'pixel' */
