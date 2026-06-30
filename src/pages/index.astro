@@ -121,13 +121,13 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
 <SimpleLayout title="nodoamen's Portfolio">
   <div
-    style={`max-width: 1000px; margin: 0 auto; padding: 20px; padding-top: 56px; background: var(--color-bg-secondary); border: 4px solid ${COLORS.primary}; border-radius: 12px; box-shadow: inset 2px 2px 0px ${COLORS.shadowWhite}, inset -2px -2px 0px ${COLORS.shadowBlack}, 0 0 20px ${COLORS.primaryShadow}; min-height: 100vh;`}
+    style={`max-width: 1000px; margin: 0 auto; padding: 20px; padding-top: 56px; background: var(--color-bg-secondary); border: 4px solid var(--col-primary); border-radius: 12px; box-shadow: inset 2px 2px 0px ${COLORS.shadowWhite}, inset -2px -2px 0px ${COLORS.shadowBlack}, 0 0 20px var(--col-primary-a30); min-height: 100vh;`}
     class="main-container mobile-main"
   >
     <!-- タイトル -->
     <div style="text-align: center; margin-bottom: 40px;" class="title-section">
       <h1
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.title}; margin-bottom: 15px; font-family: ${FONTS.pixel}; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+        style={`color: var(--col-heading); font-size: ${FONT_SIZES.title}; margin-bottom: 15px; font-family: ${FONTS.pixel}; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
         class="main-title"
       >
         <span class="title-first-line">Nodoame's</span>
@@ -143,7 +143,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
       <img
         src="/icon_omencat_transparent.png"
         alt="nodoame profile"
-        style={`width: 120px; height: 120px; margin: 0 auto 15px auto; display: block; border-radius: 8px; border: 2px solid ${COLORS.primary}; background-color: ${COLORS.primaryAlpha10}; padding: 5px;`}
+        style={`width: 120px; height: 120px; margin: 0 auto 15px auto; display: block; border-radius: 8px; border: 2px solid var(--col-primary); background-color: var(--col-primary-a10); padding: 5px;`}
       />
 
       <p
@@ -156,7 +156,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
     <!-- About Me -->
     <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      style={`background: var(--col-primary-a10); border: 2px solid var(--col-primary); padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
       id="about-section" class="about-section"
     >
       <h2
@@ -186,7 +186,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
     <!-- プロフィール情報 -->
     <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      style={`background: var(--col-primary-a10); border: 2px solid var(--col-primary); padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
       class="profile-section"
     >
       <h2
@@ -333,7 +333,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
         <div
 
 
-          style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+          style={`background: var(--col-primary-a10); border: 2px solid var(--col-primary); padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
 
 
           class="video-section"
@@ -388,7 +388,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
     <!-- クリップギャラリーセクション -->
     <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      style={`background: var(--col-primary-a10); border: 2px solid var(--col-primary); padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
       id="clips-gallery-section" class="clips-gallery-section"
     >
       <h2 style={`${S.sectionTitle} margin-bottom: 15px;`}>Clip Gallery</h2>
@@ -533,7 +533,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
     <!-- デバイス情報 -->
     <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      style={`background: var(--col-primary-a10); border: 2px solid var(--col-primary); padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
       id="device-section" class="device-section"
     >
       <h2
@@ -612,7 +612,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     </div>
     <!-- Works -->
     <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      style={`background: var(--col-primary-a10); border: 2px solid var(--col-primary); padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
       id="works-section" class="works-section"
     >
       <h2
@@ -644,7 +644,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
           </div>
           <!-- 下画面: 説明・リンク -->
           <div slot="bottom" style={`padding: 10px; font-family: var(--font-pixel-jp); color: ${COLORS.textGray}; background: #0a0a18;`}>
-            <p style={`${S.subTitle} color: ${COLORS.primary}; margin-bottom: 8px; font-size: var(--fs-small);`}>
+            <p style={`${S.subTitle} color: var(--col-primary); margin-bottom: 8px; font-size: var(--fs-small);`}>
               VALORANT Point Viewer
             </p>
             <p style={`font-size: var(--fs-small); line-height: 1.6; margin-bottom: 10px; color: ${COLORS.textGray}; text-shadow: 1px 1px 0 #000;`}>
@@ -654,7 +654,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
               href="https://valorant-point-viewer.netlify.app/"
               target="_blank"
               rel="noopener"
-              style={`display: inline-block; padding: 4px 10px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: var(--fs-small); font-family: 'DotGothic16','BIZ UDPGothic','Press Start 2P',monospace; text-shadow: 1px 1px 0 #000; image-rendering: pixelated;`}
+              style={`display: inline-block; padding: 4px 10px; background: var(--col-primary); color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: var(--fs-small); font-family: 'DotGothic16','BIZ UDPGothic','Press Start 2P',monospace; text-shadow: 1px 1px 0 #000; image-rendering: pixelated;`}
             >サイトを見る →</a>
           </div>
         </DSLite></div>
@@ -669,7 +669,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
             <!-- 左側: 説明とリンク -->
             <div>
               <h3
-                style={`${S.subTitle} color: ${COLORS.primary}; margin-bottom: 10px;`}
+                style={`${S.subTitle} color: var(--col-primary); margin-bottom: 10px;`}
               >
                 VALORANT Point Viewer (現在作成途中)
               </h3>
@@ -685,8 +685,8 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
                   href="https://valorant-point-viewer.netlify.app/"
                   target="_blank"
                   rel="noopener"
-                  style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: ${FONTS.pixel}; text-shadow: none; transition: all 0.3s ease;`}
-                  onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='1px solid ${COLORS.primary}';`}
+                  style={`display: inline-block; padding: 6px 12px; background: var(--col-primary); color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: ${FONTS.pixel}; text-shadow: none; transition: all 0.3s ease;`}
+                  onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='var(--col-primary)'; this.style.border='1px solid var(--col-primary)';`}
                   onmouseout={`this.style.background='rgba(0, 0, 0, 0.4)'; this.style.color='${COLORS.textWhite}'; this.style.border='1px solid rgba(255, 255, 255, 0.3)';`}
                 >
                   サイトを見る →
@@ -705,7 +705,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
                   height="100%"
                   frameborder="0"
                   scrolling="no"
-                  style={`border: 2px solid ${COLORS.primary}; border-radius: 6px; box-shadow: 0 4px 8px ${COLORS.primaryShadow}; background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0; overflow: hidden;`}
+                  style={`border: 2px solid var(--col-primary); border-radius: 6px; box-shadow: 0 4px 8px var(--col-primary-a30); background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0; overflow: hidden;`}
                   title="VALORANT Point Viewer - Live Demo"
                   loading="lazy"></iframe>
               </div>
@@ -715,7 +715,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
           <!-- モバイル: 縦レイアウト -->
           <div style="display: none;" class="mobile-layout">
             <h3
-              style={`${S.subTitle} color: ${COLORS.primary}; margin-bottom: 10px;`}
+              style={`${S.subTitle} color: var(--col-primary); margin-bottom: 10px;`}
             >
               🎯 VALORANT Point Viewer
             </h3>
@@ -737,7 +737,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
                   height="100%"
                   frameborder="0"
                   scrolling="no"
-                  style={`border: 2px solid ${COLORS.primary}; border-radius: 6px; box-shadow: 0 4px 8px ${COLORS.primaryShadow}; background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0; overflow: hidden;`}
+                  style={`border: 2px solid var(--col-primary); border-radius: 6px; box-shadow: 0 4px 8px var(--col-primary-a30); background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0; overflow: hidden;`}
                   title="VALORANT Point Viewer - Live Demo (Mobile)"
                   loading="lazy"></iframe>
               </div>
@@ -748,7 +748,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
                 href="https://valorant-point-viewer.netlify.app/"
                 target="_blank"
                 rel="noopener"
-                style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: ${FONTS.pixel}; text-shadow: none; transition: all 0.3s ease;`}
+                style={`display: inline-block; padding: 6px 12px; background: var(--col-primary); color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: ${FONTS.pixel}; text-shadow: none; transition: all 0.3s ease;`}
                 onmouseover="this.style.background='transparent'; this.style.color='var(--theme-primary)'; this.style.border='1px solid var(--theme-primary)';"
                 onmouseout="this.style.background='var(--theme-primary)'; this.style.color='#ffffff'; this.style.border='none';"
               >
@@ -761,7 +761,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     </div>
     <!-- イラストギャラリー -->
     <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 4px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; box-shadow: inset 2px 2px 0px rgba(255,255,255,0.15), inset -2px -2px 0px rgba(0,0,0,0.5), 0 0 20px rgba(77,121,255,0.25);`}
+      style={`background: var(--col-primary-a10); border: 4px solid var(--col-primary); padding: 20px; margin-bottom: 40px; box-shadow: inset 2px 2px 0px rgba(255,255,255,0.15), inset -2px -2px 0px rgba(0,0,0,0.5), 0 0 20px var(--col-primary-a25);`}
       class="illust-gallery-section"
     >
       <!-- レトロゲーム風ヘッダー -->
@@ -1024,8 +1024,8 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     position: fixed;
     z-index: 8000;
     background: #06060f;
-    border: 2px solid #4d79ff;
-    box-shadow: 0 0 0 1px #000, 0 0 10px rgba(77,121,255,0.4);
+    border: 2px solid var(--col-primary);
+    box-shadow: 0 0 0 1px #000, 0 0 10px var(--col-primary-a40);
     padding: 8px 12px;
     pointer-events: none;
     opacity: 0;
@@ -1089,7 +1089,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     cursor: pointer;
     text-shadow: inherit;
     text-decoration: underline;
-    text-decoration-color: rgba(77, 121, 255, 0.5);
+    text-decoration-color: var(--col-primary-a50);
     text-underline-offset: 2px;
     transition: color 0.15s, text-decoration-color 0.15s;
   }
@@ -1132,8 +1132,8 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   }
   .sens-modal-box {
     background: #06060f;
-    border: 3px solid #4d79ff;
-    box-shadow: 0 0 0 1px #000, 0 0 0 4px #4d79ff, 0 0 30px rgba(77,121,255,0.4);
+    border: 3px solid var(--col-primary);
+    box-shadow: 0 0 0 1px #000, 0 0 0 4px var(--col-primary), 0 0 30px var(--col-primary-a40);
     border-radius: 8px;
     padding: 20px;
     width: min(720px, 94vw);
@@ -1148,12 +1148,12 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   }
   .sens-modal-title {
     font-size: 16px !important;
-    color: #4d79ff !important;
-    text-shadow: 0 0 8px rgba(77,121,255,0.7), 1px 1px 0 #000 !important;
+    color: var(--col-primary) !important;
+    text-shadow: 0 0 8px var(--col-primary-a70), 1px 1px 0 #000 !important;
   }
   .sens-modal-close {
     background: transparent;
-    border: 1px solid #4d79ff;
+    border: 1px solid var(--col-primary);
     color: #fff !important;
     font-size: 18px !important;
     width: 32px;
@@ -1162,7 +1162,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     border-radius: 4px;
     line-height: 1;
   }
-  .sens-modal-close:hover { background: rgba(77,121,255,0.2); }
+  .sens-modal-close:hover { background: var(--col-primary-a20); }
   .sens-chart-wrapper {
     width: 100%;
     height: 300px;
@@ -1175,7 +1175,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   }
   .sens-mode-btn {
     background: transparent;
-    border: 1px solid #4d79ff;
+    border: 1px solid var(--col-primary);
     color: #aaa !important;
     font-size: 12px !important;
     padding: 4px 14px;
@@ -1184,9 +1184,9 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   }
   .sens-mode-btn.active,
   .sens-mode-btn:hover {
-    background: rgba(77,121,255,0.2);
+    background: var(--col-primary-a20);
     color: #fff !important;
-    border-color: #4d79ff;
+    border-color: var(--col-primary);
   }
 
   .game-modal-overlay {
@@ -1215,12 +1215,12 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .game-modal-box {
     background: #06060f;
-    border: 3px solid #4d79ff;
+    border: 3px solid var(--col-primary);
     box-shadow:
       0 0 0 1px #000,
-      0 0 0 4px #4d79ff,
+      0 0 0 4px var(--col-primary),
       0 0 0 5px #000,
-      0 0 24px rgba(77,121,255,0.5);
+      0 0 24px var(--col-primary-a50);
     padding: 18px 22px 16px;
     min-width: 280px;
     max-width: 480px;
@@ -1259,7 +1259,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     font-family: var(--font-pixel);
     font-size: var(--fs-body);
     color: var(--col-white);
-    text-shadow: 1px 1px 0 #000, 0 0 8px rgba(77,121,255,0.6);
+    text-shadow: 1px 1px 0 #000, 0 0 8px var(--col-primary-a60);
     image-rendering: pixelated;
     flex: 1;
     letter-spacing: 1px;
@@ -1269,8 +1269,8 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     font-family: var(--font-pixel);
     font-size: var(--fs-small);
     padding: 2px 6px;
-    background: rgba(77,121,255,0.2);
-    border: 1px solid rgba(77,121,255,0.5);
+    background: var(--col-primary-a20);
+    border: 1px solid var(--col-primary-a50);
     color: #99aaff;
     text-shadow: 1px 1px 0 #000;
     flex-shrink: 0;
@@ -1300,7 +1300,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .gm-divider {
     height: 1px;
-    background: linear-gradient(to right, transparent, #4d79ff 20%, #4d79ff 80%, transparent);
+    background: linear-gradient(to right, transparent, var(--col-primary) 20%, var(--col-primary) 80%, transparent);
     margin: 8px 0;
     opacity: 0.6;
   }
@@ -1338,7 +1338,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     font-family: var(--font-pixel-jp);
     font-size: 14px;
     color: var(--text-accessible-blue);
-    text-shadow: 1px 1px 0 #000, 0 0 5px rgba(77,121,255,0.4);
+    text-shadow: 1px 1px 0 #000, 0 0 5px var(--col-primary-a40);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
@@ -1415,9 +1415,9 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     font-family: var(--font-pixel-jp);
     font-size: var(--fs-body);
     padding: 4px 10px;
-    background: rgba(77, 121, 255, 0.1);
+    background: var(--col-primary-a10);
     color: #aabbdd;
-    border: 1px solid rgba(77, 121, 255, 0.35);
+    border: 1px solid var(--col-primary-a35);
     border-radius: 3px;
     cursor: pointer;
     text-shadow: 1px 1px 0 #000;
@@ -1427,7 +1427,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .clips-filter-btn.active,
   .clips-filter-btn:hover {
-    background: rgba(77, 121, 255, 0.3);
+    background: var(--col-primary-a30);
     color: #ffffff;
     border-color: var(--text-accessible-blue);
     text-shadow: 0 0 6px var(--text-accessible-blue), 1px 1px 0 #000;
@@ -1618,7 +1618,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
   .clip-card {
     background: rgba(0, 0, 20, 0.4);
-    border: 1px solid rgba(77, 121, 255, 0.3);
+    border: 1px solid var(--col-primary-a30);
     border-radius: 6px;
     overflow: hidden;
     transition: border-color 0.2s ease, transform 0.2s ease;
@@ -1681,7 +1681,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     color: #aabbdd !important;
     text-shadow: 1px 1px 0 #000 !important;
     image-rendering: pixelated;
-    background: rgba(77, 121, 255, 0.1);
+    background: var(--col-primary-a10);
     padding: 6px 8px 6px 12px;
     white-space: nowrap;
     overflow: hidden;
@@ -1717,9 +1717,9 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   }
 
   .clip-map-badge {
-    background: rgba(77, 121, 255, 0.2);
+    background: var(--col-primary-a20);
     color: #99bbff;
-    border: 1px solid rgba(77, 121, 255, 0.4);
+    border: 1px solid var(--col-primary-a40);
   }
 
   .clip-agent-badge {
@@ -1757,7 +1757,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     top: 6px;
     right: 6px;
     background: rgba(0, 0, 0, 0.82);
-    border: 1px solid rgba(77, 121, 255, 0.6);
+    border: 1px solid var(--col-primary-a60);
     border-radius: 4px;
     padding: 6px 8px;
     z-index: 10;
@@ -1772,7 +1772,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .clip-debug-overlay .dbg-total {
     color: #4dffb0 !important;
     font-size: 13px !important;
-    border-top: 1px solid #4d79ff;
+    border-top: 1px solid var(--col-primary);
     margin-top: 4px;
     padding-top: 4px;
   }
@@ -1783,9 +1783,9 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     font-family: var(--font-pixel-jp);
     font-size: var(--fs-body);
     padding: 8px 22px;
-    background: rgba(77, 121, 255, 0.12);
+    background: var(--col-primary-a12);
     color: var(--text-accessible-blue);
-    border: 2px solid rgba(77, 121, 255, 0.45);
+    border: 2px solid var(--col-primary-a45);
     border-radius: 4px;
     cursor: pointer;
     text-shadow: 1px 1px 0 #000, 0 0 8px var(--text-accessible-blue);
@@ -1794,7 +1794,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   }
 
   .clips-expand-btn:hover {
-    background: rgba(77, 121, 255, 0.28);
+    background: var(--col-primary-a28);
     border-color: var(--text-accessible-blue);
     transform: scale(1.04);
   }
@@ -2073,10 +2073,10 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
           datasets: [{
             label: 'Sensitivity',
             data: getSensChartData(),
-            borderColor: '#4d79ff',
-            backgroundColor: 'rgba(77,121,255,0.12)',
+            borderColor: 'var(--col-primary)',
+            backgroundColor: 'var(--col-primary-a12)',
             pointBackgroundColor: SENS_HISTORY.map(d =>
-              d.dpi === 1600 ? '#ff6b6b' : '#4d79ff'
+              d.dpi === 1600 ? '#ff6b6b' : 'var(--col-primary)'
             ),
             pointRadius: 4,
             pointHoverRadius: 6,
@@ -2092,9 +2092,9 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
             legend: { display: false },
             tooltip: {
               backgroundColor: 'rgba(6,6,15,0.92)',
-              borderColor: '#4d79ff',
+              borderColor: 'var(--col-primary)',
               borderWidth: 1,
-              titleColor: '#4d79ff',
+              titleColor: 'var(--col-primary)',
               bodyColor: '#ffffff',
               titleFont: { family: "'DotGothic16', monospace" },
               bodyFont:  { family: "'DotGothic16', monospace" },
@@ -2115,14 +2115,14 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
                 maxRotation: 60,
                 minRotation: 45,
               },
-              grid: { color: 'rgba(77,121,255,0.12)', lineWidth: 1 },
+              grid: { color: 'var(--col-primary-a12)', lineWidth: 1 },
             },
             y: {
               ticks: {
                 color: '#aaaaaa',
                 font: { family: "'DotGothic16', monospace", size: 10 },
               },
-              grid: { color: 'rgba(77,121,255,0.12)', lineWidth: 1 },
+              grid: { color: 'var(--col-primary-a12)', lineWidth: 1 },
               title: {
                 display: true,
                 text: 'Sensitivity',

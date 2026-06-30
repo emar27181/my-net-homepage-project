@@ -226,8 +226,8 @@
       inset -3px -3px 0 rgba(0,0,0,0.5),
       0 0 0 1px #0a0a1a,
       0 6px 0 #08081a,
-      0 0 30px rgba(77,121,255,0.5),
-      0 0 70px rgba(77,121,255,0.15);
+      0 0 30px var(--col-primary-a50),
+      0 0 70px var(--col-primary-a15);
     padding: 14px 18px 28px;
   }
 
@@ -242,8 +242,8 @@
   .gb-brand-text {
     font-family: var(--font-pixel);
     font-size: 9px;
-    color: #4d79ff;
-    text-shadow: 0 0 10px rgba(77,121,255,0.7), 1px 1px 0 #000;
+    color: var(--col-primary);
+    text-shadow: 0 0 10px var(--col-primary-a70), 1px 1px 0 #000;
     letter-spacing: 3px;
     image-rendering: pixelated;
   }
@@ -272,7 +272,7 @@
     box-shadow:
       inset 0 3px 0 rgba(0,0,0,0.6),
       inset 0 -1px 0 rgba(255,255,255,0.04),
-      0 0 12px rgba(77,121,255,0.2);
+      0 0 12px var(--col-primary-a20);
   }
 
   /* インジケーター行 */
@@ -287,8 +287,8 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #4d79ff;
-    box-shadow: 0 0 6px rgba(77,121,255,0.9);
+    background: var(--col-primary);
+    box-shadow: 0 0 6px var(--col-primary-a90);
     flex-shrink: 0;
   }
 
@@ -313,7 +313,7 @@
     box-shadow:
       inset 0 0 0 2px #060610,
       inset 0 3px 10px rgba(0,0,0,0.9),
-      0 0 16px rgba(77,121,255,0.35);
+      0 0 16px var(--col-primary-a35);
     border-radius: 2px;
   }
 
@@ -413,7 +413,7 @@
     text-shadow: 1px 1px 0 #000;
   }
 
-  .hud-left { color: #4d79ff; text-shadow: 0 0 6px rgba(77,121,255,0.8), 1px 1px 0 #000; }
+  .hud-left { color: var(--col-primary); text-shadow: 0 0 6px var(--col-primary-a80), 1px 1px 0 #000; }
   .hud-right { color: #334455; }
 
   /* フラッシュ */
@@ -495,7 +495,7 @@
     font-family: var(--font-pixel);
     font-size: 8px;
     color: #6688bb;
-    text-shadow: 0 0 8px rgba(77,121,255,0.5), 1px 1px 0 #000;
+    text-shadow: 0 0 8px var(--col-primary-a50), 1px 1px 0 #000;
     image-rendering: pixelated;
     flex: 1;
     min-width: 0;
@@ -505,8 +505,8 @@
   .gb-counter-text {
     font-family: var(--font-pixel);
     font-size: 12px;
-    color: #4d79ff;
-    text-shadow: 0 0 10px rgba(77,121,255,0.8), 1px 1px 0 #000;
+    color: var(--col-primary);
+    text-shadow: 0 0 10px var(--col-primary-a80), 1px 1px 0 #000;
     image-rendering: pixelated;
     letter-spacing: 1px;
     white-space: nowrap;
@@ -863,13 +863,13 @@
   .viewer-dot:hover {
     background: #3a3a66;
     border-color: #5566aa;
-    box-shadow: 0 0 6px rgba(77,121,255,0.4), 0 0 0 1px #0a0a1a;
+    box-shadow: 0 0 6px var(--col-primary-a40), 0 0 0 1px #0a0a1a;
   }
 
   .viewer-dot.active {
-    background: #4d79ff;
+    background: var(--col-primary);
     border-color: #88aaff;
-    box-shadow: 0 0 8px rgba(77,121,255,0.8), 0 0 0 1px #0a0a1a;
+    box-shadow: 0 0 8px var(--col-primary-a80), 0 0 0 1px #0a0a1a;
     transform: scale(1.25);
   }
 
@@ -1040,8 +1040,8 @@
     border: 2px solid #2a4a99;
     box-shadow:
       0 0 0 1px #0a0a1a,
-      0 0 40px rgba(77,121,255,0.5),
-      0 0 100px rgba(77,121,255,0.2);
+      0 0 40px var(--col-primary-a50),
+      0 0 100px var(--col-primary-a20);
   }
 
   .gb-modal-img {
@@ -1067,7 +1067,7 @@
     font-family: var(--font-pixel);
     font-size: 9px;
     color: #6688bb;
-    text-shadow: 0 0 8px rgba(77,121,255,0.5), 1px 1px 0 #000;
+    text-shadow: 0 0 8px var(--col-primary-a50), 1px 1px 0 #000;
     letter-spacing: 1px;
     image-rendering: pixelated;
   }
@@ -1092,13 +1092,13 @@
     background: #1a1a38;
     border: 2px solid #3355bb;
     border-radius: 50%;
-    color: #4d79ff;
+    color: var(--col-primary);
     font-size: 14px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 12px rgba(77,121,255,0.5);
+    box-shadow: 0 0 12px var(--col-primary-a50);
     transition: all 0.12s ease;
     line-height: 1;
     padding: 0;
@@ -1107,7 +1107,7 @@
 
   .gb-modal-close:hover {
     background: #2a2a55;
-    box-shadow: 0 0 20px rgba(77,121,255,0.8);
+    box-shadow: 0 0 20px var(--col-primary-a80);
     color: #88aaff;
   }
 
@@ -1119,7 +1119,7 @@
     background: rgba(20, 20, 50, 0.85);
     border: 2px solid #2a4a99;
     border-radius: 50%;
-    color: #4d79ff;
+    color: var(--col-primary);
     font-size: 20px;
     cursor: pointer;
     display: flex;
@@ -1129,7 +1129,7 @@
     margin: 0 12px;
     box-shadow:
       0 0 0 1px #0a0a1a,
-      0 0 16px rgba(77,121,255,0.4);
+      0 0 16px var(--col-primary-a40);
     transition: all 0.12s ease;
     padding: 0;
     font-family: var(--font-pixel);
@@ -1139,7 +1139,7 @@
     background: rgba(40, 60, 120, 0.95);
     box-shadow:
       0 0 0 1px #0a0a1a,
-      0 0 28px rgba(77,121,255,0.8);
+      0 0 28px var(--col-primary-a80);
     color: #88aaff;
     transform: scale(1.08);
   }
@@ -1192,7 +1192,7 @@
     // 暗→明 のネオンブルー系パレット（8色）
     const PAL = [
       "#030308", "#070720", "#0d1040",
-      "#1a2260", "#2a3890", "#4d79ff",
+      "#1a2260", "#2a3890", "var(--col-primary)",
       "#7099ff", "#aabbff",
     ];
 
