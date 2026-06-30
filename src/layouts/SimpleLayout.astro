@@ -1,5 +1,6 @@
 ---
-import { NAV_CONFIG } from '../config/themeConfig';
+import { NAV_CONFIG, THEME_CONFIG } from '../config/themeConfig';
+const DEFAULT_HUE = THEME_CONFIG.HUE;
 
 export interface Props {
   title: string;
@@ -11,7 +12,7 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
 ---
 
 <!doctype html>
-<html lang="ja">
+<html lang="ja" style={`--theme-hue: ${DEFAULT_HUE}`}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -34,20 +35,21 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
   >
     <!-- ナビゲーションバー -->
     <nav id="page-nav">
+      <a href="#" class="nav-site-title">nodoame27181</a>
       <div class="nav-links">
         {NAV_CONFIG.links.map(link => (
           <a href={link.href} class="nav-link">{link.label}</a>
         ))}
       </div>
-      <button id="settings-toggle" class="settings-toggle-btn nav-link" aria-label="設定">{NAV_CONFIG.settingsLabel}</button>
+      <button id="settings-toggle" class="settings-toggle-btn nav-link" aria-label="設定" data-default-hue={DEFAULT_HUE}>{NAV_CONFIG.settingsLabel}</button>
     </nav>
 
     <!-- 設定パネル -->
     <div id="settings-panel" class="settings-panel" aria-hidden="true">
       <div class="settings-row">
         <span class="settings-label">COLOR HUE</span>
-        <input type="range" id="hue-slider" min="0" max="360" value="225" step="1" class="hue-slider">
-        <span id="hue-value-display" class="hue-value-display">225</span>
+        <input type="range" id="hue-slider" min="0" max="360" value={DEFAULT_HUE} step="1" class="hue-slider">
+        <span id="hue-value-display" class="hue-value-display">{DEFAULT_HUE}</span>
       </div>
       <div class="hue-presets">
         <button class="hue-preset-btn" data-hue="225" style="--pc: hsl(225,100%,65%)">Blue</button>
@@ -77,22 +79,7 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
         --font-pixel-jp: "DotGothic16", "BIZ UDPGothic", "Press Start 2P", monospace;
         --font-main-jp: "DotGothic16", "BIZ UDPGothic", sans-serif;
 
-        /* テーマカラー — hueを変えるだけで全色が追従 */
-        --theme-hue: 225;
-        --col-primary:    hsl(var(--theme-hue), 100%, 65%);
-        --col-primary-a7: hsla(var(--theme-hue), 100%, 65%, 0.07);
-        --col-primary-a10: hsla(var(--theme-hue), 100%, 65%, 0.1);
-        --col-primary-a12: hsla(var(--theme-hue), 100%, 65%, 0.12);
-        --col-primary-a20: hsla(var(--theme-hue), 100%, 65%, 0.2);
-        --col-primary-a25: hsla(var(--theme-hue), 100%, 65%, 0.25);
-        --col-primary-a28: hsla(var(--theme-hue), 100%, 65%, 0.28);
-        --col-primary-a30: hsla(var(--theme-hue), 100%, 65%, 0.3);
-        --col-primary-a35: hsla(var(--theme-hue), 100%, 65%, 0.35);
-        --col-primary-a40: hsla(var(--theme-hue), 100%, 65%, 0.4);
-        --col-primary-a45: hsla(var(--theme-hue), 100%, 65%, 0.45);
-        --col-primary-a50: hsla(var(--theme-hue), 100%, 65%, 0.5);
-        --col-primary-a60: hsla(var(--theme-hue), 100%, 65%, 0.6);
-        --col-primary-a70: hsla(var(--theme-hue), 100%, 65%, 0.7);
+        /* --theme-hue はglobal.cssで定義済み。JSで上書きして全色を連動させる */
 
         /* フォントサイズ — デスクトップ基準 */
         /* body/subtitle: 14px 以上、small/footer: 12px 以上を維持 */
@@ -272,18 +259,34 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
         top: 0; left: 0; right: 0;
         z-index: 9000;
         height: 40px;
-        background: rgba(6, 6, 15, 0.95);
-        border-bottom: 2px solid var(--col-primary);
-        box-shadow: 0 0 12px var(--col-primary-a30);
+        background: var(--col-bg-mid);
+        border-bottom: 1px solid var(--col-primary-a40);
+        box-shadow: 0 2px 8px var(--col-bg-deep);
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 0 16px;
         font-family: var(--font-pixel) !important;
       }
+      .nav-site-title {
+        font-family: var(--font-pixel) !important;
+        font-size: 10px;
+        color: var(--col-primary);
+        text-decoration: none;
+        text-shadow: 0 0 8px var(--col-primary-a50), 1px 1px 0 #000;
+        white-space: nowrap;
+        margin-right: 20px;
+        flex-shrink: 0;
+        transition: color 0.2s, text-shadow 0.2s;
+      }
+      .nav-site-title:hover {
+        color: var(--col-heading);
+        text-shadow: 0 0 12px var(--col-primary), 1px 1px 0 #000;
+      }
       .nav-links {
         display: flex;
         gap: 20px;
+        flex: 1;
       }
       .nav-link {
         font-family: var(--font-pixel) !important;
@@ -312,9 +315,9 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
         position: fixed;
         top: 42px; right: 8px;
         z-index: 8999;
-        background: rgba(6, 6, 15, 0.97);
-        border: 2px solid var(--col-primary);
-        box-shadow: 0 0 16px var(--col-primary-a30);
+        background: var(--col-bg-mid);
+        border: 1px solid var(--col-primary-a40);
+        box-shadow: 0 4px 16px var(--col-bg-deep);
         border-radius: 6px;
         padding: 14px 16px;
         min-width: 240px;
@@ -388,56 +391,63 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
 
     <script>
       (function () {
-        const HUE_KEY = 'theme-hue';
-        const root = document.documentElement;
+        const HUE_KEY         = 'theme-hue';
+        const HUE_DEFAULT_KEY = 'theme-hue-config-default';
+        const root            = document.documentElement;
 
-        function applyHue(hue) {
-          root.style.setProperty('--theme-hue', String(hue));
-          const slider = document.getElementById('hue-slider');
-          const display = document.getElementById('hue-value-display');
-          if (slider) slider.value = hue;
-          if (display) display.textContent = hue;
+        // <html style="--theme-hue: N"> から config デフォルト値を取得
+        const configDefault = parseInt(root.style.getPropertyValue('--theme-hue')) || 225;
+
+        // config デフォルトが変わっていたらユーザー保存値をリセット
+        const storedDefault = localStorage.getItem(HUE_DEFAULT_KEY);
+        if (storedDefault !== String(configDefault)) {
+          localStorage.removeItem(HUE_KEY);
+          localStorage.setItem(HUE_DEFAULT_KEY, String(configDefault));
         }
 
-        // 保存済みhueを復元
+        function applyHue(hue: number) {
+          root.style.setProperty('--theme-hue', String(hue));
+          const slider = document.getElementById('hue-slider') as HTMLInputElement | null;
+          const display = document.getElementById('hue-value-display');
+          if (slider) slider.value = String(hue);
+          if (display) display.textContent = String(hue);
+        }
+
+        // ユーザー保存値があれば適用、なければ config デフォルトをそのまま使用
         const saved = localStorage.getItem(HUE_KEY);
         if (saved) applyHue(Number(saved));
 
         document.addEventListener('DOMContentLoaded', function () {
           const toggleBtn = document.getElementById('settings-toggle');
-          const panel = document.getElementById('settings-panel');
-          const slider = document.getElementById('hue-slider');
-          const display = document.getElementById('hue-value-display');
-
-          // 現在のhueをスライダーに反映
-          const currentHue = getComputedStyle(root).getPropertyValue('--theme-hue').trim() || '225';
-          applyHue(Number(currentHue));
+          const panel     = document.getElementById('settings-panel');
+          const slider    = document.getElementById('hue-slider') as HTMLInputElement | null;
 
           // パネル開閉
-          toggleBtn?.addEventListener('click', function () {
+          toggleBtn?.addEventListener('click', () => {
             panel?.classList.toggle('open');
             toggleBtn.classList.toggle('active');
           });
 
           // パネル外クリックで閉じる
-          document.addEventListener('click', function (e) {
-            if (!panel?.contains(e.target) && e.target !== toggleBtn) {
+          document.addEventListener('click', (e) => {
+            const target = e.target as Node | null;
+            if (!panel?.contains(target) && target !== toggleBtn) {
               panel?.classList.remove('open');
               toggleBtn?.classList.remove('active');
             }
           });
 
           // スライダー操作
-          slider?.addEventListener('input', function () {
-            const hue = Number(this.value);
+          slider?.addEventListener('input', () => {
+            const hue = Number(slider.value);
             applyHue(hue);
             localStorage.setItem(HUE_KEY, String(hue));
           });
 
           // プリセットボタン
           document.querySelectorAll('.hue-preset-btn').forEach(btn => {
-            btn.addEventListener('click', function () {
-              const hue = Number(this.dataset.hue);
+            btn.addEventListener('click', () => {
+              const hue = Number((btn as HTMLElement).dataset.hue);
               applyHue(hue);
               localStorage.setItem(HUE_KEY, String(hue));
             });
