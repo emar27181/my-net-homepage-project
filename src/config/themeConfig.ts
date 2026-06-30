@@ -189,6 +189,19 @@ export const CHART_GRID = {
   tooltipBg: 'rgba(5, 10, 20, 0.95)',
 } as const;
 
+// ========================================
+// ナビゲーションバー設定
+// ========================================
+export const NAV_CONFIG = {
+  links: [
+    { label: 'PLAYER', href: '#about-section' },
+    { label: 'CLIPS',  href: '#clips-gallery-section' },
+    { label: 'DEVICE', href: '#device-section' },
+    { label: 'WORKS',  href: '#works-section' },
+  ],
+  settingsLabel: 'SETTING',
+} as const;
+
 // デフォルトエクスポート
 export default {
   THEME_CONFIG,
