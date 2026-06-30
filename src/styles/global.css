@@ -57,6 +57,20 @@
   --theme-primary: var(--col-primary);
   --theme-shadow:  var(--col-primary-a30);
 
+  /* ===== UI境界・テキストの色相連動変数 =====
+     ハードコードを排除し、色相スライダーで全色が追従するよう一元管理 */
+  /* 枠線 (暗め) */
+  --col-border-dark:  hsl(var(--theme-hue), 42%, 18%);  /* #1a2244相当 */
+  --col-border-mid:   hsl(var(--theme-hue), 22%, 26%);  /* #334455相当 */
+  --col-border-dim:   hsl(var(--theme-hue), 22%, 30%);  /* #334466相当 */
+  /* 背景 (深め) */
+  --col-bg-deeper:    hsl(var(--theme-hue), 82%,  3%);  /* #06060f相当 */
+  /* テキスト (暗〜中程度) */
+  --col-text-muted:   hsl(var(--theme-hue), 20%, 40%);  /* #556677相当 */
+  --col-text-dim:     hsl(var(--theme-hue), 18%, 32%);  /* #445566相当 */
+  --col-text-soft:    hsl(var(--theme-hue), 42%, 60%);  /* #445566相当 */
+  --col-text-light:   hsl(var(--theme-hue), 50%, 72%);  /* #99aaff相当 */
+
   /* レトロパレット → CSS派生変数に差し替え */
   --retro-primary:   var(--col-retro-pri);
   --retro-secondary: var(--col-retro-sec);
