@@ -22,7 +22,7 @@ export const NEON_LINE_PRESETS: Record<string, NeonLineConfig> = {
   primary: {
     id: 'primary',
     name: 'プライマリーブルー',
-    color: '#4d79ff',
+    color: 'var(--col-primary)',
     intensity: 'high',
     thickness: 'normal',
     animation: 'pulse',
@@ -34,7 +34,7 @@ export const NEON_LINE_PRESETS: Record<string, NeonLineConfig> = {
   secondary: {
     id: 'secondary',
     name: 'セカンダリーパープル',
-    color: '#8000ff',
+    color: 'var(--col-retro-sec)',
     intensity: 'medium',
     thickness: 'normal',
     animation: 'glow',
@@ -59,7 +59,7 @@ export const NEON_LINE_PRESETS: Record<string, NeonLineConfig> = {
   pink: {
     id: 'pink',
     name: 'ネオンピンク',
-    color: '#4d79ff',
+    color: 'var(--col-primary)',
     intensity: 'ultra',
     thickness: 'thick',
     animation: 'flicker',
@@ -262,16 +262,19 @@ export class NeonLineManager {
    */
   private generateShadows(config: NeonLineConfig, intensity: any): string {
     const shadows = [];
-    const baseColor = config.color;
-    
-    // インナーシャドウ
-    shadows.push(`inset 0 0 ${config.blur}px ${baseColor.includes('gradient') ? '#4d79ff' : baseColor}${Math.round(config.opacity * 51).toString(16)}`);
-    
+    const isVar = config.color.startsWith('var(');
+    const baseColor = (config.color.includes('gradient') || (!isVar && !config.color.startsWith('#')))
+      ? 'var(--col-primary)' : config.color;
+
+    // インナーシャドウ（低透明度）
+    const innerColor = isVar ? 'var(--col-primary-a5)' : `${baseColor}${Math.round(config.opacity * 51).toString(16).padStart(2,'0')}`;
+    shadows.push(`inset 0 0 ${config.blur}px ${innerColor}`);
+
     // アウターシャドウ（複数層）
     for (let i = 1; i <= intensity.shadowCount; i++) {
       const blur = (config.blur * i);
       const spread = i === 1 ? 0 : Math.floor(blur * 0.1);
-      shadows.push(`0 0 ${blur}px ${spread}px ${baseColor.includes('gradient') ? '#4d79ff' : baseColor}`);
+      shadows.push(`0 0 ${blur}px ${spread}px ${baseColor}`);
     }
 
     return shadows.join(', ');
@@ -281,7 +284,8 @@ export class NeonLineManager {
    * 完全なボーダースタイルを生成
    */
   private generateBorderStyle(config: NeonLineConfig, intensity: any, thickness: number): string {
-    const color = config.color.includes('gradient') ? '#4d79ff' : config.color;
+    const color = (config.color.includes('gradient') && !config.color.startsWith('var('))
+      ? 'var(--col-primary)' : config.color;
     return `${thickness}px solid ${color}`;
   }
 
@@ -325,17 +329,19 @@ export class NeonLineManager {
   }
 
   /**
-   * インラインスタイルを生成
+   * インラインスタイルを生成（CSS変数参照ではなく実値を直接返す）
    */
   getInlineStyle(id: string): string {
     const config = this.configs.get(id);
     if (!config || !config.enabled) return '';
 
-    return `
-      border: var(--neon-line-${id}-border-style);
-      box-shadow: var(--neon-line-${id}-shadow);
-      ${config.animation !== 'none' ? `animation: var(--neon-line-${id}-animation);` : ''}
-    `.trim();
+    const intensity = INTENSITY_MAP[config.intensity];
+    const thickness = THICKNESS_MAP[config.thickness];
+    const borderStyle = this.generateBorderStyle(config, intensity, thickness);
+    const shadows = this.generateShadows(config, intensity);
+    const animation = config.animation !== 'none' ? `animation: neon-${config.animation} 2s infinite;` : '';
+
+    return `border: ${borderStyle}; box-shadow: ${shadows}; ${animation}`.trim();
   }
 }
 

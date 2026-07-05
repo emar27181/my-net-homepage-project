@@ -1,34 +1,71 @@
 ---
+import { NAV_CONFIG, THEME_CONFIG } from '../config/themeConfig';
+const DEFAULT_HUE = THEME_CONFIG.HUE;
+
 export interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = "nodoameのポートフォリオサイト" } = Astro.props;
+const { title, description = "nodoamen のポートフォリオサイト。VALORANT(ヴァロラント)の統計データ、ゲームプレイ動画、デバイス情報などを公開しています。" } = Astro.props;
+const pageTitle = `${title} | nodoamen | Valorant Stats`;
 ---
 
 <!doctype html>
-<html lang="ja">
+<html lang="ja" style={`--theme-hue: ${DEFAULT_HUE}`}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/icon_omencat_transparent.png" />
-    <title>{title}</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="nodoamen" />
+    <meta name="theme-color" content="#0d1028" />
+    <title>{pageTitle}</title>
     <meta
       name="keywords"
-      content="nodoame,ポートフォリオ,VALORANT,ゲーム,動画"
+      content="nodoamen, valorant, ヴァロラント, portfolio, stats, portfolio, valorant stats, valorant tracker, valorant profile"
     />
-    <meta name="author" content="nodoame" />
+    <meta name="author" content="nodoamen" />
     <meta
       name="google-site-verification"
       content="uyjBT9z6vOnpxn6lM6YnxbI6R4jLSDIAboC8zo1slhM"
     />
   </head>
   <body
-    style="margin: 0; padding: 0; background-color: #0f0f27; color: white; font-family: 'Press Start 2P', monospace; image-rendering: pixelated;"
+    style="margin: 0; padding: 0; color: white; font-family: 'Press Start 2P', monospace; image-rendering: pixelated;"
     class="mobile-body"
   >
+    <!-- ナビゲーションバー -->
+    <nav id="page-nav">
+      <a href="#" class="nav-site-title">nodoamen</a>
+      <div class="nav-links">
+        {NAV_CONFIG.links.map(link => (
+          <a href={link.href} class="nav-link">{link.label}</a>
+        ))}
+      </div>
+      <button id="settings-toggle" class="settings-toggle-btn nav-link" aria-label="設定" data-default-hue={DEFAULT_HUE}>{NAV_CONFIG.settingsLabel}</button>
+    </nav>
+
+    <!-- 設定パネル -->
+    <div id="settings-panel" class="settings-panel" aria-hidden="true">
+      <div class="settings-row">
+        <span class="settings-label">COLOR HUE</span>
+        <input type="range" id="hue-slider" min="0" max="360" value={DEFAULT_HUE} step="1" class="hue-slider">
+        <span id="hue-value-display" class="hue-value-display">{DEFAULT_HUE}</span>
+      </div>
+      <div class="hue-presets">
+        <button class="hue-preset-btn" data-hue="225" style="--pc: hsl(225,100%,65%)">Blue</button>
+        <button class="hue-preset-btn" data-hue="180" style="--pc: hsl(180,100%,65%)">Cyan</button>
+        <button class="hue-preset-btn" data-hue="270" style="--pc: hsl(270,100%,65%)">Purple</button>
+        <button class="hue-preset-btn" data-hue="300" style="--pc: hsl(300,100%,65%)">Pink</button>
+        <button class="hue-preset-btn" data-hue="120" style="--pc: hsl(120,100%,65%)">Green</button>
+        <button class="hue-preset-btn" data-hue="30"  style="--pc: hsl(30,100%,65%)">Orange</button>
+      </div>
+    </div>
+
     <slot />
 
     <!-- ドットフォントのGoogle Fonts読み込み -->
@@ -44,9 +81,55 @@ const { title, description = "nodoameのポートフォリオサイト" } = Astr
       :root {
         --font-pixel: "Press Start 2P", cursive;
         --font-mono: "VT323", monospace;
-        --font-pixel-jp: "DotGothic16", "BIZ UDPGothic", "Press Start 2P",
-          monospace;
+        --font-pixel-jp: "DotGothic16", "BIZ UDPGothic", "Press Start 2P", monospace;
         --font-main-jp: "DotGothic16", "BIZ UDPGothic", sans-serif;
+
+        /* --theme-hue はglobal.cssで定義済み。JSで上書きして全色を連動させる */
+
+        /* フォントサイズ — デスクトップ基準 */
+        /* body/subtitle: 14px 以上、small/footer: 12px 以上を維持 */
+        --fs-title:    20px;
+        --fs-section:  15px;
+        --fs-subtitle: 14px;
+        --fs-body:     14px;
+        --fs-small:    12px;
+        --fs-footer:   12px;
+      }
+
+      /* タブレット〜スマホ縦画面 */
+      @media (max-width: 768px) {
+        :root {
+          --fs-title:    16px;
+          --fs-section:  13px;
+          --fs-subtitle: 13px;
+          --fs-body:     13px;
+          --fs-small:    11px;
+          --fs-footer:   11px;
+        }
+      }
+
+      /* 小画面スマホ */
+      @media (max-width: 480px) {
+        :root {
+          --fs-title:    15px;
+          --fs-section:  13px;
+          --fs-subtitle: 13px;
+          --fs-body:     13px;
+          --fs-small:    10px;
+          --fs-footer:   10px;
+        }
+      }
+
+      /* スマホ横画面: 幅がタブレット相当のため同サイズを適用 */
+      @media (orientation: landscape) and (max-height: 600px) {
+        :root {
+          --fs-title:    16px;
+          --fs-section:  13px;
+          --fs-subtitle: 13px;
+          --fs-body:     13px;
+          --fs-small:    11px;
+          --fs-footer:   11px;
+        }
       }
 
       /* 全体的なドットフォント適用 */
@@ -166,31 +249,222 @@ const { title, description = "nodoameのポートフォリオサイト" } = Astr
             margin-bottom: 2px !important;
             padding: 1px !important;
           }
-          
-          .title-section h1 {
-            font-size: 10px !important;
-            margin: 0 !important;
-          }
-          
-          .title-section p {
-            font-size: 7px !important;
-            margin: 0 !important;
-          }
-          
+
           .video-section {
             padding: 0px !important;
             margin: 0 !important;
             border: none !important;
             background: transparent !important;
           }
-          
-          .video-section h2 {
-            font-size: 8px !important;
-            margin: 0 0 1px 0 !important;
-            padding: 0 !important;
-          }
         }
       }
+      /* ========== ナビゲーションバー ========== */
+      #page-nav {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 9000;
+        height: 40px;
+        background: var(--col-bg-mid);
+        border-bottom: 1px solid var(--col-primary-a40);
+        box-shadow: 0 2px 8px var(--col-bg-deep);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        font-family: var(--font-pixel) !important;
+      }
+      .nav-site-title {
+        font-family: var(--font-pixel) !important;
+        font-size: 10px;
+        color: var(--col-primary);
+        text-decoration: none;
+        text-shadow: 0 0 8px var(--col-primary-a50), 1px 1px 0 #000;
+        white-space: nowrap;
+        margin-right: 20px;
+        flex-shrink: 0;
+        transition: color 0.2s, text-shadow 0.2s;
+      }
+      .nav-site-title:hover {
+        color: var(--col-heading);
+        text-shadow: 0 0 12px var(--col-primary), 1px 1px 0 #000;
+      }
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        flex: 1;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+      .nav-links::-webkit-scrollbar { display: none; }
+      .nav-link {
+        font-family: var(--font-pixel) !important;
+        font-size: 10px;
+        color: var(--col-primary-a70);
+        text-decoration: none;
+        text-shadow: 0 0 6px var(--col-primary-a50), 1px 1px 0 #000;
+        image-rendering: pixelated;
+        transition: color 0.2s, text-shadow 0.2s;
+        white-space: nowrap;
+      }
+      .nav-link:hover {
+        color: var(--col-primary);
+        text-shadow: 0 0 10px var(--col-primary), 1px 1px 0 #000;
+      }
+      .settings-toggle-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        line-height: 1;
+        flex-shrink: 0;
+        margin-left: 12px;
+      }
+
+      /* ========== 設定パネル ========== */
+      .settings-panel {
+        position: fixed;
+        top: 42px; right: 8px;
+        z-index: 8999;
+        background: var(--col-bg-mid);
+        border: 1px solid var(--col-primary-a40);
+        box-shadow: 0 4px 16px var(--col-bg-deep);
+        border-radius: 6px;
+        padding: 14px 16px;
+        min-width: 240px;
+        font-family: var(--font-pixel-jp) !important;
+        font-size: 12px;
+        display: none;
+      }
+      .settings-panel.open { display: block; }
+
+      .settings-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .settings-label {
+        font-family: var(--font-pixel) !important;
+        font-size: 9px;
+        color: var(--col-primary);
+        text-shadow: 0 0 6px var(--col-primary-a50), 1px 1px 0 #000;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .hue-slider {
+        flex: 1;
+        height: 4px;
+        cursor: pointer;
+        accent-color: var(--col-primary);
+      }
+      .hue-value-display {
+        font-family: var(--font-pixel) !important;
+        font-size: 9px;
+        color: var(--col-text-light);
+        text-shadow: 1px 1px 0 #000;
+        min-width: 28px;
+        text-align: right;
+      }
+      .hue-presets {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .hue-preset-btn {
+        font-family: var(--font-pixel) !important;
+        font-size: 8px;
+        padding: 3px 8px;
+        background: color-mix(in srgb, var(--pc) 10%, transparent);
+        border: 1px solid color-mix(in srgb, var(--pc) 50%, transparent);
+        color: var(--pc);
+        border-radius: 3px;
+        cursor: pointer;
+        text-shadow: 1px 1px 0 #000;
+        transition: background 0.15s;
+        image-rendering: pixelated;
+      }
+      .hue-preset-btn:hover {
+        background: color-mix(in srgb, var(--pc) 25%, transparent);
+      }
+
+      /* ナビ分のpadding */
+      body > *:not(#page-nav):not(.settings-panel) {
+        padding-top: 0;
+      }
+
+      @media (max-width: 480px) {
+        .nav-links { gap: 10px; }
+        .nav-link { font-size: 8px; }
+        .settings-panel { right: 4px; min-width: 200px; }
+      }
     </style>
+
+    <script>
+      (function () {
+        const HUE_KEY         = 'theme-hue';
+        const HUE_DEFAULT_KEY = 'theme-hue-config-default';
+        const root            = document.documentElement;
+
+        // <html style="--theme-hue: N"> から config デフォルト値を取得
+        const configDefault = parseInt(root.style.getPropertyValue('--theme-hue')) || 225;
+
+        // config デフォルトが変わっていたらユーザー保存値をリセット
+        const storedDefault = localStorage.getItem(HUE_DEFAULT_KEY);
+        if (storedDefault !== String(configDefault)) {
+          localStorage.removeItem(HUE_KEY);
+          localStorage.setItem(HUE_DEFAULT_KEY, String(configDefault));
+        }
+
+        function applyHue(hue: number) {
+          root.style.setProperty('--theme-hue', String(hue));
+          const slider = document.getElementById('hue-slider') as HTMLInputElement | null;
+          const display = document.getElementById('hue-value-display');
+          if (slider) slider.value = String(hue);
+          if (display) display.textContent = String(hue);
+        }
+
+        // ユーザー保存値があれば適用、なければ config デフォルトをそのまま使用
+        const saved = localStorage.getItem(HUE_KEY);
+        if (saved) applyHue(Number(saved));
+
+        document.addEventListener('DOMContentLoaded', function () {
+          const toggleBtn = document.getElementById('settings-toggle');
+          const panel     = document.getElementById('settings-panel');
+          const slider    = document.getElementById('hue-slider') as HTMLInputElement | null;
+
+          // パネル開閉
+          toggleBtn?.addEventListener('click', () => {
+            panel?.classList.toggle('open');
+            toggleBtn.classList.toggle('active');
+          });
+
+          // パネル外クリックで閉じる
+          document.addEventListener('click', (e) => {
+            const target = e.target as Node | null;
+            if (!panel?.contains(target) && target !== toggleBtn) {
+              panel?.classList.remove('open');
+              toggleBtn?.classList.remove('active');
+            }
+          });
+
+          // スライダー操作
+          slider?.addEventListener('input', () => {
+            const hue = Number(slider.value);
+            applyHue(hue);
+            localStorage.setItem(HUE_KEY, String(hue));
+          });
+
+          // プリセットボタン
+          document.querySelectorAll('.hue-preset-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const hue = Number((btn as HTMLElement).dataset.hue);
+              applyHue(hue);
+              localStorage.setItem(HUE_KEY, String(hue));
+            });
+          });
+        });
+      })();
+    </script>
   </body>
 </html>

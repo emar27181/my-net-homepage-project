@@ -1,5 +1,43 @@
 # 🌐 nodoame's Cyber Space - 開発・設計ドキュメント統合
 
+## 📌 重要リソース
+
+### クリップ動画プレイリスト
+- **YouTube再生リスト**: https://youtube.com/playlist?list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct
+- 動画データは `src/data/clips.json` で管理
+
+#### 新動画追加手順
+1. プレイリストの全IDを取得:
+   ```bash
+   curl -s "https://www.youtube.com/playlist?list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct" \
+     | grep -oP '"videoId":"[^"]{11}"' | sort -u | sed 's/"videoId":"//;s/"//'
+   ```
+2. clips.json の既存IDと比較して差分を特定
+3. 新IDのタイトルを取得:
+   ```bash
+   curl -s "https://www.youtube.com/watch?v=VIDEO_ID" | grep -oP '"title":"[^"]*"' | head -1
+   ```
+4. clips.json にエントリを追加（IDのアルファベット順を維持）:
+   ```json
+   {
+     "id": "VIDEO_ID",
+     "url": "https://youtu.be/VIDEO_ID",
+     "title": "タイトル（例: HavenClove UltEntryAce）",
+     "map": "マップ名（小文字）",
+     "agent": "エージェント名（小文字）",
+     "views": 0,
+     "score": { "smooth": 3, "rotation": 3, "clutch": 0, "highlight": 3, "6kills": 0 }
+   }
+   ```
+   - **各スコアの満点は 5**
+   - `smooth` = 動きのなめらかさ・エイムの綺麗さ（0〜5）。**smooth=5 のクリップには必ず `smooth` タグを付ける**
+   - `clutch` = (vの後ろ) − (vの前) の値。例: 1v3→2, 1v4→3, 1v5→4, 2v5→3。クラッチなしは 0（満点5）
+   - `tap` = タップ精度・撃ち方の丁寧さ（0〜5）
+   - `onemag` = ワンマガジンの精度・印象度（0〜5）
+   - `6kills` = 6キルエースは 2（暫定）、それ以外は 0
+
+---
+
 ## 📘 開発・設計 汎用ルール集
 
 ### 🚨 最重要ルール（絶対遵守）
@@ -28,12 +66,13 @@
   → 特別な指示がない限り、新しい色の導入は避け、既存カラーパレットを使用する
   → セクションごとの色分けよりも、サイト全体の統一感を優先する
 
-- **レスポンシブレイアウト固定サイズルール**  
+- **レスポンシブレイアウト固定サイズルール**
   → グリッドレイアウトでは可変幅（grid-column: span）は使用禁止
   → デスクトップ：2列表示なら各要素は2列分の1サイズ
-  → タブレット：2列表示なら各要素は2列分の1サイズ  
-  → スマホ：1列表示なら各要素は1列分の1サイズ
+  → タブレット：2列表示なら各要素は2列分の1サイズ
+  → スマホ（768px以下）：必ず1列表示（`grid-template-columns: 1fr`）にする
   → 中央配置や可変幅での要素配置は避け、固定グリッドサイズを維持する
+  → 新しいグリッドセクション追加時は必ず`@media (max-width: 768px)`で1列化を実装する
 
 ---
 
@@ -267,31 +306,72 @@
   → `getPixelEmoji()`と組み合わせた8-bit風デザイン維持
   → SimpleLayoutで全体に強制適用（`* { font-family: var(--font-pixel-jp) !important; }`）
 
+- **🚨 SimpleLayout外要素のフォント必須ルール（最重要）**  
+  → `position: fixed` のモーダル・ツールチップ・オーバーレイ等は **SimpleLayoutのフォントルールが届かない**  
+  → これらの要素には必ず以下を明示指定すること（`!important` 必須）  
+  ```css
+  .my-overlay,
+  .my-overlay * {
+    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
+    image-rendering: pixelated;
+  }
+  ```
+  → 違反するとブラウザデフォルトフォント（非ドット）で表示されてしまう
+
+- **🚨 モーダル・ツールチップのフォントサイズルール（最重要）**  
+  → モーダル・ツールチップ内のラベル・値・リンク・コメント等すべてのテキストは **本文と同じ `${FONT_SIZES.bodyText}`（14px）** に統一すること  
+  → 小さいフォント（8px・9px・10px等）は視認性が悪く使用禁止  
+  → タイトル行（ゲーム名・見出し）はこれより大きくても可、バッジ等の補助要素は例外として可
+
 - **コードテキスト統一ルール**  
   → クロスヘアコード・設定値等もピクセルフォント統一必須
   → `font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace`
   → Courier New等のシステムフォント使用禁止
   → コード系要素も`text-shadow: 1px 1px 0px #000000`と`image-rendering: pixelated`適用
 
-#### フォントサイズ管理システム
-- **FONT_SIZES定数による一元管理**  
-  → ファイル先頭に固定値オブジェクトを定義
-  → 全てのフォントサイズをテンプレートリテラルで呼び出し
-  → ハードコード値の完全排除で保守性向上
+#### スタイル設定一元管理システム（themeConfig.ts）
 
-- **標準フォントサイズ階層**  
-  → `title: '24px'`: メインタイトル
-  → `subtitle: '16px'`: サブタイトル・説明文
-  → `sectionTitle: '18px'`: セクション見出し（h2レベル）
-  → `subTitle: '14px'`: 小見出し（h3レベル）
-  → `bodyText: '12px'`: 本文テキスト・データ値
-  → `smallText: '10px'`: 補足情報・目標詳細
-  → `footer: '10px'`: フッター・コピーライト
+- **設定ファイル**: `src/config/themeConfig.ts`
+  → カラー・フォントサイズ・フォント・スタイルプリセットを一元管理
+  → index.astro等のページファイルでは直接的なスタイル値のハードコード禁止
 
-- **テンプレートリテラル統一記法**  
-  → `style={\`font-size: ${FONT_SIZES.bodyText};\`}` 形式で統一
-  → インラインstyle属性の動的値参照
-  → サイズ変更時は1箇所の修正で全体に反映
+- **インポートと初期化（index.astro フロントマター）**
+  ```typescript
+  import { getCurrentThemeColors, FIXED_COLORS, FONT_SIZES, FONTS, getStylePresets } from "../config/themeConfig";
+  const COLORS = { ...getCurrentThemeColors(), ...FIXED_COLORS };
+  const S = getStylePresets(COLORS);
+  ```
+
+- **スタイルプリセット（S）の使い方**
+  → `S.title`: メインタイトル（h1）— heading色, 24px, Press Start 2P
+  → `S.sectionTitle`: セクション見出し（h2）— heading色, 18px, 中央寄せ, Press Start 2P
+  → `S.subTitle`: 小見出し（h3）— 白色, 16px, DotGothic16
+  → `S.bodyText`: 本文 — グレー, 14px, line-height: 1.8, DotGothic16
+  → `S.bodyTextCompact`: 本文（行間なし）— グレー, 14px, DotGothic16
+  → `S.link`: リンク色 — primary色
+  → `S.divider`: 区切り線 — primary色, 1px
+  → `S.textBase`: テキスト基本（フォント + text-shadow のみ）
+
+- **テンプレート内での使用例**
+  ```html
+  <h2 style={`${S.sectionTitle} margin-bottom: 15px;`}>セクション名</h2>
+  <p style={`${S.bodyText}`}>本文テキスト</p>
+  <a href="..." style={S.link}>リンクテキスト</a>
+  <hr style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`} />
+  ```
+
+- **個別定数の直接使用**
+  → `FONT_SIZES.bodyText` 等でサイズのみ参照可能
+  → `FONTS.pixel` / `FONTS.pixelJp` でフォントファミリー参照可能
+  → `COLORS.primary` / `COLORS.heading` 等で色のみ参照可能
+  → プリセット（S）で対応できない場合のみ個別定数を組み合わせる
+
+- **禁止事項**
+  → フォントサイズ・色・フォントファミリーのハードコード禁止
+  → `'Press Start 2P', monospace` → `${FONTS.pixel}` を使用
+  → `'DotGothic16', ...` → `${FONTS.pixelJp}` を使用
+  → `color: #cccccc` → `color: ${COLORS.textGray}` を使用
+  → リンク色は `style={S.link}` で統一（`color: ${COLORS.primary}` の直接指定禁止）
 
 #### シンプルレイアウト背景システム
 - **レトロゲーム風メインコンテナ**  

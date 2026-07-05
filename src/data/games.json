@@ -1,0 +1,123 @@
+[
+  {
+    "id": "valorant",
+    "name": "Valorant",
+    "category": "FPS",
+    "note": "",
+    "playerId": "nodoame#27181",
+    "trnUrl": "https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview?platform=pc&playlist=competitive&season=4c4b8cff-43eb-13d3-8f14-96b783c90cd2",
+    "inPageUrl": "#valorant-stats",
+    "playTime": "2000h",
+    "period": "2022年〜現在",
+    "maxRank": "Ascendant",
+    "comment": "メインゲーム"
+  },
+  {
+    "id": "apex",
+    "name": "Apex",
+    "category": "FPS",
+    "note": "",
+    "playerId": "",
+    "trnUrl": "",
+    "playTime": "2000h",
+    "period": "2021年頃",
+    "maxRank": "ダイヤモンド",
+    "comment": "NO DATA"
+  },
+  {
+    "id": "fortnite",
+    "name": "Fortnite",
+    "category": "FPS",
+    "note": "",
+    "playerId": "",
+    "trnUrl": "https://fortnitetracker.com/profile/kbm/nodoamen/events?region=GLOBAL&sortBy=placement",
+    "playTime": "2500h",
+    "period": "2018〜2022年",
+    "maxRank": "ランクなし",
+    "comment": "NO DATA"
+  },
+  {
+    "id": "ow2",
+    "name": "OW2",
+    "category": "FPS",
+    "note": "",
+    "playerId": "",
+    "trnUrl": "",
+    "playTime": "100h未満",
+    "period": "NO DATA",
+    "maxRank": "NO DATA",
+    "comment": "NO DATA"
+  },
+  {
+    "id": "bf",
+    "name": "BF",
+    "category": "FPS",
+    "note": "",
+    "playerId": "",
+    "trnUrl": "",
+    "playTime": "NO DATA",
+    "period": "NO DATA",
+    "maxRank": "ランクなし",
+    "comment": "NO DATA"
+  },
+  {
+    "id": "cod",
+    "name": "COD",
+    "category": "FPS",
+    "note": "",
+    "playerId": "",
+    "trnUrl": "",
+    "playTime": "NO DATA",
+    "period": "NO DATA",
+    "maxRank": "NO DATA",
+    "comment": "NO DATA"
+  },
+  {
+    "id": "puzzdra",
+    "name": "パズドラ",
+    "category": "ソシャゲ",
+    "note": "",
+    "playerId": "163893347",
+    "trnUrl": "",
+    "playTime": "NO DATA",
+    "period": "小学生当時から",
+    "maxRank": "1010",
+    "comment": "NO DATA"
+  },
+  {
+    "id": "monst",
+    "name": "モンスト",
+    "category": "ソシャゲ",
+    "note": "",
+    "playerId": "",
+    "trnUrl": "",
+    "playTime": "NO DATA",
+    "period": "小学生当時から",
+    "maxRank": "NO DATA",
+    "comment": "NO DATA"
+  },
+  {
+    "id": "pokepoke",
+    "name": "ポケポケ",
+    "category": "ソシャゲ",
+    "note": "",
+    "playerId": "",
+    "trnUrl": "",
+    "playTime": "NO DATA",
+    "period": "リリース当初",
+    "maxRank": "NO DATA",
+    "comment": "リリース当初だけちょっとはまってた感じ"
+  },
+  {
+    "id": "janship",
+    "name": "雀魂",
+    "category": "ソシャゲ",
+    "note": "",
+    "playerId": "",
+    "trnUrl": "",
+    "playTime": "NO DATA",
+    "period": "NO DATA",
+    "maxRank": "NO DATA",
+    "comment": "リリース当初だけちょっとはまってた感じ"
+  }
+]

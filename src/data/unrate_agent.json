@@ -1,0 +1,242 @@
+[
+    {
+        "name": "Astra",
+        "role": "Controller",
+        "time": 110.0,
+        "matches": 193,
+        "win_rate": 52.3,
+        "kd": 1.04,
+        "adr": 120.9,
+        "acs": 184.9,
+        "hs": 28.8,
+        "kast": 69.5,
+        "defense": {
+            "kd": 1.09,
+            "kills": 1337,
+            "assists": 418,
+            "defuses_per_match": 0.45
+        },
+        "attack": {
+            "kd": 0.99,
+            "kills": 1230,
+            "assists": 370,
+            "plants_per_match": 0.98
+        }
+    },
+    {
+        "name": "Skye",
+        "role": "Initiator",
+        "time": 60.0,
+        "matches": 108,
+        "win_rate": 51.9,
+        "kd": 0.91,
+        "adr": 114.5,
+        "acs": 177.6,
+        "hs": 21.1,
+        "kast": 69.1,
+        "defense": {
+            "kd": 0.99,
+            "kills": 677,
+            "assists": 200,
+            "defuses_per_match": 0.43
+        },
+        "attack": {
+            "kd": 0.84,
+            "kills": 609,
+            "assists": 242,
+            "plants_per_match": 2.35
+        }
+    },
+    {
+        "name": "Reyna",
+        "role": "Duelist",
+        "time": 54.0,
+        "matches": 99,
+        "win_rate": 49.5,
+        "kd": 1.12,
+        "adr": 150.5,
+        "acs": 232.6,
+        "hs": 28.1,
+        "kast": 70.3,
+        "defense": {
+            "kd": 1.05,
+            "kills": 693,
+            "assists": 139,
+            "defuses_per_match": 0.20
+        },
+        "attack": {
+            "kd": 1.19,
+            "kills": 841,
+            "assists": 195,
+            "plants_per_match": 0.38
+        }
+    },
+    {
+        "name": "Chamber",
+        "role": "Sentinel",
+        "time": 49.0,
+        "matches": 96,
+        "win_rate": 54.2,
+        "kd": 1.24,
+        "adr": 146.7,
+        "acs": 227.2,
+        "hs": 28.0,
+        "kast": 71.8,
+        "defense": {
+            "kd": 1.19,
+            "kills": 709,
+            "assists": 145,
+            "defuses_per_match": 0.49
+        },
+        "attack": {
+            "kd": 1.30,
+            "kills": 719,
+            "assists": 76,
+            "plants_per_match": 0.53
+        }
+    },
+    {
+        "name": "Clove",
+        "role": "Controller",
+        "time": 47.0,
+        "matches": 90,
+        "win_rate": 51.1,
+        "kd": 0.99,
+        "adr": 148.0,
+        "acs": 228.8,
+        "hs": 32.8,
+        "kast": 71.3,
+        "defense": {
+            "kd": 0.95,
+            "kills": 693,
+            "assists": 261,
+            "defuses_per_match": 0.61
+        },
+        "attack": {
+            "kd": 1.02,
+            "kills": 716,
+            "assists": 217,
+            "plants_per_match": 0.51
+        }
+    },
+    {
+        "name": "Omen",
+        "role": "Controller",
+        "time": 36.0,
+        "matches": 68,
+        "win_rate": 52.9,
+        "kd": 0.91,
+        "adr": 115.1,
+        "acs": 178.3,
+        "hs": 28.0,
+        "kast": 66.9,
+        "defense": {
+            "kd": 0.86,
+            "kills": 409,
+            "assists": 164,
+            "defuses_per_match": 0.34
+        },
+        "attack": {
+            "kd": 0.96,
+            "kills": 395,
+            "assists": 140,
+            "plants_per_match": 2.04
+        }
+    },
+    {
+        "name": "Viper",
+        "role": "Controller",
+        "time": 29.0,
+        "matches": 55,
+        "win_rate": 60.0,
+        "kd": 1.13,
+        "adr": 130.0,
+        "acs": 197.7,
+        "hs": 30.8,
+        "kast": 72.0,
+        "defense": {
+            "kd": 1.12,
+            "kills": 390,
+            "assists": 103,
+            "defuses_per_match": 0.51
+        },
+        "attack": {
+            "kd": 1.13,
+            "kills": 356,
+            "assists": 113,
+            "plants_per_match": 1.20
+        }
+    },
+    {
+        "name": "Cypher",
+        "role": "Sentinel",
+        "time": 26.0,
+        "matches": 48,
+        "win_rate": 41.7,
+        "kd": 1.02,
+        "adr": 124.0,
+        "acs": 190.8,
+        "hs": 30.0,
+        "kast": 67.7,
+        "defense": {
+            "kd": 1.10,
+            "kills": 298,
+            "assists": 69,
+            "defuses_per_match": 0.60
+        },
+        "attack": {
+            "kd": 0.96,
+            "kills": 324,
+            "assists": 67,
+            "plants_per_match": 0.73
+        }
+    },
+    {
+        "name": "Jett",
+        "role": "Duelist",
+        "time": 17.0,
+        "matches": 30,
+        "win_rate": 60.0,
+        "kd": 1.11,
+        "adr": 139.4,
+        "acs": 220.0,
+        "hs": 23.9,
+        "kast": 70.7,
+        "defense": {
+            "kd": 1.16,
+            "kills": 229,
+            "assists": 42,
+            "defuses_per_match": 0.27
+        },
+        "attack": {
+            "kd": 1.08,
+            "kills": 243,
+            "assists": 53,
+            "plants_per_match": 0.43
+        }
+    },
+    {
+        "name": "Sage",
+        "role": "Sentinel",
+        "time": 13.0,
+        "matches": 25,
+        "win_rate": 56.0,
+        "kd": 0.87,
+        "adr": 108.1,
+        "acs": 166.7,
+        "hs": 25.9,
+        "kast": 68.5,
+        "defense": {
+            "kd": 0.81,
+            "kills": 124,
+            "assists": 55,
+            "defuses_per_match": 0.28
+        },
+        "attack": {
+            "kd": 0.93,
+            "kills": 162,
+            "assists": 86,
+            "plants_per_match": 3.92
+        }
+    }
+]

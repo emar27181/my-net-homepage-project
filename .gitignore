@@ -29,3 +29,8 @@ pnpm-debug.log*
 # Local Netlify folder
 .netlify
 *.backup
+
+**/tmp/
+
+# プライベートメモ（git追跡対象外）
+src/data/private/

@@ -1,0 +1,1424 @@
+---
+// GameBoyGallery.astro - ゲームボーイ風ギャラリービューワー
+// 画像ナビゲーション + CRT/GB/VHS フィルター切り替え機能付き
+---
+
+<!-- SVGフィルター定義 -->
+<svg style="display:none" width="0" height="0" aria-hidden="true">
+  <defs>
+    <!-- VHS: RGBチャンネルずれ -->
+    <filter id="svg-vhs-filter" color-interpolation-filters="sRGB" x="-5%" y="-5%" width="110%" height="110%">
+      <feColorMatrix type="matrix" in="SourceGraphic" result="r"
+        values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"/>
+      <feOffset dx="6" dy="2" in="r" result="r-shift"/>
+      <feColorMatrix type="matrix" in="SourceGraphic" result="b"
+        values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+      <feOffset dx="-6" dy="-2" in="b" result="b-shift"/>
+      <feBlend in="r-shift" in2="SourceGraphic" mode="screen" result="step1"/>
+      <feBlend in="step1" in2="b-shift" mode="screen"/>
+    </filter>
+    <!-- DOT: ポスタリゼーション（色数削減でドット絵風） -->
+    <filter id="svg-dot-filter" color-interpolation-filters="sRGB">
+      <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0 0.2 0.4 0.6 0.8 1"/>
+        <feFuncG type="discrete" tableValues="0 0.2 0.4 0.6 0.8 1"/>
+        <feFuncB type="discrete" tableValues="0 0.2 0.4 0.6 0.8 1"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+</svg>
+
+<div class="gb-outer">
+  <div class="gb-body">
+
+    <!-- ブランド行 -->
+    <div class="gb-brand-row">
+      <div class="gb-vents"><i></i><i></i><i></i><i></i></div>
+    </div>
+
+    <!-- スクリーン部 -->
+    <div class="gb-screen-shell">
+      <div class="gb-indicator-row">
+        <span class="gb-power-led"></span>
+        <span class="gb-power-txt">BATTERY</span>
+        <span class="gb-power-txt gb-work-counter" id="viewer-hud-counter">01 / 10</span>
+      </div>
+      <div class="gb-screen-frame">
+        <div class="viewer-frame" id="viewer-frame">
+          <!-- HUD 上部 -->
+          <div class="viewer-hud-top">
+            <span class="hud-left">▶ GALLERY</span>
+            <span class="hud-right"></span>
+          </div>
+          <!-- メイン画像: Canvasダウンスケールでドット絵描画 -->
+          <canvas
+            class="viewer-canvas"
+            id="viewer-canvas"
+            width="344"
+            height="270"
+            aria-label="Cat Sketch #1"
+            style="display:none"
+          ></canvas>
+          <!-- Preparing表示: 8bitピクセルアニメーション -->
+          <div class="viewer-preparing" aria-label="準備中">
+            <canvas class="preparing-canvas" id="preparing-canvas" width="344" height="270"></canvas>
+          </div>
+          <!-- フラッシュ -->
+          <div class="viewer-flash" id="viewer-flash"></div>
+          <!-- スキャンライン -->
+          <div class="viewer-scanlines"></div>
+          <!-- HUD 下部 -->
+          <div class="viewer-hud-bottom">
+            <span class="hud-hint">D-PAD: BROWSE &nbsp;|&nbsp; A/B: FILTER</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- タイトルストリップ -->
+    <div class="gb-title-strip">
+      <span class="gb-label-tag">TITLE</span>
+      <span class="gb-title-text" id="viewer-title">Cat Sketch #1</span>
+      <span class="gb-label-tag">NO.</span>
+      <span class="gb-counter-text" id="viewer-counter">01/10</span>
+    </div>
+
+    <!-- コントロール -->
+    <div class="gb-controls">
+
+      <!-- 左: Dパッド -->
+      <div class="gb-dpad-area">
+        <div class="gb-dpad">
+          <div class="gbdpad-col">
+            <button class="gbdpad-btn gbdpad-v" tabindex="-1" aria-label="上" disabled>▲</button>
+          </div>
+          <div class="gbdpad-col gbdpad-mid">
+            <button class="gbdpad-btn gbdpad-h" id="illust-prev" aria-label="前の画像">◀</button>
+            <div class="gbdpad-center"></div>
+            <button class="gbdpad-btn gbdpad-h" id="illust-next" aria-label="次の画像">▶</button>
+          </div>
+          <div class="gbdpad-col">
+            <button class="gbdpad-btn gbdpad-v" tabindex="-1" aria-label="下" disabled>▼</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 中央: SEL / STA ボタン（装飾のみ） -->
+      <div class="gb-mid-area">
+        <div class="gb-ss-row">
+          <div class="gb-ss-slot">
+            <button class="gb-ss-btn" tabindex="-1" aria-hidden="true"></button>
+            <span class="gb-ss-label">SEL</span>
+          </div>
+          <div class="gb-ss-slot">
+            <button class="gb-ss-btn" tabindex="-1" aria-hidden="true"></button>
+            <span class="gb-ss-label">STA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右: A / B ボタン（装飾のみ） -->
+      <div class="gb-ab-area">
+        <div class="gb-ab-grid">
+          <div class="gb-b-wrap">
+            <button class="gb-btn gb-b-btn" tabindex="-1" aria-hidden="true"></button>
+            <span class="gb-ab-label">B</span>
+          </div>
+          <div class="gb-a-wrap">
+            <button class="gb-btn gb-a-btn" tabindex="-1" aria-hidden="true"></button>
+            <span class="gb-ab-label">A</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /gb-controls -->
+
+    <!-- スピーカー -->
+    <div class="gb-speaker-row">
+      <div class="gb-speaker"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+
+  </div><!-- /gb-body -->
+
+  <!-- ドットナビ -->
+  <div class="viewer-dots" id="viewer-dots">
+    <button class="viewer-dot active" data-index="0" aria-label="画像1"></button>
+    <button class="viewer-dot" data-index="1" aria-label="画像2"></button>
+    <button class="viewer-dot" data-index="2" aria-label="画像3"></button>
+    <button class="viewer-dot" data-index="3" aria-label="画像4"></button>
+    <button class="viewer-dot" data-index="4" aria-label="画像5"></button>
+    <button class="viewer-dot" data-index="5" aria-label="画像6"></button>
+    <button class="viewer-dot" data-index="6" aria-label="画像7"></button>
+    <button class="viewer-dot" data-index="7" aria-label="画像8"></button>
+    <button class="viewer-dot" data-index="8" aria-label="画像9"></button>
+    <button class="viewer-dot" data-index="9" aria-label="画像10"></button>
+  </div>
+
+</div><!-- /gb-outer -->
+
+<!-- ライトボックスモーダル -->
+<div class="gb-modal" id="gb-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="gb-modal-backdrop" id="gb-modal-backdrop"></div>
+  <button class="gb-modal-arrow gb-modal-prev" id="modal-prev" aria-label="前の画像">&#9664;</button>
+  <div class="gb-modal-content">
+    <button class="gb-modal-close" id="gb-modal-close" aria-label="閉じる">&#10005;</button>
+    <img class="gb-modal-img" id="gb-modal-img" src="" alt="" />
+    <div class="gb-modal-footer">
+      <span class="gb-modal-title" id="gb-modal-title"></span>
+      <span class="gb-modal-counter" id="gb-modal-counter"></span>
+    </div>
+  </div>
+  <button class="gb-modal-arrow gb-modal-next" id="modal-next" aria-label="次の画像">&#9654;</button>
+</div>
+
+<style>
+  /* ===== アニメーション ===== */
+  @keyframes gb-img-fadein {
+    from { opacity: 0; transform: scaleX(0.93); }
+    to   { opacity: 1; transform: scaleX(1); }
+  }
+
+  @keyframes crt-flicker {
+    0%   { opacity: 1; }
+    92%  { opacity: 1; }
+    93%  { opacity: 0.92; }
+    94%  { opacity: 1; }
+    97%  { opacity: 1; }
+    98%  { opacity: 0.88; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes crt-scanroll {
+    from { background-position: 0 0; }
+    to   { background-position: 0 100px; }
+  }
+
+  @keyframes vhs-tracking {
+    0%   { transform: translateX(0) skewX(0deg); }
+    94%  { transform: translateX(0) skewX(0deg); }
+    95%  { transform: translateX(-4px) skewX(-0.4deg);
+           filter: url(#svg-vhs-filter) saturate(2.8) contrast(1.3) brightness(0.82) hue-rotate(8deg) blur(0.3px); }
+    96%  { transform: translateX(3px) skewX(0.3deg); }
+    97%  { transform: translateX(0) skewX(0deg); }
+    100% { transform: translateX(0) skewX(0deg); }
+  }
+
+  /* ===== ゲームボーイ 外枠 ===== */
+  .gb-outer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* 本体 */
+  .gb-body {
+    width: 100%;
+    max-width: min(380px, 100%);
+    margin: 0 auto;
+    background: linear-gradient(160deg, var(--gb-body-bg) 0%, var(--gb-body-grad1) 50%, var(--gb-body-grad2) 100%);
+    border-radius: 10px 10px 40px 40px / 10px 10px 28px 28px;
+    border: 3px solid var(--gb-border);
+    box-shadow:
+      inset 3px 3px 0 rgba(255,255,255,0.07),
+      inset -3px -3px 0 rgba(0,0,0,0.5),
+      0 0 0 1px var(--col-bg-deeper),
+      0 6px 0 var(--col-bg-deeper),
+      0 0 30px var(--col-primary-a50),
+      0 0 70px var(--col-primary-a15);
+    padding: 14px 18px 28px;
+  }
+
+  /* ブランド行 */
+  .gb-brand-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .gb-brand-text {
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    color: var(--col-primary);
+    text-shadow: 0 0 10px var(--col-primary-a70), 1px 1px 0 #000;
+    letter-spacing: 3px;
+    image-rendering: pixelated;
+  }
+
+  .gb-vents {
+    display: flex;
+    gap: 3px;
+  }
+
+  .gb-vents i {
+    display: block;
+    width: 3px;
+    height: 14px;
+    background: linear-gradient(180deg, var(--gb-bezel-bg) 0%, var(--gb-bezel-bg2) 100%);
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+
+  /* スクリーンシェル */
+  .gb-screen-shell {
+    background: var(--gb-screen-bg);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid var(--gb-sborder);
+    box-shadow:
+      inset 0 3px 0 rgba(0,0,0,0.6),
+      inset 0 -1px 0 rgba(255,255,255,0.04),
+      0 0 12px var(--col-primary-a20);
+  }
+
+  /* インジケーター行 */
+  .gb-indicator-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .gb-power-led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--col-primary);
+    box-shadow: 0 0 6px var(--col-primary-a90);
+    flex-shrink: 0;
+  }
+
+  .gb-power-txt {
+    font-family: var(--font-pixel);
+    font-size: 5px;
+    color: var(--gb-text-dim);
+    text-shadow: 1px 1px 0 #000;
+    letter-spacing: 1px;
+    image-rendering: pixelated;
+  }
+
+  .gb-work-counter {
+    margin-left: auto;
+    color: var(--gb-text-mid);
+  }
+
+  /* スクリーンフレーム（内側の黒枠） */
+  .gb-screen-frame {
+    background: var(--col-bg-deeper);
+    border: 4px solid var(--col-bg-deeper);
+    box-shadow:
+      inset 0 0 0 2px var(--col-bg-deeper),
+      inset 0 3px 10px rgba(0,0,0,0.9),
+      0 0 16px var(--col-primary-a35);
+    border-radius: 2px;
+  }
+
+  /* ===== ビューワーフレーム本体 ===== */
+  .viewer-frame {
+    position: relative;
+    overflow: hidden;
+    background: var(--col-bg-deeper);
+    image-rendering: pixelated;
+    /* デフォルト: ドット感を強めるコントラスト */
+    filter: brightness(0.98) contrast(1.08);
+  }
+
+  /* ドットマトリクス LCD格子（常時）: ピクセル間に格子を重ねてLCD画面感を演出 */
+  .viewer-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg,  rgba(0,0,10,0.5)  0px, rgba(0,0,10,0.5)  1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(90deg, rgba(0,0,10,0.42) 0px, rgba(0,0,10,0.42) 1px, transparent 1px, transparent 4px);
+    background-size: 4px 4px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* デフォルト ヴィネット（常時） */
+  .viewer-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      transparent 52%,
+      rgba(0, 0, 14, 0.48) 100%
+    );
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* キャンバス: Canvasダウンスケールで描画されるドット絵スクリーン */
+  .viewer-canvas {
+    width: 100%;
+    height: 270px;
+    display: block;
+    transition: filter 0.3s ease, opacity 0.15s ease, transform 0.15s ease;
+    image-rendering: auto; /* smooth mode デフォルト: JSでdot-modeクラスを付与して切り替え */
+    animation: gb-img-fadein 0.2s ease;
+    filter: contrast(1.1) brightness(0.95);
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+  }
+
+  /* Preparing表示 */
+  .viewer-preparing {
+    width: 100%;
+    height: 270px;
+    display: block;
+    position: relative;
+    z-index: 1;
+    background: var(--col-bg-deeper);
+  }
+
+  .preparing-canvas {
+    display: block;
+    width: 100%;
+    height: 270px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  /* ドットモード: nearest-neighbor でピクセルブロックをくっきり表示 */
+  .viewer-canvas.dot-mode {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
+  /* HUD 上部 */
+  .viewer-hud-top {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 7px;
+    background: linear-gradient(180deg, rgba(0,0,20,0.85) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .hud-left, .hud-right {
+    font-family: var(--font-pixel);
+    font-size: 7px;
+    image-rendering: pixelated;
+    text-shadow: 1px 1px 0 #000;
+  }
+
+  .hud-left { color: var(--col-primary); text-shadow: 0 0 6px var(--col-primary-a80), 1px 1px 0 #000; }
+  .hud-right { color: var(--gb-text-mid); }
+
+  /* フラッシュ */
+  .viewer-flash {
+    position: absolute;
+    inset: 0;
+    background: hsla(var(--theme-hue), 60%, 97%, 0.6);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.05s ease;
+  }
+
+  .viewer-flash.active { opacity: 1; }
+
+  /* スキャンライン（フィルター上書き用） */
+  .viewer-scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 0, 0, 0.18) 3px,
+      rgba(0, 0, 0, 0.18) 4px
+    );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+  }
+
+  /* HUD 下部 */
+  .viewer-hud-bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    padding: 3px 8px 5px;
+    background: linear-gradient(0deg, rgba(0,0,20,0.82) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .hud-hint {
+    font-family: var(--font-pixel);
+    font-size: 5px;
+    color: var(--gb-text-dim);
+    text-shadow: 1px 1px 0 #000;
+    letter-spacing: 0.5px;
+    image-rendering: pixelated;
+  }
+
+  /* ===== タイトルストリップ ===== */
+  .gb-title-strip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 8px;
+    background: var(--col-bg-deeper);
+    border: 1px solid var(--col-border-dark);
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .gb-label-tag {
+    font-family: var(--font-pixel);
+    font-size: 5px;
+    color: var(--gb-text-dim);
+    text-shadow: 1px 1px 0 #000;
+    letter-spacing: 1px;
+    border: 1px solid var(--col-border-dark);
+    padding: 1px 4px;
+    image-rendering: pixelated;
+    white-space: nowrap;
+  }
+
+  .gb-title-text {
+    font-family: var(--font-pixel);
+    font-size: 8px;
+    color: var(--gb-text-soft);
+    text-shadow: 0 0 8px var(--col-primary-a50), 1px 1px 0 #000;
+    image-rendering: pixelated;
+    flex: 1;
+    min-width: 0;
+    letter-spacing: 0.5px;
+  }
+
+  .gb-counter-text {
+    font-family: var(--font-pixel);
+    font-size: 12px;
+    color: var(--col-primary);
+    text-shadow: 0 0 10px var(--col-primary-a80), 1px 1px 0 #000;
+    image-rendering: pixelated;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ===== コントロール行 ===== */
+  .gb-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  /* Dパッド */
+  .gb-dpad-area { flex-shrink: 0; }
+
+  .gb-dpad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    /* クロス全体に影をかけて実機GB風の浮き上がり感 */
+    filter:
+      drop-shadow(0 3px 5px rgba(0,0,0,0.85))
+      drop-shadow(0 1px 2px rgba(0,0,0,0.6));
+  }
+
+  .gbdpad-col {
+    display: flex;
+    justify-content: center;
+  }
+
+  .gbdpad-mid {
+    display: flex;
+    align-items: center;
+  }
+
+  .gbdpad-center {
+    width: 26px;
+    height: 26px;
+    background: var(--gb-ctrl-bg);
+    flex-shrink: 0;
+  }
+
+  .gbdpad-btn {
+    background: linear-gradient(160deg, var(--gb-ctrl-bdr) 0%, var(--gb-ctrl-bg) 55%, var(--col-bg-deeper) 100%);
+    border: none;
+    color: var(--gb-item-bg);
+    font-size: 9px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    image-rendering: pixelated;
+    transition: background 0.07s ease, color 0.07s ease;
+    font-family: var(--font-pixel);
+  }
+
+  /* 外側の角だけ丸める（実機GBのDパッド形状） */
+  .gbdpad-col:first-child .gbdpad-btn { border-radius: 4px 4px 0 0; }
+  .gbdpad-col:last-child  .gbdpad-btn { border-radius: 0 0 4px 4px; }
+  .gbdpad-mid #illust-prev            { border-radius: 4px 0 0 4px; }
+  .gbdpad-mid #illust-next            { border-radius: 0 4px 4px 0; }
+
+  .gbdpad-v {
+    width: 26px;
+    height: 22px;
+  }
+
+  .gbdpad-h {
+    width: 22px;
+    height: 26px;
+  }
+
+  .gbdpad-btn:not([disabled]):hover {
+    background: linear-gradient(160deg, var(--gb-dpad-sel) 0%, var(--gb-item-sel) 55%, var(--gb-panel-bg) 100%);
+    color: var(--col-text-soft);
+  }
+
+  .gbdpad-btn:not([disabled]):active {
+    background: var(--col-bg-deeper);
+    color: var(--col-text-dim);
+  }
+
+  /* 中央コントロール */
+  .gb-mid-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .gb-filter-mini {
+    background: var(--col-bg-deeper);
+    border: 1px solid var(--col-border-dark);
+    padding: 4px 10px;
+    text-align: center;
+    border-radius: 3px;
+    min-width: 90px;
+  }
+
+  .gb-filter-label {
+    display: block;
+    font-family: var(--font-pixel);
+    font-size: 5px;
+    color: var(--gb-text-dim);
+    text-shadow: 1px 1px 0 #000;
+    letter-spacing: 1px;
+    image-rendering: pixelated;
+    margin-bottom: 2px;
+  }
+
+  .gb-filter-name {
+    display: block;
+    font-family: var(--font-pixel);
+    font-size: 11px;
+    color: #44ff44;
+    text-shadow: 0 0 8px rgba(0,255,0,0.6), 1px 1px 0 #000;
+    letter-spacing: 2px;
+    image-rendering: pixelated;
+    transition: color 0.2s, text-shadow 0.2s;
+    margin-bottom: 4px;
+  }
+
+  /* ドット/スムーズ切り替えボタン */
+  .gb-dot-toggle {
+    display: block;
+    width: 100%;
+    font-family: var(--font-pixel);
+    font-size: 6px;
+    padding: 2px 4px;
+    background: #0d1a12;
+    border: 1px solid #1a3322;
+    border-radius: 0;
+    color: #44ff88;
+    text-shadow: 0 0 6px rgba(0,255,100,0.7), 1px 1px 0 #000;
+    cursor: pointer;
+    letter-spacing: 1px;
+    image-rendering: pixelated;
+    box-shadow: 0 1px 0 var(--col-bg-deeper), inset 1px 1px 0 rgba(255,255,255,0.04);
+    transition: all 0.07s steps(1);
+  }
+
+  .gb-dot-toggle:hover {
+    background: #142210;
+    box-shadow: 0 1px 0 var(--col-bg-deeper), 0 0 8px rgba(0,255,100,0.3);
+  }
+
+  .gb-dot-toggle.smooth-mode {
+    background: var(--col-bg-deeper);
+    border-color: var(--col-border-dark);
+    color: var(--gb-text-soft);
+    text-shadow: 0 0 6px var(--col-primary-a30), 1px 1px 0 #000;
+  }
+
+  .gb-dot-toggle.smooth-mode:hover {
+    background: var(--col-bg-deeper);
+    box-shadow: 0 1px 0 var(--col-bg-deeper), 0 0 8px var(--col-primary-a30);
+  }
+
+  .gb-filter-name.mode-crt {
+    color: #ff8844;
+    text-shadow: 0 0 8px rgba(255,100,0,0.7), 1px 1px 0 #000;
+  }
+
+  .gb-filter-name.mode-gb {
+    color: #44ff66;
+    text-shadow: 0 0 8px rgba(0,255,80,0.7), 1px 1px 0 #000;
+  }
+
+  .gb-filter-name.mode-vhs {
+    color: #ff44cc;
+    text-shadow: 0 0 8px rgba(255,0,180,0.7), 1px 1px 0 #000;
+  }
+
+  .gb-filter-name.mode-dot {
+    color: #ffdd44;
+    text-shadow: 0 0 8px rgba(255,200,0,0.7), 1px 1px 0 #000;
+  }
+
+  /* SELECT / START */
+  .gb-ss-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .gb-ss-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .gb-ss-btn {
+    width: 32px;
+    height: 9px;
+    background: linear-gradient(180deg, var(--gb-item-sel) 0%, var(--gb-panel-bg) 100%);
+    border: 1px solid var(--col-border-dark);
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 0 var(--col-bg-deeper), inset 0 1px 0 rgba(255,255,255,0.08);
+    transition: all 0.07s ease;
+    padding: 0;
+  }
+
+  .gb-ss-btn:hover {
+    background: linear-gradient(180deg, var(--gb-dpad-sel) 0%, var(--gb-item-sel) 100%);
+    border-color: var(--gb-panel-bdr);
+  }
+
+  .gb-ss-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 0 var(--col-bg-deeper);
+  }
+
+  .gb-ss-label {
+    font-family: var(--font-pixel);
+    font-size: 5px;
+    color: var(--gb-text-dim);
+    text-shadow: 1px 1px 0 #000;
+    letter-spacing: 0.5px;
+    image-rendering: pixelated;
+  }
+
+  /* A / B ボタン */
+  .gb-ab-area { flex-shrink: 0; }
+
+  .gb-ab-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .gb-b-wrap, .gb-a-wrap {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .gb-a-wrap {
+    margin-left: 18px; /* 斜め配置 */
+  }
+
+  .gb-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid;
+    transition: all 0.07s ease;
+    image-rendering: pixelated;
+  }
+
+  .gb-a-btn {
+    background: radial-gradient(circle at 38% 33%, #ee3355 0%, #bb1133 100%);
+    border-color: #cc2244;
+    box-shadow:
+      inset 0 2px 0 rgba(255,150,150,0.28),
+      inset 0 -2px 0 rgba(0,0,0,0.5),
+      0 4px 0 #660022,
+      0 0 10px rgba(200,30,60,0.35);
+  }
+
+  .gb-b-btn {
+    background: radial-gradient(circle at 38% 33%, #cc2244 0%, #881133 100%);
+    border-color: #991133;
+    box-shadow:
+      inset 0 2px 0 rgba(255,100,120,0.22),
+      inset 0 -2px 0 rgba(0,0,0,0.5),
+      0 4px 0 #440011,
+      0 0 8px rgba(150,20,40,0.35);
+  }
+
+  .gb-a-btn:hover {
+    background: radial-gradient(circle at 38% 33%, #ff4466 0%, #cc2244 100%);
+    box-shadow:
+      inset 0 2px 0 rgba(255,160,160,0.35),
+      inset 0 -2px 0 rgba(0,0,0,0.4),
+      0 4px 0 #660022,
+      0 0 18px rgba(220,40,80,0.7);
+  }
+
+  .gb-b-btn:hover {
+    background: radial-gradient(circle at 38% 33%, #dd3355 0%, #991133 100%);
+    box-shadow:
+      inset 0 2px 0 rgba(255,120,130,0.28),
+      inset 0 -2px 0 rgba(0,0,0,0.4),
+      0 4px 0 #440011,
+      0 0 14px rgba(180,30,50,0.6);
+  }
+
+  .gb-a-btn:active, .gb-b-btn:active {
+    transform: translateY(3px);
+    box-shadow:
+      inset 0 1px 0 rgba(255,100,120,0.2),
+      0 1px 0 #440011;
+  }
+
+  .gb-ab-label {
+    font-family: var(--font-pixel);
+    font-size: 8px;
+    color: #882233;
+    text-shadow: 1px 1px 0 #000;
+    image-rendering: pixelated;
+  }
+
+  /* スピーカー */
+  .gb-speaker-row {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 8px;
+  }
+
+  .gb-speaker {
+    display: flex;
+    gap: 3px;
+    transform: rotate(-30deg);
+  }
+
+  .gb-speaker i {
+    display: block;
+    width: 3px;
+    height: 14px;
+    background: var(--gb-panel-bg);
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 rgba(0,0,0,0.6);
+  }
+
+  /* ===== ドットナビ ===== */
+  .viewer-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 14px 0 10px;
+  }
+
+  .viewer-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gb-item-bg);
+    border: 2px solid var(--gb-item-bdr);
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.15s ease;
+    box-shadow: 0 0 0 1px var(--col-bg-deeper);
+  }
+
+  .viewer-dot:hover {
+    background: var(--gb-item-sel);
+    border-color: var(--gb-border);
+    box-shadow: 0 0 6px var(--col-primary-a40), 0 0 0 1px var(--col-bg-deeper);
+  }
+
+  .viewer-dot.active {
+    background: var(--col-primary);
+    border-color: var(--col-heading);
+    box-shadow: 0 0 8px var(--col-primary-a80), 0 0 0 1px var(--col-bg-deeper);
+    transform: scale(1.25);
+  }
+
+  /* ===== フィルター効果 ===== */
+
+  /* CRT */
+  .viewer-frame.filter-crt {
+    animation: crt-flicker 6s linear infinite;
+    filter: brightness(0.95) contrast(1.15);
+    border: none;
+    box-shadow: 0 0 20px var(--col-primary-a50);
+  }
+
+  .viewer-frame.filter-crt .viewer-canvas {
+    filter: contrast(1.5) brightness(0.78) saturate(1.4) hue-rotate(-8deg) sepia(0.12);
+  }
+
+  .viewer-frame.filter-crt .viewer-scanlines {
+    opacity: 1 !important;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0) 0px,
+      rgba(0,0,0,0) 1px,
+      rgba(0,0,0,0.5) 1px,
+      rgba(0,0,0,0.5) 2px,
+      rgba(0,10,30,0.1) 2px,
+      rgba(0,10,30,0.1) 4px
+    ) !important;
+    z-index: 5 !important;
+  }
+
+  .viewer-frame.filter-crt::after {
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      transparent 36%,
+      rgba(0,0,20,0.42) 65%,
+      rgba(0,0,30,0.88) 100%
+    ) !important;
+    z-index: 6;
+  }
+
+  .viewer-frame.filter-crt::before {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1px,
+      rgba(0,0,0,0.22) 1px,
+      rgba(0,0,0,0.22) 2px
+    ),
+    linear-gradient(
+      180deg,
+      rgba(100,150,255,0.03) 0%,
+      transparent 50%,
+      rgba(0,0,50,0.05) 100%
+    ) !important;
+    animation: crt-scanroll 8s linear infinite !important;
+  }
+
+  /* Game Boy */
+  .viewer-frame.filter-gb .viewer-canvas {
+    filter: grayscale(1) contrast(2.8) brightness(0.65);
+  }
+
+  .viewer-frame.filter-gb::after {
+    background: rgba(15, 56, 15, 0.42) !important;
+    mix-blend-mode: multiply;
+    z-index: 3;
+  }
+
+  .viewer-frame.filter-gb .viewer-scanlines {
+    opacity: 1 !important;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,20,0,0.22) 3px,
+      rgba(0,20,0,0.22) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(0,20,0,0.12) 3px,
+      rgba(0,20,0,0.12) 4px
+    ) !important;
+  }
+
+  /* VHS */
+  .viewer-frame.filter-vhs .viewer-canvas {
+    filter: url(#svg-vhs-filter) saturate(2.6) contrast(1.25) brightness(0.85) hue-rotate(5deg);
+    animation: vhs-tracking 4s step-end infinite;
+  }
+
+  .viewer-frame.filter-vhs .viewer-scanlines {
+    opacity: 1 !important;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 4px,
+      rgba(255, 80, 80, 0.05) 4px,
+      rgba(255, 80, 80, 0.05) 5px
+    ) !important;
+  }
+
+  /* DOT: 最大ピクセルアート（JSでpixelSizeを大きくして再描画 + 格子を強化） */
+  .viewer-frame.filter-dot .viewer-canvas {
+    filter: saturate(1.8) contrast(1.4) brightness(0.9);
+  }
+
+  /* DOTモード: 格子をより太く大きく（8x8ピクセルグリッド） */
+  .viewer-frame.filter-dot::before {
+    background-image:
+      repeating-linear-gradient(0deg,  rgba(0,0,10,0.7) 0px, rgba(0,0,10,0.7) 2px, transparent 2px, transparent 8px),
+      repeating-linear-gradient(90deg, rgba(0,0,10,0.6) 0px, rgba(0,0,10,0.6) 2px, transparent 2px, transparent 8px) !important;
+    background-size: 8px 8px !important;
+  }
+
+  .viewer-frame.filter-dot .viewer-scanlines {
+    opacity: 1 !important;
+    background: none !important;
+  }
+
+  .viewer-frame.filter-dot::after {
+    background: radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,10,0.35) 100%) !important;
+  }
+
+  /* レスポンシブ */
+  @media (max-width: 520px) {
+    .gb-body { padding: 10px 12px 22px; }
+    .viewer-canvas { height: 210px; }
+    .gb-controls { gap: 4px; }
+    .gb-filter-mini { min-width: 70px; }
+    .gb-filter-name { font-size: 9px; }
+    .gb-dot-toggle { font-size: 5px; }
+    .viewer-dot { width: 8px; height: 8px; }
+  }
+
+  /* ===== ライトボックスモーダル ===== */
+  .gb-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gb-modal.open {
+    display: flex;
+  }
+
+  .gb-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 12, 0.88);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+
+  .gb-modal-content {
+    position: relative;
+    z-index: 1;
+    max-width: min(90vw, 900px);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--col-bg-deeper);
+    border: 2px solid var(--gb-border);
+    box-shadow:
+      0 0 0 1px var(--col-bg-deeper),
+      0 0 40px var(--col-primary-a50),
+      0 0 100px var(--col-primary-a20);
+  }
+
+  .gb-modal-img {
+    display: block;
+    max-width: 100%;
+    max-height: calc(90vh - 50px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .gb-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: var(--col-bg-deeper);
+    border-top: 1px solid var(--col-border-dark);
+    gap: 12px;
+  }
+
+  .gb-modal-title {
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    color: var(--gb-text-soft);
+    text-shadow: 0 0 8px var(--col-primary-a50), 1px 1px 0 #000;
+    letter-spacing: 1px;
+    image-rendering: pixelated;
+  }
+
+  .gb-modal-counter {
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    color: var(--gb-text-mid);
+    text-shadow: 1px 1px 0 #000;
+    letter-spacing: 1px;
+    image-rendering: pixelated;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .gb-modal-close {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    width: 32px;
+    height: 32px;
+    background: var(--gb-item-bg);
+    border: 2px solid var(--col-retro-pri);
+    border-radius: 50%;
+    color: var(--col-primary);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px var(--col-primary-a50);
+    transition: all 0.12s ease;
+    line-height: 1;
+    padding: 0;
+    font-family: var(--font-pixel);
+  }
+
+  .gb-modal-close:hover {
+    background: var(--gb-item-sel);
+    box-shadow: 0 0 20px var(--col-primary-a80);
+    color: var(--col-heading);
+  }
+
+  .gb-modal-arrow {
+    position: relative;
+    z-index: 1;
+    width: 52px;
+    height: 52px;
+    background: var(--gb-info-bg);
+    border: 2px solid var(--gb-border);
+    border-radius: 50%;
+    color: var(--col-primary);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin: 0 12px;
+    box-shadow:
+      0 0 0 1px var(--col-bg-deeper),
+      0 0 16px var(--col-primary-a40);
+    transition: all 0.12s ease;
+    padding: 0;
+    font-family: var(--font-pixel);
+  }
+
+  .gb-modal-arrow:hover {
+    background: var(--gb-modal-bg);
+    box-shadow:
+      0 0 0 1px var(--col-bg-deeper),
+      0 0 28px var(--col-primary-a80);
+    color: var(--col-heading);
+    transform: scale(1.08);
+  }
+
+  .gb-modal-arrow:active {
+    transform: scale(0.95);
+  }
+
+  @media (max-width: 600px) {
+    .gb-modal-arrow { width: 40px; height: 40px; font-size: 16px; margin: 0 6px; }
+    .gb-modal-close { width: 28px; height: 28px; font-size: 12px; top: -14px; right: -14px; }
+  }
+</style>
+
+<script>
+  const IMAGES = [
+    { src: "https://picsum.photos/seed/10/800/520",  title: "Cat Sketch #1" },
+    { src: "https://picsum.photos/seed/20/800/520",  title: "Fantasy Landscape" },
+    { src: "https://picsum.photos/seed/30/800/520",  title: "Pixel Character" },
+    { src: "https://picsum.photos/seed/40/800/520",  title: "Night City" },
+    { src: "https://picsum.photos/seed/50/800/520",  title: "Portrait Study" },
+    { src: "https://picsum.photos/seed/60/800/520",  title: "Abstract Flow" },
+    { src: "https://picsum.photos/seed/70/800/520",  title: "Creature Design" },
+    { src: "https://picsum.photos/seed/80/800/520",  title: "Neon Alley" },
+    { src: "https://picsum.photos/seed/90/800/520",  title: "Chibi Character" },
+    { src: "https://picsum.photos/seed/100/800/520", title: "Scenery Draft" },
+  ];
+
+  const FILTERS = [
+    { key: "none", label: "NORMAL", mode: "",         pixelSize: 5  },
+    { key: "crt",  label: "CRT",    mode: "mode-crt", pixelSize: 3  },
+    { key: "gb",   label: "G·BOY", mode: "mode-gb",  pixelSize: 10 },
+    { key: "vhs",  label: "VHS",    mode: "mode-vhs", pixelSize: 4  },
+    { key: "dot",  label: "DOT",    mode: "mode-dot", pixelSize: 16 },
+  ];
+
+  // =====================================================
+  // Preparing: 8bitピクセルアニメーション
+  // =====================================================
+  (function startPreparingAnim() {
+    const pc = document.getElementById("preparing-canvas") as HTMLCanvasElement | null;
+    if (!pc) return;
+    const ctx = pc.getContext("2d");
+    if (!ctx) return;
+
+    const PIXEL = 8;
+    const cols  = Math.floor(pc.width  / PIXEL);
+    const rows  = Math.floor(pc.height / PIXEL);
+
+    // 暗→明 のテーマカラー系パレット（8色、色相連動）
+    const hue = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--theme-hue').trim()) || 225;
+    const PAL = [
+      `hsl(${hue},60%,3%)`,  `hsl(${hue},60%,7%)`,  `hsl(${hue},62%,14%)`,
+      `hsl(${hue},65%,22%)`, `hsl(${hue},68%,32%)`,  `hsl(${hue},100%,62%)`,
+      `hsl(${hue},90%,72%)`, `hsl(${hue},80%,82%)`,
+    ];
+
+    let animId: number;
+    function draw() {
+      const t = Date.now() / 500;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          // 斜めの波 + ランダムなちらつき
+          const wave = Math.sin(t + r * 0.45 + c * 0.35)
+                     + Math.sin(t * 1.7 + r * 0.2 - c * 0.5) * 0.4;
+          const norm = (wave + 1.4) / 2.8; // 0〜1
+          const idx  = Math.min(Math.floor(norm * PAL.length), PAL.length - 1);
+          if (!ctx) return;
+          ctx.fillStyle = PAL[idx];
+          ctx.fillRect(c * PIXEL, r * PIXEL, PIXEL - 1, PIXEL - 1);
+        }
+      }
+      animId = requestAnimationFrame(draw);
+    }
+    draw();
+
+    // 画像表示に切り替わったらアニメーション停止
+    const observer = new MutationObserver(() => {
+      const canvas = document.getElementById("viewer-canvas") as HTMLCanvasElement | null;
+      if (canvas && canvas.style.display !== "none") {
+        cancelAnimationFrame(animId);
+        observer.disconnect();
+      }
+    });
+    const viewerCanvas = document.getElementById("viewer-canvas");
+    if (viewerCanvas) observer.observe(viewerCanvas, { attributes: true, attributeFilter: ["style"] });
+  })();
+
+  let imgIdx    = 0;
+  let filterIdx = 0; // フィルターなし固定
+  const dotMode = true; // ドット絵固定
+
+  // =====================================================
+  // Canvas描画: dotMode に応じてドット絵 or スムーズ切り替え
+  // =====================================================
+  function renderToCanvas(
+    src: string,
+    canvas: HTMLCanvasElement,
+    pixelSize: number,
+    smooth: boolean,
+    onDone?: () => void
+  ) {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      // object-fit: contain 相当の配置計算
+      const ir = img.naturalWidth / img.naturalHeight;
+      const cr = cw / ch;
+      let dw: number, dh: number, dx: number, dy: number;
+      if (ir > cr) {
+        dw = cw; dh = Math.round(cw / ir);
+      } else {
+        dh = ch; dw = Math.round(ch * ir);
+      }
+      dx = Math.round((cw - dw) / 2);
+      dy = Math.round((ch - dh) / 2);
+
+      ctx.fillStyle = "#010108";
+      ctx.fillRect(0, 0, cw, ch);
+
+      if (smooth) {
+        // ─── スムーズモード: 高品質リサンプリングで直接描画 ───
+        ctx.imageSmoothingEnabled = true;
+        (ctx as any).imageSmoothingQuality = "high";
+        ctx.drawImage(img, dx, dy, dw, dh);
+      } else {
+        // ─── ドットモード: ダウンスケール→アップスケールでピクセルブロック化 ───
+        const smallW = Math.max(1, Math.floor(dw / pixelSize));
+        const smallH = Math.max(1, Math.floor(dh / pixelSize));
+
+        const offscreen = document.createElement("canvas");
+        offscreen.width  = smallW;
+        offscreen.height = smallH;
+        const offCtx = offscreen.getContext("2d");
+        if (!offCtx) return;
+        offCtx.imageSmoothingEnabled = false;
+        offCtx.drawImage(img, 0, 0, smallW, smallH);
+
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(offscreen, 0, 0, smallW, smallH, dx, dy, dw, dh);
+      }
+
+      onDone?.();
+    };
+    img.onerror = () => {
+      const ctx = canvas.getContext("2d");
+      if (ctx) { ctx.fillStyle = "#111122"; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+    };
+    img.src = src;
+  }
+
+  function getCanvas(): HTMLCanvasElement | null {
+    return document.getElementById("viewer-canvas") as HTMLCanvasElement | null;
+  }
+
+  function showImage(idx: number) {
+    const canvas  = getCanvas();
+    const title   = document.getElementById("viewer-title");
+    const counter = document.getElementById("viewer-counter");
+    const hudCtr  = document.getElementById("viewer-hud-counter");
+    const flash   = document.getElementById("viewer-flash");
+    const dots    = document.querySelectorAll(".viewer-dot");
+    if (!canvas) return;
+
+    const d = IMAGES[idx];
+    const n = String(idx + 1).padStart(2, "0");
+    const t = String(IMAGES.length).padStart(2, "0");
+
+    if (flash) { flash.classList.add("active"); setTimeout(() => flash.classList.remove("active"), 80); }
+
+    canvas.style.opacity   = "0";
+    canvas.style.transform = "scaleX(0.92)";
+
+    setTimeout(() => {
+      renderToCanvas(d.src, canvas, FILTERS[filterIdx].pixelSize, !dotMode, () => {
+        canvas.style.opacity   = "1";
+        canvas.style.transform = "scaleX(1)";
+      });
+      canvas.setAttribute("aria-label", d.title);
+    }, 120);
+
+    if (title)   title.textContent = d.title;
+    if (counter) counter.textContent = `${n}/${t}`;
+    if (hudCtr)  hudCtr.textContent  = `${n} / ${t}`;
+    dots.forEach((dot, i) => dot.classList.toggle("active", i === idx));
+    imgIdx = idx;
+  }
+
+  // ===== イベントリスナー =====
+  document.getElementById("illust-prev")?.addEventListener("click", () =>
+    showImage((imgIdx - 1 + IMAGES.length) % IMAGES.length));
+  document.getElementById("illust-next")?.addEventListener("click", () =>
+    showImage((imgIdx + 1) % IMAGES.length));
+
+  document.querySelectorAll(".viewer-dot").forEach((dot) =>
+    dot.addEventListener("click", () =>
+      showImage(parseInt((dot as HTMLElement).dataset.index ?? "0", 10))));
+
+  // ===== ライトボックスモーダル =====
+  let modalOpen = false;
+
+  function openModal(idx: number) {
+    const modal   = document.getElementById("gb-modal");
+    const img     = document.getElementById("gb-modal-img") as HTMLImageElement | null;
+    const title   = document.getElementById("gb-modal-title");
+    const counter = document.getElementById("gb-modal-counter");
+    if (!modal || !img) return;
+
+    modalOpen = true;
+    imgIdx = idx;
+
+    const d = IMAGES[idx];
+    const n = String(idx + 1).padStart(2, "0");
+    const t = String(IMAGES.length).padStart(2, "0");
+    img.src = d.src;
+    img.alt = d.title;
+    if (title)   title.textContent  = d.title;
+    if (counter) counter.textContent = `${n} / ${t}`;
+
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    const modal = document.getElementById("gb-modal");
+    if (!modal) return;
+    modalOpen = false;
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  function modalNav(dir: 1 | -1) {
+    const next = (imgIdx + dir + IMAGES.length) % IMAGES.length;
+    // メインギャラリーも同期
+    showImage(next);
+    // モーダルの画像・カウンター更新
+    const img     = document.getElementById("gb-modal-img") as HTMLImageElement | null;
+    const title   = document.getElementById("gb-modal-title");
+    const counter = document.getElementById("gb-modal-counter");
+    if (!img) return;
+    const d = IMAGES[next];
+    const n = String(next + 1).padStart(2, "0");
+    const t = String(IMAGES.length).padStart(2, "0");
+    img.src = d.src;
+    img.alt = d.title;
+    if (title)   title.textContent  = d.title;
+    if (counter) counter.textContent = `${n} / ${t}`;
+  }
+
+  // キャンバスクリックでモーダルを開く
+  getCanvas()?.addEventListener("click", () => openModal(imgIdx));
+
+  document.getElementById("gb-modal-close")?.addEventListener("click", closeModal);
+  document.getElementById("gb-modal-backdrop")?.addEventListener("click", closeModal);
+  document.getElementById("modal-prev")?.addEventListener("click", () => modalNav(-1));
+  document.getElementById("modal-next")?.addEventListener("click", () => modalNav(1));
+
+  document.addEventListener("keydown", (e) => {
+    if (modalOpen) {
+      if (e.key === "ArrowLeft")  modalNav(-1);
+      if (e.key === "ArrowRight") modalNav(1);
+      if (e.key === "Escape")     closeModal();
+    } else {
+      if (e.key === "ArrowLeft")  showImage((imgIdx - 1 + IMAGES.length) % IMAGES.length);
+      if (e.key === "ArrowRight") showImage((imgIdx + 1) % IMAGES.length);
+    }
+  });
+
+  // ===== 初期表示 =====
+  const initCanvas = getCanvas();
+  if (initCanvas) {
+    initCanvas.classList.add("dot-mode"); // デフォルトはドットモード
+    renderToCanvas(IMAGES[0].src, initCanvas, FILTERS[0].pixelSize, false);
+  }
+</script>

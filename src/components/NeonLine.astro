@@ -219,7 +219,7 @@ const combinedStyle = [
 
   /* フォールバック */
   .neon-line-fallback {
-    border: 1px solid #333;
+    border: 1px solid var(--col-border-dark);
     opacity: 0.3;
     border-radius: 8px;
   }
@@ -246,7 +246,7 @@ const combinedStyle = [
   /* ダークモード対応 */
   @media (prefers-color-scheme: dark) {
     .neon-line-fallback {
-      border-color: #666;
+      border-color: var(--col-border-mid);
       opacity: 0.5;
     }
   }

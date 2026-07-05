@@ -49,6 +49,9 @@ function getEmbedUrl(vid: string, start: number = 0, auto: boolean = false): str
   params.set('rel', '0');
   params.set('fs', '1');
   params.set('cc_load_policy', '0');
+  params.set('enablejsapi', '1');
+  params.set('playsinline', '1');
+  params.set('vq', 'hd1080');
   
   return `https://www.youtube.com/embed/${vid}?${params.toString()}`;
 }
@@ -163,7 +166,7 @@ const embedUrl = getEmbedUrl(actualVideoId, startTime, autoplay);
   .clip-preview-screen {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    background: linear-gradient(135deg, hsl(var(--theme-hue),40%,12%) 0%, hsl(var(--theme-hue),44%,17%) 50%, hsl(var(--theme-hue),60%,22%) 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -175,7 +178,7 @@ const embedUrl = getEmbedUrl(actualVideoId, startTime, autoplay);
   }
 
   .clip-preview-screen:hover {
-    background: linear-gradient(135deg, #2a2a4e 0%, #26315e 50%, #1f4480 100%);
+    background: linear-gradient(135deg, hsl(var(--theme-hue),40%,18%) 0%, hsl(var(--theme-hue),44%,24%) 50%, hsl(var(--theme-hue),60%,30%) 100%);
     transform: scale(1.02);
   }
 
@@ -474,7 +477,7 @@ const embedUrl = getEmbedUrl(actualVideoId, startTime, autoplay);
               align-items: center; 
               justify-content: center; 
               height: 100%; 
-              background: #1a1a2e; 
+              background: hsl(var(--theme-hue),40%,12%);
               color: #ffffff; 
               font-family: var(--font-pixel-jp); 
               text-align: center;

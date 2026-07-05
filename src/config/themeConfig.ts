@@ -33,8 +33,11 @@ export const generateThemeColors = (hue: number = THEME_CONFIG.HUE) => {
     primaryAlpha5: `hsla(${hue}, 100%, 65%, 0.05)`,
     primaryShadow: `hsla(${hue}, 100%, 65%, 0.3)`,
 
-    // タイトル・見出しカラー（少し明るく）
-    heading: `hsl(${hue + 15}, 100%, 82%)`,
+    // タイトル・見出しカラー（CSS変数で色相追従）
+    heading: 'var(--col-heading)',
+
+    // リンクカラー
+    link: 'var(--col-heading)',
 
     // RGB形式（一部コンポーネント用）
     primaryRgb: hslToRgb(hue, 100, 65),
@@ -66,14 +69,14 @@ export const FIXED_COLORS = {
 export const COMPONENT_COLORS = {
   // 動画ビューア系
   video: {
-    title: '#4d79ff',
-    border: '#4d79ff',
-    shadow: 'rgba(77, 121, 255, 0.3)',
+    title: 'var(--col-primary)',
+    border: 'var(--col-primary)',
+    shadow: 'var(--col-primary-a30)',
   },
 
   // ナビゲーション
   navigation: {
-    shadow: 'rgba(77, 121, 255, 0.3)',
+    shadow: 'var(--col-primary-a30)',
   },
 } as const;
 
@@ -107,11 +110,107 @@ export const getCurrentThemeColors = () => generateThemeColors(THEME_CONFIG.HUE)
  */
 export const getThemeColorsByHue = (hue: number) => generateThemeColors(hue);
 
+// ========================================
+// フォントサイズ設定
+// ========================================
+export const FONT_SIZES = {
+  title: 'var(--fs-title)',
+  subtitle: 'var(--fs-subtitle)',
+  sectionTitle: 'var(--fs-section)',
+  subTitle: 'var(--fs-subtitle)',
+  bodyText: 'var(--fs-body)',
+  smallText: 'var(--fs-small)',
+  footer: 'var(--fs-footer)',
+} as const;
+
+// ========================================
+// フォント設定
+// ========================================
+export const FONTS = {
+  pixel: "'Press Start 2P', monospace",
+  pixelJp: "'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace",
+} as const;
+
+// ========================================
+// インラインスタイルプリセット生成
+// index.astro等でテンプレートリテラル内で使用する
+// ========================================
+export const getStylePresets = (colors: ReturnType<typeof getCurrentThemeColors> & typeof FIXED_COLORS) => {
+  const textBase = `font-family: ${FONTS.pixelJp}; image-rendering: pixelated; text-shadow: 1px 1px 0px ${colors.textBlack};`;
+
+  return {
+    /** メインタイトル（h1レベル） */
+    title: `color: ${colors.heading}; font-size: ${FONT_SIZES.title}; font-family: ${FONTS.pixel}; image-rendering: pixelated; text-shadow: 1px 1px 0px ${colors.textBlack}; letter-spacing: 1px;`,
+
+    /** セクション見出し（h2レベル） */
+    sectionTitle: `color: ${colors.heading}; font-size: ${FONT_SIZES.sectionTitle}; text-align: center; font-family: ${FONTS.pixel}; image-rendering: pixelated; text-shadow: 1px 1px 0px ${colors.textBlack}; letter-spacing: 1px;`,
+
+    /** 小見出し（h3レベル） */
+    subTitle: `color: ${colors.textWhite}; font-size: ${FONT_SIZES.subTitle}; ${textBase}`,
+
+    /** 本文テキスト */
+    bodyText: `color: ${colors.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; ${textBase}`,
+
+    /** 本文テキスト（line-heightなし） */
+    bodyTextCompact: `color: ${colors.textGray}; font-size: ${FONT_SIZES.bodyText}; ${textBase}`,
+
+    /** リンク色 */
+    link: `color: ${colors.link};`,
+
+    /** 区切り線 */
+    divider: `border: none; height: 1px; background-color: ${colors.primary};`,
+
+    /** テキストベース（フォント + text-shadow のみ） */
+    textBase,
+  };
+};
+
+// ========================================
+// チャートグリッド・線の統一設定
+// ========================================
+export const CHART_GRID = {
+  // 横線（Y軸グリッド）
+  horizontal: {
+    color: 'hsla(185, 100%, 82%, 0.4)',
+    lineWidth: 1,
+  },
+  // 縦線（X軸グリッド）
+  vertical: {
+    color: 'hsla(185, 100%, 82%, 0.18)',
+    lineWidth: 1,
+  },
+  // K/D 1.0 基準線
+  kdBaseline: {
+    lineWidth: 2.5,
+  },
+  // テーマカラー（ラベル・ポイント・ライン）
+  themeColor: 'var(--col-heading)',
+  // ツールチップ背景
+  tooltipBg: 'rgba(5, 10, 20, 0.95)',
+} as const;
+
+// ========================================
+// ナビゲーションバー設定
+// ========================================
+export const NAV_CONFIG = {
+  links: [
+    { label: 'CLIPS',  href: '#clips-gallery-section' },
+    { label: 'STATS',  href: '#valorant-stats' },
+    { label: 'DEVICE', href: '#device-section' },
+    { label: 'WORKS',  href: '#works-section' },
+  ],
+  settingsLabel: 'SETTING',
+} as const;
+
 // デフォルトエクスポート
 export default {
   THEME_CONFIG,
   FIXED_COLORS,
   COMPONENT_COLORS,
+  FONT_SIZES,
+  FONTS,
+  CHART_GRID,
+  getStylePresets,
   getCurrentThemeColors,
   getThemeColorsByHue,
 };

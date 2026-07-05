@@ -1,47 +1,132 @@
 ---
+import competitiveAgentData from '../data/competitive_agent.json';
+import clipsRaw from '../data/clips.json';
+import gamesData from '../data/games.json';
+import competitiveRankData from '../data/competitive_rank.json';
+import competitiveWeaponData from '../data/competitive_weapon.json';
+import competitiveMapData from '../data/competitive_map.json';
+import unratedAgentData from '../data/unrate_agent.json';
+import unratedPerformanceData from '../data/unrate_performance.json';
+import deathmatchPerformanceData from '../data/deathmatch_performance.json';
 import SimpleLayout from "../layouts/SimpleLayout.astro";
+import ValorantStats from "../components/charts/ValorantStats.astro";
 import YouTubeClipViewer from "../components/YouTubeClipViewer.astro";
+import GameBoyGallery from "../components/GameBoyGallery.astro";
+import WiiUGamepad from "../components/WiiUGamepad.astro";
+import DSLite from "../components/DSLite.astro";
 import { applyTypographyPreset } from "../utils/typography";
 import {
-  THEME_CONFIG,
   getCurrentThemeColors,
   FIXED_COLORS,
+  FONT_SIZES,
+  FONTS,
+  getStylePresets,
 } from "../config/themeConfig";
 import "../styles/global.css";
 
-// フォントサイズ設定
-const FONT_SIZES = {
-  title: "24px", // メインタイトル
-  subtitle: "16px", // サブタイトル
-  sectionTitle: "18px", // セクション見出し
-  subTitle: "16px", // 小見出し
-  bodyText: "14px", // 本文テキスト
-  smallText: "10px", // 小さいテキスト
-  footer: "10px", // フッター
-};
-
-// ========================================
-// テーマカラー設定（src/config/themeConfig.ts で一元管理）
-// ========================================
+// テーマカラー統合オブジェクト
 const themeColors = getCurrentThemeColors();
-const COLORS = {
-  // メインカラー（テーマ設定から生成）
-  ...themeColors,
+const COLORS = { ...themeColors, ...FIXED_COLORS };
 
-  // 固定カラー
-  ...FIXED_COLORS,
+// スタイルプリセット（テンプレート内で S.title, S.bodyText 等で使用）
+const S = getStylePresets(COLORS);
+
+// クリップギャラリーデータ（src/data/clips.json で管理・scoreの合計が高いほど上位）
+interface ClipScore { smooth: number; clutch: number; tap: number; "6kills": number; onemag: number; }
+interface ClipData  { id: string; url: string; title: string; map: string; agent: string; views: number; tags: string[]; score: ClipScore; }
+const CLIPS_INITIAL_SHOW = 6;
+
+const SCORE_DEFAULTS: ClipScore = { smooth: 2, clutch: 0, tap: 3, "6kills": 0, onemag: 0 };
+
+const TAG_LABELS: Record<string, string> = {
+  op:          'OP',
+  guardian:    'Guardian',
+  ghost:       'Ghost',
+  bundit:      'Bundit',
+  vandal:      'Vandal',
+  bucky:       'Bucky',
+  spectre:     'Spectre',
+  classic:     'Classic',
+  '6kills':    '6kills',
+  smooth:      'Smooth',
+  onemagazine: '1Mag',
 };
+
+type TagBadge = { label: string; type: string; value: string };
+
+// タイトル + JSONタグを統合してバッジリストを生成
+function getClipTags(title: string, jsonTags: string[]): TagBadge[] {
+  const t = title.toLowerCase();
+  const result: TagBadge[] = [];
+  if (t.includes('ult')) result.push({ label: 'Ult', type: 'kw', value: 'ult' });
+  for (const tag of jsonTags) {
+    if (tag === 'clutch') {
+      const m = t.match(/(\d)v(\d)/);
+      result.push({ label: m ? `${m[1]}v${m[2]}` : 'Clutch', type: 'kw', value: 'clutch' });
+    } else {
+      result.push({ label: TAG_LABELS[tag] ?? tag, type: 'kw', value: tag });
+    }
+  }
+  return result;
+}
+
+function totalScore(c: ClipData) {
+  const s = c.score;
+  return (s.smooth    ?? SCORE_DEFAULTS.smooth)
+       + (s.clutch    ?? SCORE_DEFAULTS.clutch)
+       + (s.tap       ?? SCORE_DEFAULTS.tap)
+       + (s["6kills"] ?? SCORE_DEFAULTS["6kills"])
+       + (s.onemag    ?? SCORE_DEFAULTS.onemag);
+}
+
+// デフォルト: スコア合計の高い順
+const clipGalleryData: ClipData[] = [...(clipsRaw as ClipData[])].sort(
+  (a, b) => totalScore(b) - totalScore(a)
+);
+const clipMaps   = [...new Set(clipGalleryData.map(c => c.map))];
+const clipAgents = [...new Set(clipGalleryData.map(c => c.agent))];
+function capFirst(s: string) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+// フィルター件数カウント（ビルド時に静的計算）
+const mapCounts = Object.fromEntries(
+  clipMaps.map(m => [m, clipGalleryData.filter(c => c.map === m).length])
+);
+const agentCounts = Object.fromEntries(
+  clipAgents.map(a => [a, clipGalleryData.filter(c => c.agent === a).length])
+);
+const typeCounts: Record<string, number> = {
+  all:         clipGalleryData.length,
+  clutch:      clipGalleryData.filter(c => c.tags.includes('clutch')).length,
+  ult:         clipGalleryData.filter(c => /ult/i.test(c.title)).length,
+  onemagazine: clipGalleryData.filter(c => c.tags.includes('onemagazine')).length,
+  smooth:      clipGalleryData.filter(c => c.tags.includes('smooth')).length,
+  '6kills':    clipGalleryData.filter(c => c.tags.includes('6kills')).length,
+  vandal:      clipGalleryData.filter(c => c.tags.includes('vandal')).length,
+  ghost:       clipGalleryData.filter(c => c.tags.includes('ghost')).length,
+  guardian:    clipGalleryData.filter(c => c.tags.includes('guardian')).length,
+  bundit:      clipGalleryData.filter(c => c.tags.includes('bundit')).length,
+  op:          clipGalleryData.filter(c => c.tags.includes('op')).length,
+  bucky:       clipGalleryData.filter(c => c.tags.includes('bucky')).length,
+  spectre:     clipGalleryData.filter(c => c.tags.includes('spectre')).length,
+  classic:     clipGalleryData.filter(c => c.tags.includes('classic')).length,
+};
+const fpsGames    = gamesData.filter((g: any) => g.category === "FPS");
+const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 ---
 
-<SimpleLayout title="nodoame's Portfolio">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<SimpleLayout title="nodoamen's Portfolio">
   <div
-    style={`max-width: 1000px; margin: 0 auto; padding: 20px; background: var(--color-bg-secondary); border: 4px solid ${COLORS.primary}; border-radius: 12px; box-shadow: inset 2px 2px 0px ${COLORS.shadowWhite}, inset -2px -2px 0px ${COLORS.shadowBlack}, 0 0 20px ${COLORS.primaryShadow}; min-height: 100vh;`}
+    style={`max-width: 1000px; margin: 40px auto 0; padding: 20px; background: var(--color-bg-secondary); border: 4px solid var(--col-primary); border-radius: 12px; box-shadow: inset 2px 2px 0px ${COLORS.shadowWhite}, inset -2px -2px 0px ${COLORS.shadowBlack}, 0 0 20px var(--col-primary-a30); min-height: calc(100vh - 40px);`}
     class="main-container mobile-main"
   >
     <!-- タイトル -->
     <div style="text-align: center; margin-bottom: 40px;" class="title-section">
       <h1
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.title}; margin-bottom: 15px; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+        style={`color: var(--col-heading); font-size: ${FONT_SIZES.title}; margin-bottom: 15px; font-family: ${FONTS.pixel}; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
         class="main-title"
       >
         <span class="title-first-line">Nodoame's</span>
@@ -50,14 +135,14 @@ const COLORS = {
 
       <!-- 横線 -->
       <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 15px auto; width: 100%;`}
+        style={`${S.divider} margin: 0 auto 15px auto; width: 100%;`}
       />
 
       <!-- プロフィール画像 -->
       <img
         src="/icon_omencat_transparent.png"
         alt="nodoame profile"
-        style={`width: 120px; height: 120px; margin: 0 auto 15px auto; display: block; border-radius: 8px; border: 2px solid ${COLORS.primary}; background-color: ${COLORS.primaryAlpha10}; padding: 5px;`}
+        style={`width: 120px; height: 120px; margin: 0 auto 15px auto; display: block; border-radius: 8px; border: 2px solid var(--col-primary); background-color: var(--col-primary-a10); padding: 5px;`}
       />
 
       <p
@@ -70,49 +155,48 @@ const COLORS = {
 
     <!-- About Me -->
     <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="about-section"
+      style={`background: var(--col-primary-a10); border: 2px solid var(--col-primary); padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      id="about-section" class="about-section"
     >
       <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+        style={`${S.sectionTitle} margin-bottom: 15px;`}
       >
-        ◆ About Me ◆
+        About Me
       </h2>
 
       <!-- 横線 -->
       <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+        style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
       />
 
       <div style="text-align: center; margin-bottom: 15px;">
-        <p
-          style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
-        >
-          VALORANTをメインにプレイしている猫好きなゲーマーです。<br />
-          <br />
-          ゲーム以外にもWeb制作やプログラミングに興味があり、<br />
-          このポートフォリオサイトを制作しました。<br />
-          最近はVALORANTの戦略研究やマップ分析にも力を入れています。<br />
-          <br />
-          ※このサイトはClaude Codeを用いて作られました。
-        </p>
-      </div>
+                  <p
+                    style={`${S.bodyText}`}
+                  >
+                    VALORANTをメインにプレイしている猫好きなゲーマー、nodoamen です。<br />
+                    <br />
+                    ゲーム以外にもWeb制作やプログラミングに興味があり、<br />
+                    このポートフォリオサイトを制作しました。<br />
+                    最近はVALORANTの戦略研究やマップ分析にも力を入れています。<br />
+                    <br />
+                    ※このサイトはClaude Codeを用いて作られました。
+                  </p>      </div>
     </div>
 
     <!-- プロフィール情報 -->
     <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      style={`background: var(--col-primary-a10); border: 2px solid var(--col-primary); padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
       class="profile-section"
     >
       <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+        style={`${S.sectionTitle} margin-bottom: 15px;`}
       >
-        ★ Player Info ★
+        Player Info
       </h2>
 
       <!-- 横線 -->
       <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+        style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
       />
 
       <div
@@ -121,38 +205,52 @@ const COLORS = {
       >
         <div>
           <h3
-            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.subTitle} margin-bottom: 10px;`}
           >
             基本情報
           </h3>
           <p
-            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.bodyText}`}
           >
-            名前: nodoame<br />
+            名前: nodoamen<br />
             メインロール: コントローラー(オーメン/クローブ/アストラ) <br />
           </p>
 
           <h3
-            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; margin-top: 15px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.subTitle} margin-bottom: 10px; margin-top: 15px;`}
           >
-            プレイ中のゲーム
+            ゲームジャンル
           </h3>
-          <p
-            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
-          >
-            FPS: Valorant / Apex / OW2 / BF / COD / Fortnite(昔)<br />
-            ソシャゲ: パズドラ / モンスト / ポケポケ / 雀魂
+          <p style={`${S.bodyText} line-height: 2;`}>
+            FPS:&nbsp;
+            {fpsGames.map((g: any, i: number) => (
+              <>
+                <button class="game-chip" data-game-id={g.id} data-game-json={JSON.stringify(g)}>
+                  {g.name}{g.note ? <span class="game-chip-note">({g.note})</span> : ''}
+                </button>
+                {i < fpsGames.length - 1 && <span class="game-sep"> / </span>}
+              </>
+            ))}<br />
+            ソシャゲ:&nbsp;
+            {socialGames.map((g: any, i: number) => (
+              <>
+                <button class="game-chip" data-game-id={g.id} data-game-json={JSON.stringify(g)}>
+                  {g.name}
+                </button>
+                {i < socialGames.length - 1 && <span class="game-sep"> / </span>}
+              </>
+            ))}
           </p>
         </div>
 
         <div>
           <h3
-            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.subTitle} margin-bottom: 10px;`}
           >
             外部リンク
           </h3>
           <p
-            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.bodyText}`}
           >
             <svg
               style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"
@@ -166,7 +264,7 @@ const COLORS = {
               href="https://twitter.com/nodoame27181"
               target="_blank"
               rel="noopener"
-              style={`color: ${COLORS.primary};`}>@nodoame27181</a
+              style={S.link}>@nodoame27181</a
             ><br />
             <svg
               style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"
@@ -180,7 +278,7 @@ const COLORS = {
               href="https://www.youtube.com/@nodoame27181"
               target="_blank"
               rel="noopener"
-              style={`color: ${COLORS.primary};`}>@nodoame27181</a
+              style={S.link}>@nodoame27181</a
             ><br />
             <svg
               style="display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;"
@@ -196,7 +294,7 @@ const COLORS = {
                 href="https://tracker.gg/valorant/profile/riot/nodoame%2327181/overview?platform=pc&playlist=competitive&season=4c4b8cff-43eb-13d3-8f14-96b783c90cd2"
                 target="_blank"
                 rel="noopener"
-                style={`color: ${COLORS.primary};`}>Valorant Profile</a
+                style={S.link}>Valorant Profile</a
               ></span
             ><br />
             <span style="margin-left: 24px;"
@@ -204,7 +302,7 @@ const COLORS = {
                 href="https://tracker.gg/valorant/profile/riot/nodoame%2327182/overview?platform=pc&playlist=competitive&season=4c4b8cff-43eb-13d3-8f14-96b783c90cd2"
                 target="_blank"
                 rel="noopener"
-                style={`color: ${COLORS.primary};`}>Solo Profile</a
+                style={S.link}>Valorant Profile (Solo)</a
               ></span
             ><br />
             <span style="margin-left: 24px;"
@@ -212,7 +310,7 @@ const COLORS = {
                 href="https://fortnitetracker.com/profile/kbm/nodoamen/events?region=GLOBAL&sortBy=placement"
                 target="_blank"
                 rel="noopener"
-                style={`color: ${COLORS.primary};`}>Fortnite Profile</a
+                style={S.link}>Fortnite Profile</a
               ></span
             ><br />
             <span style="margin-left: 24px;"
@@ -220,7 +318,7 @@ const COLORS = {
                 href="https://apex.tracker.gg/apex/profile/origin/nodoamen/performance"
                 target="_blank"
                 rel="noopener"
-                style={`color: ${COLORS.primary};`}>Apex Profile</a
+                style={S.link}>Apex Profile</a
               ></span
             ><br />
           </p>
@@ -228,273 +326,233 @@ const COLORS = {
       </div>
     </div>
 
-    <!-- YouTube動画セクション -->
-    <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="video-section"
-    >
-      <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
-      >
-        ★ VALORANT Gameplay ★
-      </h2>
+        <!-- YouTube動画セクション -->
 
-      <!-- 横線 -->
-      <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
-      />
 
-      <!-- カルーセル表示（折りたたみ時） -->
-      <div id="video-carousel" style="position: relative;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <!-- 左矢印ボタン -->
-          <button
-            id="prev-video-btn"
-            style={`flex-shrink: 0; width: 40px; height: 40px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 20px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
-            onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
-            onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
-          >
-            ◀
-          </button>
+        <div
 
-          <!-- 動画表示エリア -->
-          <div style="flex: 1;">
-            <div class="carousel-video" data-index="0" style="display: block;">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/eAx-dZ3_wEI?si=ap6SqkbEz7ccAGGS"
-                title="VALORANT Clutch Moments"
-                autoplay={false}
-              />
-            </div>
-            <div class="carousel-video" data-index="1" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/ERb40ovB060"
-                title="VALORANT Clip #1"
-                autoplay={false}
-              />
-            </div>
-            <div class="carousel-video" data-index="2" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/KTwFA1jQgFY"
-                title="VALORANT Clip #2"
-                autoplay={false}
-              />
-            </div>
-            <div class="carousel-video" data-index="3" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/oos2PYWiRGM"
-                title="VALORANT Clip #3"
-                autoplay={false}
-              />
-            </div>
-            <div class="carousel-video" data-index="4" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://www.youtube.com/watch?v=5IET-4mL9pA"
-                title="VALORANT Clip #4"
-                autoplay={false}
-              />
-            </div>
-            <div class="carousel-video" data-index="5" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/46a0f7dNVW4?si=FjCr_YPa35-guCZX"
-                title="VALORANT Clip #5"
-                autoplay={false}
-              />
-            </div>
-            <div class="carousel-video" data-index="6" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/Yznxiz_tS4g?si=sWJFRV_vB95mkJNl"
-                title="VALORANT Clip #6"
-                autoplay={false}
-              />
-            </div>
-            <div class="carousel-video" data-index="7" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/ooJdHWZ3KyU?si=pS2rqHsxPnuRqmEV"
-                title="VALORANT Clip #7"
-                autoplay={false}
-              />
-            </div>
-            <div class="carousel-video" data-index="8" style="display: none;">
-              <YouTubeClipViewer
-                clipUrl="https://youtu.be/Aazj-kAuxdY"
-                title="VALORANT Clip #8"
-                autoplay={false}
-              />
-            </div>
-          </div>
 
-          <!-- 右矢印ボタン -->
-          <button
-            id="next-video-btn"
-            style={`flex-shrink: 0; width: 40px; height: 40px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: 20px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;`}
-            onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
-            onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
-          >
-            ▶
-          </button>
-        </div>
+          style={`background: var(--col-primary-a10); border: 2px solid var(--col-primary); padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
 
-        <!-- 現在位置インジケーター -->
-        <div style="text-align: center; margin-top: 15px;">
-          <p
-            id="video-counter"
-            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
-          >
-            1 / 9
-          </p>
-        </div>
-      </div>
+          class="video-section"
 
-      <!-- 全動画一覧表示（展開時） -->
-      <div id="all-videos-grid" style="display: none;">
-        <div class="video-grid">
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/eAx-dZ3_wEI?si=ap6SqkbEz7ccAGGS"
-              title="VALORANT Clutch Moments"
-              autoplay={false}
-            />
-          </div>
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/ERb40ovB060"
-              title="VALORANT Clip #1"
-              autoplay={false}
-            />
-          </div>
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/KTwFA1jQgFY"
-              title="VALORANT Clip #2"
-              autoplay={false}
-            />
-          </div>
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/oos2PYWiRGM"
-              title="VALORANT Clip #3"
-              autoplay={false}
-            />
-          </div>
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://www.youtube.com/watch?v=5IET-4mL9pA"
-              title="VALORANT Clip #4"
-              autoplay={false}
-            />
-          </div>
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/46a0f7dNVW4?si=FjCr_YPa35-guCZX"
-              title="VALORANT Clip #5"
-              autoplay={false}
-            />
-          </div>
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/Yznxiz_tS4g?si=sWJFRV_vB95mkJNl"
-              title="VALORANT Clip #6"
-              autoplay={false}
-            />
-          </div>
-          <div style="margin-bottom: 20px;">
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/ooJdHWZ3KyU?si=pS2rqHsxPnuRqmEV"
-              title="VALORANT Clip #7"
-              autoplay={false}
-            />
-          </div>
-          <div>
-            <YouTubeClipViewer
-              clipUrl="https://youtu.be/Aazj-kAuxdY"
-              title="VALORANT Clip #8"
-              autoplay={false}
-            />
-          </div>
-        </div>
-      </div>
-
-      <!-- 展開/折りたたみボタン -->
-      <div style="text-align: center; margin-top: 20px;">
-        <button
-          id="toggle-videos-btn"
-          style={`padding: 10px 20px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; border: none; border-radius: 4px; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; cursor: pointer; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; transition: all 0.3s ease;`}
-          onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
-          onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
         >
-          ▼ 全て表示
+
+
+          <h2
+
+
+            style={`${S.sectionTitle} margin-bottom: 15px;`}
+
+
+          >
+
+
+            VALORANT Gameplay
+
+
+          </h2>
+
+
+    
+
+
+          <!-- 横線 -->
+
+
+          <hr
+
+
+            style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
+
+
+          />
+
+
+    
+
+
+                <WiiUGamepad>
+                  <YouTubeClipViewer
+                    clipUrl="https://youtu.be/eAx-dZ3_wEI?si=LM3jptJTQAkeco-o"
+                    title=""
+                    autoplay={false}
+                  />
+                </WiiUGamepad>
+
+        </div>
+
+
+    <!-- クリップギャラリーセクション -->
+    <div
+      style={`background: var(--col-primary-a10); border: 2px solid var(--col-primary); padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      id="clips-gallery-section" class="clips-gallery-section"
+    >
+      <h2 style={`${S.sectionTitle} margin-bottom: 15px;`}>Clip Gallery</h2>
+      <hr style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`} />
+
+      <!-- フィルターUI -->
+      <div class="clips-filters">
+        <div class="filter-row">
+          <span class="filter-label">MAP</span>
+          <div class="filter-btns">
+            <button class="clips-filter-btn active" data-filter-type="map" data-filter-value="all">ALL ({clipGalleryData.length})</button>
+            {clipMaps.map(map => (
+              <button class="clips-filter-btn" data-filter-type="map" data-filter-value={map}>
+                {capFirst(map)} ({mapCounts[map]})
+              </button>
+            ))}
+          </div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">AGENT</span>
+          <div class="filter-btns">
+            <button class="clips-filter-btn active" data-filter-type="agent" data-filter-value="all">ALL ({clipGalleryData.length})</button>
+            {clipAgents.map(agent => (
+              <button class="clips-filter-btn" data-filter-type="agent" data-filter-value={agent}>
+                {capFirst(agent)} ({agentCounts[agent]})
+              </button>
+            ))}
+          </div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">PLAY</span>
+          <div class="filter-btns">
+            <button class="clips-filter-btn active" data-filter-type="kw" data-filter-value="all">ALL ({typeCounts.all})</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="clutch">Clutch ({typeCounts.clutch})</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="ult">Ult ({typeCounts.ult})</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="onemagazine">1Mag ({typeCounts.onemagazine})</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="smooth">Smooth ({typeCounts.smooth})</button>
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="6kills">6kills ({typeCounts['6kills']})</button>
+          </div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">WEAPON</span>
+          <div class="filter-btns">
+            <button class="clips-filter-btn" data-filter-type="kw" data-filter-value="all">ALL ({typeCounts.all})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="vandal"   data-weapon="vandal">Vandal ({typeCounts.vandal})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="ghost"    data-weapon="ghost">Ghost ({typeCounts.ghost})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="guardian" data-weapon="guardian">Guardian ({typeCounts.guardian})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="bundit"   data-weapon="bundit">Bundit ({typeCounts.bundit})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="op"       data-weapon="op">OP ({typeCounts.op})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="bucky"    data-weapon="bucky">Bucky ({typeCounts.bucky})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="spectre"  data-weapon="spectre">Spectre ({typeCounts.spectre})</button>
+            <button class="clips-filter-btn weapon-btn" data-filter-type="kw" data-filter-value="classic"  data-weapon="classic">Classic ({typeCounts.classic})</button>
+          </div>
+        </div>
+        <div class="clips-result-info" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+          <span><span id="clips-count">{clipGalleryData.length}</span> 件のクリップ</span>
+          <button class="clips-sort-btn active" id="clips-sort-custom">★ カスタム順</button>
+          <button class="clips-sort-btn" id="clips-sort-views">⬇ 再生回数順</button>
+          <span style="color:var(--col-border-mid); margin: 0 4px;">|</span>
+          <button class="clips-col-btn" data-cols="1">1列</button>
+          <button class="clips-col-btn active" data-cols="2">2列</button>
+          <button class="clips-col-btn" data-cols="3">3列</button>
+          <span style="color:var(--col-border-mid); margin: 0 4px;">|</span>
+          <button class="clips-view-btn active" id="clips-view-grid">▦ GRID</button>
+          <button class="clips-view-btn" id="clips-view-short">▶ SHORT</button>
+          <span style="color:var(--col-border-mid); margin: 0 4px;">|</span>
+          <a
+            href="https://www.youtube.com/watch?v=PxTPOOY-bcU&list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct"
+            id="clips-yt-link"
+            class="clips-yt-link"
+          >▶ YouTubeで見る</a>
+        </div>
+      </div>
+
+      <!-- クリップグリッド -->
+      <div class="clips-grid" id="clips-grid">
+        {clipGalleryData.map((clip, i) => (
+          <div
+            class="clip-card"
+            data-map={clip.map}
+            data-agent={clip.agent}
+            data-title={clip.title.toLowerCase()}
+            data-tags={(clip.tags ?? []).join(',')}
+            data-views={String(clip.views)}
+            data-score={String(totalScore(clip))}
+            data-score-detail={JSON.stringify(clip.score)}
+            data-index={String(i)}
+            style={i >= CLIPS_INITIAL_SHOW ? "display:none" : ""}
+          >
+            <div class="clip-video-title">{clip.title}</div>
+            <div class="clip-thumbnail-wrapper" data-video-id={clip.id}>
+              <img
+                src={`https://img.youtube.com/vi/${clip.id}/hqdefault.jpg`}
+                alt={clip.title}
+                loading="lazy"
+                class="clip-thumb-img"
+              />
+              <div class="clip-play-overlay">▶</div>
+            </div>
+            <div class="clip-meta">
+              <span class="clip-map-badge clickable-badge" data-filter-type="map" data-filter-value={clip.map}>{capFirst(clip.map)}</span>
+              <span class="clip-agent-badge clickable-badge" data-filter-type="agent" data-filter-value={clip.agent}>{capFirst(clip.agent)}</span>
+              {getClipTags(clip.title, clip.tags ?? []).map(tag => (
+                <span class={`clip-kw-badge clickable-badge${['vandal','ghost','guardian','bundit','op','bucky','spectre','classic'].includes(tag.value) ? ' weapon-kw-badge' : ''}`}
+                  data-filter-type={tag.type}
+                  data-filter-value={tag.value}
+                  data-weapon={['vandal','ghost','guardian','bundit','op','bucky','spectre','classic'].includes(tag.value) ? tag.value : undefined}
+                >{tag.label}</span>
+              ))}
+            </div>
+            <div class="clip-debug-overlay">
+              <div>smooth: {clip.score.smooth ?? SCORE_DEFAULTS.smooth}</div>
+              <div>clutch: {clip.score.clutch ?? SCORE_DEFAULTS.clutch}</div>
+              <div>tap: {clip.score.tap ?? SCORE_DEFAULTS.tap}</div>
+              <div>6kills: {clip.score["6kills"] ?? SCORE_DEFAULTS["6kills"]}</div>
+              <div>onemag: {clip.score.onemag ?? SCORE_DEFAULTS.onemag}</div>
+              <div class="dbg-total">total: {totalScore(clip)} (#{i + 1})</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- もっと見るボタン -->
+      <div style="text-align: center; margin-top: 20px;">
+        <button id="clips-show-more" class="clips-expand-btn">
+          もっと見る (あと{Math.max(0, clipGalleryData.length - CLIPS_INITIAL_SHOW)}件) ▼
         </button>
       </div>
     </div>
 
-    <!-- プレイリストセクション -->
-    <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="playlist-section"
-    >
-      <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
-      >
-        ♫ VALORANT Playlist ♫
-      </h2>
-
-      <!-- 横線 -->
-      <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
-      />
-
-      <div style="text-align: center; margin-bottom: 15px;">
-        <p
-          style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
-        >
-          VALORANT関連動画のプレイリストです
-        </p>
-      </div>
-
-      <!-- プレイリストプレイヤー -->
-      <div style="position: relative; width: 100%; max-width: 800px; margin: 0 auto;">
-        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-          <iframe
-            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 2px solid var(--theme-primary); border-radius: 8px; box-shadow: 0 4px 12px rgba(77, 121, 255, 0.3);"
-            src="https://www.youtube.com/embed/videoseries?list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct"
-            title="VALORANT Playlist"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-        </div>
-      </div>
-
-      <!-- YouTubeで開くリンク -->
-      <div style="text-align: center; margin-top: 20px;">
-        <a
-          href="https://www.youtube.com/playlist?list=PL2sgL31bCtefeYtGdKe1xSH2v0b3aSrct"
-          target="_blank"
-          rel="noopener"
-          style={`display: inline-block; padding: 10px 20px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.bodyText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
-          onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='2px solid ${COLORS.primary}';`}
-          onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
-        >
-          📺 YouTubeで見る
-        </a>
-      </div>
+    <!-- ショートモード -->
+    <div id="short-scroll-container" class="short-scroll-container">
+      <div id="short-cards-track" class="short-cards-track"></div>
     </div>
+    <div id="short-hud" class="short-hud">
+      <span id="short-counter" class="short-counter"></span>
+      <button id="short-close-btn" class="short-close-btn">✕</button>
+    </div>
+
+    <!-- 統計データセクション -->
+    <div id="valorant-stats" style="scroll-margin-top: 52px;"></div>
+    <ValorantStats
+      competitiveAgentData={competitiveAgentData}
+      competitiveRankData={competitiveRankData}
+      competitiveWeaponData={competitiveWeaponData}
+      competitiveMapData={competitiveMapData}
+      unratedAgentData={unratedAgentData}
+      unratedPerformanceData={unratedPerformanceData}
+      deathmatchPerformanceData={deathmatchPerformanceData}
+    />
+
+
 
     <!-- デバイス情報 -->
     <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="device-section"
+      style={`background: var(--col-primary-a10); border: 2px solid var(--col-primary); padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      id="device-section" class="device-section"
     >
       <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+        style={`${S.sectionTitle} margin-bottom: 15px;`}
       >
-        ◎ Valorant Setup ◎
+        Valorant Setup
       </h2>
 
       <!-- 横線 -->
       <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+        style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
       />
 
       <div
@@ -503,35 +561,36 @@ const COLORS = {
       >
         <div>
           <h3
-            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.subTitle} margin-bottom: 10px;`}
           >
             デバイス
           </h3>
           <p
-            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.bodyText}`}
           >
-            マウス: Logicool G Pro X<br />
-            キーボード: Akko 5075S HE JP Dark Night<br />
-            ヘッドセット: SteelSeries Arctis 7<br />
-            モニター: 144Hz 24インチ <br />
+            マウス: <a href="https://www.amazon.co.jp/dp/B0FVKKP2T8?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1" target="_blank" style={S.link}>Pulsar Gaming Gears X2 CrazyLight</a><br />
+            キーボード: <a href="https://www.amazon.co.jp/dp/B0DCFGG1CH?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1" target="_blank" style={S.link}>Akko 5075S HE JP (Black)</a><br />
+            ヘッドセット: <a href="https://www.amazon.co.jp/dp/B0BFFDNH1J?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1" target="_blank" style={S.link}>Razer BlackShark V2 Pro</a><br />
+            マウスパッド: <a href="https://www.amazon.co.jp/dp/B09KC5J24D?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1" target="_blank" style={S.link}>Pulsar Gaming Gears ParaControl V2 XXL</a><br />
+            モニター: <a href="https://www.amazon.jp/dp/B08C9KF9PF?ref=ppx_pop_mob_ap_share" target="_blank" style={S.link}>Dell S2421HGF 23.8インチ ゲーミングモニター</a><br />
           </p>
         </div>
 
         <div>
           <h3
-            style={`color: ${COLORS.textWhite}; font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.subTitle} margin-bottom: 10px;`}
           >
             ゲーム設定
           </h3>
           <p
-            style={`color: ${COLORS.textGray}; font-size: ${FONT_SIZES.bodyText}; line-height: 1.8; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+            style={`${S.bodyText}`}
           >
-            感度: 0.19 800DPI (振り向き 43.0cm)<br />
+            感度: <span id="sens-value-btn" style="cursor:pointer; text-decoration:underline; color:var(--text-accessible-blue);" title="クリックで感度履歴を表示">0.17 800DPI</span> (振り向き 48.1cm)<br />
             クロスヘア: 青色・アウトライン有<br />
             <span
               id="copy-crosshair-text"
               onclick="copyCrosshairCode()"
-              style={`color: ${COLORS.primary}; cursor: pointer; text-decoration: underline; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; display: inline-flex; align-items: center; gap: 5px;`}
+              style={`${S.link} cursor: pointer; text-decoration: underline; ${S.textBase} display: inline-flex; align-items: center; gap: 5px;`}
               title="クリックでクロスヘアコードをコピー"
             >
               <svg
@@ -561,25 +620,55 @@ const COLORS = {
     </div>
     <!-- Works -->
     <div
-      style={`background: ${COLORS.primaryAlpha10}; border: 2px solid ${COLORS.primary}; padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
-      class="works-section"
+      style={`background: var(--col-primary-a10); border: 2px solid var(--col-primary); padding: 20px; margin-bottom: 40px; border-radius: 8px;`}
+      id="works-section" class="works-section"
     >
       <h2
-        style={`color: ${COLORS.heading}; font-size: ${FONT_SIZES.sectionTitle}; margin-bottom: 15px; text-align: center; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack}; letter-spacing: 1px;`}
+        style={`${S.sectionTitle} margin-bottom: 15px;`}
       >
-        ◆ My Works ◆
+        My Works
       </h2>
 
       <!-- 横線 -->
       <hr
-        style={`border: none; height: 1px; background-color: ${COLORS.primary}; margin: 0 auto 20px auto; width: 100%;`}
+        style={`${S.divider} margin: 0 auto 20px auto; width: 100%;`}
       />
 
       <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
         <!-- VALORANT Point Viewer -->
-        <div
-          style={`background: ${COLORS.primaryAlpha5}; border: 1px solid ${COLORS.primary}; padding: 15px; border-radius: 6px;`}
-        >
+        <div style="display:none"><DSLite>
+          <!-- 上画面: サイトプレビュー -->
+          <div slot="top" style="width:100%; height:100%;">
+            <iframe
+              src="https://valorant-point-viewer.netlify.app/"
+              width="100%"
+              height="100%"
+              frameborder="0"
+              scrolling="no"
+              style="display:block; width:100%; height:100%; background:#fff;"
+              title="VALORANT Point Viewer"
+              loading="lazy"
+            ></iframe>
+          </div>
+          <!-- 下画面: 説明・リンク -->
+          <div slot="bottom" style={`padding: 10px; font-family: var(--font-pixel-jp); color: ${COLORS.textGray}; background: var(--col-bg-deeper);`}>
+            <p style={`${S.subTitle} color: var(--col-primary); margin-bottom: 8px; font-size: var(--fs-small);`}>
+              VALORANT Point Viewer
+            </p>
+            <p style={`font-size: var(--fs-small); line-height: 1.6; margin-bottom: 10px; color: ${COLORS.textGray}; text-shadow: 1px 1px 0 #000;`}>
+              マップ上に定点動画のリンクを直接プロットし、必要な場所の動画だけを素早く確認できるツール。
+            </p>
+            <a
+              href="https://valorant-point-viewer.netlify.app/"
+              target="_blank"
+              rel="noopener"
+              style={`display: inline-block; padding: 4px 10px; background: var(--col-primary); color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: var(--fs-small); font-family: 'DotGothic16','BIZ UDPGothic','Press Start 2P',monospace; text-shadow: 1px 1px 0 #000; image-rendering: pixelated;`}
+            >サイトを見る →</a>
+          </div>
+        </DSLite></div>
+
+        <!-- デモサイト表示 -->
+        <div>
           <!-- デスクトップ: 左右レイアウト -->
           <div
             style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;"
@@ -588,12 +677,12 @@ const COLORS = {
             <!-- 左側: 説明とリンク -->
             <div>
               <h3
-                style={`color: var(--theme-primary); font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+                style={`${S.subTitle} color: var(--col-primary); margin-bottom: 10px;`}
               >
                 VALORANT Point Viewer (現在作成途中)
               </h3>
               <p
-                style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.6; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; margin-bottom: 15px;`}
+                style={`${S.bodyText} margin-bottom: 15px;`}
               >
                 YouTubeショートやリールで見つけた定点動画を試合中に再現したいのに、別マップや別エリアの動画が混ざっていて探しにくい…。それを解消するために、マップ上に定点動画のリンクを直接プロットし、必要な場所の動画だけを素早く確認できるようにしたサイトです。<br
                 />
@@ -604,9 +693,9 @@ const COLORS = {
                   href="https://valorant-point-viewer.netlify.app/"
                   target="_blank"
                   rel="noopener"
-                  style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
-                  onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='${COLORS.primary}'; this.style.border='1px solid ${COLORS.primary}';`}
-                  onmouseout={`this.style.background='${COLORS.primary}'; this.style.color='${COLORS.textWhite}'; this.style.border='none';`}
+                  style={`display: inline-block; padding: 6px 12px; background: var(--col-primary); color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: ${FONTS.pixel}; text-shadow: none; transition: all 0.3s ease;`}
+                  onmouseover={`this.style.background='${COLORS.bgTransparent}'; this.style.color='var(--col-primary)'; this.style.border='1px solid var(--col-primary)';`}
+                  onmouseout={`this.style.background='rgba(0, 0, 0, 0.4)'; this.style.color='${COLORS.textWhite}'; this.style.border='1px solid rgba(255, 255, 255, 0.3)';`}
                 >
                   サイトを見る →
                 </a>
@@ -624,7 +713,7 @@ const COLORS = {
                   height="100%"
                   frameborder="0"
                   scrolling="no"
-                  style={`border: 2px solid ${COLORS.primary}; border-radius: 6px; box-shadow: 0 4px 8px ${COLORS.primaryShadow}; background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0; overflow: hidden;`}
+                  style={`border: 2px solid var(--col-primary); border-radius: 6px; box-shadow: 0 4px 8px var(--col-primary-a30); background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0; overflow: hidden;`}
                   title="VALORANT Point Viewer - Live Demo"
                   loading="lazy"></iframe>
               </div>
@@ -634,12 +723,12 @@ const COLORS = {
           <!-- モバイル: 縦レイアウト -->
           <div style="display: none;" class="mobile-layout">
             <h3
-              style={`color: var(--theme-primary); font-size: ${FONT_SIZES.subTitle}; margin-bottom: 10px; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000;`}
+              style={`${S.subTitle} color: var(--col-primary); margin-bottom: 10px;`}
             >
               🎯 VALORANT Point Viewer
             </h3>
             <p
-              style={`color: #cccccc; font-size: ${FONT_SIZES.bodyText}; line-height: 1.6; font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px #000000; margin-bottom: 15px;`}
+              style={`${S.bodyText} margin-bottom: 15px;`}
             >
               VALORANTの各マップの定点動画をマップ上で確認できるWebサイトです。<br
               />
@@ -656,7 +745,7 @@ const COLORS = {
                   height="100%"
                   frameborder="0"
                   scrolling="no"
-                  style={`border: 2px solid ${COLORS.primary}; border-radius: 6px; box-shadow: 0 4px 8px ${COLORS.primaryShadow}; background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0; overflow: hidden;`}
+                  style={`border: 2px solid var(--col-primary); border-radius: 6px; box-shadow: 0 4px 8px var(--col-primary-a30); background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0; overflow: hidden;`}
                   title="VALORANT Point Viewer - Live Demo (Mobile)"
                   loading="lazy"></iframe>
               </div>
@@ -667,7 +756,7 @@ const COLORS = {
                 href="https://valorant-point-viewer.netlify.app/"
                 target="_blank"
                 rel="noopener"
-                style={`display: inline-block; padding: 6px 12px; background: ${COLORS.primary}; color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: 'Press Start 2P', monospace; text-shadow: none; transition: all 0.3s ease;`}
+                style={`display: inline-block; padding: 6px 12px; background: var(--col-primary); color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: ${FONT_SIZES.smallText}; font-family: ${FONTS.pixel}; text-shadow: none; transition: all 0.3s ease;`}
                 onmouseover="this.style.background='transparent'; this.style.color='var(--theme-primary)'; this.style.border='1px solid var(--theme-primary)';"
                 onmouseout="this.style.background='var(--theme-primary)'; this.style.color='#ffffff'; this.style.border='none';"
               >
@@ -678,35 +767,118 @@ const COLORS = {
         </div>
       </div>
     </div>
+    <!-- イラストギャラリー -->
+    <div
+      style={`background: var(--col-primary-a10); border: 4px solid var(--col-primary); padding: 20px; margin-bottom: 40px; box-shadow: inset 2px 2px 0px rgba(255,255,255,0.15), inset -2px -2px 0px rgba(0,0,0,0.5), 0 0 20px var(--col-primary-a25);`}
+      class="illust-gallery-section"
+    >
+      <!-- レトロゲーム風ヘッダー -->
+      <div class="illust-header-row">
+        <h2 style={`${S.sectionTitle} margin-bottom: 0;`}>▶▶ GALLERY MODE ◀◀</h2>
+        <span class="illust-status-bar">WORKS: 10 / 10 LOADED</span>
+      </div>
+      <hr style={`${S.divider} margin: 10px auto 18px auto; width: 100%;`} />
+
+      <GameBoyGallery />
+
+      <!-- フッターステータス -->
+      <p class="illust-footer-bar">★ &nbsp; ILLUSTRATION GALLERY &nbsp; ★ &nbsp; TOTAL 10 WORKS &nbsp; ★</p>
+    </div>
+
     <!-- フッター -->
     <div
-      style="text-align: center; padding: 20px 0; border-top: 1px solid #333333;"
+      style="text-align: center; padding: 20px 0; border-top: 1px solid var(--col-border-mid);"
     >
       <p
-        style={`color: ${COLORS.textDarkGray}; font-size: ${FONT_SIZES.footer}; margin: 0; font-family: 'Press Start 2P', monospace; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
+        style={`color: ${COLORS.textDarkGray}; font-size: ${FONT_SIZES.footer}; margin: 0; font-family: ${FONTS.pixel}; image-rendering: pixelated; text-shadow: 1px 1px 0px ${COLORS.textBlack};`}
       >
-        © 2024 nodoame's Portfolio - Made with passion for gaming
+        © 2024 nodoamen's Portfolio - Made with passion for gaming
       </p>
     </div>
   </div>
 </SimpleLayout>
 
-<style>
-  /* 文字溢れ防止 - ページ全体の自動改行ルール */
-  * {
-    word-wrap: break-word !important;
-    word-break: break-all !important;
-    overflow-wrap: break-word !important;
-  }
+<!-- ゲームツールチップ -->
+<div id="game-tooltip" class="game-tooltip" aria-hidden="true">
+  <div class="gt-name" id="gt-name"></div>
+  <div class="gt-row"><span class="gt-label">⏱ </span><span id="gt-playtime"></span></div>
+  <div class="gt-row"><span class="gt-label">🏆 </span><span id="gt-maxrank"></span></div>
+  <div class="gt-hint">クリックで詳細</div>
+</div>
 
-  /* 長い文字列の特別対応 */
-  p,
-  span,
-  div {
-    hyphens: auto;
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    -ms-hyphens: auto;
+<!-- ゲーム詳細モーダル -->
+<div id="game-modal" class="game-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="game-modal-box" id="game-modal-box">
+    <!-- ヘッダー -->
+    <div class="gm-header">
+      <span class="gm-cursor">▶</span>
+      <span class="gm-title" id="gm-title">GAME NAME</span>
+      <span class="gm-category" id="gm-category">FPS</span>
+      <button class="gm-close" id="gm-close" aria-label="閉じる">✕</button>
+    </div>
+    <div class="gm-divider"></div>
+    <!-- ステータス -->
+    <div class="gm-stats">
+      <div class="gm-row">
+        <span class="gm-label">⏱ プレイ時間</span>
+        <span class="gm-value" id="gm-playtime">---</span>
+      </div>
+      <div class="gm-row">
+        <span class="gm-label">📅 プレイ時期</span>
+        <span class="gm-value" id="gm-period">---</span>
+      </div>
+      <div class="gm-row">
+        <span class="gm-label">🏆 最高ランク</span>
+        <span class="gm-value" id="gm-maxrank">---</span>
+      </div>
+      <div class="gm-row" id="gm-playerid-row">
+        <span class="gm-label">🎮 プレイヤーID</span>
+        <span class="gm-value" id="gm-playerid">---</span>
+      </div>
+      <div class="gm-row" id="gm-trn-row">
+        <span class="gm-label">📊 TRN</span>
+        <a class="gm-trn-link" id="gm-trn-link" href="#" target="_blank" rel="noopener">プロフィールを見る</a>
+      </div>
+      <div class="gm-row" id="gm-inpage-row">
+        <span class="gm-label">📈 詳細統計</span>
+        <a class="gm-trn-link" id="gm-inpage-link" href="#">このページ内で見る ↓</a>
+      </div>
+    </div>
+    <div class="gm-divider"></div>
+    <!-- コメント -->
+    <div class="gm-comment-wrap">
+      <span class="gm-comment-icon">💬</span>
+      <p class="gm-comment" id="gm-comment">---</p>
+    </div>
+  </div>
+</div>
+
+<!-- 感度履歴モーダル -->
+<div id="sens-modal" class="sens-modal-overlay" aria-hidden="true">
+  <div class="sens-modal-box">
+    <div class="sens-modal-header">
+      <span class="sens-modal-title">Sensitivity History</span>
+      <button id="sens-modal-close" class="sens-modal-close">×</button>
+    </div>
+    <div class="sens-mode-toggle">
+      <button class="sens-mode-btn active" data-mode="sens">Sens</button>
+      <button class="sens-mode-btn" data-mode="edpi">eDPI</button>
+    </div>
+    <div class="sens-chart-wrapper">
+      <canvas id="sens-chart"></canvas>
+    </div>
+  </div>
+</div>
+
+<style define:vars={{
+  "col-primary": COLORS.primary,
+  "col-text":    COLORS.textGray,
+  "col-white":   COLORS.textWhite,
+}}>
+  /* 文字溢れ防止 - 長いURLやコードのみ折り返す */
+  * {
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
   }
 
   /* クロスヘアコードコピーボタンのホバー効果 */
@@ -723,13 +895,14 @@ const COLORS = {
   /* スマートフォン向け追加改行ルール */
   @media screen and (max-width: 768px) {
     * {
-      word-break: break-all !important;
       overflow-wrap: anywhere !important;
-      line-break: anywhere !important;
+    }
+
+    p, span, div {
+      text-wrap: pretty;
     }
 
     /* 長いコード文字列用の強制改行 */
-    span,
     code {
       white-space: pre-wrap !important;
       word-break: break-all !important;
@@ -769,9 +942,11 @@ const COLORS = {
     .profile-section,
     .works-section,
     .video-section,
-    .device-section {
+    .device-section,
+    .clips-gallery-section {
       padding: 8px !important;
       margin-bottom: 15px !important;
+      scroll-margin-top: 52px;
     }
 
     /* グリッド内の個別要素の余白調整 */
@@ -801,56 +976,13 @@ const COLORS = {
     align-self: center;
   }
 
-  /* 動画グリッドのレスポンシブ対応 */
-  .video-grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 20px !important;
-    width: 100% !important;
-  }
-
-  /* デスクトップ表示（769px以上） */
-  @media screen and (min-width: 769px) {
-    .video-grid {
-      grid-template-columns: 1fr !important;
-      gap: 20px !important;
-    }
-  }
-
-  /* タブレット表示（481px-768px） */
-  @media screen and (min-width: 481px) and (max-width: 768px) {
-    .video-grid {
-      grid-template-columns: 1fr !important;
-      gap: 15px !important;
-    }
-  }
-
-  /* スマホ表示 */
+  /* スマホ表示: カルーセルボタンの調整 */
   @media screen and (max-width: 480px) {
-    .video-grid {
-      grid-template-columns: 1fr !important;
-      gap: 20px !important;
-    }
-
-    /* 矢印ボタンのモバイル対応 */
     #prev-video-btn,
     #next-video-btn {
       width: 35px !important;
       height: 35px !important;
       font-size: 16px !important;
-    }
-
-    /* スマホではカルーセルを非表示にして全動画を表示 */
-    #video-carousel {
-      display: none !important;
-    }
-
-    #all-videos-grid {
-      display: block !important;
-    }
-
-    #toggle-videos-btn {
-      display: none !important;
     }
   }
 
@@ -874,6 +1006,896 @@ const COLORS = {
       display: none !important;
     }
   }
+
+  /* ===== イラストギャラリー（レトロゲーム風） ===== */
+
+  .illust-header-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .illust-status-bar {
+    font-family: var(--font-pixel);
+    font-size: var(--fs-small);
+    color: var(--col-text-soft);
+    text-shadow: 1px 1px 0 #000;
+    image-rendering: pixelated;
+    white-space: nowrap;
+  }
+
+
+  /* ===== ゲームツールチップ ===== */
+  /* SimpleLayout外に配置するため font-family を明示指定（!important必須） */
+  .game-tooltip {
+    position: fixed;
+    z-index: 8000;
+    background: var(--col-bg-deeper);
+    border: 2px solid var(--col-primary);
+    box-shadow: 0 0 0 1px #000, 0 0 10px var(--col-primary-a40);
+    padding: 8px 12px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.1s ease, transform 0.1s ease;
+    max-width: 220px;
+    font-family: var(--font-pixel-jp) !important;
+    image-rendering: pixelated;
+  }
+
+  .game-tooltip * {
+    font-family: var(--font-pixel-jp) !important;
+    image-rendering: pixelated;
+  }
+
+  .game-tooltip.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .gt-name {
+    font-family: var(--font-pixel);
+    font-size: 14px;
+    color: #fff;
+    text-shadow: 1px 1px 0 #000;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+  }
+
+  .gt-row {
+    font-family: var(--font-pixel-jp);
+    font-size: 14px;
+    color: var(--col-text-soft);
+    text-shadow: 1px 1px 0 #000;
+    line-height: 1.7;
+  }
+
+  .gt-label {
+    color: var(--col-text-soft);
+  }
+
+  .gt-hint {
+    font-family: var(--font-pixel-jp);
+    font-size: 14px;
+    color: var(--col-text-dim);
+    text-shadow: 1px 1px 0 #000;
+    margin-top: 5px;
+    border-top: 1px solid var(--col-border-dark);
+    padding-top: 4px;
+  }
+
+  /* ===== ゲームチップ ===== */
+  .game-chip {
+    display: inline;
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--text-accessible-blue);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-shadow: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--col-primary-a50);
+    text-underline-offset: 2px;
+    transition: color 0.15s, text-decoration-color 0.15s;
+  }
+
+  .game-chip:hover {
+    color: #fff;
+    text-decoration-color: #fff;
+  }
+
+  .game-chip-note {
+    font-size: var(--fs-small);
+    color: var(--col-text-soft);
+  }
+
+  .game-sep {
+    color: inherit;
+  }
+
+  /* ===== ゲーム詳細モーダル ===== */
+  .sens-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 10, 0.82);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+  .sens-modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .sens-modal-overlay,
+  .sens-modal-overlay * {
+    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
+    image-rendering: pixelated;
+  }
+  .sens-modal-box {
+    background: var(--col-bg-deeper);
+    border: 3px solid var(--col-primary);
+    box-shadow: 0 0 0 1px #000, 0 0 0 4px var(--col-primary), 0 0 30px var(--col-primary-a40);
+    border-radius: 8px;
+    padding: 20px;
+    width: min(720px, 94vw);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .sens-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .sens-modal-title {
+    font-size: 16px !important;
+    color: var(--col-primary) !important;
+    text-shadow: 0 0 8px var(--col-primary-a70), 1px 1px 0 #000 !important;
+  }
+  .sens-modal-close {
+    background: transparent;
+    border: 1px solid var(--col-primary);
+    color: #fff !important;
+    font-size: 18px !important;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    border-radius: 4px;
+    line-height: 1;
+  }
+  .sens-modal-close:hover { background: var(--col-primary-a20); }
+  .sens-chart-wrapper {
+    width: 100%;
+    height: 300px;
+    position: relative;
+  }
+  .sens-mode-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .sens-mode-btn {
+    background: transparent;
+    border: 1px solid var(--col-primary);
+    color: #aaa !important;
+    font-size: 12px !important;
+    padding: 4px 14px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .sens-mode-btn.active,
+  .sens-mode-btn:hover {
+    background: var(--col-primary-a20);
+    color: #fff !important;
+    border-color: var(--col-primary);
+  }
+
+  .game-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 10, 0.82);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .game-modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* SimpleLayout外に配置するため font-family を明示指定（!important必須） */
+  .game-modal-overlay * {
+    font-family: var(--font-pixel-jp) !important;
+    image-rendering: pixelated;
+  }
+
+  .game-modal-box {
+    background: var(--col-bg-deeper);
+    border: 3px solid var(--col-primary);
+    box-shadow:
+      0 0 0 1px #000,
+      0 0 0 4px var(--col-primary),
+      0 0 0 5px #000,
+      0 0 24px var(--col-primary-a50);
+    padding: 18px 22px 16px;
+    min-width: 280px;
+    max-width: 480px;
+    width: 90vw;
+    image-rendering: pixelated;
+    animation: gm-appear 0.12s ease;
+  }
+
+  @keyframes gm-appear {
+    from { transform: scale(0.92); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+  }
+
+  .gm-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .gm-cursor {
+    font-family: var(--font-pixel);
+    font-size: var(--fs-body);
+    color: var(--text-accessible-blue);
+    text-shadow: 0 0 6px var(--text-accessible-blue);
+    animation: gm-blink 1s step-end infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes gm-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+
+  .gm-title {
+    font-family: var(--font-pixel);
+    font-size: var(--fs-body);
+    color: var(--col-white);
+    text-shadow: 1px 1px 0 #000, 0 0 8px var(--col-primary-a60);
+    image-rendering: pixelated;
+    flex: 1;
+    letter-spacing: 1px;
+  }
+
+  .gm-category {
+    font-family: var(--font-pixel);
+    font-size: var(--fs-small);
+    padding: 2px 6px;
+    background: var(--col-primary-a20);
+    border: 1px solid var(--col-primary-a50);
+    color: var(--col-text-light);
+    text-shadow: 1px 1px 0 #000;
+    flex-shrink: 0;
+  }
+
+  .gm-close {
+    background: none;
+    border: 1px solid var(--col-border-dim);
+    color: var(--col-text-muted);
+    font-size: var(--fs-small);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: var(--font-pixel-jp);
+    transition: border-color 0.1s, color 0.1s;
+    flex-shrink: 0;
+    padding: 0;
+  }
+
+  .gm-close:hover {
+    border-color: #ff4466;
+    color: #ff4466;
+  }
+
+  .gm-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--col-primary) 20%, var(--col-primary) 80%, transparent);
+    margin: 8px 0;
+    opacity: 0.6;
+  }
+
+  .gm-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin: 10px 0;
+  }
+
+  .gm-row {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+
+  .gm-label {
+    font-family: var(--font-pixel-jp);
+    font-size: 14px;
+    color: var(--col-text-soft);
+    text-shadow: 1px 1px 0 #000;
+    min-width: 130px;
+    flex-shrink: 0;
+  }
+
+  .gm-value {
+    font-family: var(--font-pixel-jp);
+    font-size: 14px;
+    color: var(--col-text-light);
+    text-shadow: 1px 1px 0 #000;
+  }
+
+  .gm-trn-link {
+    font-family: var(--font-pixel-jp);
+    font-size: 14px;
+    color: var(--text-accessible-blue);
+    text-shadow: 1px 1px 0 #000, 0 0 5px var(--col-primary-a40);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .gm-trn-link:hover {
+    color: #fff;
+  }
+
+  .gm-comment-wrap {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-top: 8px;
+  }
+
+  .gm-comment-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .gm-comment {
+    font-family: var(--font-pixel-jp);
+    font-size: 14px;
+    color: var(--col-text-soft);
+    text-shadow: 1px 1px 0 #000;
+    line-height: 1.8;
+    margin: 0;
+  }
+
+  /* フッターバー */
+  .illust-footer-bar {
+    font-family: var(--font-pixel);
+    font-size: var(--fs-footer);
+    color: var(--col-border-dim);
+    text-align: center;
+    margin: 12px 0 0;
+    padding: 8px 0;
+    text-shadow: 1px 1px 0 #000;
+    letter-spacing: 2px;
+    image-rendering: pixelated;
+  }
+
+  /* ===== クリップギャラリー ===== */
+  .clips-filters {
+    margin-bottom: 20px;
+  }
+
+  .filter-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-family: var(--font-pixel);
+    font-size: var(--fs-body);
+    color: var(--text-accessible-blue);
+    text-shadow: 1px 1px 0 #000;
+    image-rendering: pixelated;
+    min-width: 60px;
+    flex-shrink: 0;
+  }
+
+  .filter-btns {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .clips-filter-btn {
+    font-family: var(--font-pixel-jp);
+    font-size: var(--fs-body);
+    padding: 4px 10px;
+    background: var(--col-primary-a10);
+    color: var(--col-text-soft);
+    border: 1px solid var(--col-primary-a35);
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000;
+    image-rendering: pixelated;
+    transition: all 0.2s ease;
+  }
+
+  .clips-filter-btn.active,
+  .clips-filter-btn:hover {
+    background: var(--col-primary-a30);
+    color: #ffffff;
+    border-color: var(--text-accessible-blue);
+    text-shadow: 0 0 6px var(--text-accessible-blue), 1px 1px 0 #000;
+  }
+
+
+  .clips-result-info {
+    font-family: var(--font-pixel-jp);
+    font-size: var(--fs-body);
+    color: var(--col-text-muted);
+    text-shadow: 1px 1px 0 #000;
+    margin-top: 4px;
+  }
+
+  .clips-sort-btn {
+    font-family: var(--font-pixel-jp);
+    font-size: var(--fs-small);
+    padding: 3px 8px;
+    background: none;
+    color: var(--col-text-muted);
+    border: 1px solid var(--col-border-mid);
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000;
+    transition: all 0.15s;
+  }
+
+  .clips-sort-btn.active,
+  .clips-sort-btn:hover {
+    color: var(--text-accessible-blue);
+    border-color: var(--text-accessible-blue);
+  }
+
+  .clips-col-btn {
+    font-family: var(--font-pixel-jp);
+    font-size: var(--fs-small);
+    padding: 3px 7px;
+    background: none;
+    color: var(--col-text-muted);
+    border: 1px solid var(--col-border-mid);
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000;
+    transition: all 0.15s;
+  }
+
+  .clips-col-btn.active,
+  .clips-col-btn:hover {
+    color: var(--text-accessible-blue);
+    border-color: var(--text-accessible-blue);
+  }
+
+  .clips-view-btn {
+    font-family: var(--font-pixel-jp);
+    font-size: var(--fs-small);
+    padding: 3px 7px;
+    background: none;
+    color: var(--col-text-muted);
+    border: 1px solid var(--col-border-mid);
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000;
+    transition: all 0.15s;
+  }
+  .clips-view-btn.active,
+  .clips-view-btn:hover {
+    color: var(--text-accessible-blue);
+    border-color: var(--text-accessible-blue);
+  }
+
+  .clips-yt-link {
+    font-family: var(--font-pixel-jp);
+    font-size: var(--fs-small);
+    color: #ff4444;
+    text-shadow: 1px 1px 0 #000;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .clips-yt-link:hover {
+    color: #ff7777;
+    text-decoration: underline;
+  }
+
+  /* ショートモード */
+  .clips-grid.short-mode {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .clips-grid.short-mode .clip-card {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+    scroll-snap-align: start;
+  }
+  /* ========== SHORT モード ========== */
+  .short-scroll-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh; /* fallback */
+    height: 100dvh;
+    overflow: hidden;
+    z-index: 8000;
+    background: #000;
+    display: none;
+    touch-action: pan-y;
+  }
+  .short-scroll-container.active { display: block; }
+
+  /* カードを縦に並べるトラック — transform でスライド */
+  .short-cards-track {
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+    transition: transform 0.52s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .short-cards-track.no-transition {
+    transition: none;
+  }
+
+  /* HUD */
+  .short-hud {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 8100;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: linear-gradient(rgba(0,0,0,0.6), transparent);
+    pointer-events: none;
+  }
+  .short-hud.active { display: flex; }
+  .short-close-btn {
+    font-family: var(--font-pixel) !important;
+    font-size: 16px;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: all;
+    text-shadow: 1px 1px 0 #000;
+    line-height: 1;
+    transition: background 0.15s;
+  }
+  .short-close-btn:hover {
+    background: rgba(255,60,60,0.7);
+  }
+  .short-counter {
+    font-family: var(--font-pixel) !important;
+    font-size: 9px;
+    color: rgba(255,255,255,0.75);
+    text-shadow: 1px 1px 0 #000;
+  }
+
+  /* 各カード：ビューポート1枚分 */
+  /* JS動的生成要素 → :global() でスコープ解除 */
+  :global(.short-card) {
+    width: 100%;
+    height: 100vh; /* fallback */
+    height: 100dvh;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+  }
+  :global(.short-bg) {
+    position: absolute;
+    inset: -10%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(28px) brightness(0.22);
+    pointer-events: none;
+  }
+  :global(.short-video-wrap) {
+    position: relative;
+    width: 100%;
+    max-width: min(100vw, calc(100vh * 16 / 9));
+    aspect-ratio: 16 / 9;
+    z-index: 1;
+    background: #000;
+    cursor: pointer;
+  }
+  :global(.short-video-wrap .short-thumb) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  :global(.short-video-wrap iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  :global(.short-play-overlay) {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  :global(.short-play-overlay .short-play-icon) {
+    font-size: 3.5rem;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 0 30px rgba(255,255,255,0.4);
+    transition: transform 0.15s;
+    pointer-events: none;
+  }
+  :global(.short-video-wrap:hover .short-play-icon) { transform: scale(1.1); }
+  :global(.short-play-overlay.hidden) { display: none; }
+  :global(.short-info) {
+    position: absolute;
+    bottom: 0; left: 50%; right: auto;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: min(100vw, calc(100vh * 16 / 9));
+    z-index: 3;
+    padding: 50px 16px 20px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.82));
+    pointer-events: none;
+    box-sizing: border-box;
+  }
+  :global(.short-title) {
+    font-family: var(--font-pixel) !important;
+    font-size: 9px;
+    color: #fff;
+    text-shadow: 1px 1px 0 #000;
+    margin-bottom: 8px;
+    line-height: 1.6;
+    overflow-wrap: break-word;
+  }
+  :global(.short-badges) {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    pointer-events: all;
+  }
+
+  .clips-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 10px;
+  }
+
+  .clip-card {
+    background: rgba(0, 0, 20, 0.4);
+    border: 1px solid var(--col-primary-a30);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .clip-card:hover {
+    border-color: var(--text-accessible-blue);
+    transform: translateY(-2px);
+  }
+
+  .clip-thumbnail-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    cursor: pointer;
+    border: 2px solid var(--text-accessible-blue);
+    box-shadow: inset 2px 2px 0px rgba(0,0,0,0.3);
+    overflow: hidden;
+    background: #000;
+  }
+
+  .clip-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.2s ease;
+  }
+
+  .clip-thumbnail-wrapper:hover .clip-thumb-img {
+    filter: brightness(0.55);
+  }
+
+  .clip-play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: var(--text-accessible-blue);
+    text-shadow: 0 0 15px var(--text-accessible-blue), 1px 1px 0 #000;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    image-rendering: pixelated;
+  }
+
+  .clip-thumbnail-wrapper:hover .clip-play-overlay {
+    opacity: 1;
+  }
+
+  .clip-thumbnail-wrapper.playing .clip-thumb-img,
+  .clip-thumbnail-wrapper.playing .clip-play-overlay {
+    display: none;
+  }
+
+  .clip-video-title {
+    font-family: var(--font-pixel) !important;
+    font-size: var(--fs-small) !important;
+    color: var(--col-text-light) !important;
+    text-shadow: 1px 1px 0 #000 !important;
+    image-rendering: pixelated;
+    background: var(--col-primary-a10);
+    padding: 6px 8px 6px 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .clip-thumbnail-wrapper.playing iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .clip-meta {
+    display: flex;
+    gap: 5px;
+    padding: 6px 8px;
+    flex-wrap: wrap;
+  }
+
+  .clip-map-badge,
+  .clip-agent-badge {
+    font-family: var(--font-pixel);
+    font-size: var(--fs-small);
+    padding: 2px 6px;
+    border-radius: 2px;
+    text-shadow: 1px 1px 0 #000;
+    image-rendering: pixelated;
+    white-space: nowrap;
+  }
+
+  .clip-map-badge {
+    background: var(--col-primary-a20);
+    color: var(--col-text-light);
+    border: 1px solid var(--col-primary-a40);
+  }
+
+  .clip-agent-badge {
+    background: var(--col-primary-a20);
+    color: var(--col-accessible);
+    border: 1px solid var(--col-primary-a40);
+  }
+
+  .clip-kw-badge {
+    font-family: var(--font-pixel);
+    font-size: var(--fs-small);
+    padding: 2px 6px;
+    border-radius: 2px;
+    text-shadow: 1px 1px 0 #000;
+    image-rendering: pixelated;
+    white-space: nowrap;
+    background: rgba(255, 160, 0, 0.15);
+    color: #ffcc66;
+    border: 1px solid rgba(255, 160, 0, 0.4);
+  }
+
+  /* クリック可能バッジ */
+  .clickable-badge {
+    cursor: pointer;
+    transition: filter 0.15s ease;
+  }
+  .clickable-badge:hover {
+    filter: brightness(1.4);
+  }
+
+
+  .clip-debug-overlay {
+    display: none;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: rgba(0, 0, 0, 0.82);
+    border: 1px solid var(--col-primary-a60);
+    border-radius: 4px;
+    padding: 6px 8px;
+    z-index: 10;
+    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
+    font-size: 11px !important;
+    color: #fff !important;
+    text-shadow: 1px 1px 0 #000 !important;
+    image-rendering: pixelated;
+    line-height: 1.8;
+    pointer-events: none;
+  }
+  .clip-debug-overlay .dbg-total {
+    color: #4dffb0 !important;
+    font-size: 13px !important;
+    border-top: 1px solid var(--col-primary);
+    margin-top: 4px;
+    padding-top: 4px;
+  }
+  body.debug-mode .clip-debug-overlay { display: block; }
+  body.debug-mode .clip-card { position: relative; }
+
+  .clips-expand-btn {
+    font-family: var(--font-pixel-jp);
+    font-size: var(--fs-body);
+    padding: 8px 22px;
+    background: var(--col-primary-a12);
+    color: var(--text-accessible-blue);
+    border: 2px solid var(--col-primary-a45);
+    border-radius: 4px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000, 0 0 8px var(--text-accessible-blue);
+    image-rendering: pixelated;
+    transition: all 0.2s ease;
+  }
+
+  .clips-expand-btn:hover {
+    background: var(--col-primary-a28);
+    border-color: var(--text-accessible-blue);
+    transform: scale(1.04);
+  }
+
+  @media (max-width: 768px) {
+    .clips-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
 </style>
 
 <script>
@@ -902,8 +1924,8 @@ const COLORS = {
   }
 
   let currentVideoIndex = 0;
-  const totalVideos = 9;
-  let videoSources = []; // 各動画のオリジナルsrcを保存
+  const totalVideos = 8;
+  let videoSources: string[] = []; // 各動画のオリジナルsrcを保存
 
   function initializeVideoSources() {
     const videos = document.querySelectorAll(".carousel-video");
@@ -915,8 +1937,8 @@ const COLORS = {
     });
   }
 
-  function showVideo(index) {
-    const videos = document.querySelectorAll(".carousel-video");
+  function showVideo(index: number) {
+    const videos = document.querySelectorAll<HTMLElement>(".carousel-video");
     const counter = document.getElementById("video-counter");
 
     videos.forEach((video, i) => {
@@ -954,36 +1976,11 @@ const COLORS = {
     showVideo(prevIndex);
   }
 
-  function toggleVideos() {
-    const carousel = document.getElementById("video-carousel");
-    const allVideosGrid = document.getElementById("all-videos-grid");
-    const toggleBtn = document.getElementById("toggle-videos-btn");
-
-    if (carousel && allVideosGrid && toggleBtn) {
-      if (allVideosGrid.style.display === "none") {
-        // 全動画を展開
-        carousel.style.display = "none";
-        allVideosGrid.style.display = "block";
-        toggleBtn.textContent = "▲ カルーセル表示";
-      } else {
-        // カルーセルに戻す
-        carousel.style.display = "block";
-        allVideosGrid.style.display = "none";
-        toggleBtn.textContent = "▼ 全て表示";
-      }
-    }
-  }
-
   // DOM読み込み完了後に実行
   document.addEventListener("DOMContentLoaded", function () {
-    const copyIcon = document.getElementById("copy-crosshair-icon");
+    const copyIcon = document.getElementById("copy-crosshair-text");
     if (copyIcon) {
       copyIcon.addEventListener("click", copyCrosshairCode);
-    }
-
-    const toggleBtn = document.getElementById("toggle-videos-btn");
-    if (toggleBtn) {
-      toggleBtn.addEventListener("click", toggleVideos);
     }
 
     const prevBtn = document.getElementById("prev-video-btn");
@@ -998,5 +1995,666 @@ const COLORS = {
 
     // 動画のオリジナルsrcを保存
     initializeVideoSources();
+
+    // ===== ゲーム詳細モーダル =====
+    const overlay    = document.getElementById('game-modal') as HTMLElement;
+    const gmTitle    = document.getElementById('gm-title');
+    const gmCat      = document.getElementById('gm-category');
+    const gmTime     = document.getElementById('gm-playtime');
+    const gmPeriod   = document.getElementById('gm-period');
+    const gmRank     = document.getElementById('gm-maxrank');
+    const gmCom      = document.getElementById('gm-comment');
+    const gmPidRow   = document.getElementById('gm-playerid-row');
+    const gmPid      = document.getElementById('gm-playerid');
+    const gmTrnRow    = document.getElementById('gm-trn-row');
+    const gmTrnLink   = document.getElementById('gm-trn-link') as HTMLAnchorElement | null;
+    const gmInPageRow = document.getElementById('gm-inpage-row');
+    const gmInPageLink= document.getElementById('gm-inpage-link') as HTMLAnchorElement | null;
+
+    function openGameModal(g: any) {
+      if (!overlay || !gmTitle || !gmCat || !gmTime || !gmPeriod || !gmRank || !gmCom) return;
+      gmTitle.textContent  = g.name.toUpperCase() + (g.note ? ` (${g.note})` : '');
+      gmCat.textContent    = g.category;
+      gmTime.textContent   = g.playTime;
+      gmPeriod.textContent = g.period;
+      gmRank.textContent   = g.maxRank;
+      gmCom.textContent    = g.comment;
+      if (gmPid && gmPidRow) {
+        if (g.playerId) {
+          gmPid.textContent = g.playerId;
+          (gmPidRow as HTMLElement).style.display = '';
+        } else {
+          (gmPidRow as HTMLElement).style.display = 'none';
+        }
+      }
+      if (gmTrnLink && gmTrnRow) {
+        if (g.trnUrl) {
+          gmTrnLink.href = g.trnUrl;
+          (gmTrnRow as HTMLElement).style.display = '';
+        } else {
+          (gmTrnRow as HTMLElement).style.display = 'none';
+        }
+      }
+      if (gmInPageLink && gmInPageRow) {
+        if (g.inPageUrl) {
+          gmInPageLink.href = g.inPageUrl;
+          gmInPageLink.onclick = () => closeGameModal();
+          (gmInPageRow as HTMLElement).style.display = '';
+        } else {
+          (gmInPageRow as HTMLElement).style.display = 'none';
+        }
+      }
+      overlay.classList.add('open');
+      overlay.removeAttribute('aria-hidden');
+    }
+
+    function closeGameModal() {
+      overlay?.classList.remove('open');
+      overlay?.setAttribute('aria-hidden', 'true');
+    }
+
+    // ツールチップ
+    const tooltip   = document.getElementById('game-tooltip') as HTMLElement;
+    const gtName    = document.getElementById('gt-name');
+    const gtTime    = document.getElementById('gt-playtime');
+    const gtRank    = document.getElementById('gt-maxrank');
+    let tooltipTimer: ReturnType<typeof setTimeout>;
+
+    function showTooltip(el: HTMLElement, g: any) {
+      if (!tooltip || !gtName || !gtTime || !gtRank) return;
+      gtName.textContent  = g.name.toUpperCase();
+      gtTime.textContent  = g.playTime;
+      gtRank.textContent  = g.maxRank;
+      const rect = el.getBoundingClientRect();
+      tooltip.style.left = `${rect.left}px`;
+      tooltip.style.top  = `${rect.bottom + 6}px`;
+      tooltip.classList.add('visible');
+    }
+
+    function hideTooltip() {
+      tooltip?.classList.remove('visible');
+    }
+
+    document.querySelectorAll('.game-chip').forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        clearTimeout(tooltipTimer);
+        const raw = (btn as HTMLElement).dataset.gameJson;
+        if (raw) showTooltip(btn as HTMLElement, JSON.parse(raw));
+      });
+      btn.addEventListener('mouseleave', () => {
+        tooltipTimer = setTimeout(hideTooltip, 150);
+      });
+      btn.addEventListener('click', () => {
+        hideTooltip();
+        const raw = (btn as HTMLElement).dataset.gameJson;
+        if (raw) openGameModal(JSON.parse(raw));
+      });
+    });
+
+    document.getElementById('gm-close')?.addEventListener('click', closeGameModal);
+    overlay?.addEventListener('click', (e) => {
+      if (e.target === overlay) closeGameModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeGameModal();
+      if (e.key === 'd' || e.key === 'D') document.body.classList.toggle('debug-mode');
+    });
   });
+
+  // ===== 感度履歴グラフ =====
+  const SENS_HISTORY = [
+    { label: 'Start',      sens: 0.28286, dpi: 800 },
+    { label: 'Unknown',    sens: 0.198,   dpi: 800 },
+    { label: '2021/09/27', sens: 0.215,   dpi: 800 },
+    { label: '2022/01/25', sens: 0.22,    dpi: 800 },
+    { label: '2022/01/27', sens: 0.225,   dpi: 800 },
+    { label: '2022/01/28', sens: 0.23,    dpi: 800 },
+    { label: '2022/01/31', sens: 0.24,    dpi: 800 },
+    { label: '2022/02/01', sens: 0.25,    dpi: 800 },
+    { label: '2022/02/02', sens: 0.255,   dpi: 800 },
+    { label: '2022/02/06', sens: 0.27,    dpi: 800 },
+    { label: '2022/02/12', sens: 0.28,    dpi: 800 },
+    { label: '2022/02/13', sens: 0.29,    dpi: 800 },
+    { label: '2022/02/14', sens: 0.30,    dpi: 800 },
+    { label: '2022/02/16', sens: 0.31,    dpi: 800 },
+    { label: '2022/02/18', sens: 0.33,    dpi: 800 },
+    { label: '2022/09/26', sens: 0.31,    dpi: 800 },
+    { label: '2022/10/15', sens: 0.28,    dpi: 800 },
+    { label: '2022/10/22', sens: 0.30,    dpi: 800 },
+    { label: 'Unknown',    sens: 0.27,    dpi: 800 },
+    { label: '2023/03/07', sens: 0.26,    dpi: 800 },
+    { label: '2023/03/16', sens: 0.27,    dpi: 800 },
+    { label: '2023/04/09', sens: 0.25,    dpi: 800 },
+    { label: '2023/06/10', sens: 0.24,    dpi: 800 },
+    { label: '2023/08/27', sens: 0.245,   dpi: 800 },
+    { label: '2024/02/06', sens: 0.25,    dpi: 800 },
+    { label: '2024/05/07', sens: 0.26,    dpi: 800 },
+    { label: '2024/07/13', sens: 0.25,    dpi: 800 },
+    { label: '2024/07/24', sens: 0.24,    dpi: 800 },
+    { label: '2024/08/04', sens: 0.235,   dpi: 800 },
+    { label: '2024/09/20', sens: 0.23,    dpi: 800 },
+    { label: '2025/05/27', sens: 0.22,    dpi: 800 },
+    { label: '2025/05/28', sens: 0.21,    dpi: 800 },
+    { label: '2025/06/10', sens: 0.205,   dpi: 800 },
+    { label: '2025/06/28', sens: 0.20,    dpi: 800 },
+    { label: '2025/09/09', sens: 0.19,    dpi: 800 },
+    { label: '2025/10/19', sens: 0.185,   dpi: 800 },
+    { label: '2025/11/16', sens: 0.09,    dpi: 1600 },
+    { label: '2026/01/16', sens: 0.19,    dpi: 800 },
+    { label: '2026/03/01', sens: 0.17,    dpi: 800 },
+  ];
+
+  let sensChartInstance: any = null;
+  let sensMode: 'sens' | 'edpi' = 'sens';
+
+  function getSensChartData() {
+    return SENS_HISTORY.map(d => sensMode === 'edpi' ? Math.round(d.sens * d.dpi * 10) / 10 : d.sens);
+  }
+
+  function openSensModal() {
+    const modal = document.getElementById('sens-modal') as HTMLElement;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    if (!sensChartInstance) {
+      const ctx = (document.getElementById('sens-chart') as HTMLCanvasElement).getContext('2d')!;
+      sensChartInstance = new (window as any).Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: SENS_HISTORY.map(d => d.label),
+          datasets: [{
+            label: 'Sensitivity',
+            data: getSensChartData(),
+            borderColor: 'var(--col-primary)',
+            backgroundColor: 'var(--col-primary-a12)',
+            pointBackgroundColor: SENS_HISTORY.map(d =>
+              d.dpi === 1600 ? '#ff6b6b' : 'var(--col-primary)'
+            ),
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            borderWidth: 2,
+            fill: true,
+            tension: 0.3,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--col-bg-deeper').trim() || 'hsl(225,82%,3%)',
+              borderColor: 'var(--col-primary)',
+              borderWidth: 1,
+              titleColor: 'var(--col-primary)',
+              bodyColor: '#ffffff',
+              titleFont: { family: "'DotGothic16', monospace" },
+              bodyFont:  { family: "'DotGothic16', monospace" },
+              callbacks: {
+                label: (ctx: any) => {
+                  const d = SENS_HISTORY[ctx.dataIndex];
+                  const edpi = Math.round(d.sens * d.dpi * 10) / 10;
+                  return [` DPI: ${d.dpi}`, ` Sens: ${d.sens}`, ` eDPI: ${edpi}`];
+                },
+              },
+            },
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: '#aaaaaa',
+                font: { family: "'DotGothic16', monospace", size: 9 },
+                maxRotation: 60,
+                minRotation: 45,
+              },
+              grid: { color: 'var(--col-primary-a12)', lineWidth: 1 },
+            },
+            y: {
+              ticks: {
+                color: '#aaaaaa',
+                font: { family: "'DotGothic16', monospace", size: 10 },
+              },
+              grid: { color: 'var(--col-primary-a12)', lineWidth: 1 },
+              title: {
+                display: true,
+                text: 'Sensitivity',
+                color: '#aaaaaa',
+                font: { family: "'DotGothic16', monospace", size: 10 },
+              },
+            },
+          },
+        },
+      });
+    }
+  }
+
+  function closeSensModal() {
+    const modal = document.getElementById('sens-modal') as HTMLElement;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  document.getElementById('sens-value-btn')?.addEventListener('click', openSensModal);
+  document.getElementById('sens-modal-close')?.addEventListener('click', closeSensModal);
+  document.getElementById('sens-modal')?.addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeSensModal();
+  });
+
+  document.querySelectorAll('.sens-mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = (btn as HTMLElement).dataset.mode as 'sens' | 'edpi';
+      if (mode === sensMode) return;
+      sensMode = mode;
+      document.querySelectorAll('.sens-mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (sensChartInstance) {
+        sensChartInstance.data.datasets[0].data = getSensChartData();
+        sensChartInstance.options.scales.y.title.text = mode === 'edpi' ? 'eDPI' : 'Sensitivity';
+        sensChartInstance.update();
+      }
+    });
+  });
+
+  // ===== クリップギャラリー =====
+  (function () {
+    const INITIAL = 6;
+    let activeMap   = 'all';
+    let activeAgent = 'all';
+    let activeKw    = 'all';
+    type SortMode = 'custom' | 'views';
+    let sortMode: SortMode = 'custom';
+    let expanded    = false;
+
+    // キーワードマッチ（OPのみ単語境界チェック）
+    const KW_PATTERNS: Record<string, RegExp> = {
+      ult: /ult/i,
+    };
+    const KW_TAG_FILTERS = ['clutch', 'smooth', 'op', 'guardian', 'ghost', 'bundit', 'vandal', 'bucky', 'spectre', 'classic', 'onemagazine', '6kills'];
+
+    function allCards() {
+      return Array.from(document.querySelectorAll('.clip-card')) as HTMLElement[];
+    }
+
+    function filtered() {
+      return allCards().filter(card => {
+        const mapOk   = activeMap   === 'all' || card.dataset.map   === activeMap;
+        const agentOk = activeAgent === 'all' || card.dataset.agent === activeAgent;
+        const cardTags = (card.dataset.tags ?? '').split(',');
+        const kwOk    = activeKw    === 'all'
+          || (KW_TAG_FILTERS.includes(activeKw) ? cardTags.includes(activeKw) : KW_PATTERNS[activeKw]?.test(card.dataset.title ?? ''));
+        return mapOk && agentOk && kwOk;
+      });
+    }
+
+    function sorted(cards: HTMLElement[]) {
+      if (sortMode === 'views') {
+        return [...cards].sort((a, b) =>
+          Number(b.dataset.views ?? 0) - Number(a.dataset.views ?? 0)
+        );
+      }
+      // custom: スコア合計の高い順（data-score はサーバー側で計算済み）
+      return [...cards].sort((a, b) =>
+        Number(b.dataset.score ?? 0) - Number(a.dataset.score ?? 0)
+      );
+    }
+
+    function render() {
+      const f = sorted(filtered());
+      const grid = document.getElementById('clips-grid');
+      if (grid) f.forEach(c => grid.appendChild(c)); // 並び替え反映
+
+      allCards().forEach(c => (c.style.display = 'none'));
+      const limit = expanded ? f.length : Math.min(INITIAL, f.length);
+      f.slice(0, limit).forEach(c => (c.style.display = ''));
+
+      const countEl = document.getElementById('clips-count');
+      if (countEl) countEl.textContent = String(f.length);
+
+      const btn = document.getElementById('clips-show-more') as HTMLButtonElement | null;
+      if (!btn) return;
+      const remaining = f.length - limit;
+      if (!expanded && remaining > 0) {
+        btn.style.display = 'inline-block';
+        btn.textContent = `もっと見る (あと${remaining}件) ▼`;
+      } else if (expanded && f.length > INITIAL) {
+        btn.style.display = 'inline-block';
+        btn.textContent = '折りたたむ ▲';
+      } else {
+        btn.style.display = 'none';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // フィルターボタン
+      document.querySelectorAll('.clips-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const el   = btn as HTMLButtonElement;
+          const type = el.dataset.filterType  as string;
+          const val  = el.dataset.filterValue as string;
+          document.querySelectorAll(`.clips-filter-btn[data-filter-type="${type}"]`)
+            .forEach(b => b.classList.remove('active'));
+          el.classList.add('active');
+          if (type === 'map')   activeMap   = val;
+          if (type === 'agent') activeAgent = val;
+          if (type === 'kw')    activeKw    = val;
+          expanded = false;
+          render();
+        });
+      });
+
+      // バッジクリックでフィルター（map / agent / kw）
+      function activateFilter(type: string, val: string) {
+        if (type === 'map')   { activeMap   = val; }
+        if (type === 'agent') { activeAgent = val; }
+        if (type === 'kw')    { activeKw    = val; }
+        document.querySelectorAll(`.clips-filter-btn[data-filter-type="${type}"]`)
+          .forEach(b => b.classList.remove('active'));
+        document.querySelector(`.clips-filter-btn[data-filter-type="${type}"][data-filter-value="${val}"]`)
+          ?.classList.add('active');
+        expanded = false;
+        render();
+        // フィルターエリアにスクロール
+        document.querySelector('.filter-row')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      document.querySelectorAll('.clickable-badge').forEach(badge => {
+        badge.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const el   = badge as HTMLElement;
+          const type = el.dataset.filterType;
+          const val  = el.dataset.filterValue;
+          if (type && val) activateFilter(type, val);
+        });
+      });
+
+      // ソートボタン
+      const sortBtns = ['clips-sort-custom', 'clips-sort-views'];
+      function setSort(mode: SortMode) {
+        sortMode = mode;
+        sortBtns.forEach(id => document.getElementById(id)?.classList.remove('active'));
+        document.getElementById(mode === 'custom' ? 'clips-sort-custom' : 'clips-sort-views')?.classList.add('active');
+        expanded = false;
+        render();
+      }
+      document.getElementById('clips-sort-custom')?.addEventListener('click', () => setSort('custom'));
+      document.getElementById('clips-sort-views')?.addEventListener('click',  () => setSort('views'));
+
+      // 列数切り替え（モバイルでは強制1列）
+      const isMobile = () => window.innerWidth <= 768;
+      document.querySelectorAll('.clips-col-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (isMobile()) return;
+          const cols = (btn as HTMLElement).dataset.cols ?? '2';
+          document.querySelectorAll('.clips-col-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const grid = document.getElementById('clips-grid');
+          if (grid) grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        });
+      });
+
+      // もっと見るボタン
+      document.getElementById('clips-show-more')?.addEventListener('click', () => {
+        expanded = !expanded;
+        render();
+      });
+
+      // ========== ショートモード ==========
+      // ========== SHORT モード ==========
+      const shortContainer = document.getElementById('short-scroll-container') as HTMLElement;
+      const shortTrack     = document.getElementById('short-cards-track') as HTMLElement;
+      const shortHud       = document.getElementById('short-hud') as HTMLElement;
+      const shortCloseBtn  = document.getElementById('short-close-btn') as HTMLButtonElement;
+      const shortCounter   = document.getElementById('short-counter') as HTMLElement;
+      const viewGridBtn    = document.getElementById('clips-view-grid') as HTMLButtonElement;
+      const viewShortBtn   = document.getElementById('clips-view-short') as HTMLButtonElement;
+
+      let shortIndex = 0;
+      let shortTotal = 0;
+
+      function playShortAt(idx: number) {
+        const card = shortTrack.children[idx] as HTMLElement | undefined;
+        if (!card) return;
+        const videoId = card.dataset.videoId ?? '';
+        if (!videoId || card.querySelector('iframe')) return;
+        card.querySelector('.short-play-overlay')?.classList.add('hidden');
+        const wrap = card.querySelector<HTMLElement>('.short-video-wrap')!;
+        // iframe で直接再生（YT.Player経由だとユーザージェスチャー外になり autoplay がブロックされる）
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('allow', 'autoplay; encrypted-media; fullscreen; picture-in-picture');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute('frameborder', '0');
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&modestbranding=1&rel=0&cc_load_policy=0&vq=hd1080&hd=1`;
+        wrap.appendChild(iframe);
+      }
+
+      function stopShortAt(idx: number) {
+        const card = shortTrack.children[idx] as HTMLElement | undefined;
+        if (!card) return;
+        card.querySelector('iframe')?.remove();
+        card.querySelector('.short-play-overlay')?.classList.remove('hidden');
+      }
+
+      // iOS Safariで100vhとwindow.innerHeightがズレる問題を回避するため
+      // ビューポート高さをwindow.innerHeightで統一管理
+      let shortVh = window.innerHeight;
+
+      function updateShortVh() {
+        shortVh = window.innerHeight;
+        shortContainer.style.height = shortVh + 'px';
+        shortTrack.querySelectorAll<HTMLElement>('.short-card').forEach(c => {
+          c.style.height = shortVh + 'px';
+        });
+      }
+
+      function setTrackY(offset: number) {
+        shortTrack.style.transform = `translateY(${offset}px)`;
+      }
+
+      function goToShort(idx: number, animate = true) {
+        const prev = shortIndex;
+        shortIndex = Math.max(0, Math.min(idx, shortTotal - 1));
+        if (prev !== shortIndex) stopShortAt(prev);
+        if (animate) {
+          shortTrack.classList.remove('no-transition');
+        } else {
+          shortTrack.classList.add('no-transition');
+        }
+        setTrackY(-shortIndex * shortVh);
+        shortCounter.textContent = `${shortIndex + 1} / ${shortTotal}`;
+        // ユーザージェスチャーのコンテキスト内で同期的に iframe を生成する。
+        // setTimeout を挟むと autoplay がブロックされるため、スライド中でも即座に呼ぶ。
+        // （カードが画面外で再生開始 → スライド完了時には既に再生中になる）
+        playShortAt(shortIndex);
+      }
+
+      function buildShortCards() {
+        const visibleCards = allCards().filter(c => c.style.display !== 'none');
+        shortTrack.innerHTML = '';
+        shortIndex = 0;
+        shortTotal = visibleCards.length;
+        shortCounter.textContent = `1 / ${shortTotal}`;
+
+        visibleCards.forEach((card, idx) => {
+          const videoId  = card.querySelector<HTMLElement>('.clip-thumbnail-wrapper')?.dataset.videoId ?? '';
+          const title    = card.querySelector('.clip-video-title')?.textContent ?? '';
+          const metaHTML = card.querySelector('.clip-meta')?.innerHTML ?? '';
+          const thumbUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+          const sc = document.createElement('div');
+          sc.className = 'short-card';
+          sc.dataset.index = String(idx);
+          sc.dataset.videoId = videoId;
+          sc.innerHTML = `
+            <div class="short-bg" style="background-image:url('${thumbUrl}')"></div>
+            <div class="short-video-wrap">
+              <img class="short-thumb" src="${thumbUrl}" alt="${title}" loading="lazy" />
+              <div class="short-play-overlay"><span class="short-play-icon">▶</span></div>
+            </div>
+            <div class="short-info">
+              <div class="short-title">${title}</div>
+              <div class="short-badges">${metaHTML}</div>
+            </div>`;
+
+          // タップで手動再生
+          sc.querySelector('.short-video-wrap')?.addEventListener('click', () => {
+            playShortAt(idx);
+          });
+
+          shortTrack.appendChild(sc);
+        });
+      }
+
+      // ========== タッチ：指追従スライド ==========
+      let touchY0 = 0;
+      let touchDragging = false;
+      shortContainer.addEventListener('touchstart', (e) => {
+        touchY0 = e.touches[0].clientY;
+        touchDragging = true;
+        // ドラッグ中はアニメーション無効化（touchend で戻す）
+        shortTrack.classList.add('no-transition');
+      }, { passive: true });
+      shortContainer.addEventListener('touchmove', (e) => {
+        if (!touchDragging) return;
+        const dy = e.touches[0].clientY - touchY0;
+        const base = -shortIndex * shortVh;
+        const resist = (dy > 0 && shortIndex === 0) || (dy < 0 && shortIndex === shortTotal - 1);
+        setTrackY(base + (resist ? dy * 0.25 : dy));
+      }, { passive: true });
+      shortContainer.addEventListener('touchend', (e) => {
+        if (!touchDragging) return;
+        touchDragging = false;
+        // アニメーション復活
+        shortTrack.classList.remove('no-transition');
+        const dy = touchY0 - e.changedTouches[0].clientY;
+        if (dy > 40) goToShort(shortIndex + 1);
+        else if (dy < -40) goToShort(shortIndex - 1);
+        else goToShort(shortIndex);
+      }, { passive: true });
+
+      // マウスホイール (PC)
+      let wheelLocked = false;
+      shortContainer.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        if (wheelLocked) return;
+        wheelLocked = true;
+        if (e.deltaY > 0) goToShort(shortIndex + 1);
+        else goToShort(shortIndex - 1);
+        setTimeout(() => { wheelLocked = false; }, 600);
+      }, { passive: false });
+
+      // キーボード
+      document.addEventListener('keydown', (e) => {
+        if (!shortHud.classList.contains('active')) return;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') goToShort(shortIndex + 1);
+        if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  goToShort(shortIndex - 1);
+        if (e.key === 'Escape') closeShortMode();
+      });
+
+      window.addEventListener('resize', () => {
+        if (shortContainer.classList.contains('active')) {
+          updateShortVh();
+          setTrackY(-shortIndex * shortVh);
+        }
+      });
+
+      function openShortMode() {
+        buildShortCards();
+        updateShortVh();
+        goToShort(0, false);
+        shortContainer.classList.add('active');
+        shortHud.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        viewGridBtn.classList.remove('active');
+        viewShortBtn.classList.add('active');
+      }
+
+      function closeShortMode() {
+        shortContainer.classList.remove('active');
+        shortHud.classList.remove('active');
+        document.body.style.overflow = '';
+        shortTrack.innerHTML = '';
+        viewGridBtn.classList.add('active');
+        viewShortBtn.classList.remove('active');
+      }
+
+      viewShortBtn?.addEventListener('click', openShortMode);
+      viewGridBtn?.addEventListener('click', closeShortMode);
+      shortCloseBtn?.addEventListener('click', closeShortMode);
+
+      // YouTube プレイリストリンク: モバイルはアプリ起動、PCは新タブ
+      const ytLink = document.getElementById('clips-yt-link');
+      ytLink?.addEventListener('click', (e) => {
+        e.preventDefault();
+        // href 属性から URL を取得（Astro SSR で正しいURLが埋め込まれている）
+        const webUrl = (ytLink as HTMLAnchorElement).href;
+        const appUrl = webUrl.replace('https://', 'youtube://');
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        if (isMobile) {
+          const t = setTimeout(() => { window.location.href = webUrl; }, 2000);
+          window.location.href = appUrl;
+          const cancel = () => { clearTimeout(t); document.removeEventListener('visibilitychange', cancel); };
+          document.addEventListener('visibilitychange', cancel);
+        } else {
+          window.open(webUrl, '_blank', 'noopener');
+        }
+      });
+
+      // クリップギャラリー: YouTube API経由で画質を最高に設定
+      function applyMaxQualityToClipPlayer(player: any) {
+        try {
+          const levels: string[] = player.getAvailableQualityLevels?.() || [];
+          const best = ['hd1080', 'hd720', 'large'].find(q => levels.includes(q)) || 'hd1080';
+          player.setPlaybackQuality(best);
+          if (typeof player.setPlaybackQualityRange === 'function') {
+            player.setPlaybackQualityRange(best, 'highres');
+          }
+          [500, 2000, 4000].forEach(d => setTimeout(() => { try { player.setPlaybackQuality(best); } catch(_){} }, d));
+        } catch (_) {}
+      }
+
+      function bindClipQuality(iframe: HTMLIFrameElement) {
+        const tryBind = () => {
+          const YT = (window as any).YT;
+          if (YT?.Player) {
+            try {
+              new YT.Player(iframe.id, {
+                events: {
+                  onReady(e: any) { applyMaxQualityToClipPlayer(e.target); },
+                  onStateChange(e: any) {
+                    if (e.data === 1 || e.data === 3) applyMaxQualityToClipPlayer(e.target);
+                  },
+                  onPlaybackQualityChange(e: any) {
+                    const cur = e.target.getPlaybackQuality();
+                    if (cur !== 'hd1080' && cur !== 'highres') applyMaxQualityToClipPlayer(e.target);
+                  }
+                }
+              });
+            } catch (_) {}
+          } else {
+            setTimeout(tryBind, 500);
+          }
+        };
+        setTimeout(tryBind, 300);
+      }
+
+      // サムネイルクリックで動画再生（inline styleでAstroスコープ問題を回避）
+      document.querySelectorAll('.clip-thumbnail-wrapper').forEach(wrapper => {
+        wrapper.addEventListener('click', () => {
+          const el = wrapper as HTMLElement;
+          if (el.classList.contains('playing')) return;
+          const videoId = el.dataset.videoId;
+          el.classList.add('playing');
+          const iframe = document.createElement('iframe');
+          iframe.id = `clip-player-${videoId}-${Date.now()}`;
+          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&fs=1&enablejsapi=1&playsinline=1&vq=hd1080&hd=1`;
+          iframe.allow = 'autoplay; encrypted-media; fullscreen';
+          iframe.allowFullscreen = true;
+          iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block;';
+          el.appendChild(iframe);
+          bindClipQuality(iframe);
+        });
+      });
+
+      render();
+    });
+  })();
 </script>
