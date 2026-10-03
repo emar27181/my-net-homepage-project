@@ -191,6 +191,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     height: auto;
     aspect-ratio: 90 / 148;
     container-type: inline-size;
+    position: relative;
     min-height: 0;
     box-sizing: border-box;
     display: flex;
@@ -245,21 +246,34 @@ const { siteMode = false, frameless = false } = Astro.props;
     line-height: 1.8;
     white-space: normal;
   }
-  .gb-site > .gb-body > .gb-controls { padding: 0 1.2cqw; margin: auto 0 0; gap: 1.5cqw; }
+  /* 実機の前面配置: 十字キーとA/Bを画面直下、SELECT/STARTをその下へ。 */
+  .gb-site > .gb-body > .gb-controls {
+    position: absolute;
+    inset: 0;
+    display: block;
+    padding: 0;
+    margin: 0;
+    pointer-events: none;
+  }
+  .gb-site > .gb-body > .gb-controls > * { position: absolute; pointer-events: auto; }
+  .gb-site > .gb-body > .gb-controls > .gb-dpad-area { left: 7%; top: 66%; }
+  .gb-site > .gb-body > .gb-controls > .gb-ab-area { right: 6%; top: 66%; }
+  .gb-site > .gb-body > .gb-controls > .gb-mid-area { left: 50%; top: 81%; transform: translateX(-50%) rotate(-18deg); }
   .gb-site .gbdpad-btn { font-size: clamp(6px, 1.8cqw, 9px); }
   .gb-site .gbdpad-col:first-child .gbdpad-btn { border-radius: 0.8cqw 0.8cqw 0 0; }
   .gb-site .gbdpad-col:last-child .gbdpad-btn { border-radius: 0 0 0.8cqw 0.8cqw; }
-  .gb-site .gbdpad-center { width: 5.8cqw; height: 5.8cqw; }
-  .gb-site .gbdpad-v { width: 5.8cqw; height: 5cqw; }
-  .gb-site .gbdpad-h { width: 5cqw; height: 5.8cqw; }
+  .gb-site .gbdpad-center { width: 8cqw; height: 8cqw; }
+  .gb-site .gbdpad-v { width: 8cqw; height: 6cqw; }
+  .gb-site .gbdpad-h { width: 7cqw; height: 8cqw; }
   .gb-site .gb-ss-row { gap: 1.8cqw; }
   .gb-site .gb-ss-slot { gap: 0.6cqw; }
-  .gb-site .gb-ss-btn { width: 6cqw; height: 1.8cqw; border-radius: 1cqw; }
+  .gb-site .gb-ss-btn { width: 8cqw; height: 2.2cqw; border-radius: 1.1cqw; }
   .gb-site .gb-ss-label { font-size: clamp(4px, 1cqw, 5px); }
-  .gb-site .gb-ab-grid { gap: 0.8cqw; }
+  .gb-site .gb-ab-grid { flex-direction: row; align-items: center; gap: 1.2cqw; }
   .gb-site .gb-b-wrap, .gb-site .gb-a-wrap { gap: 1cqw; }
-  .gb-site .gb-a-wrap { margin-left: 3.7cqw; }
-  .gb-site .gb-btn { width: 6.6cqw; height: 6.6cqw; }
+  .gb-site .gb-b-wrap { transform: translateY(3.5cqw); }
+  .gb-site .gb-a-wrap { margin-left: 0; transform: translateY(-3.5cqw); }
+  .gb-site .gb-btn { width: 9cqw; height: 9cqw; }
   .gb-site .gb-ab-label { font-size: clamp(5px, 1.5cqw, 8px); }
   .gb-site > .gb-body > .gb-speaker-row { height: 2.9cqw; padding-right: 1.6cqw; }
   .gb-site .gb-speaker { gap: 0.6cqw; }
@@ -295,8 +309,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     .gb-site > .gb-body > .gb-brand-row,
     .gb-site > .gb-body > .gb-title-strip,
     .gb-site > .gb-body > .gb-speaker-row { display: none; }
-    .gb-site > .gb-body > .gb-controls { max-height: 50px; }
-    .gb-site .gb-ab-grid { flex-direction: row; }
+    .gb-site > .gb-body > .gb-controls { max-height: none; }
   }
   :global(html[data-display-mode="normal"]) .gb-site,
   :global(html[data-display-mode="normal"]) .gb-site > .gb-body,
