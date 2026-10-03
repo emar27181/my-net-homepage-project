@@ -246,7 +246,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     line-height: 1.8;
     white-space: normal;
   }
-  /* 実機の前面配置: 十字キーとA/Bを画面直下、SELECT/STARTをその下へ。 */
+  /* 十字キーとA/Bを画面直下、SELECT/STARTをその下へ。 */
   .gb-site > .gb-body > .gb-controls {
     position: absolute;
     inset: 0;
@@ -257,7 +257,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   }
   .gb-site > .gb-body > .gb-controls > * { position: absolute; pointer-events: auto; }
   .gb-site > .gb-body > .gb-controls > .gb-dpad-area { left: 7%; top: 66%; }
-  .gb-site > .gb-body > .gb-controls > .gb-ab-area { right: 6%; top: 66%; }
+  .gb-site > .gb-body > .gb-controls > .gb-ab-area { right: 6%; top: 68%; }
   .gb-site > .gb-body > .gb-controls > .gb-mid-area { left: 50%; top: 81%; transform: translateX(-50%); }
   .gb-site .gbdpad-btn { font-size: clamp(6px, 1.8cqw, 9px); }
   .gb-site .gbdpad-col:first-child .gbdpad-btn { border-radius: 0.8cqw 0.8cqw 0 0; }
@@ -268,19 +268,34 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-site .gb-ss-row { gap: 1.8cqw; }
   .gb-site .gb-ss-slot { gap: 0.6cqw; }
   .gb-site .gb-ss-btn { width: 8cqw; height: 2.2cqw; border-radius: 1.1cqw; }
-  .gb-site .gb-ss-btn { transform: rotate(-24deg); }
-  .gb-site .gb-ss-btn:active { transform: rotate(-24deg) translateY(1px); }
   .gb-site .gb-ss-label { font-size: clamp(4px, 1cqw, 5px); }
   .gb-site .gb-ab-grid { flex-direction: row; align-items: center; gap: 1.2cqw; }
   .gb-site .gb-b-wrap, .gb-site .gb-a-wrap { gap: 1cqw; }
-  .gb-site .gb-b-wrap { transform: translateY(4.2cqw); }
-  .gb-site .gb-a-wrap { margin-left: 0; transform: translateY(-4.2cqw); }
+  .gb-site .gb-a-wrap { margin-left: 0; }
   .gb-site .gb-btn { width: 9cqw; height: 9cqw; }
   .gb-site .gb-ab-label { font-size: clamp(5px, 1.5cqw, 8px); }
   .gb-site > .gb-body > .gb-speaker-row { height: 2.9cqw; padding-right: 1.6cqw; }
   .gb-site .gb-speaker { gap: 0.6cqw; }
   .gb-site .gb-speaker i { width: 0.6cqw; height: 2.9cqw; }
   .gb-site .gb-power-txt { font-size: clamp(5px, 1.8cqw, 9px); }
+  /* 全画面時は画面だけを広げ、画面内コンテンツを端まで使う。 */
+  :global(html[data-display-mode="gba"]) .gb-site:is(:fullscreen, .fullscreen-fallback) {
+    width: 100%; height: 100dvh; padding: 0;
+  }
+  :global(html[data-display-mode="gba"]) .gb-site:is(:fullscreen, .fullscreen-fallback) > .gb-body {
+    width: 100%; height: 100%; max-width: none; aspect-ratio: auto;
+    padding: 0; gap: 0; border: 0; border-radius: 0; box-shadow: none;
+  }
+  :global(html[data-display-mode="gba"]) .gb-site:is(:fullscreen, .fullscreen-fallback) > .gb-body > .gb-screen-shell {
+    width: 100%; height: 100%; flex: 1; margin: 0;
+    padding: 0; border: 0; border-radius: 0; box-shadow: none;
+  }
+  :global(html[data-display-mode="gba"]) .gb-site:is(:fullscreen, .fullscreen-fallback) > .gb-body > .gb-screen-shell > .gb-screen-frame {
+    width: 100%; height: 100%; flex: 1; aspect-ratio: auto;
+    border: 0; border-radius: 0;
+  }
+  :global(html[data-display-mode="gba"]) .gb-site:is(:fullscreen, .fullscreen-fallback) > .gb-body > :is(.gb-brand-row, .gb-title-strip, .gb-controls, .gb-speaker-row),
+  :global(html[data-display-mode="gba"]) .gb-site:is(:fullscreen, .fullscreen-fallback) .gb-indicator-row { display: none; }
   .gb-controls, .gb-controls *, .gb-controls button {
     -webkit-user-select: none;
     user-select: none;
