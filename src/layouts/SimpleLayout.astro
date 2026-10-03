@@ -455,13 +455,10 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       /* 本体画面の幅に応じてページ全体の表示倍率を下げる。 */
       :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container) {
         zoom: 0.8;
-        width: 125% !important;
-        max-width: none !important;
       }
       @container (max-width: 380px) {
         :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container) {
           zoom: 0.68;
-          width: 147.06% !important;
         }
       }
       .display-mode-toggle {
