@@ -510,13 +510,13 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         height: clamp(14px, 4cqw, 18px);
       }
       /* 画面内の固定値やインライン指定もゲーム機用の文字階層に揃える。 */
-      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container) {
+      :global(html[data-display-mode="gba"] .gb-site .main-container) {
         --fs-title: 16px;
         --fs-section: 14px;
         --fs-subtitle: 13px;
         --fs-body: 13px;
-        --fs-small: 11px;
-        --fs-footer: 11px;
+        --fs-small: 9px;
+        --fs-footer: 9px;
         font-size: var(--fs-body) !important;
       }
       :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container :is(div, p, li, a, button, label, input, select, textarea, span, small, td, th)) {
@@ -531,6 +531,14 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container :is(h3, h3 *, h4, h4 *, h5, h5 *, h6, h6 *)) {
         font-size: var(--fs-subtitle) !important;
       }
+      /* フィルター名・選択肢・動画タグは本文より小さい共通サイズ。
+         汎用の本文サイズ上書きより優先し、全画面時も同じ階層を使う。 */
+      :global(html[data-display-mode="gba"] .gb-site .main-container .clips-filters :is(.filter-label, .clips-filter-btn, .clips-sort-btn, .clips-col-btn, .clips-view-btn, .clips-result-info, .clips-yt-link)),
+      :global(html[data-display-mode="gba"] .gb-site .main-container .clip-card :is(.clip-map-badge, .clip-agent-badge, .clip-kw-badge, .clip-video-title)) {
+        font-size: var(--fs-small) !important;
+      }
+      :global(html[data-display-mode="gba"] .gb-site .main-container .filter-label) { min-width: 44px; }
+      :global(html[data-display-mode="gba"] .gb-site .main-container .clips-filter-btn) { padding: 3px 6px; }
       :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .settings-panel :is(div, span, button, label)) {
         font-size: clamp(7px, 1.8cqw, 9px) !important;
       }
