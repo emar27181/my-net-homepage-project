@@ -221,6 +221,12 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-site > .gb-body > .gb-controls { padding: 0 6px; margin: 0; }
   .gb-site > .gb-body > .gb-speaker-row { height: 8px; }
   .gb-site .gb-power-txt { font-size: 9px; }
+  .gb-controls, .gb-controls *, .gb-controls button {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    touch-action: manipulation;
+  }
   :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body {
     max-width: 100%;
     box-sizing: border-box;

@@ -55,8 +55,10 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         ))}
       </div>
       <button id="display-mode-toggle" class="display-mode-toggle" type="button" aria-label="GBA表示に切り替える" aria-pressed="false" title="GBA表示に切り替える">
-        <!-- Lucide Gamepad2: https://lucide.dev/icons/gamepad-2 (ISC) -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+        <svg class="pixel-console" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M4 1h8v1H4zM3 2h1v1H3zm9 0h1v1h-1zM2 3h1v10H2zm11 0h1v10h-1zM3 13h1v1H3zm10 0h1v1h-1zM4 14h8v1H4zM4 3h8v1H4zm0 1h1v5H4zm7 0h1v5h-1zM5 8h6v1H5zM5 5h6v1H5zM5 6h1v2H5zm6 0h1v2h-1zM5 11h3v1H5zm1-1h1v3H6zm4 1h1v1h-1zm2-1h1v1h-1z"/></svg>
+      </button>
+      <button id="fullscreen-toggle" class="display-mode-toggle fullscreen-toggle" type="button" aria-label="全画面表示にする" aria-pressed="false" title="全画面表示にする" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M1 1h5v2H3v3H1zm9 0h5v5h-2V3h-3zM1 10h2v3h3v2H1zm12 0h2v5h-5v-2h3z"/></svg>
       </button>
       <button id="settings-toggle" class="settings-toggle-btn nav-link" aria-label="設定" data-default-hue={DEFAULT_HUE}>{NAV_CONFIG.settingsLabel}</button>
     <!-- 設定パネル -->
@@ -460,6 +462,14 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         background: var(--col-primary-a12); border-color: var(--col-primary-a50);
       }
       .display-mode-toggle:focus-visible { outline: 2px solid var(--col-primary); outline-offset: -2px; }
+      .display-mode-toggle[hidden] { display: none !important; }
+      .pixel-console { image-rendering: pixelated; }
+      :global(html[data-display-mode="gba"]) .fullscreen-toggle { display: inline-flex; }
+      :global(html[data-display-mode="gba"] .gb-site:fullscreen),
+      :global(html[data-display-mode="gba"] .gb-site.fullscreen-fallback) { background: var(--col-bg-deeper); }
+      :global(html[data-display-mode="gba"] .gb-site.fullscreen-fallback) {
+        position: fixed; inset: 0; z-index: 9999;
+      }
       :global(html[data-display-mode="gba"] .main-container *) { min-width: 0; overflow-wrap: anywhere; }
       :global(html[data-display-mode="gba"] .charts-grid),
       :global(html[data-display-mode="gba"] .profile-info-grid),
@@ -480,14 +490,40 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         const root            = document.documentElement;
 
         const modeToggle = document.getElementById('display-mode-toggle');
+        const fullscreenToggle = document.getElementById('fullscreen-toggle') as HTMLButtonElement | null;
+        const consoleFrame = document.querySelector('.gb-site') as HTMLElement | null;
         const screen = document.getElementById('gb-site-screen');
+        const syncFullscreen = () => {
+          const active = document.fullscreenElement === consoleFrame || !!consoleFrame?.classList.contains('fullscreen-fallback');
+          fullscreenToggle?.setAttribute('aria-pressed', String(active));
+          const label = active ? '全画面表示を終了' : '全画面表示にする';
+          fullscreenToggle?.setAttribute('aria-label', label);
+          fullscreenToggle?.setAttribute('title', label);
+        };
+        fullscreenToggle?.addEventListener('click', async () => {
+          if (!consoleFrame) return;
+          if (document.fullscreenElement === consoleFrame) await document.exitFullscreen();
+          else if (consoleFrame.classList.contains('fullscreen-fallback')) consoleFrame.classList.remove('fullscreen-fallback');
+          else if (consoleFrame.requestFullscreen) {
+            try { await consoleFrame.requestFullscreen(); }
+            catch { consoleFrame.classList.add('fullscreen-fallback'); }
+          } else consoleFrame.classList.add('fullscreen-fallback');
+          syncFullscreen();
+        });
+        document.addEventListener('fullscreenchange', syncFullscreen);
         let normalScroll = 0;
         let gbaScroll = 0;
         modeToggle?.addEventListener('click', () => {
           const enable = root.dataset.displayMode !== 'gba';
           if (enable) normalScroll = window.scrollY;
-          else gbaScroll = screen?.scrollTop ?? 0;
+          else {
+            gbaScroll = screen?.scrollTop ?? 0;
+            consoleFrame?.classList.remove('fullscreen-fallback');
+            if (document.fullscreenElement === consoleFrame) void document.exitFullscreen();
+          }
           root.dataset.displayMode = enable ? 'gba' : 'normal';
+          if (fullscreenToggle) fullscreenToggle.hidden = !enable;
+          syncFullscreen();
           modeToggle.setAttribute('aria-pressed', String(enable));
           const label = enable ? '通常表示に切り替える' : 'GBA表示に切り替える';
           modeToggle.setAttribute('aria-label', label);

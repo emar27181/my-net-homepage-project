@@ -587,10 +587,9 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
           >
             感度: <span id="sens-value-btn" style="cursor:pointer; text-decoration:underline; color:var(--text-accessible-blue);" title="クリックで感度履歴を表示">0.18 800DPI</span> (振り向き 45.4cm)<br />
             クロスヘア: 青色・アウトライン有<br />
-            <span
+            <button
               id="copy-crosshair-text"
-              onclick="copyCrosshairCode()"
-              style={`${S.link} cursor: pointer; text-decoration: underline; ${S.textBase} display: inline-flex; align-items: center; gap: 5px;`}
+              type="button"
               title="クリックでクロスヘアコードをコピー"
             >
               <svg
@@ -611,7 +610,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
                 ></path>
               </svg>
               <span id="copy-crosshair-label">クロスヘアコードをコピー</span>
-            </span><br />
+            </button><br />
             解像度: 1920×1080<br />
             FPS: 144fps
           </p>
@@ -887,6 +886,24 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     transform: translateY(-1px);
     transition: all 0.2s ease;
   }
+  #copy-crosshair-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-height: 32px;
+    max-width: 100%;
+    padding: 4px 6px;
+    color: var(--col-primary);
+    background: transparent;
+    border: 1px solid var(--col-primary-a50);
+    border-radius: 3px;
+    font: inherit;
+    line-height: 1.4;
+    text-decoration: underline;
+    cursor: pointer;
+    text-align: left;
+  }
+  #copy-crosshair-text:focus-visible { outline: 2px solid var(--col-primary); outline-offset: 2px; }
 
   #copy-crosshair-text:active {
     transform: translateY(0);
@@ -1899,15 +1916,20 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 </style>
 
 <script>
-  function copyCrosshairCode() {
-    navigator.clipboard.writeText(
+  async function copyCrosshairCode() {
+    const label = document.getElementById("copy-crosshair-label");
+    try {
+      await navigator.clipboard.writeText(
       "0;p;0;s;1;P;c;8;u;0077FFFF;o;0.3;b;1;f;0;0t;1;0l;5;0v;5;0o;2;0a;1;0f;0;1t;3;1o;2;1a;1;1m;0;1f;0;A;c;5;u;0077FFFF;o;0.2;0t;3;0l;1;0v;1;0o;1;0a;1;0f;0;1b;0;S;c;5",
-    );
+      );
+    } catch {
+      if (label) label.textContent = "コピーできませんでした";
+      return;
+    }
 
     // アイコンとテキストを切り替え
     const copyIcon = document.getElementById("copy-crosshair-icon");
     const checkIcon = document.getElementById("check-crosshair-icon");
-    const label = document.getElementById("copy-crosshair-label");
 
     if (copyIcon && checkIcon && label) {
       copyIcon.style.display = "none";
