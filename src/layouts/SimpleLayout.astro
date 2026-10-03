@@ -509,6 +509,31 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         width: clamp(14px, 4cqw, 18px);
         height: clamp(14px, 4cqw, 18px);
       }
+      /* 画面内の固定値やインライン指定もゲーム機用の文字階層に揃える。 */
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container) {
+        --fs-title: 14px;
+        --fs-section: 12px;
+        --fs-subtitle: 11px;
+        --fs-body: 11px;
+        --fs-small: 9px;
+        --fs-footer: 9px;
+        font-size: var(--fs-body) !important;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container :is(div, p, li, a, button, label, input, select, textarea, span, small, td, th)) {
+        font-size: min(1em, var(--fs-body)) !important;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container :is(h1, h1 *)) {
+        font-size: var(--fs-title) !important;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container :is(h2, h2 *)) {
+        font-size: var(--fs-section) !important;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container :is(h3, h3 *, h4, h4 *, h5, h5 *, h6, h6 *)) {
+        font-size: var(--fs-subtitle) !important;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .settings-panel :is(div, span, button, label)) {
+        font-size: clamp(7px, 1.8cqw, 9px) !important;
+      }
     </style>
 
     <script>
