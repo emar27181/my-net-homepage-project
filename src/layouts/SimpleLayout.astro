@@ -7,8 +7,8 @@ export interface Props {
   description?: string;
 }
 
-const { title, description = "nodoamen のポートフォリオサイト。VALORANT(ヴァロラント)の統計データ、ゲームプレイ動画、デバイス情報などを公開しています。" } = Astro.props;
-const pageTitle = `${title} | nodoamen | Valorant Stats`;
+const { title, description = "nodoame27181（のどあめ／nodoamen）のポートフォリオ。VALORANT（ヴァロラント）のプレイ動画・戦績や統計、使用デバイス・感度設定、Web制作の活動を紹介しています。" } = Astro.props;
+const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
 ---
 
 <!doctype html>
@@ -25,11 +25,16 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
     <meta name="apple-mobile-web-app-title" content="nodoamen" />
     <meta name="theme-color" content="#0d1028" />
     <title>{pageTitle}</title>
-    <meta
-      name="keywords"
-      content="nodoamen, valorant, ヴァロラント, portfolio, stats, portfolio, valorant stats, valorant tracker, valorant profile"
-    />
-    <meta name="author" content="nodoamen" />
+    <meta name="author" content="nodoame27181（nodoamen）" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="nodoame27181 Portfolio" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@nodoame27181" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
     <meta
       name="google-site-verification"
       content="uyjBT9z6vOnpxn6lM6YnxbI6R4jLSDIAboC8zo1slhM"
