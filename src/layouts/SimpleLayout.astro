@@ -1,5 +1,6 @@
 ---
 import { NAV_CONFIG, THEME_CONFIG } from '../config/themeConfig';
+import GameBoyGallery from '../components/GameBoyGallery.astro';
 const DEFAULT_HUE = THEME_CONFIG.HUE;
 
 export interface Props {
@@ -44,6 +45,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
     style="margin: 0; padding: 0; color: white; font-family: 'Press Start 2P', monospace; image-rendering: pixelated;"
     class="mobile-body"
   >
+    <GameBoyGallery siteMode>
     <!-- ナビゲーションバー -->
     <nav id="page-nav">
       <a href="#" class="nav-site-title">nodoamen</a>
@@ -53,8 +55,6 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         ))}
       </div>
       <button id="settings-toggle" class="settings-toggle-btn nav-link" aria-label="設定" data-default-hue={DEFAULT_HUE}>{NAV_CONFIG.settingsLabel}</button>
-    </nav>
-
     <!-- 設定パネル -->
     <div id="settings-panel" class="settings-panel" aria-hidden="true">
       <div class="settings-row">
@@ -71,8 +71,10 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         <button class="hue-preset-btn" data-hue="30"  style="--pc: hsl(30,100%,65%)">Orange</button>
       </div>
     </div>
+    </nav>
 
     <slot />
+    </GameBoyGallery>
 
     <!-- ドットフォントのGoogle Fonts読み込み -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -403,6 +405,46 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         .nav-links { gap: 10px; }
         .nav-link { font-size: 8px; }
         .settings-panel { right: 4px; min-width: 200px; }
+      }
+
+      /* ナビと設定も本体のスクリーン内に配置する */
+      #page-nav {
+        position: sticky;
+        top: 0;
+        height: 44px;
+        padding: 0 12px;
+        z-index: 50;
+        box-sizing: border-box;
+      }
+      .settings-panel {
+        position: absolute;
+        top: calc(100% + 4px);
+        right: 8px;
+        min-width: 0;
+        width: min(280px, calc(100% - 16px));
+        box-sizing: border-box;
+      }
+      body { height: 100dvh; overflow: hidden; }
+      :global(.gb-site .main-container) {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 20px !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        box-sizing: border-box;
+      }
+      @media (max-width: 768px) {
+        :global(.gb-site .main-container) { padding: 12px !important; }
+        .nav-site-title { margin-right: 12px; font-size: 9px; }
+      }
+      @media (max-width: 480px) {
+        :global(.gb-site .main-container) { padding: 8px !important; }
+        .nav-site-title { display: none; }
+        #page-nav { padding: 0 8px; }
       }
     </style>
 
