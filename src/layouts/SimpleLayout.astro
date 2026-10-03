@@ -461,10 +461,13 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       }
       .display-mode-toggle:focus-visible { outline: 2px solid var(--col-primary); outline-offset: -2px; }
       :global(html[data-display-mode="gba"] .main-container *) { min-width: 0; overflow-wrap: anywhere; }
+      :global(html[data-display-mode="gba"] .charts-grid),
       :global(html[data-display-mode="gba"] .profile-info-grid),
       :global(html[data-display-mode="gba"] .device-settings-grid),
       :global(html[data-display-mode="gba"] .clips-grid:not(.short-mode)),
       :global(html[data-display-mode="gba"] .main-container [style*="grid-template-columns: 1fr 1fr"]) { grid-template-columns: 1fr !important; }
+      :global(html[data-display-mode="gba"] .title-second-line) { display: block !important; margin-top: 10px; }
+      :global(html[data-display-mode="gba"] .main-container h1) { font-size: 18px !important; line-height: 1.6; }
       :global(html[data-display-mode="gba"]) .nav-site-title { display: none; }
       :global(html[data-display-mode="gba"]) .nav-links { gap: 10px; }
       :global(html[data-display-mode="gba"]) .nav-link { font-size: 8px; }
