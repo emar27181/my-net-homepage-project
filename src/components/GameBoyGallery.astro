@@ -46,7 +46,7 @@ const { siteMode = false, frameless = false } = Astro.props;
         {siteMode ? <span class="gb-power-txt gb-work-counter">nodoame27181</span> : <span class="gb-power-txt gb-work-counter" id="viewer-hud-counter">01 / 10</span>}
       </div>
       <div class="gb-screen-frame">
-        {siteMode ? <div class="gb-site-screen" id="gb-site-screen" tabindex="0" aria-label="ポートフォリオの画面"><slot /></div> : <div class="viewer-frame" id="viewer-frame">
+        {siteMode ? <div class="gb-site-screen" id="gb-site-screen" tabindex="-1" aria-label="ポートフォリオの画面"><slot /></div> : <div class="viewer-frame" id="viewer-frame">
           <!-- HUD 上部 -->
           <div class="viewer-hud-top">
             <span class="hud-left">▶ GALLERY</span>
@@ -184,7 +184,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     box-sizing: border-box;
   }
   .gb-site > .gb-body {
-    max-width: 1440px;
+    max-width: 520px;
     height: 100%;
     min-height: 0;
     box-sizing: border-box;
@@ -219,7 +219,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-site > .gb-body > .gb-controls { padding: 0 6px; margin: 0; }
   .gb-site > .gb-body > .gb-speaker-row { height: 8px; }
   .gb-site .gb-power-txt { font-size: 9px; }
-  .gb-frameless > .gb-body {
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body {
     max-width: 100%;
     box-sizing: border-box;
     padding: 0;
@@ -228,13 +228,13 @@ const { siteMode = false, frameless = false } = Astro.props;
     border-radius: 0;
     box-shadow: none;
   }
-  .gb-frameless > .gb-body > .gb-brand-row,
-  .gb-frameless > .gb-body > .gb-title-strip,
-  .gb-frameless > .gb-body > .gb-speaker-row { display: none; }
-  .gb-frameless > .gb-body > .gb-screen-shell { padding: 0; border: 0; box-shadow: none; }
-  .gb-frameless > .gb-body > .gb-controls { justify-content: center; }
-  .gb-frameless > .gb-body > .gb-controls > .gb-mid-area,
-  .gb-frameless > .gb-body > .gb-controls > .gb-ab-area { display: none; }
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-brand-row,
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-title-strip,
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-speaker-row { display: none; }
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-screen-shell { padding: 0; border: 0; box-shadow: none; }
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-controls { justify-content: center; }
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-controls > .gb-mid-area,
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-controls > .gb-ab-area { display: none; }
   @media (max-width: 768px) {
     .gb-site { padding: 8px 8px 12px; }
     .gb-site > .gb-body { padding: 10px 8px 12px; gap: 6px; }
@@ -252,6 +252,16 @@ const { siteMode = false, frameless = false } = Astro.props;
     .gb-site .gb-ab-grid { flex-direction: row; }
     .gb-site .gbdpad-v { height: 14px; }
   }
+  :global(html[data-display-mode="normal"]) .gb-site,
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body,
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body > .gb-screen-shell,
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body > .gb-screen-shell > .gb-screen-frame,
+  :global(html[data-display-mode="normal"]) .gb-site-screen { display: contents; }
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body > .gb-brand-row,
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body > .gb-title-strip,
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body > .gb-controls,
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body > .gb-speaker-row,
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body > .gb-screen-shell > .gb-indicator-row { display: none; }
   /* ===== アニメーション ===== */
   @keyframes gb-img-fadein {
     from { opacity: 0; transform: scaleX(0.93); }

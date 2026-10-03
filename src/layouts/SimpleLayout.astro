@@ -13,7 +13,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
 ---
 
 <!doctype html>
-<html lang="ja" style={`--theme-hue: ${DEFAULT_HUE}`}>
+<html data-display-mode="normal" lang="ja" style={`--theme-hue: ${DEFAULT_HUE}`}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -54,6 +54,10 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
           <a href={link.href} class="nav-link">{link.label}</a>
         ))}
       </div>
+      <button id="display-mode-toggle" class="display-mode-toggle" type="button" aria-label="GBA表示に切り替える" aria-pressed="false" title="GBA表示に切り替える">
+        <!-- Lucide Gamepad2: https://lucide.dev/icons/gamepad-2 (ISC) -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+      </button>
       <button id="settings-toggle" class="settings-toggle-btn nav-link" aria-label="設定" data-default-hue={DEFAULT_HUE}>{NAV_CONFIG.settingsLabel}</button>
     <!-- 設定パネル -->
     <div id="settings-panel" class="settings-panel" aria-hidden="true">
@@ -408,7 +412,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       }
 
       /* ナビと設定も本体のスクリーン内に配置する */
-      #page-nav {
+      :global(html[data-display-mode="gba"]) #page-nav {
         position: sticky;
         top: 0;
         height: 44px;
@@ -416,7 +420,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         z-index: 50;
         box-sizing: border-box;
       }
-      .settings-panel {
+      :global(html[data-display-mode="gba"]) .settings-panel {
         position: absolute;
         top: calc(100% + 4px);
         right: 8px;
@@ -424,13 +428,13 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         width: min(280px, calc(100% - 16px));
         box-sizing: border-box;
       }
-      body { height: 100dvh; overflow: hidden; }
-      :global(.gb-site .main-container) {
+      :global(html[data-display-mode="gba"]) body { height: 100dvh; overflow: hidden; }
+      :global(html[data-display-mode="gba"] .gb-site .main-container) {
         width: 100% !important;
         max-width: 100% !important;
         min-height: 0 !important;
         margin: 0 !important;
-        padding: 20px !important;
+        padding: 12px !important;
         border: 0 !important;
         border-radius: 0 !important;
         box-shadow: none !important;
@@ -438,14 +442,32 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         box-sizing: border-box;
       }
       @media (max-width: 768px) {
-        :global(.gb-site .main-container) { padding: 12px !important; }
+        :global(html[data-display-mode="gba"] .gb-site .main-container) { padding: 12px !important; }
         .nav-site-title { margin-right: 12px; font-size: 9px; }
       }
       @media (max-width: 480px) {
-        :global(.gb-site .main-container) { padding: 8px !important; }
+        :global(html[data-display-mode="gba"] .gb-site .main-container) { padding: 8px !important; }
         .nav-site-title { display: none; }
-        #page-nav { padding: 0 8px; }
+        :global(html[data-display-mode="gba"]) #page-nav { padding: 0 8px; }
       }
+      .display-mode-toggle {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 44px; height: 40px; padding: 0; margin: 0 4px;
+        flex-shrink: 0; color: var(--col-primary); background: transparent;
+        border: 1px solid transparent; border-radius: 6px; cursor: pointer;
+      }
+      .display-mode-toggle:hover, .display-mode-toggle[aria-pressed="true"] {
+        background: var(--col-primary-a12); border-color: var(--col-primary-a50);
+      }
+      .display-mode-toggle:focus-visible { outline: 2px solid var(--col-primary); outline-offset: -2px; }
+      :global(html[data-display-mode="gba"] .main-container *) { min-width: 0; overflow-wrap: anywhere; }
+      :global(html[data-display-mode="gba"] .profile-info-grid),
+      :global(html[data-display-mode="gba"] .device-settings-grid),
+      :global(html[data-display-mode="gba"] .clips-grid:not(.short-mode)),
+      :global(html[data-display-mode="gba"] .main-container [style*="grid-template-columns: 1fr 1fr"]) { grid-template-columns: 1fr !important; }
+      :global(html[data-display-mode="gba"]) .nav-site-title { display: none; }
+      :global(html[data-display-mode="gba"]) .nav-links { gap: 10px; }
+      :global(html[data-display-mode="gba"]) .nav-link { font-size: 8px; }
     </style>
 
     <script>
@@ -453,6 +475,28 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         const HUE_KEY         = 'theme-hue';
         const HUE_DEFAULT_KEY = 'theme-hue-config-default';
         const root            = document.documentElement;
+
+        const modeToggle = document.getElementById('display-mode-toggle');
+        const screen = document.getElementById('gb-site-screen');
+        let normalScroll = 0;
+        let gbaScroll = 0;
+        modeToggle?.addEventListener('click', () => {
+          const enable = root.dataset.displayMode !== 'gba';
+          if (enable) normalScroll = window.scrollY;
+          else gbaScroll = screen?.scrollTop ?? 0;
+          root.dataset.displayMode = enable ? 'gba' : 'normal';
+          modeToggle.setAttribute('aria-pressed', String(enable));
+          const label = enable ? '通常表示に切り替える' : 'GBA表示に切り替える';
+          modeToggle.setAttribute('aria-label', label);
+          modeToggle.setAttribute('title', label);
+          screen?.setAttribute('tabindex', enable ? '0' : '-1');
+          requestAnimationFrame(() => {
+            if (enable) screen?.scrollTo({ top: gbaScroll, behavior: 'instant' });
+            else window.scrollTo({ top: normalScroll, behavior: 'instant' });
+            window.dispatchEvent(new Event('resize'));
+            modeToggle.focus({ preventScroll: true });
+          });
+        });
 
         // <html style="--theme-hue: N"> から config デフォルト値を取得
         const configDefault = parseInt(root.style.getPropertyValue('--theme-hue')) || 225;
