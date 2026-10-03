@@ -490,6 +490,25 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       :global(html[data-display-mode="gba"]) .nav-site-title { display: none; }
       :global(html[data-display-mode="gba"]) .nav-links { gap: 10px; }
       :global(html[data-display-mode="gba"]) .nav-link { font-size: 8px; }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) #page-nav) {
+        height: clamp(24px, 7cqw, 32px);
+        padding: 0 1.5cqw;
+        gap: 0.6cqw;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .nav-links) { gap: 1.5cqw; }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .nav-link) {
+        font-size: clamp(5px, 1.3cqw, 7px);
+        text-shadow: none;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .display-mode-toggle) {
+        width: clamp(24px, 6cqw, 30px);
+        height: clamp(22px, 6cqw, 30px);
+        margin: 0;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .display-mode-toggle svg) {
+        width: clamp(14px, 4cqw, 18px);
+        height: clamp(14px, 4cqw, 18px);
+      }
     </style>
 
     <script>

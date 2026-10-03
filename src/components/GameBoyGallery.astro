@@ -180,16 +180,16 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-site {
     height: 100dvh;
     width: 100%;
-    padding: 12px 18px 18px;
+    padding: clamp(12px, 4dvh, 36px) 18px 18px;
     box-sizing: border-box;
-    justify-content: center;
+    justify-content: flex-start;
   }
   .gb-site > .gb-body {
-    /* 初代Game Boy: 本体90×148mm。縦長画面に合わせて縮小する。 */
+    /* 下部の余白を詰め、画面側の領域を大きく見せる。 */
     width: min(520px, 60dvh, 100%);
     max-width: none;
     height: auto;
-    aspect-ratio: 90 / 148;
+    aspect-ratio: 90 / 112;
     container-type: inline-size;
     position: relative;
     min-height: 0;
@@ -233,7 +233,8 @@ const { siteMode = false, frameless = false } = Astro.props;
     background: var(--col-bg-deeper);
   }
   .gb-site-screen:focus-visible { outline: 2px solid var(--col-primary); outline-offset: -2px; }
-  .gb-site > .gb-body > .gb-title-strip { margin: 0; }
+  .gb-site > .gb-body > .gb-title-strip { width: 42%; align-self: center; justify-content: center; margin: 0; }
+  .gb-site .gb-control-hint { display: none; }
   .gb-site .gb-indicator-row { gap: 1.2cqw; margin-bottom: 1.7cqw; }
   .gb-site .gb-power-led { width: 1.6cqw; height: 1.6cqw; }
   .gb-site .gb-screen-shell { padding: 2cqw; }
@@ -257,9 +258,9 @@ const { siteMode = false, frameless = false } = Astro.props;
     pointer-events: none;
   }
   .gb-site > .gb-body > .gb-controls > * { position: absolute; pointer-events: auto; }
-  .gb-site > .gb-body > .gb-controls > .gb-dpad-area { left: 7%; top: 66%; }
-  .gb-site > .gb-body > .gb-controls > .gb-ab-area { right: 6%; top: 68%; }
-  .gb-site > .gb-body > .gb-controls > .gb-mid-area { left: 50%; top: 81%; transform: translateX(-50%); }
+  .gb-site > .gb-body > .gb-controls > .gb-dpad-area { left: 7%; top: 79%; }
+  .gb-site > .gb-body > .gb-controls > .gb-ab-area { right: 6%; top: 84%; }
+  .gb-site > .gb-body > .gb-controls > .gb-mid-area { left: 50%; top: 93%; transform: translateX(-50%); }
   .gb-site .gbdpad-btn { font-size: clamp(6px, 1.8cqw, 9px); }
   .gb-site .gbdpad-col:first-child .gbdpad-btn { border-radius: 0.8cqw 0.8cqw 0 0; }
   .gb-site .gbdpad-col:last-child .gbdpad-btn { border-radius: 0 0 0.8cqw 0.8cqw; }
@@ -275,7 +276,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-site .gb-a-wrap { margin-left: 0; }
   .gb-site .gb-btn { width: 9cqw; height: 9cqw; }
   .gb-site .gb-ab-label { font-size: clamp(5px, 1.5cqw, 8px); }
-  .gb-site > .gb-body > .gb-speaker-row { height: 2.9cqw; padding-right: 1.6cqw; }
+  .gb-site > .gb-body > .gb-speaker-row { display: none; }
   .gb-site .gb-speaker { gap: 0.6cqw; }
   .gb-site .gb-speaker i { width: 0.6cqw; height: 2.9cqw; }
   .gb-site .gb-power-txt { font-size: clamp(5px, 1.8cqw, 9px); }
@@ -320,7 +321,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-controls > .gb-mid-area,
   :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-controls > .gb-ab-area { display: none; }
   @media (max-width: 768px) {
-    .gb-site { padding: 8px 8px 12px; }
+    .gb-site { padding-left: 8px; padding-right: 8px; padding-bottom: 12px; }
   }
   @media (max-height: 500px) {
     .gb-site { padding: 4px 8px 8px; }
