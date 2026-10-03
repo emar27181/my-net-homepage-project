@@ -80,7 +80,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     <!-- タイトルストリップ -->
     <div class="gb-title-strip">
       <span class="gb-label-tag">TITLE</span>
-      {siteMode ? <span class="gb-title-text">PORTFOLIO</span> : <>
+      {siteMode ? <><span class="gb-title-text">PORTFOLIO</span><span class="gb-control-hint">←→ PAGE · ↑↓ SCROLL · A FULL · B EXIT</span></> : <>
         <span class="gb-title-text" id="viewer-title">Cat Sketch #1</span>
         <span class="gb-label-tag">NO.</span>
         <span class="gb-counter-text" id="viewer-counter">01/10</span>
@@ -107,7 +107,7 @@ const { siteMode = false, frameless = false } = Astro.props;
         </div>
       </div>
 
-      <!-- 中央: SEL / STA ボタン（装飾のみ） -->
+      <!-- 中央: SELECT / START -->
       <div class="gb-mid-area">
         <div class="gb-ss-row">
           <div class="gb-ss-slot">
@@ -121,15 +121,15 @@ const { siteMode = false, frameless = false } = Astro.props;
         </div>
       </div>
 
-      <!-- 右: A / B ボタン（装飾のみ） -->
+      <!-- 右: A / B -->
       <div class="gb-ab-area">
         <div class="gb-ab-grid">
           <div class="gb-b-wrap">
-            <button class="gb-btn gb-b-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "前のセクション" : undefined} data-site-scroll={siteMode ? "prev" : undefined}></button>
+            <button class="gb-btn gb-b-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "通常表示に戻る" : undefined} data-site-action={siteMode ? "normal" : undefined}></button>
             <span class="gb-ab-label">B</span>
           </div>
           <div class="gb-a-wrap">
-            <button class="gb-btn gb-a-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "次のセクション" : undefined} data-site-scroll={siteMode ? "next" : undefined}></button>
+            <button class="gb-btn gb-a-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "全画面表示を切り替える" : undefined} data-site-action={siteMode ? "fullscreen" : undefined}></button>
             <span class="gb-ab-label">A</span>
           </div>
         </div>
@@ -228,6 +228,12 @@ const { siteMode = false, frameless = false } = Astro.props;
   }
   .gb-site-screen:focus-visible { outline: 2px solid var(--col-primary); outline-offset: -2px; }
   .gb-site > .gb-body > .gb-title-strip { margin: 0; }
+  .gb-control-hint {
+    color: var(--gb-text-mid);
+    font: 5px var(--font-pixel);
+    line-height: 1.8;
+    white-space: normal;
+  }
   .gb-site > .gb-body > .gb-controls { padding: 0 6px; margin: auto 0 0; }
   .gb-site > .gb-body > .gb-speaker-row { height: 8px; }
   .gb-site .gb-power-txt { font-size: 9px; }
@@ -1274,17 +1280,28 @@ const { siteMode = false, frameless = false } = Astro.props;
         siteScreen.scrollBy({ top: (action === 'up' ? -1 : 1) * siteScreen.clientHeight * 0.65, behavior: scrollBehavior() });
         return;
       }
-      const sections = Array.from(siteScreen.querySelectorAll<HTMLElement>('.main-container > div'));
-      const screenTop = siteScreen.getBoundingClientRect().top + 56;
+      // 横方向は主要セクションの先頭へ移動する。空のアンカーは除く。
+      const navHeight = document.getElementById('page-nav')?.clientHeight ?? 44;
+      const screenTop = siteScreen.getBoundingClientRect().top;
+      const sectionTops = Array.from(siteScreen.querySelectorAll<HTMLElement>('.main-container > div'))
+        .filter(section => section.clientHeight > 20)
+        .map(section => Math.max(0, siteScreen.scrollTop + section.getBoundingClientRect().top - screenTop - navHeight - 8));
       const target = action === 'next'
-        ? sections.find(section => section.getBoundingClientRect().top > screenTop + 10)
-        : sections.reverse().find(section => section.getBoundingClientRect().top < screenTop - 10);
-      if (target) siteScreen.scrollTo({ top: siteScreen.scrollTop + target.getBoundingClientRect().top - screenTop, behavior: scrollBehavior() });
+        ? sectionTops.find(top => top > siteScreen.scrollTop + 12)
+        : sectionTops.reverse().find(top => top < siteScreen.scrollTop - 12);
+      if (target !== undefined) siteScreen.scrollTo({ top: target, behavior: scrollBehavior() });
+      else if (action === 'prev') siteScreen.scrollTo({ top: 0, behavior: scrollBehavior() });
     });
   });
   document.querySelector('[data-site-action="settings"]')?.addEventListener('click', () => {
     siteScreen?.scrollTo({ top: 0, behavior: 'auto' });
     document.getElementById('settings-toggle')?.click();
+  });
+  document.querySelector('[data-site-action="fullscreen"]')?.addEventListener('click', () => {
+    document.getElementById('fullscreen-toggle')?.click();
+  });
+  document.querySelector('[data-site-action="normal"]')?.addEventListener('click', () => {
+    document.getElementById('display-mode-toggle')?.click();
   });
   const IMAGES = [
     { src: "https://picsum.photos/seed/10/800/520",  title: "Cat Sketch #1" },
