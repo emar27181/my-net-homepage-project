@@ -190,15 +190,19 @@ const { siteMode = false, frameless = false } = Astro.props;
     max-width: none;
     height: auto;
     aspect-ratio: 90 / 148;
+    container-type: inline-size;
     min-height: 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 12px 18px 16px;
+    gap: clamp(5px, 1vw, 8px);
+    padding: clamp(8px, 2vw, 12px) clamp(10px, 3vw, 18px) clamp(10px, 2.5vw, 16px);
+    border-radius: 2% 2% 7% 7% / 1% 1% 5% 5%;
   }
   .gb-site > .gb-body > * { min-width: 0; box-sizing: border-box; }
   .gb-site > .gb-body > .gb-brand-row { margin-bottom: 0; }
+  .gb-site .gb-vents { gap: 0.6cqw; }
+  .gb-site .gb-vents i { width: 0.6cqw; height: 2.9cqw; }
   .gb-site > .gb-body > .gb-screen-shell {
     min-height: 0;
     display: flex;
@@ -228,15 +232,39 @@ const { siteMode = false, frameless = false } = Astro.props;
   }
   .gb-site-screen:focus-visible { outline: 2px solid var(--col-primary); outline-offset: -2px; }
   .gb-site > .gb-body > .gb-title-strip { margin: 0; }
+  .gb-site .gb-indicator-row { gap: 1.2cqw; margin-bottom: 1.7cqw; }
+  .gb-site .gb-power-led { width: 1.6cqw; height: 1.6cqw; }
+  .gb-site .gb-screen-shell { padding: 2cqw; }
+  .gb-site .gb-screen-shell { border-radius: 1.6cqw; border-width: max(1px, 0.4cqw); }
+  .gb-site .gb-title-strip { padding: 1cqw 1.6cqw; gap: 1.2cqw; }
+  .gb-site .gb-title-text { font-size: clamp(6px, 1.6cqw, 8px); }
+  .gb-site .gb-label-tag { font-size: clamp(4px, 1cqw, 6px); }
   .gb-control-hint {
     color: var(--gb-text-mid);
-    font: 5px var(--font-pixel);
+    font: clamp(4px, 1cqw, 5px) var(--font-pixel);
     line-height: 1.8;
     white-space: normal;
   }
-  .gb-site > .gb-body > .gb-controls { padding: 0 6px; margin: auto 0 0; }
-  .gb-site > .gb-body > .gb-speaker-row { height: 8px; }
-  .gb-site .gb-power-txt { font-size: 9px; }
+  .gb-site > .gb-body > .gb-controls { padding: 0 1.2cqw; margin: auto 0 0; gap: 1.5cqw; }
+  .gb-site .gbdpad-btn { font-size: clamp(6px, 1.8cqw, 9px); }
+  .gb-site .gbdpad-col:first-child .gbdpad-btn { border-radius: 0.8cqw 0.8cqw 0 0; }
+  .gb-site .gbdpad-col:last-child .gbdpad-btn { border-radius: 0 0 0.8cqw 0.8cqw; }
+  .gb-site .gbdpad-center { width: 5.8cqw; height: 5.8cqw; }
+  .gb-site .gbdpad-v { width: 5.8cqw; height: 5cqw; }
+  .gb-site .gbdpad-h { width: 5cqw; height: 5.8cqw; }
+  .gb-site .gb-ss-row { gap: 1.8cqw; }
+  .gb-site .gb-ss-slot { gap: 0.6cqw; }
+  .gb-site .gb-ss-btn { width: 6cqw; height: 1.8cqw; border-radius: 1cqw; }
+  .gb-site .gb-ss-label { font-size: clamp(4px, 1cqw, 5px); }
+  .gb-site .gb-ab-grid { gap: 0.8cqw; }
+  .gb-site .gb-b-wrap, .gb-site .gb-a-wrap { gap: 1cqw; }
+  .gb-site .gb-a-wrap { margin-left: 3.7cqw; }
+  .gb-site .gb-btn { width: 6.6cqw; height: 6.6cqw; }
+  .gb-site .gb-ab-label { font-size: clamp(5px, 1.5cqw, 8px); }
+  .gb-site > .gb-body > .gb-speaker-row { height: 2.9cqw; padding-right: 1.6cqw; }
+  .gb-site .gb-speaker { gap: 0.6cqw; }
+  .gb-site .gb-speaker i { width: 0.6cqw; height: 2.9cqw; }
+  .gb-site .gb-power-txt { font-size: clamp(5px, 1.8cqw, 9px); }
   .gb-controls, .gb-controls *, .gb-controls button {
     -webkit-user-select: none;
     user-select: none;
@@ -261,19 +289,14 @@ const { siteMode = false, frameless = false } = Astro.props;
   :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-controls > .gb-ab-area { display: none; }
   @media (max-width: 768px) {
     .gb-site { padding: 8px 8px 12px; }
-    .gb-site > .gb-body { padding: 10px 8px 12px; gap: 6px; }
-    .gb-site > .gb-body > .gb-screen-shell { padding: 6px; }
   }
   @media (max-height: 500px) {
     .gb-site { padding: 4px 8px 8px; }
-    .gb-site > .gb-body { padding: 6px 10px 8px; gap: 4px; }
     .gb-site > .gb-body > .gb-brand-row,
     .gb-site > .gb-body > .gb-title-strip,
     .gb-site > .gb-body > .gb-speaker-row { display: none; }
     .gb-site > .gb-body > .gb-controls { max-height: 50px; }
-    .gb-site .gb-btn { width: 24px; height: 24px; }
     .gb-site .gb-ab-grid { flex-direction: row; }
-    .gb-site .gbdpad-v { height: 14px; }
   }
   :global(html[data-display-mode="normal"]) .gb-site,
   :global(html[data-display-mode="normal"]) .gb-site > .gb-body,
