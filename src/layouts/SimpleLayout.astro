@@ -533,8 +533,8 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       }
       /* フィルター名・選択肢・動画タグは本文より小さい共通サイズ。
          汎用の本文サイズ上書きより優先し、全画面時も同じ階層を使う。 */
-      :global(html[data-display-mode="gba"] .gb-site .main-container .clips-filters :is(.filter-label, .clips-filter-btn, .clips-sort-btn, .clips-col-btn, .clips-view-btn, .clips-result-info, .clips-yt-link)),
-      :global(html[data-display-mode="gba"] .gb-site .main-container .clip-card :is(.clip-map-badge, .clip-agent-badge, .clip-kw-badge, .clip-video-title)) {
+      :global(html[data-display-mode="gba"] .gb-site .main-container #clips-gallery-section .clips-filters :is(.filter-label, .clips-filter-btn, .clips-sort-btn, .clips-col-btn, .clips-view-btn, .clips-result-info, .clips-yt-link)),
+      :global(html[data-display-mode="gba"] .gb-site .main-container #clips-gallery-section .clip-card :is(.clip-map-badge, .clip-agent-badge, .clip-kw-badge, .clip-video-title)) {
         font-size: var(--fs-small) !important;
       }
       :global(html[data-display-mode="gba"] .gb-site .main-container .filter-label) { min-width: 44px; }
