@@ -336,14 +336,78 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-site .gbdpad-center { width: 8cqw; height: 8cqw; }
   .gb-site .gbdpad-v { width: 8cqw; height: 6cqw; }
   .gb-site .gbdpad-h { width: 7cqw; height: 8cqw; }
+  /* 初代Game Boy風の受け皿と一体の十字。外側の影は付けない。 */
+  .gb-site .gb-dpad-area::before {
+    content: '';
+    position: absolute;
+    width: 24cqw;
+    height: 24cqw;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 48% 45%, var(--gb-panel-bg) 0 60%, var(--gb-ctrl-bdr) 85%, var(--gb-body-grad1) 100%);
+    border: max(1px, 0.3cqw) solid var(--gb-ctrl-bdr);
+    pointer-events: none;
+  }
+  .gb-site .gb-dpad { position: relative; }
+  .gb-site .gbdpad-btn, .gb-site .gbdpad-center {
+    background: linear-gradient(145deg, var(--gb-ctrl-bdr), var(--gb-ctrl-bg) 38% 75%, var(--col-bg-deeper));
+  }
+  .gb-site .gbdpad-btn { box-shadow: inset 0 1px 0 rgba(255,255,255,0.09); }
+  .gb-site .gbdpad-center { position: relative; }
+  .gb-site .gbdpad-center::after {
+    content: '';
+    position: absolute;
+    inset: 27%;
+    border-radius: 50%;
+    background: var(--gb-ctrl-bg);
+    border: 1px solid var(--gb-ctrl-bdr);
+  }
   .gb-site .gb-ss-row { gap: 1.8cqw; }
   .gb-site .gb-ss-slot { gap: 0.6cqw; }
-  .gb-site .gb-ss-btn { width: 8cqw; height: 2.2cqw; border-radius: 1.1cqw; }
+  .gb-site .gb-ss-btn {
+    width: 8cqw;
+    height: 2.2cqw;
+    border-radius: 999px;
+    border: max(1px, 0.2cqw) solid var(--gb-ctrl-bdr);
+    background: linear-gradient(180deg, var(--gb-ctrl-bdr), var(--gb-item-sel) 55%, var(--gb-panel-bg));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 0 0 0.5cqw var(--gb-panel-bg);
+  }
   .gb-site .gb-ss-label { font-size: clamp(4px, 1cqw, 5px); }
   .gb-site .gb-ab-grid { flex-direction: row; align-items: center; gap: 1.2cqw; }
-  .gb-site .gb-b-wrap, .gb-site .gb-a-wrap { gap: 1cqw; }
+  .gb-site .gb-b-wrap, .gb-site .gb-a-wrap { gap: 1cqw; position: relative; }
   .gb-site .gb-a-wrap { margin-left: 0; }
-  .gb-site .gb-btn { width: 9cqw; height: 9cqw; }
+  .gb-site .gb-b-wrap::before, .gb-site .gb-a-wrap::before {
+    content: '';
+    position: absolute;
+    left: -1cqw;
+    top: 50%;
+    width: 11cqw;
+    height: 11cqw;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: var(--gb-panel-bg);
+    border: max(1px, 0.2cqw) solid var(--gb-ctrl-bdr);
+    pointer-events: none;
+  }
+  .gb-site .gb-btn {
+    position: relative;
+    width: 9cqw;
+    height: 9cqw;
+    border-width: max(1px, 0.3cqw);
+    border-color: #651335;
+    background: radial-gradient(circle at 36% 27%, #b75079, #84234d 55%, #5b1538 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.21), inset 0 -1px 0 rgba(0,0,0,0.33);
+  }
+  .gb-site .gb-btn:hover {
+    background: radial-gradient(circle at 36% 27%, #c85f86, #933059 55%, #641a3d 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.23), inset 0 -1px 0 rgba(0,0,0,0.33);
+  }
+  .gb-site .gb-btn:active {
+    transform: translateY(1px);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+  }
   .gb-site .gb-ab-label { font-size: clamp(5px, 1.5cqw, 8px); }
   .gb-site > .gb-body > .gb-speaker-row {
     position: absolute;
