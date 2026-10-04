@@ -454,11 +454,11 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       }
       /* 本体画面の幅に応じてページ全体の表示倍率を下げる。 */
       :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container) {
-        zoom: 0.8;
+        zoom: 1;
       }
       @container (max-width: 380px) {
         :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container) {
-          zoom: 0.68;
+          zoom: 1;
         }
       }
       .display-mode-toggle {
@@ -511,24 +511,24 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       }
       /* 画面内の固定値やインライン指定もゲーム機用の文字階層に揃える。 */
       :global(html[data-display-mode="gba"] .gb-site .main-container) {
-        --fs-title: 16px;
-        --fs-section: 14px;
-        --fs-subtitle: 13px;
-        --fs-body: 13px;
+        --fs-title: 14px;
+        --fs-section: 12px;
+        --fs-subtitle: 10px;
+        --fs-body: 11px;
         --fs-small: 9px;
         --fs-footer: 9px;
         font-size: var(--fs-body) !important;
       }
-      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container :is(div, p, li, a, button, label, input, select, textarea, span, small, td, th)) {
+      :global(html[data-display-mode="gba"] .gb-site .main-container :is(div, p, li, a, button, label, input, select, textarea, span, small, td, th)) {
         font-size: min(1em, var(--fs-body)) !important;
       }
-      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container :is(h1, h1 *)) {
+      :global(html[data-display-mode="gba"] .gb-site .main-container :is(h1, h1 *)) {
         font-size: var(--fs-title) !important;
       }
-      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container :is(h2, h2 *)) {
+      :global(html[data-display-mode="gba"] .gb-site .main-container :is(h2, h2 *)) {
         font-size: var(--fs-section) !important;
       }
-      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container :is(h3, h3 *, h4, h4 *, h5, h5 *, h6, h6 *)) {
+      :global(html[data-display-mode="gba"] .gb-site .main-container :is(h3, h3 *, h4, h4 *, h5, h5 *, h6, h6 *)) {
         font-size: var(--fs-subtitle) !important;
       }
       /* フィルター名・選択肢・動画タグは本文より小さい共通サイズ。

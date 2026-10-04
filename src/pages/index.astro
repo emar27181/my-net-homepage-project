@@ -11,7 +11,6 @@ import deathmatchPerformanceData from '../data/deathmatch_performance.json';
 import SimpleLayout from "../layouts/SimpleLayout.astro";
 import ValorantStats from "../components/charts/ValorantStats.astro";
 import YouTubeClipViewer from "../components/YouTubeClipViewer.astro";
-import GameBoyGallery from "../components/GameBoyGallery.astro";
 import WiiUGamepad from "../components/WiiUGamepad.astro";
 import DSLite from "../components/DSLite.astro";
 import { applyTypographyPreset } from "../utils/typography";
@@ -766,24 +765,6 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
         </div>
       </div>
     </div>
-    <!-- イラストギャラリー -->
-    <div
-      style={`background: var(--col-primary-a10); border: 4px solid var(--col-primary); padding: 20px; margin-bottom: 40px; box-shadow: inset 2px 2px 0px rgba(255,255,255,0.15), inset -2px -2px 0px rgba(0,0,0,0.5), 0 0 20px var(--col-primary-a25);`}
-      class="illust-gallery-section"
-    >
-      <!-- レトロゲーム風ヘッダー -->
-      <div class="illust-header-row">
-        <h2 style={`${S.sectionTitle} margin-bottom: 0;`}>▶▶ GALLERY MODE ◀◀</h2>
-        <span class="illust-status-bar">WORKS: 10 / 10 LOADED</span>
-      </div>
-      <hr style={`${S.divider} margin: 10px auto 18px auto; width: 100%;`} />
-
-      <GameBoyGallery frameless />
-
-      <!-- フッターステータス -->
-      <p class="illust-footer-bar">★ &nbsp; ILLUSTRATION GALLERY &nbsp; ★ &nbsp; TOTAL 10 WORKS &nbsp; ★</p>
-    </div>
-
     <!-- フッター -->
     <div
       style="text-align: center; padding: 20px 0; border-top: 1px solid var(--col-border-mid);"

@@ -182,7 +182,8 @@ const { siteMode = false, frameless = false } = Astro.props;
     /* 本体の比率を保ち、全体が画面内に収まる幅にする。 */
     height: 100dvh;
     width: 100%;
-    padding: 0 8px;
+    padding: 0;
+    background: var(--gb-body-grad1);
     box-sizing: border-box;
     justify-content: flex-start;
   }
@@ -202,6 +203,8 @@ const { siteMode = false, frameless = false } = Astro.props;
     gap: clamp(5px, 1vw, 8px);
     padding: clamp(8px, 2vw, 12px) clamp(10px, 3vw, 18px) clamp(10px, 2.5vw, 16px);
     border-radius: 2% 2% 7% 7% / 1% 1% 5% 5%;
+    border: 0;
+    box-shadow: none;
   }
   .gb-site > .gb-body > * { min-width: 0; box-sizing: border-box; }
   .gb-site > .gb-body > .gb-brand-row { margin-bottom: 0; }
@@ -329,10 +332,23 @@ const { siteMode = false, frameless = false } = Astro.props;
   :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-controls > .gb-mid-area,
   :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-controls > .gb-ab-area { display: none; }
   @media (max-width: 768px) {
-    .gb-site { padding-left: 8px; padding-right: 8px; }
+    :global(html[data-display-mode="gba"]) .gb-site {
+      width: 100vw;
+      padding: 0;
+    }
+    :global(html[data-display-mode="gba"]) .gb-site > .gb-body {
+      width: 100%;
+      height: 100dvh;
+      aspect-ratio: auto;
+      margin: 0;
+      padding: max(8px, env(safe-area-inset-top)) 10px max(12px, env(safe-area-inset-bottom));
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
   }
   @media (max-height: 500px) {
-    .gb-site { padding: 0 8px; }
+    .gb-site { padding: 0; }
     .gb-site > .gb-body > .gb-brand-row,
     .gb-site > .gb-body > .gb-title-strip,
     .gb-site > .gb-body > .gb-speaker-row { display: none; }
