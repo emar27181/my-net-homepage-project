@@ -1,5 +1,6 @@
 ---
 import { NAV_CONFIG, THEME_CONFIG } from '../config/themeConfig';
+import GameBoyGallery from '../components/GameBoyGallery.astro';
 const DEFAULT_HUE = THEME_CONFIG.HUE;
 
 export interface Props {
@@ -7,12 +8,12 @@ export interface Props {
   description?: string;
 }
 
-const { title, description = "nodoamen のポートフォリオサイト。VALORANT(ヴァロラント)の統計データ、ゲームプレイ動画、デバイス情報などを公開しています。" } = Astro.props;
-const pageTitle = `${title} | nodoamen | Valorant Stats`;
+const { title, description = "nodoame27181（のどあめ／nodoamen）のポートフォリオ。VALORANT（ヴァロラント）のプレイ動画・戦績や統計、使用デバイス・感度設定、Web制作の活動を紹介しています。" } = Astro.props;
+const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
 ---
 
 <!doctype html>
-<html lang="ja" style={`--theme-hue: ${DEFAULT_HUE}`}>
+<html data-display-mode="normal" lang="ja" style={`--theme-hue: ${DEFAULT_HUE}`}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -25,11 +26,16 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
     <meta name="apple-mobile-web-app-title" content="nodoamen" />
     <meta name="theme-color" content="#0d1028" />
     <title>{pageTitle}</title>
-    <meta
-      name="keywords"
-      content="nodoamen, valorant, ヴァロラント, portfolio, stats, portfolio, valorant stats, valorant tracker, valorant profile"
-    />
-    <meta name="author" content="nodoamen" />
+    <meta name="author" content="nodoame27181（nodoamen）" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="nodoame27181 Portfolio" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@nodoame27181" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
     <meta
       name="google-site-verification"
       content="uyjBT9z6vOnpxn6lM6YnxbI6R4jLSDIAboC8zo1slhM"
@@ -39,6 +45,7 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
     style="margin: 0; padding: 0; color: white; font-family: 'Press Start 2P', monospace; image-rendering: pixelated;"
     class="mobile-body"
   >
+    <GameBoyGallery siteMode>
     <!-- ナビゲーションバー -->
     <nav id="page-nav">
       <a href="#" class="nav-site-title">nodoamen</a>
@@ -47,9 +54,13 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
           <a href={link.href} class="nav-link">{link.label}</a>
         ))}
       </div>
+      <button id="display-mode-toggle" class="display-mode-toggle" type="button" aria-label="GBA表示に切り替える" aria-pressed="false" title="GBA表示に切り替える">
+        <svg class="pixel-console" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M3 1h10v1H3zM2 2h1v12H2zm11 0h1v12h-1zM3 14h10v1H3zM4 4h8v1H4zm0 1h1v4H4zm7 0h1v4h-1zM5 8h6v1H5zM5 11h3v1H5zm2-1h1v3H7zm3 1h1v1h-1zm2 1h1v1h-1z"/></svg>
+      </button>
+      <button id="fullscreen-toggle" class="display-mode-toggle fullscreen-toggle" type="button" aria-label="全画面表示にする" aria-pressed="false" title="全画面表示にする" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M1 1h5v2H3v3H1zm9 0h5v5h-2V3h-3zM1 10h2v3h3v2H1zm12 0h2v5h-5v-2h3z"/></svg>
+      </button>
       <button id="settings-toggle" class="settings-toggle-btn nav-link" aria-label="設定" data-default-hue={DEFAULT_HUE}>{NAV_CONFIG.settingsLabel}</button>
-    </nav>
-
     <!-- 設定パネル -->
     <div id="settings-panel" class="settings-panel" aria-hidden="true">
       <div class="settings-row">
@@ -66,8 +77,10 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
         <button class="hue-preset-btn" data-hue="30"  style="--pc: hsl(30,100%,65%)">Orange</button>
       </div>
     </div>
+    </nav>
 
     <slot />
+    </GameBoyGallery>
 
     <!-- ドットフォントのGoogle Fonts読み込み -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -399,6 +412,136 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
         .nav-link { font-size: 8px; }
         .settings-panel { right: 4px; min-width: 200px; }
       }
+
+      /* ナビと設定も本体のスクリーン内に配置する */
+      :global(html[data-display-mode="gba"]) #page-nav {
+        position: sticky;
+        top: 0;
+        height: 44px;
+        padding: 0 12px;
+        z-index: 50;
+        box-sizing: border-box;
+      }
+      :global(html[data-display-mode="gba"]) .settings-panel {
+        position: absolute;
+        top: calc(100% + 4px);
+        right: 8px;
+        min-width: 0;
+        width: min(280px, calc(100% - 16px));
+        box-sizing: border-box;
+      }
+      :global(html[data-display-mode="gba"]) body { height: 100dvh; overflow: hidden; }
+      :global(html[data-display-mode="gba"] .gb-site .main-container) {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 12px !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        box-sizing: border-box;
+      }
+      @media (max-width: 768px) {
+        :global(html[data-display-mode="gba"] .gb-site .main-container) { padding: 12px !important; }
+        .nav-site-title { margin-right: 12px; font-size: 9px; }
+      }
+      @media (max-width: 480px) {
+        :global(html[data-display-mode="gba"] .gb-site .main-container) { padding: 8px !important; }
+        .nav-site-title { display: none; }
+        :global(html[data-display-mode="gba"]) #page-nav { padding: 0 8px; }
+      }
+      /* 本体画面の幅に応じてページ全体の表示倍率を下げる。 */
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container) {
+        zoom: 0.8;
+      }
+      @container (max-width: 380px) {
+        :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container) {
+          zoom: 0.68;
+        }
+      }
+      .display-mode-toggle {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 44px; height: 40px; padding: 0; margin: 0 4px;
+        flex-shrink: 0; color: var(--col-primary); background: transparent;
+        border: 1px solid transparent; border-radius: 6px; cursor: pointer;
+      }
+      .display-mode-toggle:hover, .display-mode-toggle[aria-pressed="true"] {
+        background: var(--col-primary-a12);
+      }
+      .display-mode-toggle:focus-visible { outline: 2px solid var(--col-primary); outline-offset: -2px; }
+      .display-mode-toggle[hidden] { display: none !important; }
+      .pixel-console { image-rendering: pixelated; }
+      :global(html[data-display-mode="gba"]) .fullscreen-toggle { display: inline-flex; }
+      :global(html[data-display-mode="gba"] .gb-site:fullscreen),
+      :global(html[data-display-mode="gba"] .gb-site.fullscreen-fallback) { background: var(--col-bg-deeper); }
+      :global(html[data-display-mode="gba"] .gb-site.fullscreen-fallback) {
+        position: fixed; inset: 0; z-index: 9999;
+      }
+      :global(html[data-display-mode="gba"] .main-container *) { min-width: 0; overflow-wrap: anywhere; }
+      :global(html[data-display-mode="gba"] .charts-grid),
+      :global(html[data-display-mode="gba"] .profile-info-grid),
+      :global(html[data-display-mode="gba"] .device-settings-grid),
+      :global(html[data-display-mode="gba"] .clips-grid:not(.short-mode)),
+      :global(html[data-display-mode="gba"] .main-container [style*="grid-template-columns: 1fr 1fr"]) { grid-template-columns: 1fr !important; }
+      :global(html[data-display-mode="gba"] .title-second-line) { display: block !important; margin-top: 10px; }
+      :global(html[data-display-mode="gba"] .main-container h1) { font-size: 18px !important; line-height: 1.6; }
+      :global(html[data-display-mode="gba"]) .nav-site-title { display: none; }
+      :global(html[data-display-mode="gba"]) .nav-links { gap: 10px; }
+      :global(html[data-display-mode="gba"]) .nav-link { font-size: 8px; }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) #page-nav) {
+        height: clamp(24px, 7cqw, 32px);
+        padding: 0 1.5cqw;
+        gap: 0.6cqw;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .nav-links) { gap: 1.5cqw; }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .nav-link) {
+        font-size: clamp(5px, 1.3cqw, 7px);
+        text-shadow: none;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .display-mode-toggle) {
+        width: clamp(24px, 6cqw, 30px);
+        height: clamp(22px, 6cqw, 30px);
+        margin: 0;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .display-mode-toggle svg) {
+        width: clamp(14px, 4cqw, 18px);
+        height: clamp(14px, 4cqw, 18px);
+      }
+      /* 画面内の固定値やインライン指定もゲーム機用の文字階層に揃える。 */
+      :global(html[data-display-mode="gba"] .gb-site .main-container) {
+        --fs-title: 16px;
+        --fs-section: 14px;
+        --fs-subtitle: 13px;
+        --fs-body: 13px;
+        --fs-small: 9px;
+        --fs-footer: 9px;
+        font-size: var(--fs-body) !important;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container :is(div, p, li, a, button, label, input, select, textarea, span, small, td, th)) {
+        font-size: min(1em, var(--fs-body)) !important;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container :is(h1, h1 *)) {
+        font-size: var(--fs-title) !important;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container :is(h2, h2 *)) {
+        font-size: var(--fs-section) !important;
+      }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .main-container :is(h3, h3 *, h4, h4 *, h5, h5 *, h6, h6 *)) {
+        font-size: var(--fs-subtitle) !important;
+      }
+      /* フィルター名・選択肢・動画タグは本文より小さい共通サイズ。
+         汎用の本文サイズ上書きより優先し、全画面時も同じ階層を使う。 */
+      :global(html[data-display-mode="gba"] .gb-site .main-container #clips-gallery-section .clips-filters :is(.filter-label, .clips-filter-btn, .clips-sort-btn, .clips-col-btn, .clips-view-btn, .clips-result-info, .clips-yt-link)),
+      :global(html[data-display-mode="gba"] .gb-site .main-container #clips-gallery-section .clip-card :is(.clip-map-badge, .clip-agent-badge, .clip-kw-badge, .clip-video-title)) {
+        font-size: var(--fs-small) !important;
+      }
+      :global(html[data-display-mode="gba"] .gb-site .main-container .filter-label) { min-width: 44px; }
+      :global(html[data-display-mode="gba"] .gb-site .main-container .clips-filter-btn) { padding: 3px 6px; }
+      :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .settings-panel :is(div, span, button, label)) {
+        font-size: clamp(7px, 1.8cqw, 9px) !important;
+      }
     </style>
 
     <script>
@@ -406,6 +549,54 @@ const pageTitle = `${title} | nodoamen | Valorant Stats`;
         const HUE_KEY         = 'theme-hue';
         const HUE_DEFAULT_KEY = 'theme-hue-config-default';
         const root            = document.documentElement;
+
+        const modeToggle = document.getElementById('display-mode-toggle');
+        const fullscreenToggle = document.getElementById('fullscreen-toggle') as HTMLButtonElement | null;
+        const consoleFrame = document.querySelector('.gb-site') as HTMLElement | null;
+        const screen = document.getElementById('gb-site-screen');
+        const syncFullscreen = () => {
+          const active = document.fullscreenElement === consoleFrame || !!consoleFrame?.classList.contains('fullscreen-fallback');
+          fullscreenToggle?.setAttribute('aria-pressed', String(active));
+          const label = active ? '全画面表示を終了' : '全画面表示にする';
+          fullscreenToggle?.setAttribute('aria-label', label);
+          fullscreenToggle?.setAttribute('title', label);
+        };
+        fullscreenToggle?.addEventListener('click', async () => {
+          if (!consoleFrame) return;
+          if (document.fullscreenElement === consoleFrame) await document.exitFullscreen();
+          else if (consoleFrame.classList.contains('fullscreen-fallback')) consoleFrame.classList.remove('fullscreen-fallback');
+          else if (consoleFrame.requestFullscreen) {
+            try { await consoleFrame.requestFullscreen(); }
+            catch { consoleFrame.classList.add('fullscreen-fallback'); }
+          } else consoleFrame.classList.add('fullscreen-fallback');
+          syncFullscreen();
+        });
+        document.addEventListener('fullscreenchange', syncFullscreen);
+        let normalScroll = 0;
+        let gbaScroll = 0;
+        modeToggle?.addEventListener('click', () => {
+          const enable = root.dataset.displayMode !== 'gba';
+          if (enable) normalScroll = window.scrollY;
+          else {
+            gbaScroll = screen?.scrollTop ?? 0;
+            consoleFrame?.classList.remove('fullscreen-fallback');
+            if (document.fullscreenElement === consoleFrame) void document.exitFullscreen();
+          }
+          root.dataset.displayMode = enable ? 'gba' : 'normal';
+          if (fullscreenToggle) fullscreenToggle.hidden = !enable;
+          syncFullscreen();
+          modeToggle.setAttribute('aria-pressed', String(enable));
+          const label = enable ? '通常表示に切り替える' : 'GBA表示に切り替える';
+          modeToggle.setAttribute('aria-label', label);
+          modeToggle.setAttribute('title', label);
+          screen?.setAttribute('tabindex', enable ? '0' : '-1');
+          requestAnimationFrame(() => {
+            if (enable) screen?.scrollTo({ top: gbaScroll, behavior: 'instant' });
+            else window.scrollTo({ top: normalScroll, behavior: 'instant' });
+            window.dispatchEvent(new Event('resize'));
+            modeToggle.focus({ preventScroll: true });
+          });
+        });
 
         // <html style="--theme-hue: N"> から config デフォルト値を取得
         const configDefault = parseInt(root.style.getPropertyValue('--theme-hue')) || 225;

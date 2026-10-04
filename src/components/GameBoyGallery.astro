@@ -1,10 +1,12 @@
 ---
 // GameBoyGallery.astro - ゲームボーイ風ギャラリービューワー
 // 画像ナビゲーション + CRT/GB/VHS フィルター切り替え機能付き
+interface Props { siteMode?: boolean; frameless?: boolean; }
+const { siteMode = false, frameless = false } = Astro.props;
 ---
 
 <!-- SVGフィルター定義 -->
-<svg style="display:none" width="0" height="0" aria-hidden="true">
+{!siteMode && <svg style="display:none" width="0" height="0" aria-hidden="true">
   <defs>
     <!-- VHS: RGBチャンネルずれ -->
     <filter id="svg-vhs-filter" color-interpolation-filters="sRGB" x="-5%" y="-5%" width="110%" height="110%">
@@ -26,9 +28,9 @@
       </feComponentTransfer>
     </filter>
   </defs>
-</svg>
+</svg>}
 
-<div class="gb-outer">
+<div class:list={["gb-outer", { "gb-site": siteMode, "gb-frameless": frameless }]}>
   <div class="gb-body">
 
     <!-- ブランド行 -->
@@ -41,10 +43,10 @@
       <div class="gb-indicator-row">
         <span class="gb-power-led"></span>
         <span class="gb-power-txt">BATTERY</span>
-        <span class="gb-power-txt gb-work-counter" id="viewer-hud-counter">01 / 10</span>
+        {siteMode ? <span class="gb-power-txt gb-work-counter">nodoame27181</span> : <span class="gb-power-txt gb-work-counter" id="viewer-hud-counter">01 / 10</span>}
       </div>
       <div class="gb-screen-frame">
-        <div class="viewer-frame" id="viewer-frame">
+        {siteMode ? <div class="gb-site-screen" id="gb-site-screen" tabindex="-1" aria-label="ポートフォリオの画面"><slot /></div> : <div class="viewer-frame" id="viewer-frame">
           <!-- HUD 上部 -->
           <div class="viewer-hud-top">
             <span class="hud-left">▶ GALLERY</span>
@@ -71,16 +73,18 @@
           <div class="viewer-hud-bottom">
             <span class="hud-hint">D-PAD: BROWSE &nbsp;|&nbsp; A/B: FILTER</span>
           </div>
-        </div>
+        </div>}
       </div>
     </div>
 
     <!-- タイトルストリップ -->
     <div class="gb-title-strip">
       <span class="gb-label-tag">TITLE</span>
-      <span class="gb-title-text" id="viewer-title">Cat Sketch #1</span>
-      <span class="gb-label-tag">NO.</span>
-      <span class="gb-counter-text" id="viewer-counter">01/10</span>
+      {siteMode ? <><span class="gb-title-text">PORTFOLIO</span><span class="gb-control-hint">←→ PAGE · ↑↓ SCROLL · A FULL · B EXIT</span></> : <>
+        <span class="gb-title-text" id="viewer-title">Cat Sketch #1</span>
+        <span class="gb-label-tag">NO.</span>
+        <span class="gb-counter-text" id="viewer-counter">01/10</span>
+      </>}
     </div>
 
     <!-- コントロール -->
@@ -90,42 +94,42 @@
       <div class="gb-dpad-area">
         <div class="gb-dpad">
           <div class="gbdpad-col">
-            <button class="gbdpad-btn gbdpad-v" tabindex="-1" aria-label="上" disabled>▲</button>
+            <button class="gbdpad-btn gbdpad-v" tabindex={siteMode ? 0 : -1} aria-label={siteMode ? "画面を上にスクロール" : "上"} disabled={!siteMode} data-site-scroll={siteMode ? "up" : undefined}>▲</button>
           </div>
           <div class="gbdpad-col gbdpad-mid">
-            <button class="gbdpad-btn gbdpad-h" id="illust-prev" aria-label="前の画像">◀</button>
+            <button class="gbdpad-btn gbdpad-h" id={siteMode ? undefined : "illust-prev"} aria-label={siteMode ? "前のセクション" : "前の画像"} data-site-scroll={siteMode ? "prev" : undefined}>◀</button>
             <div class="gbdpad-center"></div>
-            <button class="gbdpad-btn gbdpad-h" id="illust-next" aria-label="次の画像">▶</button>
+            <button class="gbdpad-btn gbdpad-h" id={siteMode ? undefined : "illust-next"} aria-label={siteMode ? "次のセクション" : "次の画像"} data-site-scroll={siteMode ? "next" : undefined}>▶</button>
           </div>
           <div class="gbdpad-col">
-            <button class="gbdpad-btn gbdpad-v" tabindex="-1" aria-label="下" disabled>▼</button>
+            <button class="gbdpad-btn gbdpad-v" tabindex={siteMode ? 0 : -1} aria-label={siteMode ? "画面を下にスクロール" : "下"} disabled={!siteMode} data-site-scroll={siteMode ? "down" : undefined}>▼</button>
           </div>
         </div>
       </div>
 
-      <!-- 中央: SEL / STA ボタン（装飾のみ） -->
+      <!-- 中央: SELECT / START -->
       <div class="gb-mid-area">
         <div class="gb-ss-row">
           <div class="gb-ss-slot">
-            <button class="gb-ss-btn" tabindex="-1" aria-hidden="true"></button>
+            <button class="gb-ss-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "表示設定を開く" : undefined} data-site-action={siteMode ? "settings" : undefined}></button>
             <span class="gb-ss-label">SEL</span>
           </div>
           <div class="gb-ss-slot">
-            <button class="gb-ss-btn" tabindex="-1" aria-hidden="true"></button>
+            <button class="gb-ss-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "画面の先頭に戻る" : undefined} data-site-scroll={siteMode ? "home" : undefined}></button>
             <span class="gb-ss-label">STA</span>
           </div>
         </div>
       </div>
 
-      <!-- 右: A / B ボタン（装飾のみ） -->
+      <!-- 右: A / B -->
       <div class="gb-ab-area">
         <div class="gb-ab-grid">
           <div class="gb-b-wrap">
-            <button class="gb-btn gb-b-btn" tabindex="-1" aria-hidden="true"></button>
+            <button class="gb-btn gb-b-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "通常表示に戻る" : undefined} data-site-action={siteMode ? "normal" : undefined}></button>
             <span class="gb-ab-label">B</span>
           </div>
           <div class="gb-a-wrap">
-            <button class="gb-btn gb-a-btn" tabindex="-1" aria-hidden="true"></button>
+            <button class="gb-btn gb-a-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "全画面表示を切り替える" : undefined} data-site-action={siteMode ? "fullscreen" : undefined}></button>
             <span class="gb-ab-label">A</span>
           </div>
         </div>
@@ -141,7 +145,7 @@
   </div><!-- /gb-body -->
 
   <!-- ドットナビ -->
-  <div class="viewer-dots" id="viewer-dots">
+  {!siteMode && <div class="viewer-dots" id="viewer-dots">
     <button class="viewer-dot active" data-index="0" aria-label="画像1"></button>
     <button class="viewer-dot" data-index="1" aria-label="画像2"></button>
     <button class="viewer-dot" data-index="2" aria-label="画像3"></button>
@@ -152,12 +156,12 @@
     <button class="viewer-dot" data-index="7" aria-label="画像8"></button>
     <button class="viewer-dot" data-index="8" aria-label="画像9"></button>
     <button class="viewer-dot" data-index="9" aria-label="画像10"></button>
-  </div>
+  </div>}
 
 </div><!-- /gb-outer -->
 
 <!-- ライトボックスモーダル -->
-<div class="gb-modal" id="gb-modal" aria-hidden="true" role="dialog" aria-modal="true">
+{!siteMode && <div class="gb-modal" id="gb-modal" aria-hidden="true" role="dialog" aria-modal="true">
   <div class="gb-modal-backdrop" id="gb-modal-backdrop"></div>
   <button class="gb-modal-arrow gb-modal-prev" id="modal-prev" aria-label="前の画像">&#9664;</button>
   <div class="gb-modal-content">
@@ -169,9 +173,181 @@
     </div>
   </div>
   <button class="gb-modal-arrow gb-modal-next" id="modal-next" aria-label="次の画像">&#9654;</button>
-</div>
+</div>}
 
 <style>
+  /* 既存の本体・ボタン・ベゼルをサイト全体の枠として再利用する */
+  .gb-site {
+    --console-width: min(560px, 60dvh, calc(100vw - 16px));
+    /* 本体の比率を保ち、全体が画面内に収まる幅にする。 */
+    height: 100dvh;
+    width: 100%;
+    padding: 0 8px;
+    box-sizing: border-box;
+    justify-content: flex-start;
+  }
+  .gb-site > .gb-body {
+    /* 本体の90:148を維持して全体を表示する。 */
+    width: min(var(--console-width), 100%);
+    max-width: none;
+    height: auto;
+    aspect-ratio: 90 / 148;
+    flex: 0 0 auto;
+    container-type: inline-size;
+    position: relative;
+    min-height: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(5px, 1vw, 8px);
+    padding: clamp(8px, 2vw, 12px) clamp(10px, 3vw, 18px) clamp(10px, 2.5vw, 16px);
+    border-radius: 2% 2% 7% 7% / 1% 1% 5% 5%;
+  }
+  .gb-site > .gb-body > * { min-width: 0; box-sizing: border-box; }
+  .gb-site > .gb-body > .gb-brand-row { margin-bottom: 0; }
+  .gb-site .gb-vents { gap: 0.6cqw; }
+  .gb-site .gb-vents i { width: 0.6cqw; height: 2.9cqw; }
+  .gb-site > .gb-body > .gb-screen-shell {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+    flex: none;
+  }
+  .gb-site > .gb-body > .gb-screen-shell > .gb-screen-frame {
+    /* 初代Game Boy: 160×144ドット（10:9）。 */
+    width: 100%;
+    aspect-ratio: 10 / 9;
+    box-sizing: border-box;
+    flex: none;
+    min-height: 0;
+  }
+  .gb-site-screen {
+    height: 100%;
+    width: 100%;
+    container-type: inline-size;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gb-border) var(--col-bg-deeper);
+    overscroll-behavior: contain;
+    scroll-padding-top: 56px;
+    background: var(--col-bg-deeper);
+  }
+  .gb-site-screen:focus-visible { outline: 2px solid var(--col-primary); outline-offset: -2px; }
+  .gb-site > .gb-body > .gb-title-strip { width: 42%; align-self: center; justify-content: center; margin: 0; }
+  .gb-site .gb-control-hint { display: none; }
+  .gb-site .gb-indicator-row { gap: 1.2cqw; margin-bottom: 1.7cqw; }
+  .gb-site .gb-power-led { width: 1.6cqw; height: 1.6cqw; }
+  .gb-site .gb-screen-shell { padding: 2cqw; }
+  .gb-site .gb-screen-shell { border-radius: 1.6cqw; border-width: max(1px, 0.4cqw); }
+  .gb-site .gb-title-strip { padding: 1cqw 1.6cqw; gap: 1.2cqw; }
+  .gb-site .gb-title-text { font-size: clamp(6px, 1.6cqw, 8px); }
+  .gb-site .gb-label-tag { font-size: clamp(4px, 1cqw, 6px); }
+  .gb-control-hint {
+    color: var(--gb-text-mid);
+    font: clamp(4px, 1cqw, 5px) var(--font-pixel);
+    line-height: 1.8;
+    white-space: normal;
+  }
+  /* 十字キーとA/Bを画面直下、SELECT/STARTをその下へ。 */
+  .gb-site > .gb-body > .gb-controls {
+    position: absolute;
+    inset: 0;
+    display: block;
+    padding: 0;
+    margin: 0;
+    pointer-events: none;
+  }
+  .gb-site > .gb-body > .gb-controls > * { position: absolute; pointer-events: auto; }
+  .gb-site > .gb-body > .gb-controls > .gb-dpad-area { left: 7%; top: 60%; }
+  .gb-site > .gb-body > .gb-controls > .gb-ab-area { right: 6%; top: 64%; }
+  .gb-site > .gb-body > .gb-controls > .gb-mid-area { left: 50%; top: 70.5%; transform: translateX(-50%); }
+  .gb-site .gbdpad-btn { font-size: clamp(6px, 1.8cqw, 9px); }
+  .gb-site .gbdpad-col:first-child .gbdpad-btn { border-radius: 0.8cqw 0.8cqw 0 0; }
+  .gb-site .gbdpad-col:last-child .gbdpad-btn { border-radius: 0 0 0.8cqw 0.8cqw; }
+  .gb-site .gbdpad-center { width: 8cqw; height: 8cqw; }
+  .gb-site .gbdpad-v { width: 8cqw; height: 6cqw; }
+  .gb-site .gbdpad-h { width: 7cqw; height: 8cqw; }
+  .gb-site .gb-ss-row { gap: 1.8cqw; }
+  .gb-site .gb-ss-slot { gap: 0.6cqw; }
+  .gb-site .gb-ss-btn { width: 8cqw; height: 2.2cqw; border-radius: 1.1cqw; }
+  .gb-site .gb-ss-label { font-size: clamp(4px, 1cqw, 5px); }
+  .gb-site .gb-ab-grid { flex-direction: row; align-items: center; gap: 1.2cqw; }
+  .gb-site .gb-b-wrap, .gb-site .gb-a-wrap { gap: 1cqw; }
+  .gb-site .gb-a-wrap { margin-left: 0; }
+  .gb-site .gb-btn { width: 9cqw; height: 9cqw; }
+  .gb-site .gb-ab-label { font-size: clamp(5px, 1.5cqw, 8px); }
+  .gb-site > .gb-body > .gb-speaker-row {
+    position: absolute;
+    right: 8%;
+    bottom: 7%;
+    padding: 0;
+  }
+  .gb-site .gb-speaker { gap: 0.6cqw; }
+  .gb-site .gb-speaker i { width: 0.6cqw; height: 2.9cqw; }
+  .gb-site .gb-power-txt { font-size: clamp(5px, 1.8cqw, 9px); }
+  /* 全画面時は画面だけを広げ、画面内コンテンツを端まで使う。 */
+  :global(html[data-display-mode="gba"]) .gb-site:is(:fullscreen, .fullscreen-fallback) {
+    width: 100%; height: 100dvh; padding: 0;
+  }
+  :global(html[data-display-mode="gba"]) .gb-site:is(:fullscreen, .fullscreen-fallback) > .gb-body {
+    width: 100%; height: 100%; max-width: none; aspect-ratio: auto;
+    padding: 0; gap: 0; border: 0; border-radius: 0; box-shadow: none;
+  }
+  :global(html[data-display-mode="gba"]) .gb-site:is(:fullscreen, .fullscreen-fallback) > .gb-body > .gb-screen-shell {
+    width: 100%; height: 100%; flex: 1; margin: 0;
+    padding: 0; border: 0; border-radius: 0; box-shadow: none;
+  }
+  :global(html[data-display-mode="gba"]) .gb-site:is(:fullscreen, .fullscreen-fallback) > .gb-body > .gb-screen-shell > .gb-screen-frame {
+    width: 100%; height: 100%; flex: 1; aspect-ratio: auto;
+    border: 0; border-radius: 0;
+  }
+  :global(html[data-display-mode="gba"]) .gb-site:is(:fullscreen, .fullscreen-fallback) > .gb-body > :is(.gb-brand-row, .gb-title-strip, .gb-controls, .gb-speaker-row),
+  :global(html[data-display-mode="gba"]) .gb-site:is(:fullscreen, .fullscreen-fallback) .gb-indicator-row { display: none; }
+  .gb-controls, .gb-controls *, .gb-controls button {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    touch-action: manipulation;
+  }
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body {
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-brand-row,
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-title-strip,
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-speaker-row { display: none; }
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-screen-shell { padding: 0; border: 0; box-shadow: none; }
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-controls { justify-content: center; }
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-controls > .gb-mid-area,
+  :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body > .gb-controls > .gb-ab-area { display: none; }
+  @media (max-width: 768px) {
+    .gb-site { padding-left: 8px; padding-right: 8px; }
+  }
+  @media (max-height: 500px) {
+    .gb-site { padding: 0 8px; }
+    .gb-site > .gb-body > .gb-brand-row,
+    .gb-site > .gb-body > .gb-title-strip,
+    .gb-site > .gb-body > .gb-speaker-row { display: none; }
+    .gb-site > .gb-body > .gb-controls { max-height: none; }
+  }
+  :global(html[data-display-mode="normal"]) .gb-site,
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body,
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body > .gb-screen-shell,
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body > .gb-screen-shell > .gb-screen-frame,
+  :global(html[data-display-mode="normal"]) .gb-site-screen { display: contents; }
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body > .gb-brand-row,
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body > .gb-title-strip,
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body > .gb-controls,
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body > .gb-speaker-row,
+  :global(html[data-display-mode="normal"]) .gb-site > .gb-body > .gb-screen-shell > .gb-indicator-row { display: none; }
   /* ===== アニメーション ===== */
   @keyframes gb-img-fadein {
     from { opacity: 0; transform: scaleX(0.93); }
@@ -1155,6 +1331,41 @@
 </style>
 
 <script>
+  const siteScreen = document.getElementById('gb-site-screen');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const scrollBehavior = () => reducedMotion.matches ? 'auto' as const : 'smooth' as const;
+  document.querySelectorAll<HTMLButtonElement>('[data-site-scroll]').forEach(button => {
+    button.addEventListener('click', () => {
+      if (!siteScreen) return;
+      const action = button.dataset.siteScroll;
+      if (action === 'home') { siteScreen.scrollTo({ top: 0, behavior: scrollBehavior() }); return; }
+      if (action === 'up' || action === 'down') {
+        siteScreen.scrollBy({ top: (action === 'up' ? -1 : 1) * siteScreen.clientHeight * 0.65, behavior: scrollBehavior() });
+        return;
+      }
+      // 横方向は主要セクションの先頭へ移動する。空のアンカーは除く。
+      const navHeight = document.getElementById('page-nav')?.clientHeight ?? 44;
+      const screenTop = siteScreen.getBoundingClientRect().top;
+      const sectionTops = Array.from(siteScreen.querySelectorAll<HTMLElement>('.main-container > div'))
+        .filter(section => section.clientHeight > 20)
+        .map(section => Math.max(0, siteScreen.scrollTop + section.getBoundingClientRect().top - screenTop - navHeight - 8));
+      const target = action === 'next'
+        ? sectionTops.find(top => top > siteScreen.scrollTop + 12)
+        : sectionTops.reverse().find(top => top < siteScreen.scrollTop - 12);
+      if (target !== undefined) siteScreen.scrollTo({ top: target, behavior: scrollBehavior() });
+      else if (action === 'prev') siteScreen.scrollTo({ top: 0, behavior: scrollBehavior() });
+    });
+  });
+  document.querySelector('[data-site-action="settings"]')?.addEventListener('click', () => {
+    siteScreen?.scrollTo({ top: 0, behavior: 'auto' });
+    document.getElementById('settings-toggle')?.click();
+  });
+  document.querySelector('[data-site-action="fullscreen"]')?.addEventListener('click', () => {
+    document.getElementById('fullscreen-toggle')?.click();
+  });
+  document.querySelector('[data-site-action="normal"]')?.addEventListener('click', () => {
+    document.getElementById('display-mode-toggle')?.click();
+  });
   const IMAGES = [
     { src: "https://picsum.photos/seed/10/800/520",  title: "Cat Sketch #1" },
     { src: "https://picsum.photos/seed/20/800/520",  title: "Fantasy Landscape" },
