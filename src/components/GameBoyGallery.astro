@@ -46,7 +46,25 @@ const { siteMode = false, frameless = false } = Astro.props;
         {siteMode ? <span class="gb-power-txt gb-work-counter">nodoame27181</span> : <span class="gb-power-txt gb-work-counter" id="viewer-hud-counter">01 / 10</span>}
       </div>
       <div class="gb-screen-frame">
-        {siteMode ? <div class="gb-site-screen" id="gb-site-screen" tabindex="-1" aria-label="ポートフォリオの画面"><slot /></div> : <div class="viewer-frame" id="viewer-frame">
+        {siteMode ? <><div class="gb-site-screen" id="gb-site-screen" tabindex="-1" aria-label="ポートフォリオの画面"><slot /></div>
+          <div class="gb-menu-overlay" id="gb-menu" role="dialog" aria-modal="true" aria-label="目次メニュー" hidden>
+            <div class="gb-menu-panel">
+              <div class="gb-menu-title">▶ MENU <span>SELECT / OPTION</span></div>
+              <div class="gb-menu-list">
+                <button data-menu-target="top">TOP</button>
+                <button data-menu-target="about-section">ABOUT ME</button>
+                <button data-menu-target="clips-gallery-section">CLIPS</button>
+                <button data-menu-target="valorant-stats">VALORANT</button>
+                <button data-menu-target="device-section">DEVICE</button>
+                <button data-menu-target="works-section">WORKS</button>
+                <button data-menu-target="bottom">BOTTOM</button>
+                <button data-menu-target="settings">SETTINGS</button>
+                <button data-menu-target="fullscreen">FULL SCREEN</button>
+                <button data-menu-target="normal">EXIT GAME</button>
+              </div>
+              <div class="gb-menu-help">↑↓ SELECT　 A OK　 B BACK</div>
+            </div>
+          </div></> : <div class="viewer-frame" id="viewer-frame">
           <!-- HUD 上部 -->
           <div class="viewer-hud-top">
             <span class="hud-left">▶ GALLERY</span>
@@ -80,7 +98,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     <!-- タイトルストリップ -->
     <div class="gb-title-strip">
       <span class="gb-label-tag">TITLE</span>
-      {siteMode ? <><span class="gb-title-text">PORTFOLIO</span><span class="gb-control-hint">←→ PAGE · ↑↓ SCROLL · A FULL · B EXIT</span></> : <>
+      {siteMode ? <><span class="gb-title-text">PORTFOLIO</span><span class="gb-control-hint">SEL MENU · A NEXT · B PREV · STA END</span></> : <>
         <span class="gb-title-text" id="viewer-title">Cat Sketch #1</span>
         <span class="gb-label-tag">NO.</span>
         <span class="gb-counter-text" id="viewer-counter">01/10</span>
@@ -111,11 +129,11 @@ const { siteMode = false, frameless = false } = Astro.props;
       <div class="gb-mid-area">
         <div class="gb-ss-row">
           <div class="gb-ss-slot">
-            <button class="gb-ss-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "表示設定を開く" : undefined} data-site-action={siteMode ? "settings" : undefined}></button>
+            <button class="gb-ss-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "目次メニューを開く" : undefined} data-site-action={siteMode ? "menu" : undefined}></button>
             <span class="gb-ss-label">SEL</span>
           </div>
           <div class="gb-ss-slot">
-            <button class="gb-ss-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "画面の先頭に戻る" : undefined} data-site-scroll={siteMode ? "home" : undefined}></button>
+            <button class="gb-ss-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "画面の一番下に移動" : undefined} data-site-scroll={siteMode ? "end" : undefined}></button>
             <span class="gb-ss-label">STA</span>
           </div>
         </div>
@@ -125,11 +143,11 @@ const { siteMode = false, frameless = false } = Astro.props;
       <div class="gb-ab-area">
         <div class="gb-ab-grid">
           <div class="gb-b-wrap">
-            <button class="gb-btn gb-b-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "通常表示に戻る" : undefined} data-site-action={siteMode ? "normal" : undefined}></button>
+            <button class="gb-btn gb-b-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "前のセクション" : undefined} data-site-scroll={siteMode ? "prev" : undefined}></button>
             <span class="gb-ab-label">B</span>
           </div>
           <div class="gb-a-wrap">
-            <button class="gb-btn gb-a-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "全画面表示を切り替える" : undefined} data-site-action={siteMode ? "fullscreen" : undefined}></button>
+            <button class="gb-btn gb-a-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "次のセクション" : undefined} data-site-scroll={siteMode ? "next" : undefined}></button>
             <span class="gb-ab-label">A</span>
           </div>
         </div>
@@ -224,7 +242,52 @@ const { siteMode = false, frameless = false } = Astro.props;
     box-sizing: border-box;
     flex: none;
     min-height: 0;
+    position: relative;
   }
+  .gb-menu-overlay[hidden] { display: none; }
+  .gb-menu-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    padding: 6%;
+    box-sizing: border-box;
+    background: rgba(4, 12, 18, 0.78);
+    font-family: var(--font-pixel);
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+  }
+  .gb-menu-panel {
+    width: min(100%, 300px);
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 3px double var(--col-primary);
+    background: var(--col-bg-deeper);
+    color: var(--col-heading);
+    box-shadow: 4px 4px 0 #000;
+  }
+  .gb-menu-title { display: flex; justify-content: space-between; gap: 4px; padding-bottom: 7px; border-bottom: 1px solid var(--col-primary); font-size: 10px; }
+  .gb-menu-title span { font-size: 7px; color: var(--gb-text-mid); }
+  .gb-menu-list { overflow-y: auto; min-height: 0; padding: 5px 0; }
+  .gb-menu-list button {
+    display: block;
+    width: 100%;
+    padding: 5px 7px 5px 21px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    font: 10px var(--font-pixel);
+    cursor: pointer;
+  }
+  .gb-menu-list button.selected, .gb-menu-list button:focus-visible { background: var(--col-primary-a30); outline: 1px solid var(--col-primary); }
+  .gb-menu-list button.selected::before { content: '▶'; margin-left: -15px; margin-right: 5px; }
+  .gb-menu-help { border-top: 1px solid var(--col-primary); padding-top: 7px; font-size: 7px; color: var(--gb-text-mid); }
   .gb-site-screen {
     height: 100%;
     width: 100%;
@@ -315,6 +378,16 @@ const { siteMode = false, frameless = false } = Astro.props;
     -webkit-touch-callout: none;
     touch-action: manipulation;
   }
+  .gb-site > .gb-body {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+  .gb-site-screen, .gb-site-screen * {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+  .gb-site .gb-dpad-area, .gb-site .gb-dpad-area * { touch-action: none; }
   :global(html[data-display-mode="gba"]) .gb-frameless > .gb-body {
     max-width: 100%;
     box-sizing: border-box;
@@ -723,10 +796,6 @@ const { siteMode = false, frameless = false } = Astro.props;
     flex-direction: column;
     align-items: center;
     gap: 0;
-    /* クロス全体に影をかけて実機GB風の浮き上がり感 */
-    filter:
-      drop-shadow(0 3px 5px rgba(0,0,0,0.85))
-      drop-shadow(0 1px 2px rgba(0,0,0,0.6));
   }
 
   .gbdpad-col {
@@ -1350,15 +1419,105 @@ const { siteMode = false, frameless = false } = Astro.props;
   const siteScreen = document.getElementById('gb-site-screen');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const scrollBehavior = () => reducedMotion.matches ? 'auto' as const : 'smooth' as const;
+  const controls = document.querySelector('.gb-site .gb-controls');
+  controls?.addEventListener('contextmenu', event => event.preventDefault());
+  controls?.addEventListener('selectstart', event => event.preventDefault());
+  const menu = document.getElementById('gb-menu');
+  const menuItems = Array.from(menu?.querySelectorAll<HTMLButtonElement>('[data-menu-target]') ?? []);
+  let menuOpen = false;
+  let menuIndex = 0;
+  const selectMenu = (index: number) => {
+    menuIndex = (index + menuItems.length) % menuItems.length;
+    menuItems.forEach((item, i) => item.classList.toggle('selected', i === menuIndex));
+    menuItems[menuIndex]?.focus({ preventScroll: true });
+    menuItems[menuIndex]?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+  };
+  const closeMenu = () => {
+    if (!menuOpen) return;
+    menuOpen = false;
+    if (menu) menu.hidden = true;
+    if (siteScreen) siteScreen.inert = false;
+    document.querySelector<HTMLButtonElement>('[data-site-action="menu"]')?.focus({ preventScroll: true });
+  };
+  const openMenu = () => {
+    if (!menu || !siteScreen || document.documentElement.dataset.displayMode !== 'gba') return;
+    menuOpen = true;
+    menu.hidden = false;
+    siteScreen.inert = true;
+    selectMenu(0);
+  };
+  const menuAction = (target: string) => {
+    closeMenu();
+    if (target === 'settings') { document.getElementById('settings-toggle')?.click(); return; }
+    if (target === 'fullscreen') { document.getElementById('fullscreen-toggle')?.click(); return; }
+    if (target === 'normal') { document.getElementById('display-mode-toggle')?.click(); return; }
+    if (!siteScreen) return;
+    if (target === 'top' || target === 'bottom') {
+      siteScreen.scrollTo({ top: target === 'top' ? 0 : siteScreen.scrollHeight, behavior: 'instant' });
+      return;
+    }
+    const section = siteScreen.querySelector<HTMLElement>(`#${target}`);
+    if (section) {
+      const navHeight = document.getElementById('page-nav')?.clientHeight ?? 44;
+      const top = siteScreen.scrollTop + section.getBoundingClientRect().top - siteScreen.getBoundingClientRect().top - navHeight - 8;
+      siteScreen.scrollTo({ top, behavior: 'instant' });
+    }
+  };
+  menuItems.forEach((item, index) => {
+    item.addEventListener('pointerenter', () => { if (menuOpen) selectMenu(index); });
+    item.addEventListener('click', () => menuAction(item.dataset.menuTarget ?? 'top'));
+  });
+  document.querySelector('[data-site-action="menu"]')?.addEventListener('click', () => menuOpen ? closeMenu() : openMenu());
+  document.addEventListener('keydown', event => {
+    if (!menuOpen) return;
+    if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') { event.preventDefault(); selectMenu(menuIndex - 1); }
+    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') { event.preventDefault(); selectMenu(menuIndex + 1); }
+    if (event.key === 'Escape' || event.key.toLowerCase() === 'b') { event.preventDefault(); closeMenu(); }
+    if (event.key.toLowerCase() === 'a') { event.preventDefault(); menuItems[menuIndex]?.click(); }
+  });
+  new MutationObserver(() => { if (document.documentElement.dataset.displayMode !== 'gba') closeMenu(); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-display-mode'] });
+  const scrollStep = (direction: number) => siteScreen?.scrollBy({ top: direction * 4, behavior: 'instant' });
   document.querySelectorAll<HTMLButtonElement>('[data-site-scroll]').forEach(button => {
+    const action = button.dataset.siteScroll;
+    if (action === 'up' || action === 'down') {
+      const direction = action === 'up' ? -1 : 1;
+      let repeat: number | undefined;
+      const stop = () => { window.clearInterval(repeat); repeat = undefined; };
+      button.addEventListener('pointerdown', event => {
+        if (!siteScreen || (event.pointerType === 'mouse' && event.button !== 0)) return;
+        event.preventDefault();
+        stop();
+        button.setPointerCapture(event.pointerId);
+        if (menuOpen) selectMenu(menuIndex + direction);
+        else scrollStep(direction);
+        repeat = window.setInterval(() => {
+          if (menuOpen) selectMenu(menuIndex + direction);
+          else scrollStep(direction);
+        }, menuOpen ? 160 : 35);
+      });
+      button.addEventListener('pointerup', stop);
+      button.addEventListener('pointercancel', stop);
+      button.addEventListener('lostpointercapture', stop);
+      button.addEventListener('click', event => {
+        if (event.detail === 0) {
+          if (menuOpen) selectMenu(menuIndex + direction);
+          else scrollStep(direction);
+        }
+      });
+      return;
+    }
     button.addEventListener('click', () => {
       if (!siteScreen) return;
-      const action = button.dataset.siteScroll;
-      if (action === 'home') { siteScreen.scrollTo({ top: 0, behavior: scrollBehavior() }); return; }
-      if (action === 'up' || action === 'down') {
-        siteScreen.scrollBy({ top: (action === 'up' ? -1 : 1) * siteScreen.clientHeight * 0.65, behavior: scrollBehavior() });
+      if (menuOpen) {
+        if (button.classList.contains('gbdpad-btn')) selectMenu(menuIndex + (action === 'next' ? 1 : -1));
+        else if (action === 'next') menuItems[menuIndex]?.click();
+        else if (action === 'prev') closeMenu();
         return;
       }
+      if (action === 'home') { siteScreen.scrollTo({ top: 0, behavior: scrollBehavior() }); return; }
+      if (action === 'end') { siteScreen.scrollTo({ top: siteScreen.scrollHeight, behavior: scrollBehavior() }); return; }
+      if (action !== 'next' && action !== 'prev') return;
       // 横方向は主要セクションの先頭へ移動する。空のアンカーは除く。
       const navHeight = document.getElementById('page-nav')?.clientHeight ?? 44;
       const screenTop = siteScreen.getBoundingClientRect().top;
@@ -1371,16 +1530,6 @@ const { siteMode = false, frameless = false } = Astro.props;
       if (target !== undefined) siteScreen.scrollTo({ top: target, behavior: scrollBehavior() });
       else if (action === 'prev') siteScreen.scrollTo({ top: 0, behavior: scrollBehavior() });
     });
-  });
-  document.querySelector('[data-site-action="settings"]')?.addEventListener('click', () => {
-    siteScreen?.scrollTo({ top: 0, behavior: 'auto' });
-    document.getElementById('settings-toggle')?.click();
-  });
-  document.querySelector('[data-site-action="fullscreen"]')?.addEventListener('click', () => {
-    document.getElementById('fullscreen-toggle')?.click();
-  });
-  document.querySelector('[data-site-action="normal"]')?.addEventListener('click', () => {
-    document.getElementById('display-mode-toggle')?.click();
   });
   const IMAGES = [
     { src: "https://picsum.photos/seed/10/800/520",  title: "Cat Sketch #1" },
