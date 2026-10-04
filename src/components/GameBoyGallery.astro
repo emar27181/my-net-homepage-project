@@ -1486,6 +1486,42 @@ const { siteMode = false, frameless = false } = Astro.props;
   const controls = document.querySelector('.gb-site .gb-controls');
   controls?.addEventListener('contextmenu', event => event.preventDefault());
   controls?.addEventListener('selectstart', event => event.preventDefault());
+  const consoleBody = document.querySelector('.gb-site > .gb-body');
+  const isScreenTouch = (event: Event) => (event.target as Element | null)?.closest('.gb-site-screen, .gb-menu-overlay');
+  // iOS Safariの筐体・ボタン長押しで選択メニューを出さない。画面内の通常スクロールは残す。
+  consoleBody?.addEventListener('touchstart', event => {
+    if (!isScreenTouch(event)) event.preventDefault();
+  }, { passive: false });
+  consoleBody?.addEventListener('contextmenu', event => {
+    if (!isScreenTouch(event)) event.preventDefault();
+  });
+  consoleBody?.addEventListener('selectstart', event => {
+    if (!isScreenTouch(event)) event.preventDefault();
+  });
+  controls?.querySelectorAll<HTMLButtonElement>('button').forEach(button => {
+    if (button.dataset.siteScroll === 'up' || button.dataset.siteScroll === 'down') return;
+    let touchActivation = -Infinity;
+    let touchStart: { x: number; y: number } | null = null;
+    button.addEventListener('pointerdown', event => {
+      if (event.pointerType === 'touch') touchStart = { x: event.clientX, y: event.clientY };
+    });
+    // touchstartを抑止するとSafariは通常のclickを送らないので、指を離した時に一度だけ発火させる。
+    button.addEventListener('pointerup', event => {
+      if (event.pointerType !== 'touch') return;
+      const started = touchStart;
+      touchStart = null;
+      if (!started || Math.hypot(event.clientX - started.x, event.clientY - started.y) > 12) return;
+      touchActivation = performance.now();
+      button.click();
+    });
+    button.addEventListener('pointercancel', () => { touchStart = null; });
+    button.addEventListener('click', event => {
+      if (event.isTrusted && performance.now() - touchActivation < 700) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    }, true);
+  });
   const menu = document.getElementById('gb-menu');
   const menuItems = Array.from(menu?.querySelectorAll<HTMLButtonElement>('[data-menu-target]') ?? []);
   let menuOpen = false;
