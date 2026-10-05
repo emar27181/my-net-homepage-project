@@ -123,19 +123,19 @@ const isMultiLine = content.includes('\n');
 
   /* サイズ設定 - ゲーム風サイズ体系 */
   .size-xs {
-    --ascii-size: 0.625rem; /* 10px - 8bit風小サイズ */
+    --ascii-size: var(--fs-small); /* 10px - 8bit風小サイズ */
   }
 
   .size-sm {
-    --ascii-size: 0.75rem; /* 12px - 8bit風標準サイズ */
+    --ascii-size: var(--fs-body); /* 12px - 8bit風標準サイズ */
   }
 
   .size-md {
-    --ascii-size: 1rem; /* 16px - 8bit風中サイズ */
+    --ascii-size: var(--fs-icon-sm); /* 16px - 8bit風中サイズ */
   }
 
   .size-lg {
-    --ascii-size: 1.25rem; /* 20px - 8bit風大サイズ */
+    --ascii-size: var(--fs-icon-md); /* 20px - 8bit風大サイズ */
   }
 
   /* ネオングロー効果 */

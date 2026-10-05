@@ -149,7 +149,7 @@
 
   .wiiu-top-logo {
     font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
+    font-size: var(--fs-console-8);
     color: #888;
     text-shadow: 0 1px 1px rgba(255,255,255,0.5);
     letter-spacing: 2px;
@@ -240,7 +240,7 @@
     border-radius: 50%;
     border: none;
     font-family: 'Press Start 2P', monospace;
-    font-size: 6px;
+    font-size: var(--fs-console-6);
     font-weight: bold;
     cursor: default;
     display: flex;
@@ -277,7 +277,7 @@
     border: 1px solid #222;
     color: #aaa;
     font-family: 'Press Start 2P', monospace;
-    font-size: 6px;
+    font-size: var(--fs-console-6);
     cursor: default;
     display: flex;
     align-items: center;
@@ -292,7 +292,7 @@
     border-radius: 50%;
     background: radial-gradient(circle, var(--col-primary), var(--col-retro-dark));
     color: #fff;
-    font-size: 8px;
+    font-size: var(--fs-console-8);
   }
 
   /* ===== スクリーン ===== */
@@ -457,9 +457,9 @@
     .wiiu-dpad-h { width: 28px; height: 9px; }
     .wiiu-dpad-center { width: 9px; height: 9px; }
     .wiiu-abxy { width: 34px; height: 34px; }
-    .wiiu-abxy-btn { width: 12px; height: 12px; font-size: 4px; }
-    .wiiu-small-btn { width: 14px; height: 8px; font-size: 4px; }
-    .wiiu-home-btn  { width: 13px; height: 13px; font-size: 6px; }
+    .wiiu-abxy-btn { width: 12px; height: 12px; font-size: var(--fs-console-4); }
+    .wiiu-small-btn { width: 14px; height: 8px; font-size: var(--fs-console-4); }
+    .wiiu-home-btn  { width: 13px; height: 13px; font-size: var(--fs-console-6); }
 
     .wiiu-screen-bezel { padding: 3px; }
 
@@ -495,12 +495,12 @@
 
     /* ABXY */
     .wiiu-abxy { width: 36px; height: 36px; }
-    .wiiu-abxy-btn { width: 13px; height: 13px; font-size: 5px; }
+    .wiiu-abxy-btn { width: 13px; height: 13px; font-size: var(--fs-console-5); }
 
     /* 小ボタン */
     .wiiu-btn-row { gap: 3px; }
-    .wiiu-small-btn { width: 16px; height: 9px; font-size: 4px; }
-    .wiiu-home-btn  { width: 14px; height: 14px; font-size: 7px; }
+    .wiiu-small-btn { width: 16px; height: 9px; font-size: var(--fs-console-4); }
+    .wiiu-home-btn  { width: 14px; height: 14px; font-size: var(--fs-console-7); }
 
     /* スクリーン */
     .wiiu-screen-bezel { padding: 4px; }

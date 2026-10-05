@@ -137,7 +137,7 @@ const embedUrl = getEmbedUrl(actualVideoId, startTime, autoplay);
 
   .video-title {
     font-family: var(--font-pixel-jp), 'Press Start 2P', monospace;
-    font-size: 14px;
+    font-size: var(--fs-body);
     color: var(--text-accessible-blue);
     text-align: center;
     margin-bottom: 1rem;
@@ -191,7 +191,7 @@ const embedUrl = getEmbedUrl(actualVideoId, startTime, autoplay);
   }
 
   .clip-icon {
-    font-size: 2rem;
+    font-size: var(--fs-icon-md);
     animation: pulse-icon 2s ease-in-out infinite;
   }
 
@@ -201,14 +201,14 @@ const embedUrl = getEmbedUrl(actualVideoId, startTime, autoplay);
 
   .clip-label {
     font-family: var(--font-pixel-jp);
-    font-size: 14px;
+    font-size: var(--fs-body);
     margin: 0 0 0.25rem 0;
     text-shadow: 1px 1px 0px #000000;
   }
 
   .clip-id-display {
     font-family: monospace;
-    font-size: 8px;
+    font-size: var(--fs-small);
     margin: 0;
     color: rgba(255, 255, 255, 0.7);
     text-shadow: 1px 1px 0px #000000;
@@ -234,14 +234,14 @@ const embedUrl = getEmbedUrl(actualVideoId, startTime, autoplay);
   }
 
   .play-button-large {
-    font-size: 3rem;
+    font-size: var(--fs-icon-lg);
     text-shadow: 0 0 15px var(--text-accessible-blue);
     animation: pulse-play-large 2s ease-in-out infinite;
   }
 
   .play-link span {
     font-family: var(--font-pixel-jp);
-    font-size: 11px;
+    font-size: var(--fs-small);
     text-shadow: 1px 1px 0px #000000, 0 0 5px var(--text-accessible-blue);
   }
 
@@ -319,7 +319,7 @@ const embedUrl = getEmbedUrl(actualVideoId, startTime, autoplay);
     border: 1px solid var(--text-accessible-blue);
     border-radius: 4px;
     font-family: var(--font-pixel-jp);
-    font-size: 11px;
+    font-size: var(--fs-small);
     color: #ffffff;
     text-shadow: 1px 1px 0px #000000;
     line-height: 1.4;
@@ -345,7 +345,7 @@ const embedUrl = getEmbedUrl(actualVideoId, startTime, autoplay);
     color: var(--text-accessible-blue);
     text-decoration: none;
     font-family: var(--font-pixel-jp);
-    font-size: 10px;
+    font-size: var(--fs-small);
     font-weight: bold;
     text-shadow: 1px 1px 0px #000000, 0 0 5px var(--text-accessible-blue);
     transition: all 0.3s ease;
@@ -393,15 +393,15 @@ const embedUrl = getEmbedUrl(actualVideoId, startTime, autoplay);
     }
     
     .video-title {
-      font-size: 12px;
+      font-size: var(--fs-small);
     }
     
     .video-description {
-      font-size: 10px;
+      font-size: var(--fs-small);
     }
     
     .clip-link, .fullscreen-btn {
-      font-size: 9px;
+      font-size: var(--fs-small);
       padding: 0.4rem 0.8rem;
     }
   }
@@ -484,9 +484,9 @@ const embedUrl = getEmbedUrl(actualVideoId, startTime, autoplay);
               flex-direction: column;
               gap: 1rem;
             ">
-              <div style="font-size: 2rem;">⚠️</div>
+              <div style="font-size: var(--fs-icon-md);">⚠️</div>
               <div>動画を読み込めませんでした</div>
-              <div style="font-size: 10px; opacity: 0.7;">
+              <div style="font-size: var(--fs-small); opacity: 0.7;">
                 ネットワーク接続を確認してください
               </div>
             </div>

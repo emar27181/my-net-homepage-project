@@ -68,7 +68,7 @@ const { title, description = tSite('description') } = Astro.props;
       <nav class="game-nav-frame relative">
         <!-- ハンバーガーメニュー（右上） -->
         <div class="absolute top-2 right-2 z-50">
-          <button id="hamburger-menu" class="nav-button" style="font-size: 12px; padding: 4px 8px;">
+          <button id="hamburger-menu" class="nav-button" style="font-size: var(--fs-small); padding: 4px 8px;">
             ≡ Menu
           </button>
           <div id="hamburger-dropdown" class="hidden absolute right-0 top-full mt-2 bg-[var(--color-bg-tertiary)] border-2 border-[var(--retro-primary)] shadow-lg" style="min-width: 120px;">

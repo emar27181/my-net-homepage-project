@@ -161,11 +161,11 @@ const { siteMode = false, frameless = false } = Astro.props;
       <div class="gb-ab-area">
         <div class="gb-ab-grid">
           <div class="gb-b-wrap">
-            <button class="gb-btn gb-b-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "前のセクション" : undefined} data-site-scroll={siteMode ? "prev" : undefined}></button>
+            <button class="gb-btn gb-b-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "キャンセルして戻る" : undefined} data-site-scroll={siteMode ? "prev" : undefined}></button>
             <span class="gb-ab-label">B</span>
           </div>
           <div class="gb-a-wrap">
-            <button class="gb-btn gb-a-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "次のセクション" : undefined} data-site-scroll={siteMode ? "next" : undefined}></button>
+            <button class="gb-btn gb-a-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "表示中のコンテンツを操作" : undefined} data-site-scroll={siteMode ? "next" : undefined}></button>
             <span class="gb-ab-label">A</span>
           </div>
         </div>
@@ -293,8 +293,8 @@ const { siteMode = false, frameless = false } = Astro.props;
     color: var(--col-heading);
     box-shadow: 4px 4px 0 #000;
   }
-  .gb-menu-title { display: flex; justify-content: space-between; gap: 4px; padding-bottom: 7px; border-bottom: 1px solid var(--col-primary); font-size: 10px; }
-  .gb-menu-title > span:last-child { font-size: 7px; color: var(--gb-text-mid); }
+  .gb-menu-title { display: flex; justify-content: space-between; gap: 4px; padding-bottom: 7px; border-bottom: 1px solid var(--col-primary); font-size: var(--fs-menu); }
+  .gb-menu-title > span:last-child { font-size: var(--fs-console-7); color: var(--gb-text-mid); }
   .gb-menu-list[hidden], .gb-action-help[hidden] { display: none; }
   .gb-menu-list { overflow-y: auto; min-height: 0; padding: 5px 0; }
   .gb-menu-list button {
@@ -305,12 +305,12 @@ const { siteMode = false, frameless = false } = Astro.props;
     background: transparent;
     color: inherit;
     text-align: left;
-    font: 10px var(--font-pixel);
+    font: var(--fs-menu) var(--font-pixel);
     cursor: pointer;
   }
   .gb-menu-list button.selected, .gb-menu-list button:focus-visible { background: var(--col-primary-a30); outline: 1px solid var(--col-primary); }
-  .gb-menu-list button.selected::before { content: '▶'; margin-left: -15px; margin-right: 5px; }
-  .gb-menu-help { border-top: 1px solid var(--col-primary); padding-top: 7px; font-size: 7px; color: var(--gb-text-mid); }
+  .gb-menu-list button.selected::before { content: '▶'; margin-left: -15px; margin-right: 5px; color: var(--gb-dpad-arrow); }
+  .gb-menu-help { border-top: 1px solid var(--col-primary); padding-top: 7px; font-size: var(--fs-console-7); color: var(--gb-text-mid); }
   .gb-color-chip { display: inline-block; width: 8px; height: 8px; margin-right: 7px; }
   .gb-hue-stepper { display: flex; padding: 0 7px 5px 21px; gap: 5px; }
   .gb-hue-stepper[hidden] { display: none; }
@@ -318,12 +318,12 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-action-help {
     position: absolute; bottom: 0; left: 0; right: 0; z-index: 55;
     padding: 5px; background: var(--col-bg-mid); color: var(--col-heading);
-    border-top: 1px solid var(--col-primary); font-size: 8px; pointer-events: none;
+    border-top: 1px solid var(--col-primary); font-size: var(--fs-console-8); pointer-events: none;
   }
   :global(html[data-display-mode="gba"] .gb-ui-selected) {
-    outline: 2px dotted var(--col-heading) !important;
-    outline-offset: 2px;
-    background: var(--col-primary-a30) !important;
+    outline: none !important;
+    background: var(--col-primary) !important;
+    color: var(--col-bg-deeper) !important;
   }
   .gb-site-screen {
     flex: 1 1 0;
@@ -347,11 +347,11 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-site .gb-screen-shell { padding: 2cqw; }
   .gb-site .gb-screen-shell { border-radius: 1.6cqw; border-width: max(1px, 0.4cqw); }
   .gb-site .gb-title-strip { padding: 1cqw 1.6cqw; gap: 1.2cqw; }
-  .gb-site .gb-title-text { font-size: clamp(6px, 1.6cqw, 8px); }
-  .gb-site .gb-label-tag { font-size: clamp(4px, 1cqw, 6px); }
+  .gb-site .gb-title-text { font-size: var(--fs-console-title); }
+  .gb-site .gb-label-tag { font-size: var(--fs-console-tag); }
   .gb-control-hint {
     color: var(--gb-text-mid);
-    font: clamp(4px, 1cqw, 5px) var(--font-pixel);
+    font: var(--fs-console-hint) var(--font-pixel);
     line-height: 1.8;
     white-space: normal;
   }
@@ -368,7 +368,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-site > .gb-body > .gb-controls > .gb-dpad-area { left: 7%; top: 60%; }
   .gb-site > .gb-body > .gb-controls > .gb-ab-area { right: 6%; top: 64%; }
   .gb-site > .gb-body > .gb-controls > .gb-mid-area { left: 50%; top: 70.5%; transform: translateX(-50%); }
-  .gb-site .gbdpad-btn { font-size: clamp(6px, 1.8cqw, 9px); }
+  .gb-site .gbdpad-btn { font-size: var(--fs-console-arrow); }
   .gb-site .gbdpad-col:first-child .gbdpad-btn { border-radius: 0.8cqw 0.8cqw 0 0; }
   .gb-site .gbdpad-col:last-child .gbdpad-btn { border-radius: 0 0 0.8cqw 0.8cqw; }
   .gb-site .gbdpad-center { width: 8cqw; height: 8cqw; }
@@ -392,9 +392,16 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-site .gbdpad-btn, .gb-site .gbdpad-center {
     background: var(--gb-ctrl-bg);
   }
-  .gb-site .gbdpad-btn { box-shadow: none; }
-  .gb-site .gbdpad-btn:not([disabled]):hover { background: var(--gb-dpad-sel); }
-  .gb-site .gbdpad-btn:not([disabled]):active { background: var(--gb-panel-bg); }
+  .gb-site .gbdpad-btn { box-shadow: none; color: var(--gb-dpad-arrow); }
+  .gb-site .gbdpad-btn:not([disabled]):hover {
+    background: var(--gb-ctrl-bg);
+    color: var(--gb-dpad-arrow);
+  }
+  .gb-site .gbdpad-btn:not([disabled]):is(:active, .is-pressed) {
+    background: var(--gb-dpad-pressed);
+    color: var(--gb-dpad-arrow);
+    transform: translateY(1px);
+  }
   .gb-site .gbdpad-center { position: relative; }
   .gb-site .gbdpad-center::after {
     content: '';
@@ -416,7 +423,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   }
   .gb-site .gb-ss-btn:hover { background: var(--gb-dpad-sel); }
   .gb-site .gb-ss-btn:active { background: var(--gb-panel-bg); box-shadow: 0 0 0 0.5cqw var(--gb-panel-bg); }
-  .gb-site .gb-ss-label { font-size: clamp(4px, 1cqw, 5px); text-shadow: none; }
+  .gb-site .gb-ss-label { font-size: var(--fs-console-hint); text-shadow: none; }
   .gb-site .gb-ab-grid { flex-direction: row; align-items: center; gap: 1.2cqw; }
   .gb-site .gb-b-wrap, .gb-site .gb-a-wrap { gap: 1cqw; position: relative; }
   .gb-site .gb-a-wrap { margin-left: 0; }
@@ -451,7 +458,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     background: #651b3d;
     box-shadow: none;
   }
-  .gb-site .gb-ab-label { font-size: clamp(5px, 1.5cqw, 8px); text-shadow: none; }
+  .gb-site .gb-ab-label { font-size: var(--fs-console-button); text-shadow: none; }
   .gb-site > .gb-body > .gb-speaker-row {
     position: absolute;
     right: 8%;
@@ -460,7 +467,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   }
   .gb-site .gb-speaker { gap: 0.6cqw; }
   .gb-site .gb-speaker i { width: 0.6cqw; height: 2.9cqw; }
-  .gb-site .gb-power-txt { font-size: clamp(5px, 1.8cqw, 9px); }
+  .gb-site .gb-power-txt { font-size: var(--fs-console-status); }
   /* 全画面時は画面だけを広げ、画面内コンテンツを端まで使う。 */
   :global(html[data-display-mode="gba"]) .gb-site:is(:fullscreen, .fullscreen-fallback) {
     width: 100%; height: 100dvh; padding: 0;
@@ -613,7 +620,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-brand-text {
     font-family: var(--font-pixel);
-    font-size: 9px;
+    font-size: var(--fs-console-9);
     color: var(--col-primary);
     text-shadow: 0 0 10px var(--col-primary-a70), 1px 1px 0 #000;
     letter-spacing: 3px;
@@ -666,7 +673,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-power-txt {
     font-family: var(--font-pixel);
-    font-size: 5px;
+    font-size: var(--fs-console-5);
     color: var(--gb-text-dim);
     text-shadow: 1px 1px 0 #000;
     letter-spacing: 1px;
@@ -780,7 +787,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .hud-left, .hud-right {
     font-family: var(--font-pixel);
-    font-size: 7px;
+    font-size: var(--fs-console-7);
     image-rendering: pixelated;
     text-shadow: 1px 1px 0 #000;
   }
@@ -832,7 +839,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .hud-hint {
     font-family: var(--font-pixel);
-    font-size: 5px;
+    font-size: var(--fs-console-5);
     color: var(--gb-text-dim);
     text-shadow: 1px 1px 0 #000;
     letter-spacing: 0.5px;
@@ -853,7 +860,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-label-tag {
     font-family: var(--font-pixel);
-    font-size: 5px;
+    font-size: var(--fs-console-5);
     color: var(--gb-text-dim);
     text-shadow: 1px 1px 0 #000;
     letter-spacing: 1px;
@@ -865,7 +872,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-title-text {
     font-family: var(--font-pixel);
-    font-size: 8px;
+    font-size: var(--fs-console-8);
     color: var(--gb-text-soft);
     text-shadow: 0 0 8px var(--col-primary-a50), 1px 1px 0 #000;
     image-rendering: pixelated;
@@ -876,7 +883,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-counter-text {
     font-family: var(--font-pixel);
-    font-size: 12px;
+    font-size: var(--fs-console-12);
     color: var(--col-primary);
     text-shadow: 0 0 10px var(--col-primary-a80), 1px 1px 0 #000;
     image-rendering: pixelated;
@@ -926,7 +933,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     background: linear-gradient(160deg, var(--gb-ctrl-bdr) 0%, var(--gb-ctrl-bg) 55%, var(--col-bg-deeper) 100%);
     border: none;
     color: var(--gb-item-bg);
-    font-size: 9px;
+    font-size: var(--fs-console-9);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -983,7 +990,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-filter-label {
     display: block;
     font-family: var(--font-pixel);
-    font-size: 5px;
+    font-size: var(--fs-console-5);
     color: var(--gb-text-dim);
     text-shadow: 1px 1px 0 #000;
     letter-spacing: 1px;
@@ -994,7 +1001,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-filter-name {
     display: block;
     font-family: var(--font-pixel);
-    font-size: 11px;
+    font-size: var(--fs-console-11);
     color: #44ff44;
     text-shadow: 0 0 8px rgba(0,255,0,0.6), 1px 1px 0 #000;
     letter-spacing: 2px;
@@ -1008,7 +1015,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     display: block;
     width: 100%;
     font-family: var(--font-pixel);
-    font-size: 6px;
+    font-size: var(--fs-console-6);
     padding: 2px 4px;
     background: #0d1a12;
     border: 1px solid #1a3322;
@@ -1096,7 +1103,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-ss-label {
     font-family: var(--font-pixel);
-    font-size: 5px;
+    font-size: var(--fs-console-5);
     color: var(--gb-text-dim);
     text-shadow: 1px 1px 0 #000;
     letter-spacing: 0.5px;
@@ -1179,7 +1186,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-ab-label {
     font-family: var(--font-pixel);
-    font-size: 8px;
+    font-size: var(--fs-console-8);
     color: #882233;
     text-shadow: 1px 1px 0 #000;
     image-rendering: pixelated;
@@ -1370,8 +1377,8 @@ const { siteMode = false, frameless = false } = Astro.props;
     .viewer-canvas { height: 210px; }
     .gb-controls { gap: 4px; }
     .gb-filter-mini { min-width: 70px; }
-    .gb-filter-name { font-size: 9px; }
-    .gb-dot-toggle { font-size: 5px; }
+    .gb-filter-name { font-size: var(--fs-console-9); }
+    .gb-dot-toggle { font-size: var(--fs-console-5); }
     .viewer-dot { width: 8px; height: 8px; }
   }
 
@@ -1433,7 +1440,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-modal-title {
     font-family: var(--font-pixel);
-    font-size: 9px;
+    font-size: var(--fs-console-9);
     color: var(--gb-text-soft);
     text-shadow: 0 0 8px var(--col-primary-a50), 1px 1px 0 #000;
     letter-spacing: 1px;
@@ -1442,7 +1449,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-modal-counter {
     font-family: var(--font-pixel);
-    font-size: 9px;
+    font-size: var(--fs-console-9);
     color: var(--gb-text-mid);
     text-shadow: 1px 1px 0 #000;
     letter-spacing: 1px;
@@ -1461,7 +1468,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     border: 2px solid var(--col-retro-pri);
     border-radius: 50%;
     color: var(--col-primary);
-    font-size: 14px;
+    font-size: var(--fs-console-14);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1488,7 +1495,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     border: 2px solid var(--gb-border);
     border-radius: 50%;
     color: var(--col-primary);
-    font-size: 20px;
+    font-size: var(--fs-console-20);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1517,16 +1524,25 @@ const { siteMode = false, frameless = false } = Astro.props;
   }
 
   @media (max-width: 600px) {
-    .gb-modal-arrow { width: 40px; height: 40px; font-size: 16px; margin: 0 6px; }
-    .gb-modal-close { width: 28px; height: 28px; font-size: 12px; top: -14px; right: -14px; }
+    .gb-modal-arrow { width: 40px; height: 40px; font-size: var(--fs-console-16); margin: 0 6px; }
+    .gb-modal-close { width: 28px; height: 28px; font-size: var(--fs-console-12); top: -14px; right: -14px; }
   }
 </style>
 
 <script>
   const siteScreen = document.getElementById('gb-site-screen');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const scrollBehavior = () => reducedMotion.matches ? 'auto' as const : 'smooth' as const;
   const controls = document.querySelector('.gb-site .gb-controls');
+  const dpadButtons = controls?.querySelectorAll<HTMLButtonElement>('.gbdpad-btn');
+  const releaseDpad = () => dpadButtons?.forEach(button => button.classList.remove('is-pressed'));
+  dpadButtons?.forEach(button => {
+    button.addEventListener('pointerdown', event => {
+      if (button.disabled || (event.pointerType === 'mouse' && event.button !== 0)) return;
+      button.classList.add('is-pressed');
+    });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(type => button.addEventListener(type, releaseDpad));
+  });
+  ['pointerup', 'pointercancel', 'blur', 'pagehide'].forEach(type => window.addEventListener(type, releaseDpad));
+  new MutationObserver(releaseDpad).observe(document.documentElement, { attributes: true, attributeFilter: ['data-display-mode'] });
   controls?.addEventListener('contextmenu', event => event.preventDefault());
   controls?.addEventListener('selectstart', event => event.preventDefault());
   const consoleBody = document.querySelector('.gb-site > .gb-body');
@@ -1578,6 +1594,10 @@ const { siteMode = false, frameless = false } = Astro.props;
   let menuItems: HTMLButtonElement[] = [];
   let buttonMode = false;
   let selectedButton: HTMLButtonElement | null = null;
+  let preferredButtonX: number | null = null;
+  let contentScope: HTMLElement | null = null;
+  let pageScrollSnapshot: number | null = null;
+  let helpTimeout: number | undefined;
   let colorSnapshot: number | null = null;
   let draftHue = 225;
   let customHue = 225;
@@ -1586,8 +1606,8 @@ const { siteMode = false, frameless = false } = Astro.props;
   const inputMode = () => menuOpen ? 'menu' : buttonMode ? 'buttons' : 'page';
   const syncControls = () => {
     const selecting = menuOpen || buttonMode;
-    controls?.querySelector('.gb-a-btn')?.setAttribute('aria-label', selecting ? '選択を確定' : '次のセクション');
-    controls?.querySelector('.gb-b-btn')?.setAttribute('aria-label', selecting ? 'キャンセルして戻る' : '前のセクション');
+    controls?.querySelector('.gb-a-btn')?.setAttribute('aria-label', selecting ? '選択を確定' : '表示中のコンテンツを操作');
+    controls?.querySelector('.gb-b-btn')?.setAttribute('aria-label', 'キャンセルして戻る');
     document.documentElement.dataset.gbInput = inputMode();
   };
   const readHue = () => Number(document.documentElement.style.getPropertyValue('--theme-hue'));
@@ -1630,9 +1650,14 @@ const { siteMode = false, frameless = false } = Astro.props;
   };
   const exitButtonMode = () => {
     stopRepeats();
+    window.clearTimeout(helpTimeout);
     buttonMode = false;
     selectedButton?.classList.remove('gb-ui-selected');
     selectedButton = null;
+    preferredButtonX = null;
+    contentScope = null;
+    if (pageScrollSnapshot !== null) siteScreen?.scrollTo({ top: pageScrollSnapshot, behavior: 'instant' });
+    pageScrollSnapshot = null;
     if (actionHelp) actionHelp.hidden = true;
     syncControls();
   };
@@ -1657,7 +1682,28 @@ const { siteMode = false, frameless = false } = Astro.props;
     setMenuView(view);
     syncControls();
   };
-  const uiButtons = () => Array.from(siteScreen?.querySelectorAll<HTMLButtonElement>('.clips-filters button, .clips-expand-btn, .mode-btn, .charts-grid button') ?? [])
+  const currentContent = () => {
+    if (!siteScreen) return null;
+    const screenRect = siteScreen.getBoundingClientRect();
+    // 画面上寄りの位置を含むセクションを優先し、なければ最も広く見えているもの。
+    const anchor = screenRect.top + Math.min(48, siteScreen.clientHeight * 0.2);
+    const sections = Array.from(siteScreen.querySelectorAll<HTMLElement>('.main-container > div'));
+    const visible = sections.filter(section => {
+      const rect = section.getBoundingClientRect();
+      return rect.bottom > screenRect.top && rect.top < screenRect.bottom && section.getClientRects().length > 0;
+    });
+    return visible.find(section => {
+      const rect = section.getBoundingClientRect();
+      return rect.top <= anchor && rect.bottom > anchor;
+    }) ?? visible.sort((a, b) => {
+      const overlap = (section: HTMLElement) => {
+        const rect = section.getBoundingClientRect();
+        return Math.min(rect.bottom, screenRect.bottom) - Math.max(rect.top, screenRect.top);
+      };
+      return overlap(b) - overlap(a);
+    })[0] ?? null;
+  };
+  const uiButtons = () => Array.from(contentScope?.querySelectorAll<HTMLButtonElement>('.clips-filters button, .clips-expand-btn, .mode-btn, .charts-grid button, #copy-crosshair-text') ?? [])
     .filter(button => !button.disabled && !button.closest('[inert]') && button.getClientRects().length > 0 && getComputedStyle(button).visibility !== 'hidden');
   const selectUIButton = (button: HTMLButtonElement) => {
     selectedButton?.classList.remove('gb-ui-selected');
@@ -1672,20 +1718,53 @@ const { siteMode = false, frameless = false } = Astro.props;
     }
     if (actionHelp) {
       actionHelp.hidden = false;
-      actionHelp.textContent = `${button.textContent?.trim() ?? 'BUTTON'}　十字: 選択　A: 決定　B: 終了`;
+      const title = contentScope?.querySelector('h2')?.textContent?.trim() ?? 'CONTENT';
+      actionHelp.textContent = `${title} › ${button.textContent?.trim() ?? 'BUTTON'}　十字: 選択　A: 切替　B: 戻る`;
     }
   };
-  const moveUIButton = (direction: number) => {
+  const moveUIButton = (direction: number, horizontal = false) => {
     const buttons = uiButtons();
     if (!buttons.length) { exitButtonMode(); return; }
-    const index = selectedButton ? buttons.indexOf(selectedButton) : -1;
-    selectUIButton(buttons[(Math.max(0, index) + direction + buttons.length) % buttons.length]);
+    if (!selectedButton || !buttons.includes(selectedButton)) { selectUIButton(buttons[0]); return; }
+    const items = buttons.map(button => {
+      const rect = button.getBoundingClientRect();
+      return { button, x: (rect.left + rect.right) / 2, y: (rect.top + rect.bottom) / 2, height: rect.height };
+    }).sort((a, b) => a.y - b.y || a.x - b.x);
+    // 折り返されたタグも、実際に表示されている行ごとにまとめる。
+    const rows: typeof items[] = [];
+    for (const item of items) {
+      const row = rows.find(row => Math.abs(row[0].y - item.y) < Math.min(row[0].height, item.height) / 2);
+      if (row) row.push(item); else rows.push([item]);
+    }
+    rows.forEach(row => row.sort((a, b) => a.x - b.x));
+    const rowIndex = rows.findIndex(row => row.some(item => item.button === selectedButton));
+    const row = rows[rowIndex];
+    const column = row.findIndex(item => item.button === selectedButton);
+    if (horizontal) {
+      const next = row[(column + direction + row.length) % row.length];
+      preferredButtonX = next.x;
+      selectUIButton(next.button);
+    } else {
+      preferredButtonX ??= row[column].x;
+      const nextRow = rows[(rowIndex + direction + rows.length) % rows.length];
+      const next = nextRow.reduce((best, item) => Math.abs(item.x - preferredButtonX!) < Math.abs(best.x - preferredButtonX!) ? item : best);
+      selectUIButton(next.button);
+    }
   };
   const enterButtonMode = () => {
     // オプションを閉じてから候補を集め、inertの影響を除く。
-    closeMenu();
+    if (menuOpen) closeMenu();
+    stopRepeats();
+    window.clearTimeout(helpTimeout);
+    contentScope = currentContent();
     const buttons = uiButtons();
-    if (!buttons.length) { openMenu('options'); if (menuHelp) menuHelp.textContent = '操作できるボタンがありません'; return; }
+    if (!buttons.length) {
+      contentScope = null;
+      if (actionHelp) { actionHelp.hidden = false; actionHelp.textContent = 'このコンテンツには操作項目がありません'; }
+      helpTimeout = window.setTimeout(() => { if (actionHelp) actionHelp.hidden = true; }, 2000);
+      return;
+    }
+    pageScrollSnapshot = siteScreen?.scrollTop ?? 0;
     buttonMode = true;
     const screenTop = siteScreen?.getBoundingClientRect().top ?? 0;
     selectUIButton(buttons.find(button => button.getBoundingClientRect().bottom > screenTop + 8) ?? buttons[0]);
@@ -1735,7 +1814,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   };
   const confirmSelection = () => {
     if (menuOpen) { menuItems[menuIndex]?.click(); return; }
-    if (!buttonMode) return;
+    if (!buttonMode) { enterButtonMode(); return; }
     const buttons = uiButtons();
     const index = selectedButton ? buttons.indexOf(selectedButton) : -1;
     if (index < 0) { if (buttons[0]) selectUIButton(buttons[0]); else exitButtonMode(); return; }
@@ -1753,7 +1832,7 @@ const { siteMode = false, frameless = false } = Astro.props;
         customHue = (customHue + direction * 5 + 360) % 360;
         previewSelection();
       } else selectMenu(menuIndex + direction);
-    } else if (buttonMode) moveUIButton(direction);
+    } else if (buttonMode) moveUIButton(direction, horizontal);
     else siteScreen?.scrollBy({ top: direction * 4, behavior: 'instant' });
   };
   menu?.querySelectorAll<HTMLButtonElement>('[data-menu-target], [data-option]').forEach(item => {
@@ -1778,8 +1857,12 @@ const { siteMode = false, frameless = false } = Astro.props;
     button.addEventListener('click', () => openMenu());
   });
   document.addEventListener('keydown', event => {
-    if (document.documentElement.dataset.displayMode !== 'gba' || (!menuOpen && !buttonMode)) return;
+    if (document.documentElement.dataset.displayMode !== 'gba') return;
     if (event.altKey || event.ctrlKey || event.metaKey || (event.target as Element | null)?.matches('input, textarea, select, [contenteditable="true"]')) return;
+    if (!menuOpen && !buttonMode) {
+      if (event.key.toLowerCase() === 'a') { event.preventDefault(); if (!event.repeat) enterButtonMode(); }
+      return;
+    }
     if (event.key === 'Tab' && menuOpen) { event.preventDefault(); selectMenu(menuIndex + (event.shiftKey ? -1 : 1)); return; }
     if (['ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight'].includes(event.key)) {
       event.preventDefault();
@@ -1790,7 +1873,10 @@ const { siteMode = false, frameless = false } = Astro.props;
   });
   siteScreen?.addEventListener('click', event => {
     const target = (event.target as Element | null)?.closest<HTMLButtonElement>('button');
-    if (buttonMode && target && uiButtons().includes(target)) selectUIButton(target);
+    if (buttonMode && target && uiButtons().includes(target)) {
+      preferredButtonX = null;
+      selectUIButton(target);
+    }
   });
   new MutationObserver(() => {
     if (document.documentElement.dataset.displayMode !== 'gba') { exitButtonMode(); closeMenu(); }
@@ -1830,8 +1916,10 @@ const { siteMode = false, frameless = false } = Astro.props;
         else if (action === 'prev') cancelSelection();
         return;
       }
-      if (action === 'home') { siteScreen.scrollTo({ top: 0, behavior: scrollBehavior() }); return; }
-      if (action === 'end') { siteScreen.scrollTo({ top: siteScreen.scrollHeight, behavior: scrollBehavior() }); return; }
+      if (button.classList.contains('gb-a-btn')) { enterButtonMode(); return; }
+      if (button.classList.contains('gb-b-btn')) return;
+      if (action === 'home') { siteScreen.scrollTo({ top: 0, behavior: 'instant' }); return; }
+      if (action === 'end') { siteScreen.scrollTo({ top: siteScreen.scrollHeight, behavior: 'instant' }); return; }
       if (action !== 'next' && action !== 'prev') return;
       const screenTop = siteScreen.getBoundingClientRect().top;
       const sectionTops = Array.from(siteScreen.querySelectorAll<HTMLElement>('.main-container > div'))
@@ -1840,8 +1928,8 @@ const { siteMode = false, frameless = false } = Astro.props;
       const target = action === 'next'
         ? sectionTops.find(top => top > siteScreen.scrollTop + 12)
         : sectionTops.reverse().find(top => top < siteScreen.scrollTop - 12);
-      if (target !== undefined) siteScreen.scrollTo({ top: target, behavior: scrollBehavior() });
-      else if (action === 'prev') siteScreen.scrollTo({ top: 0, behavior: scrollBehavior() });
+      if (target !== undefined) siteScreen.scrollTo({ top: target, behavior: 'instant' });
+      else if (action === 'prev') siteScreen.scrollTo({ top: 0, behavior: 'instant' });
     });
   });
   syncControls();
