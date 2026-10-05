@@ -422,7 +422,9 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       /* ナビと設定も本体のスクリーン内に配置する */
       :global(html[data-display-mode="gba"]) #page-nav {
         position: sticky;
-        top: 0;
+        /* 端数ピクセルで画面上端にコンテンツが覗かないよう1px重ねる。 */
+        top: -1px;
+        margin-top: -1px;
         height: 44px;
         padding: 0 12px;
         z-index: 50;
