@@ -16,6 +16,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
 <!doctype html>
 <html data-display-mode="normal" lang="ja" style={`--theme-hue: ${DEFAULT_HUE}`}>
   <head>
+    <slot name="head" />
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />

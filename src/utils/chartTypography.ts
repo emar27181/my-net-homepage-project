@@ -8,12 +8,10 @@ export function getChartFont(role: 'small' | 'body' | 'subtitle' = 'small') {
 
 const installed = new WeakSet<object>();
 export function installChartTypography(Chart: any) {
-  if (!Chart || installed.has(Chart)) return;
+  if (!Chart) throw new Error("Chart.js must load before typography initialization");
+  if (installed.has(Chart)) return;
   installed.add(Chart);
-  Chart.register({
-    id: 'portfolioTypography',
-    beforeUpdate(chart: any) {
-      const options = chart.config.options;
+  const applyFonts = (options: any) => {
       const small = getChartFont('small');
       const body = getChartFont('body');
       options.font = small;
@@ -37,18 +35,33 @@ export function installChartTypography(Chart: any) {
       for (const name of ['title', 'subtitle']) {
         if (plugins[name]) plugins[name].font = getChartFont('subtitle');
       }
+  };
+  const syncDefaults = () => Object.assign(Chart.defaults.font, getChartFont('small'));
+  syncDefaults();
+  Chart.register({
+    id: 'portfolioTypography',
+    beforeInit(chart: any) { applyFonts(chart.config.options); },
+    beforeUpdate(chart: any) {
+      applyFonts(chart.config.options);
+      // Chart.js resolves options before this hook; update the active resolver too.
+      applyFonts(chart.options);
     },
   });
   let frame = 0;
   const refresh = () => {
     cancelAnimationFrame(frame);
     frame = requestAnimationFrame(() => {
+      syncDefaults();
       Object.values(Chart.instances).forEach((chart: any) => chart.update('none'));
     });
   };
   new MutationObserver(refresh).observe(document.documentElement, {
     attributes: true, attributeFilter: ['data-display-mode'],
   });
+  if (document.fonts) {
+    void document.fonts.ready.then(refresh);
+    document.fonts.addEventListener('loadingdone', refresh);
+  }
   window.addEventListener('resize', refresh);
   window.addEventListener('orientationchange', refresh);
 }
