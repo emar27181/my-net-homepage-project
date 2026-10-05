@@ -96,7 +96,8 @@
   --gb-modal-bg:   hsl(var(--theme-hue), 50%, 14%);
   --gb-modal-bdr:  hsl(var(--theme-hue), 58%, 38%);
   --gb-dpad-bg:    hsl(var(--theme-hue), 36%,  8%);
-  --gb-dpad-pressed: hsl(var(--theme-hue), 36%, 5%);
+  --gb-dpad-pressed: hsl(var(--theme-hue), 36%, 10%);
+  --gb-dpad-arrow: hsl(0, 0%, 52%);
   --gb-dpad-sel:   hsl(var(--theme-hue), 50%, 25%);
   --gb-dpad-bdr:   hsl(var(--theme-hue), 42%, 40%);
   --gb-text-dim:   hsl(var(--theme-hue), 30%, 30%);

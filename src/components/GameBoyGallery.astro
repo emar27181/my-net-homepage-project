@@ -392,14 +392,14 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-site .gbdpad-btn, .gb-site .gbdpad-center {
     background: var(--gb-ctrl-bg);
   }
-  .gb-site .gbdpad-btn { box-shadow: none; }
+  .gb-site .gbdpad-btn { box-shadow: none; color: var(--gb-dpad-arrow); }
   .gb-site .gbdpad-btn:not([disabled]):hover {
     background: var(--gb-ctrl-bg);
-    color: var(--gb-item-bg);
+    color: var(--gb-dpad-arrow);
   }
   .gb-site .gbdpad-btn:not([disabled]):is(:active, .is-pressed) {
     background: var(--gb-dpad-pressed);
-    color: var(--gb-panel-bg);
+    color: var(--gb-dpad-arrow);
     transform: translateY(1px);
   }
   .gb-site .gbdpad-center { position: relative; }
