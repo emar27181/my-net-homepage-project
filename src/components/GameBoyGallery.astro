@@ -243,6 +243,8 @@ const { siteMode = false, frameless = false } = Astro.props;
     flex: none;
     min-height: 0;
     position: relative;
+    /* ヘッダー上に黒い帯を残さず画面の上端まで使う。 */
+    border-top-width: 0;
   }
   .gb-menu-overlay[hidden] { display: none; }
   .gb-menu-overlay {
