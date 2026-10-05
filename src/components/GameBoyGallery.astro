@@ -293,8 +293,8 @@ const { siteMode = false, frameless = false } = Astro.props;
     color: var(--col-heading);
     box-shadow: 4px 4px 0 #000;
   }
-  .gb-menu-title { display: flex; justify-content: space-between; gap: 4px; padding-bottom: 7px; border-bottom: 1px solid var(--col-primary); font-size: 10px; }
-  .gb-menu-title > span:last-child { font-size: 7px; color: var(--gb-text-mid); }
+  .gb-menu-title { display: flex; justify-content: space-between; gap: 4px; padding-bottom: 7px; border-bottom: 1px solid var(--col-primary); font-size: var(--fs-menu); }
+  .gb-menu-title > span:last-child { font-size: var(--fs-console-7); color: var(--gb-text-mid); }
   .gb-menu-list[hidden], .gb-action-help[hidden] { display: none; }
   .gb-menu-list { overflow-y: auto; min-height: 0; padding: 5px 0; }
   .gb-menu-list button {
@@ -305,12 +305,12 @@ const { siteMode = false, frameless = false } = Astro.props;
     background: transparent;
     color: inherit;
     text-align: left;
-    font: 10px var(--font-pixel);
+    font: var(--fs-menu) var(--font-pixel);
     cursor: pointer;
   }
   .gb-menu-list button.selected, .gb-menu-list button:focus-visible { background: var(--col-primary-a30); outline: 1px solid var(--col-primary); }
   .gb-menu-list button.selected::before { content: '▶'; margin-left: -15px; margin-right: 5px; color: var(--gb-dpad-arrow); }
-  .gb-menu-help { border-top: 1px solid var(--col-primary); padding-top: 7px; font-size: 7px; color: var(--gb-text-mid); }
+  .gb-menu-help { border-top: 1px solid var(--col-primary); padding-top: 7px; font-size: var(--fs-console-7); color: var(--gb-text-mid); }
   .gb-color-chip { display: inline-block; width: 8px; height: 8px; margin-right: 7px; }
   .gb-hue-stepper { display: flex; padding: 0 7px 5px 21px; gap: 5px; }
   .gb-hue-stepper[hidden] { display: none; }
@@ -318,7 +318,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-action-help {
     position: absolute; bottom: 0; left: 0; right: 0; z-index: 55;
     padding: 5px; background: var(--col-bg-mid); color: var(--col-heading);
-    border-top: 1px solid var(--col-primary); font-size: 8px; pointer-events: none;
+    border-top: 1px solid var(--col-primary); font-size: var(--fs-console-8); pointer-events: none;
   }
   :global(html[data-display-mode="gba"] .gb-ui-selected) {
     outline: none !important;
@@ -347,11 +347,11 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-site .gb-screen-shell { padding: 2cqw; }
   .gb-site .gb-screen-shell { border-radius: 1.6cqw; border-width: max(1px, 0.4cqw); }
   .gb-site .gb-title-strip { padding: 1cqw 1.6cqw; gap: 1.2cqw; }
-  .gb-site .gb-title-text { font-size: clamp(6px, 1.6cqw, 8px); }
-  .gb-site .gb-label-tag { font-size: clamp(4px, 1cqw, 6px); }
+  .gb-site .gb-title-text { font-size: var(--fs-console-title); }
+  .gb-site .gb-label-tag { font-size: var(--fs-console-tag); }
   .gb-control-hint {
     color: var(--gb-text-mid);
-    font: clamp(4px, 1cqw, 5px) var(--font-pixel);
+    font: var(--fs-console-hint) var(--font-pixel);
     line-height: 1.8;
     white-space: normal;
   }
@@ -368,7 +368,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-site > .gb-body > .gb-controls > .gb-dpad-area { left: 7%; top: 60%; }
   .gb-site > .gb-body > .gb-controls > .gb-ab-area { right: 6%; top: 64%; }
   .gb-site > .gb-body > .gb-controls > .gb-mid-area { left: 50%; top: 70.5%; transform: translateX(-50%); }
-  .gb-site .gbdpad-btn { font-size: clamp(6px, 1.8cqw, 9px); }
+  .gb-site .gbdpad-btn { font-size: var(--fs-console-arrow); }
   .gb-site .gbdpad-col:first-child .gbdpad-btn { border-radius: 0.8cqw 0.8cqw 0 0; }
   .gb-site .gbdpad-col:last-child .gbdpad-btn { border-radius: 0 0 0.8cqw 0.8cqw; }
   .gb-site .gbdpad-center { width: 8cqw; height: 8cqw; }
@@ -423,7 +423,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   }
   .gb-site .gb-ss-btn:hover { background: var(--gb-dpad-sel); }
   .gb-site .gb-ss-btn:active { background: var(--gb-panel-bg); box-shadow: 0 0 0 0.5cqw var(--gb-panel-bg); }
-  .gb-site .gb-ss-label { font-size: clamp(4px, 1cqw, 5px); text-shadow: none; }
+  .gb-site .gb-ss-label { font-size: var(--fs-console-hint); text-shadow: none; }
   .gb-site .gb-ab-grid { flex-direction: row; align-items: center; gap: 1.2cqw; }
   .gb-site .gb-b-wrap, .gb-site .gb-a-wrap { gap: 1cqw; position: relative; }
   .gb-site .gb-a-wrap { margin-left: 0; }
@@ -458,7 +458,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     background: #651b3d;
     box-shadow: none;
   }
-  .gb-site .gb-ab-label { font-size: clamp(5px, 1.5cqw, 8px); text-shadow: none; }
+  .gb-site .gb-ab-label { font-size: var(--fs-console-button); text-shadow: none; }
   .gb-site > .gb-body > .gb-speaker-row {
     position: absolute;
     right: 8%;
@@ -467,7 +467,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   }
   .gb-site .gb-speaker { gap: 0.6cqw; }
   .gb-site .gb-speaker i { width: 0.6cqw; height: 2.9cqw; }
-  .gb-site .gb-power-txt { font-size: clamp(5px, 1.8cqw, 9px); }
+  .gb-site .gb-power-txt { font-size: var(--fs-console-status); }
   /* 全画面時は画面だけを広げ、画面内コンテンツを端まで使う。 */
   :global(html[data-display-mode="gba"]) .gb-site:is(:fullscreen, .fullscreen-fallback) {
     width: 100%; height: 100dvh; padding: 0;
@@ -620,7 +620,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-brand-text {
     font-family: var(--font-pixel);
-    font-size: 9px;
+    font-size: var(--fs-console-9);
     color: var(--col-primary);
     text-shadow: 0 0 10px var(--col-primary-a70), 1px 1px 0 #000;
     letter-spacing: 3px;
@@ -673,7 +673,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-power-txt {
     font-family: var(--font-pixel);
-    font-size: 5px;
+    font-size: var(--fs-console-5);
     color: var(--gb-text-dim);
     text-shadow: 1px 1px 0 #000;
     letter-spacing: 1px;
@@ -787,7 +787,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .hud-left, .hud-right {
     font-family: var(--font-pixel);
-    font-size: 7px;
+    font-size: var(--fs-console-7);
     image-rendering: pixelated;
     text-shadow: 1px 1px 0 #000;
   }
@@ -839,7 +839,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .hud-hint {
     font-family: var(--font-pixel);
-    font-size: 5px;
+    font-size: var(--fs-console-5);
     color: var(--gb-text-dim);
     text-shadow: 1px 1px 0 #000;
     letter-spacing: 0.5px;
@@ -860,7 +860,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-label-tag {
     font-family: var(--font-pixel);
-    font-size: 5px;
+    font-size: var(--fs-console-5);
     color: var(--gb-text-dim);
     text-shadow: 1px 1px 0 #000;
     letter-spacing: 1px;
@@ -872,7 +872,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-title-text {
     font-family: var(--font-pixel);
-    font-size: 8px;
+    font-size: var(--fs-console-8);
     color: var(--gb-text-soft);
     text-shadow: 0 0 8px var(--col-primary-a50), 1px 1px 0 #000;
     image-rendering: pixelated;
@@ -883,7 +883,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-counter-text {
     font-family: var(--font-pixel);
-    font-size: 12px;
+    font-size: var(--fs-console-12);
     color: var(--col-primary);
     text-shadow: 0 0 10px var(--col-primary-a80), 1px 1px 0 #000;
     image-rendering: pixelated;
@@ -933,7 +933,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     background: linear-gradient(160deg, var(--gb-ctrl-bdr) 0%, var(--gb-ctrl-bg) 55%, var(--col-bg-deeper) 100%);
     border: none;
     color: var(--gb-item-bg);
-    font-size: 9px;
+    font-size: var(--fs-console-9);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -990,7 +990,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-filter-label {
     display: block;
     font-family: var(--font-pixel);
-    font-size: 5px;
+    font-size: var(--fs-console-5);
     color: var(--gb-text-dim);
     text-shadow: 1px 1px 0 #000;
     letter-spacing: 1px;
@@ -1001,7 +1001,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-filter-name {
     display: block;
     font-family: var(--font-pixel);
-    font-size: 11px;
+    font-size: var(--fs-console-11);
     color: #44ff44;
     text-shadow: 0 0 8px rgba(0,255,0,0.6), 1px 1px 0 #000;
     letter-spacing: 2px;
@@ -1015,7 +1015,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     display: block;
     width: 100%;
     font-family: var(--font-pixel);
-    font-size: 6px;
+    font-size: var(--fs-console-6);
     padding: 2px 4px;
     background: #0d1a12;
     border: 1px solid #1a3322;
@@ -1103,7 +1103,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-ss-label {
     font-family: var(--font-pixel);
-    font-size: 5px;
+    font-size: var(--fs-console-5);
     color: var(--gb-text-dim);
     text-shadow: 1px 1px 0 #000;
     letter-spacing: 0.5px;
@@ -1186,7 +1186,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-ab-label {
     font-family: var(--font-pixel);
-    font-size: 8px;
+    font-size: var(--fs-console-8);
     color: #882233;
     text-shadow: 1px 1px 0 #000;
     image-rendering: pixelated;
@@ -1377,8 +1377,8 @@ const { siteMode = false, frameless = false } = Astro.props;
     .viewer-canvas { height: 210px; }
     .gb-controls { gap: 4px; }
     .gb-filter-mini { min-width: 70px; }
-    .gb-filter-name { font-size: 9px; }
-    .gb-dot-toggle { font-size: 5px; }
+    .gb-filter-name { font-size: var(--fs-console-9); }
+    .gb-dot-toggle { font-size: var(--fs-console-5); }
     .viewer-dot { width: 8px; height: 8px; }
   }
 
@@ -1440,7 +1440,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-modal-title {
     font-family: var(--font-pixel);
-    font-size: 9px;
+    font-size: var(--fs-console-9);
     color: var(--gb-text-soft);
     text-shadow: 0 0 8px var(--col-primary-a50), 1px 1px 0 #000;
     letter-spacing: 1px;
@@ -1449,7 +1449,7 @@ const { siteMode = false, frameless = false } = Astro.props;
 
   .gb-modal-counter {
     font-family: var(--font-pixel);
-    font-size: 9px;
+    font-size: var(--fs-console-9);
     color: var(--gb-text-mid);
     text-shadow: 1px 1px 0 #000;
     letter-spacing: 1px;
@@ -1468,7 +1468,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     border: 2px solid var(--col-retro-pri);
     border-radius: 50%;
     color: var(--col-primary);
-    font-size: 14px;
+    font-size: var(--fs-console-14);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1495,7 +1495,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     border: 2px solid var(--gb-border);
     border-radius: 50%;
     color: var(--col-primary);
-    font-size: 20px;
+    font-size: var(--fs-console-20);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1524,8 +1524,8 @@ const { siteMode = false, frameless = false } = Astro.props;
   }
 
   @media (max-width: 600px) {
-    .gb-modal-arrow { width: 40px; height: 40px; font-size: 16px; margin: 0 6px; }
-    .gb-modal-close { width: 28px; height: 28px; font-size: 12px; top: -14px; right: -14px; }
+    .gb-modal-arrow { width: 40px; height: 40px; font-size: var(--fs-console-16); margin: 0 6px; }
+    .gb-modal-close { width: 28px; height: 28px; font-size: var(--fs-console-12); top: -14px; right: -14px; }
   }
 </style>
 

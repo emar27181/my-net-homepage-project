@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&family=BIZ+UDPGothic:wght@400;700&family=DotGothic16&display=swap');
 @import "tailwindcss";
+@import "./typography.css";
 
 /* 8-bit レトロゲームテーマ設定 */
 :root {
@@ -181,7 +182,7 @@ body {
   background-size: 24px 24px, 24px 24px, 48px 48px;
   background-color: var(--color-bg-primary);
   font-family: var(--font-main-jp);
-  font-size: 14px;
+  font-size: var(--fs-body);
   line-height: 1.6;
   color: var(--color-text);
 
@@ -198,7 +199,7 @@ body {
   border: 2px solid var(--retro-primary);
   border-radius: 4px;
   font-family: var(--font-pixel-jp);
-  font-size: 13px;
+  font-size: var(--fs-body);
   text-shadow: 1px 1px 0px #000000, 2px 2px 0px rgba(0,0,0,0.5);
 }
 
@@ -237,7 +238,7 @@ body {
   /* モバイル対応 */
   @media (max-width: 768px) {
     border-spacing: 2px;
-    font-size: 10px;
+    font-size: var(--fs-small);
     border-width: 2px;
   }
 }
@@ -271,7 +272,7 @@ body {
   /* モバイル対応 */
   @media (max-width: 768px) {
     padding: 8px 6px;
-    font-size: 10px;
+    font-size: var(--fs-small);
     white-space: normal;
     word-break: keep-all;
     line-height: 1.2;
@@ -323,7 +324,7 @@ a:visited {
 
 .image-title {
   font-family: var(--font-pixel-jp);
-  font-size: 10px;
+  font-size: var(--fs-small);
   margin-top: 5px;
   color: var(--retro-secondary);
   text-shadow: 1px 1px 0px var(--game-bg-primary);
@@ -348,7 +349,7 @@ a:visited {
   /* ボタンのパディング調整 */
   .retro-button {
     padding: 6px 4px !important;
-    font-size: 9px !important;
+    font-size: var(--fs-small) !important;
   }
   
   /* グリッド調整 */
@@ -358,7 +359,7 @@ a:visited {
   
   /* マーキー文字サイズ */
   .marquee {
-    font-size: 10px;
+    font-size: var(--fs-small);
     padding: 6px;
     color: #ffffff;
   }

@@ -1,6 +1,7 @@
 ---
 import { NAV_CONFIG, THEME_CONFIG, THEME_PRESETS } from '../config/themeConfig';
 import GameBoyGallery from '../components/GameBoyGallery.astro';
+import '../styles/global.css';
 const DEFAULT_HUE = THEME_CONFIG.HUE;
 
 export interface Props {
@@ -88,61 +89,6 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
     />
 
     <style>
-      /* CSS変数定義 */
-      :root {
-        --font-pixel: "Press Start 2P", cursive;
-        --font-mono: "VT323", monospace;
-        --font-pixel-jp: "DotGothic16", "BIZ UDPGothic", "Press Start 2P", monospace;
-        --font-main-jp: "DotGothic16", "BIZ UDPGothic", sans-serif;
-
-        /* --theme-hue はglobal.cssで定義済み。JSで上書きして全色を連動させる */
-
-        /* フォントサイズ — デスクトップ基準 */
-        /* body/subtitle: 14px 以上、small/footer: 12px 以上を維持 */
-        --fs-title:    20px;
-        --fs-section:  15px;
-        --fs-subtitle: 14px;
-        --fs-body:     14px;
-        --fs-small:    12px;
-        --fs-footer:   12px;
-      }
-
-      /* タブレット〜スマホ縦画面 */
-      @media (max-width: 768px) {
-        :root {
-          --fs-title:    16px;
-          --fs-section:  13px;
-          --fs-subtitle: 13px;
-          --fs-body:     13px;
-          --fs-small:    11px;
-          --fs-footer:   11px;
-        }
-      }
-
-      /* 小画面スマホ */
-      @media (max-width: 480px) {
-        :root {
-          --fs-title:    15px;
-          --fs-section:  13px;
-          --fs-subtitle: 13px;
-          --fs-body:     13px;
-          --fs-small:    10px;
-          --fs-footer:   10px;
-        }
-      }
-
-      /* スマホ横画面: 幅がタブレット相当のため同サイズを適用 */
-      @media (orientation: landscape) and (max-height: 600px) {
-        :root {
-          --fs-title:    16px;
-          --fs-section:  13px;
-          --fs-subtitle: 13px;
-          --fs-body:     13px;
-          --fs-small:    11px;
-          --fs-footer:   11px;
-        }
-      }
-
       /* 全体的なドットフォント適用 */
       * {
         font-family: var(--font-pixel-jp) !important;
@@ -286,7 +232,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       }
       .nav-site-title {
         font-family: var(--font-pixel) !important;
-        font-size: 10px;
+        font-size: var(--fs-nav);
         color: var(--col-primary);
         text-decoration: none;
         text-shadow: 0 0 8px var(--col-primary-a50), 1px 1px 0 #000;
@@ -310,7 +256,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       .nav-links::-webkit-scrollbar { display: none; }
       .nav-link {
         font-family: var(--font-pixel) !important;
-        font-size: 10px;
+        font-size: var(--fs-nav);
         color: var(--col-primary-a70);
         text-decoration: none;
         text-shadow: 0 0 6px var(--col-primary-a50), 1px 1px 0 #000;
@@ -350,7 +296,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         padding: 14px 16px;
         min-width: 240px;
         font-family: var(--font-pixel-jp) !important;
-        font-size: 12px;
+        font-size: var(--fs-nav);
         display: none;
       }
       .settings-panel.open { display: block; }
@@ -363,7 +309,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       }
       .settings-label {
         font-family: var(--font-pixel) !important;
-        font-size: 9px;
+        font-size: var(--fs-nav);
         color: var(--col-primary);
         text-shadow: 0 0 6px var(--col-primary-a50), 1px 1px 0 #000;
         white-space: nowrap;
@@ -377,7 +323,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       }
       .hue-value-display {
         font-family: var(--font-pixel) !important;
-        font-size: 9px;
+        font-size: var(--fs-nav);
         color: var(--col-text-light);
         text-shadow: 1px 1px 0 #000;
         min-width: 28px;
@@ -390,7 +336,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       }
       .hue-preset-btn {
         font-family: var(--font-pixel) !important;
-        font-size: 8px;
+        font-size: var(--fs-nav);
         padding: 3px 8px;
         background: color-mix(in srgb, var(--pc) 10%, transparent);
         border: 1px solid color-mix(in srgb, var(--pc) 50%, transparent);
@@ -412,7 +358,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
 
       @media (max-width: 480px) {
         .nav-links { gap: 10px; }
-        .nav-link { font-size: 8px; }
+        .nav-link { font-size: var(--fs-nav); }
         .settings-panel { right: 4px; min-width: 200px; }
       }
 
@@ -460,7 +406,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       }
       @media (max-width: 768px) {
         :global(html[data-display-mode="gba"] .gb-site .main-container) { padding: 12px !important; }
-        .nav-site-title { margin-right: 12px; font-size: 9px; }
+        .nav-site-title { margin-right: 12px; font-size: var(--fs-nav); }
       }
       @media (max-width: 480px) {
         :global(html[data-display-mode="gba"] .gb-site .main-container) { padding: 8px !important; }
@@ -504,10 +450,10 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       :global(html[data-display-mode="gba"] .clips-grid:not(.short-mode)),
       :global(html[data-display-mode="gba"] .main-container [style*="grid-template-columns: 1fr 1fr"]) { grid-template-columns: 1fr !important; }
       :global(html[data-display-mode="gba"] .title-second-line) { display: block !important; margin-top: 10px; }
-      :global(html[data-display-mode="gba"] .main-container h1) { font-size: 18px !important; line-height: 1.6; }
+      :global(html[data-display-mode="gba"] .main-container h1) { line-height: 1.6; }
       :global(html[data-display-mode="gba"]) .nav-site-title { display: none; }
       :global(html[data-display-mode="gba"]) .nav-links { gap: 10px; }
-      :global(html[data-display-mode="gba"]) .nav-link { font-size: 8px; }
+      :global(html[data-display-mode="gba"]) .nav-link { font-size: var(--fs-nav); }
       :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) #page-nav) {
         height: clamp(24px, 7cqw, 32px);
         padding: 0 1.5cqw;
@@ -515,7 +461,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       }
       :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .nav-links) { gap: 1.5cqw; }
       :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .nav-link) {
-        font-size: clamp(5px, 1.3cqw, 7px);
+        font-size: var(--fs-nav-console);
         text-shadow: none;
       }
       :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .display-mode-toggle) {
@@ -527,38 +473,10 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         width: clamp(14px, 4cqw, 18px);
         height: clamp(14px, 4cqw, 18px);
       }
-      /* 画面内の固定値やインライン指定もゲーム機用の文字階層に揃える。 */
-      :global(html[data-display-mode="gba"] .gb-site .main-container) {
-        --fs-title: 14px;
-        --fs-section: 12px;
-        --fs-subtitle: 10px;
-        --fs-body: 11px;
-        --fs-small: 9px;
-        --fs-footer: 9px;
-        font-size: var(--fs-body) !important;
-      }
-      :global(html[data-display-mode="gba"] .gb-site .main-container :is(div, p, li, a, button, label, input, select, textarea, span, small, td, th)) {
-        font-size: min(1em, var(--fs-body)) !important;
-      }
-      :global(html[data-display-mode="gba"] .gb-site .main-container :is(h1, h1 *)) {
-        font-size: var(--fs-title) !important;
-      }
-      :global(html[data-display-mode="gba"] .gb-site .main-container :is(h2, h2 *)) {
-        font-size: var(--fs-section) !important;
-      }
-      :global(html[data-display-mode="gba"] .gb-site .main-container :is(h3, h3 *, h4, h4 *, h5, h5 *, h6, h6 *)) {
-        font-size: var(--fs-subtitle) !important;
-      }
-      /* フィルター名・選択肢・動画タグは本文より小さい共通サイズ。
-         汎用の本文サイズ上書きより優先し、全画面時も同じ階層を使う。 */
-      :global(html[data-display-mode="gba"] .gb-site .main-container #clips-gallery-section .clips-filters :is(.filter-label, .clips-filter-btn, .clips-sort-btn, .clips-col-btn, .clips-view-btn, .clips-result-info, .clips-yt-link)),
-      :global(html[data-display-mode="gba"] .gb-site .main-container #clips-gallery-section .clip-card :is(.clip-map-badge, .clip-agent-badge, .clip-kw-badge, .clip-video-title)) {
-        font-size: var(--fs-small) !important;
-      }
       :global(html[data-display-mode="gba"] .gb-site .main-container .filter-label) { min-width: 44px; }
       :global(html[data-display-mode="gba"] .gb-site .main-container .clips-filter-btn) { padding: 3px 6px; }
       :global(html[data-display-mode="gba"] .gb-site:not(:fullscreen):not(.fullscreen-fallback) .settings-panel :is(div, span, button, label)) {
-        font-size: clamp(7px, 1.8cqw, 9px) !important;
+        font-size: var(--fs-settings-console) !important;
       }
     </style>
 
