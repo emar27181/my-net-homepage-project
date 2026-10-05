@@ -47,7 +47,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
   >
     <GameBoyGallery siteMode>
     <!-- ナビゲーションバー -->
-    <nav id="page-nav">
+    <nav id="page-nav" slot="header">
       <a href="#" class="nav-site-title">nodoamen</a>
       <div class="nav-links">
         {NAV_CONFIG.links.map(link => (
@@ -56,7 +56,6 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       </div>
       <button id="display-mode-toggle" class="display-mode-toggle" type="button" aria-label="GBA表示に切り替える" aria-pressed="false" title="GBA表示に切り替える">
         <svg class="pixel-console" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M3 1h10v1H3zM2 2h1v12H2zm11 0h1v12h-1zM3 14h10v1H3zM4 4h8v1H4zm0 1h1v4H4zm7 0h1v4h-1zM5 8h6v1H5zM5 11h3v1H5zm2-1h1v3H7zm3 1h1v1h-1zm2 1h1v1h-1z"/></svg>
-        <svg class="pixel-page" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M2 2h12v1H2zM1 3h1v10H1zm13 0h1v10h-1zM2 13h12v1H2zM3 4h2v1H3zm3 0h2v1H6zm3 0h2v1H9zM2 6h12v1H2zM3 8h4v4H3zm5 0h5v1H8zm0 2h5v1H8zm0 2h3v1H8z"/></svg>
       </button>
       <button id="fullscreen-toggle" class="display-mode-toggle fullscreen-toggle" type="button" aria-label="全画面表示にする" aria-pressed="false" title="全画面表示にする" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M1 1h5v2H3v3H1zm9 0h5v5h-2V3h-3zM1 10h2v3h3v2H1zm12 0h2v5h-5v-2h3z"/></svg>
@@ -335,6 +334,12 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         flex-shrink: 0;
         margin-left: 12px;
       }
+      .settings-toggle-btn:focus-visible {
+        outline: none;
+        color: var(--col-text-light);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
 
       /* ========== 設定パネル ========== */
       .settings-panel {
@@ -416,8 +421,10 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
 
       /* ナビと設定も本体のスクリーン内に配置する */
       :global(html[data-display-mode="gba"]) #page-nav {
-        position: sticky;
+        position: relative;
         top: 0;
+        margin: 0;
+        flex: 0 0 auto;
         height: 44px;
         padding: 0 12px;
         z-index: 50;
@@ -432,6 +439,15 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         box-sizing: border-box;
       }
       :global(html[data-display-mode="gba"]) body { height: 100dvh; overflow: hidden; }
+      /* ゲーム機表示は文字・筐体・画面内UIを光彩やぼかしなしで描く。 */
+      :global(html[data-display-mode="gba"] .gb-site),
+      :global(html[data-display-mode="gba"] .gb-site *) {
+        text-shadow: none !important;
+        box-shadow: none !important;
+        filter: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
       :global(html[data-display-mode="gba"] .gb-site .main-container) {
         width: 100% !important;
         max-width: 100% !important;
@@ -466,17 +482,17 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         display: inline-flex; align-items: center; justify-content: center;
         width: 44px; height: 40px; padding: 0; margin: 0 4px;
         flex-shrink: 0; color: var(--col-primary); background: transparent;
-        border: 1px solid transparent; border-radius: 6px; cursor: pointer;
+        border: none; border-radius: 0; box-shadow: none; cursor: pointer;
       }
       .display-mode-toggle:hover, .display-mode-toggle[aria-pressed="true"] {
-        background: var(--col-primary-a12);
+        background: transparent;
+        color: var(--col-text-light);
       }
-      .display-mode-toggle:focus-visible { outline: 2px solid var(--col-primary); outline-offset: -2px; }
+      .display-mode-toggle:focus-visible { outline: none; color: var(--col-text-light); }
+      .display-mode-toggle:focus-visible svg { transform: scale(1.15); }
       .display-mode-toggle[hidden] { display: none !important; }
-      .pixel-console, .pixel-page { image-rendering: pixelated; }
-      .pixel-page { display: none; }
-      :global(html[data-display-mode="gba"]) .pixel-console { display: none; }
-      :global(html[data-display-mode="gba"]) .pixel-page { display: block; }
+      .pixel-console { image-rendering: pixelated; }
+      :global(html[data-display-mode="gba"]) #display-mode-toggle { display: none !important; }
       :global(html[data-display-mode="gba"]) .fullscreen-toggle { display: inline-flex; }
       :global(html[data-display-mode="gba"] .gb-site:fullscreen),
       :global(html[data-display-mode="gba"] .gb-site.fullscreen-fallback) { background: var(--col-bg-deeper); }
@@ -598,7 +614,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
             if (enable) screen?.scrollTo({ top: gbaScroll, behavior: 'instant' });
             else window.scrollTo({ top: normalScroll, behavior: 'instant' });
             window.dispatchEvent(new Event('resize'));
-            modeToggle.focus({ preventScroll: true });
+            (enable ? fullscreenToggle : modeToggle)?.focus({ preventScroll: true });
           });
         });
 

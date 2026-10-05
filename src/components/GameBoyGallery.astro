@@ -46,7 +46,7 @@ const { siteMode = false, frameless = false } = Astro.props;
         {siteMode ? <span class="gb-power-txt gb-work-counter">nodoame27181</span> : <span class="gb-power-txt gb-work-counter" id="viewer-hud-counter">01 / 10</span>}
       </div>
       <div class="gb-screen-frame">
-        {siteMode ? <><div class="gb-site-screen" id="gb-site-screen" tabindex="-1" aria-label="ポートフォリオの画面"><slot /></div>
+        {siteMode ? <><slot name="header" /><div class="gb-site-screen" id="gb-site-screen" tabindex="-1" aria-label="ポートフォリオの画面"><slot /></div>
           <div class="gb-menu-overlay" id="gb-menu" role="dialog" aria-modal="true" aria-label="目次メニュー" hidden>
             <div class="gb-menu-panel">
               <div class="gb-menu-title">▶ MENU <span>SELECT / OPTION</span></div>
@@ -243,12 +243,16 @@ const { siteMode = false, frameless = false } = Astro.props;
     flex: none;
     min-height: 0;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    /* ヘッダー上に黒い帯を残さず画面の上端まで使う。 */
+    border-top-width: 0;
   }
   .gb-menu-overlay[hidden] { display: none; }
   .gb-menu-overlay {
     position: absolute;
     inset: 0;
-    z-index: 20;
+    z-index: 60;
     display: grid;
     place-items: center;
     padding: 6%;
@@ -289,7 +293,8 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-menu-list button.selected::before { content: '▶'; margin-left: -15px; margin-right: 5px; }
   .gb-menu-help { border-top: 1px solid var(--col-primary); padding-top: 7px; font-size: 7px; color: var(--gb-text-mid); }
   .gb-site-screen {
-    height: 100%;
+    flex: 1 1 0;
+    min-height: 0;
     width: 100%;
     container-type: inline-size;
     box-sizing: border-box;
@@ -298,7 +303,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     scrollbar-width: thin;
     scrollbar-color: var(--gb-border) var(--col-bg-deeper);
     overscroll-behavior: contain;
-    scroll-padding-top: 56px;
+    scroll-padding-top: 8px;
     background: var(--col-bg-deeper);
   }
   .gb-site-screen:focus-visible { outline: 2px solid var(--col-primary); outline-offset: -2px; }
@@ -336,15 +341,84 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-site .gbdpad-center { width: 8cqw; height: 8cqw; }
   .gb-site .gbdpad-v { width: 8cqw; height: 6cqw; }
   .gb-site .gbdpad-h { width: 7cqw; height: 8cqw; }
+  /* 初代Game Boy風の受け皿と一体の十字。外側の影は付けない。 */
+  .gb-site .gb-dpad-area::before {
+    content: '';
+    position: absolute;
+    width: 24cqw;
+    height: 24cqw;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: var(--gb-panel-bg);
+    border: max(1px, 0.3cqw) solid var(--gb-ctrl-bdr);
+    pointer-events: none;
+  }
+  .gb-site .gb-dpad { position: relative; }
+  .gb-site .gbdpad-btn, .gb-site .gbdpad-center {
+    background: var(--gb-ctrl-bg);
+  }
+  .gb-site .gbdpad-btn { box-shadow: none; }
+  .gb-site .gbdpad-btn:not([disabled]):hover { background: var(--gb-dpad-sel); }
+  .gb-site .gbdpad-btn:not([disabled]):active { background: var(--gb-panel-bg); }
+  .gb-site .gbdpad-center { position: relative; }
+  .gb-site .gbdpad-center::after {
+    content: '';
+    position: absolute;
+    inset: 27%;
+    border-radius: 50%;
+    background: var(--gb-ctrl-bg);
+    border: 1px solid var(--gb-ctrl-bdr);
+  }
   .gb-site .gb-ss-row { gap: 1.8cqw; }
   .gb-site .gb-ss-slot { gap: 0.6cqw; }
-  .gb-site .gb-ss-btn { width: 8cqw; height: 2.2cqw; border-radius: 1.1cqw; }
-  .gb-site .gb-ss-label { font-size: clamp(4px, 1cqw, 5px); }
+  .gb-site .gb-ss-btn {
+    width: 8cqw;
+    height: 2.2cqw;
+    border-radius: 999px;
+    border: max(1px, 0.2cqw) solid var(--gb-ctrl-bdr);
+    background: var(--gb-item-sel);
+    box-shadow: 0 0 0 0.5cqw var(--gb-panel-bg);
+  }
+  .gb-site .gb-ss-btn:hover { background: var(--gb-dpad-sel); }
+  .gb-site .gb-ss-btn:active { background: var(--gb-panel-bg); box-shadow: 0 0 0 0.5cqw var(--gb-panel-bg); }
+  .gb-site .gb-ss-label { font-size: clamp(4px, 1cqw, 5px); text-shadow: none; }
   .gb-site .gb-ab-grid { flex-direction: row; align-items: center; gap: 1.2cqw; }
-  .gb-site .gb-b-wrap, .gb-site .gb-a-wrap { gap: 1cqw; }
+  .gb-site .gb-b-wrap, .gb-site .gb-a-wrap { gap: 1cqw; position: relative; }
   .gb-site .gb-a-wrap { margin-left: 0; }
-  .gb-site .gb-btn { width: 9cqw; height: 9cqw; }
-  .gb-site .gb-ab-label { font-size: clamp(5px, 1.5cqw, 8px); }
+  .gb-site .gb-b-wrap::before, .gb-site .gb-a-wrap::before {
+    content: '';
+    position: absolute;
+    left: -1cqw;
+    top: 50%;
+    width: 11cqw;
+    height: 11cqw;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: var(--gb-panel-bg);
+    border: max(1px, 0.2cqw) solid var(--gb-ctrl-bdr);
+    pointer-events: none;
+  }
+  .gb-site .gb-btn {
+    position: relative;
+    width: 9cqw;
+    height: 9cqw;
+    border-width: max(1px, 0.3cqw);
+    border-color: #651335;
+    background: #84234d;
+    box-shadow: none;
+  }
+  .gb-site .gb-btn:hover {
+    background: #96345c;
+    box-shadow: none;
+  }
+  .gb-site .gb-btn:active {
+    transform: translateY(1px);
+    background: #651b3d;
+    box-shadow: none;
+  }
+  .gb-site .gb-ab-label { font-size: clamp(5px, 1.5cqw, 8px); text-shadow: none; }
   .gb-site > .gb-body > .gb-speaker-row {
     position: absolute;
     right: 8%;
@@ -1422,6 +1496,42 @@ const { siteMode = false, frameless = false } = Astro.props;
   const controls = document.querySelector('.gb-site .gb-controls');
   controls?.addEventListener('contextmenu', event => event.preventDefault());
   controls?.addEventListener('selectstart', event => event.preventDefault());
+  const consoleBody = document.querySelector('.gb-site > .gb-body');
+  const isScreenTouch = (event: Event) => (event.target as Element | null)?.closest('.gb-site-screen, #page-nav, .gb-menu-overlay');
+  // iOS Safariの筐体・ボタン長押しで選択メニューを出さない。画面内の通常スクロールは残す。
+  consoleBody?.addEventListener('touchstart', event => {
+    if (!isScreenTouch(event)) event.preventDefault();
+  }, { passive: false });
+  consoleBody?.addEventListener('contextmenu', event => {
+    if (!isScreenTouch(event)) event.preventDefault();
+  });
+  consoleBody?.addEventListener('selectstart', event => {
+    if (!isScreenTouch(event)) event.preventDefault();
+  });
+  controls?.querySelectorAll<HTMLButtonElement>('button').forEach(button => {
+    if (button.dataset.siteScroll === 'up' || button.dataset.siteScroll === 'down') return;
+    let touchActivation = -Infinity;
+    let touchStart: { x: number; y: number } | null = null;
+    button.addEventListener('pointerdown', event => {
+      if (event.pointerType === 'touch') touchStart = { x: event.clientX, y: event.clientY };
+    });
+    // touchstartを抑止するとSafariは通常のclickを送らないので、指を離した時に一度だけ発火させる。
+    button.addEventListener('pointerup', event => {
+      if (event.pointerType !== 'touch') return;
+      const started = touchStart;
+      touchStart = null;
+      if (!started || Math.hypot(event.clientX - started.x, event.clientY - started.y) > 12) return;
+      touchActivation = performance.now();
+      button.click();
+    });
+    button.addEventListener('pointercancel', () => { touchStart = null; });
+    button.addEventListener('click', event => {
+      if (event.isTrusted && performance.now() - touchActivation < 700) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    }, true);
+  });
   const menu = document.getElementById('gb-menu');
   const menuItems = Array.from(menu?.querySelectorAll<HTMLButtonElement>('[data-menu-target]') ?? []);
   let menuOpen = false;
@@ -1437,6 +1547,8 @@ const { siteMode = false, frameless = false } = Astro.props;
     menuOpen = false;
     if (menu) menu.hidden = true;
     if (siteScreen) siteScreen.inert = false;
+    const nav = document.getElementById('page-nav');
+    if (nav) nav.inert = false;
     document.querySelector<HTMLButtonElement>('[data-site-action="menu"]')?.focus({ preventScroll: true });
   };
   const openMenu = () => {
@@ -1444,6 +1556,8 @@ const { siteMode = false, frameless = false } = Astro.props;
     menuOpen = true;
     menu.hidden = false;
     siteScreen.inert = true;
+    const nav = document.getElementById('page-nav');
+    if (nav) nav.inert = true;
     selectMenu(0);
   };
   const menuAction = (target: string) => {
@@ -1458,8 +1572,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     }
     const section = siteScreen.querySelector<HTMLElement>(`#${target}`);
     if (section) {
-      const navHeight = document.getElementById('page-nav')?.clientHeight ?? 44;
-      const top = siteScreen.scrollTop + section.getBoundingClientRect().top - siteScreen.getBoundingClientRect().top - navHeight - 8;
+      const top = siteScreen.scrollTop + section.getBoundingClientRect().top - siteScreen.getBoundingClientRect().top - 8;
       siteScreen.scrollTo({ top, behavior: 'instant' });
     }
   };
@@ -1519,11 +1632,10 @@ const { siteMode = false, frameless = false } = Astro.props;
       if (action === 'end') { siteScreen.scrollTo({ top: siteScreen.scrollHeight, behavior: scrollBehavior() }); return; }
       if (action !== 'next' && action !== 'prev') return;
       // 横方向は主要セクションの先頭へ移動する。空のアンカーは除く。
-      const navHeight = document.getElementById('page-nav')?.clientHeight ?? 44;
       const screenTop = siteScreen.getBoundingClientRect().top;
       const sectionTops = Array.from(siteScreen.querySelectorAll<HTMLElement>('.main-container > div'))
         .filter(section => section.clientHeight > 20)
-        .map(section => Math.max(0, siteScreen.scrollTop + section.getBoundingClientRect().top - screenTop - navHeight - 8));
+        .map(section => Math.max(0, siteScreen.scrollTop + section.getBoundingClientRect().top - screenTop - 8));
       const target = action === 'next'
         ? sectionTops.find(top => top > siteScreen.scrollTop + 12)
         : sectionTops.reverse().find(top => top < siteScreen.scrollTop - 12);
