@@ -221,14 +221,15 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         position: fixed;
         top: 0; left: 0; right: 0;
         z-index: 9000;
-        height: 40px;
+        box-sizing: border-box;
+        height: var(--nav-offset);
         background: var(--col-bg-mid);
         border-bottom: 1px solid var(--col-primary-a40);
         box-shadow: 0 2px 8px var(--col-bg-deep);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0 16px;
+        padding: var(--safe-top) 16px 0;
         font-family: var(--font-ui) !important;
       }
       .nav-site-title {
@@ -288,7 +289,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       /* ========== 設定パネル ========== */
       .settings-panel {
         position: fixed;
-        top: 42px; right: 8px;
+        top: calc(var(--nav-offset) + 2px); right: 8px;
         z-index: 8999;
         background: var(--col-bg-mid);
         border: 1px solid var(--col-primary-a40);
@@ -350,6 +351,11 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       }
       .hue-preset-btn:hover {
         background: color-mix(in srgb, var(--pc) 25%, transparent);
+      }
+
+      /* 通常表示: ステータスバー(safe-area)分だけ本文を下げる。ブラウザ表示では 0px */
+      :global(html:not([data-display-mode="gba"])) .mobile-body {
+        padding-top: var(--safe-top) !important; /* .mobile-body の padding:0 !important に勝たせる */
       }
 
       /* ナビ分のpadding */

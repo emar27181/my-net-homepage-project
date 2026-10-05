@@ -526,7 +526,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     </div>
 
     <!-- 統計データセクション -->
-    <div id="valorant-stats" style="scroll-margin-top: 52px;"></div>
+    <div id="valorant-stats" style="scroll-margin-top: calc(var(--nav-offset) + 12px);"></div>
     <ValorantStats
       competitiveAgentData={competitiveAgentData}
       competitiveRankData={competitiveRankData}
@@ -944,7 +944,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     .clips-gallery-section {
       padding: 8px !important;
       margin-bottom: 15px !important;
-      scroll-margin-top: 52px;
+      scroll-margin-top: calc(var(--nav-offset) + 12px);
     }
 
     /* グリッド内の個別要素の余白調整 */
