@@ -346,15 +346,17 @@ const { siteMode = false, frameless = false } = Astro.props;
     top: 50%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    background: radial-gradient(circle at 48% 45%, var(--gb-panel-bg) 0 60%, var(--gb-ctrl-bdr) 85%, var(--gb-body-grad1) 100%);
+    background: var(--gb-panel-bg);
     border: max(1px, 0.3cqw) solid var(--gb-ctrl-bdr);
     pointer-events: none;
   }
   .gb-site .gb-dpad { position: relative; }
   .gb-site .gbdpad-btn, .gb-site .gbdpad-center {
-    background: linear-gradient(145deg, var(--gb-ctrl-bdr), var(--gb-ctrl-bg) 38% 75%, var(--col-bg-deeper));
+    background: var(--gb-ctrl-bg);
   }
-  .gb-site .gbdpad-btn { box-shadow: inset 0 1px 0 rgba(255,255,255,0.09); }
+  .gb-site .gbdpad-btn { box-shadow: none; }
+  .gb-site .gbdpad-btn:not([disabled]):hover { background: var(--gb-dpad-sel); }
+  .gb-site .gbdpad-btn:not([disabled]):active { background: var(--gb-panel-bg); }
   .gb-site .gbdpad-center { position: relative; }
   .gb-site .gbdpad-center::after {
     content: '';
@@ -371,10 +373,12 @@ const { siteMode = false, frameless = false } = Astro.props;
     height: 2.2cqw;
     border-radius: 999px;
     border: max(1px, 0.2cqw) solid var(--gb-ctrl-bdr);
-    background: linear-gradient(180deg, var(--gb-ctrl-bdr), var(--gb-item-sel) 55%, var(--gb-panel-bg));
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 0 0 0.5cqw var(--gb-panel-bg);
+    background: var(--gb-item-sel);
+    box-shadow: 0 0 0 0.5cqw var(--gb-panel-bg);
   }
-  .gb-site .gb-ss-label { font-size: clamp(4px, 1cqw, 5px); }
+  .gb-site .gb-ss-btn:hover { background: var(--gb-dpad-sel); }
+  .gb-site .gb-ss-btn:active { background: var(--gb-panel-bg); box-shadow: 0 0 0 0.5cqw var(--gb-panel-bg); }
+  .gb-site .gb-ss-label { font-size: clamp(4px, 1cqw, 5px); text-shadow: none; }
   .gb-site .gb-ab-grid { flex-direction: row; align-items: center; gap: 1.2cqw; }
   .gb-site .gb-b-wrap, .gb-site .gb-a-wrap { gap: 1cqw; position: relative; }
   .gb-site .gb-a-wrap { margin-left: 0; }
@@ -397,18 +401,19 @@ const { siteMode = false, frameless = false } = Astro.props;
     height: 9cqw;
     border-width: max(1px, 0.3cqw);
     border-color: #651335;
-    background: radial-gradient(circle at 36% 27%, #b75079, #84234d 55%, #5b1538 100%);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.21), inset 0 -1px 0 rgba(0,0,0,0.33);
+    background: #84234d;
+    box-shadow: none;
   }
   .gb-site .gb-btn:hover {
-    background: radial-gradient(circle at 36% 27%, #c85f86, #933059 55%, #641a3d 100%);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.23), inset 0 -1px 0 rgba(0,0,0,0.33);
+    background: #96345c;
+    box-shadow: none;
   }
   .gb-site .gb-btn:active {
     transform: translateY(1px);
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+    background: #651b3d;
+    box-shadow: none;
   }
-  .gb-site .gb-ab-label { font-size: clamp(5px, 1.5cqw, 8px); }
+  .gb-site .gb-ab-label { font-size: clamp(5px, 1.5cqw, 8px); text-shadow: none; }
   .gb-site > .gb-body > .gb-speaker-row {
     position: absolute;
     right: 8%;
