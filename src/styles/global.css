@@ -70,6 +70,9 @@
   --col-text-muted:   hsl(var(--theme-hue), 20%, 40%);  /* #556677相当 */
   --col-text-dim:     hsl(var(--theme-hue), 18%, 32%);  /* #445566相当 */
   --col-text-soft:    hsl(var(--theme-hue), 42%, 60%);  /* #445566相当 */
+  --col-nav-text: var(--col-text-light);
+  --nav-icon-size: 16px;
+  --nav-console-icon-size: clamp(10px, 3cqw, 14px);
   --col-text-light:   hsl(var(--theme-hue), 50%, 72%);  /* #99aaff相当 */
 
   /* ===== GameBoyGallery コンポーネント色（一元管理） ===== */
