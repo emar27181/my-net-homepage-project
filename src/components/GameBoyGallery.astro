@@ -393,8 +393,12 @@ const { siteMode = false, frameless = false } = Astro.props;
     background: var(--gb-ctrl-bg);
   }
   .gb-site .gbdpad-btn { box-shadow: none; }
-  .gb-site .gbdpad-btn:not([disabled]):hover { background: var(--gb-dpad-sel); }
-  .gb-site .gbdpad-btn:not([disabled]):active { background: var(--gb-panel-bg); }
+  .gb-site .gbdpad-btn:not([disabled]):hover { background: var(--gb-ctrl-bg); }
+  .gb-site .gbdpad-btn:not([disabled]):is(:active, .is-pressed) {
+    background: var(--gb-dpad-pressed);
+    color: var(--gb-text-dim);
+    transform: translateY(1px);
+  }
   .gb-site .gbdpad-center { position: relative; }
   .gb-site .gbdpad-center::after {
     content: '';
@@ -1527,6 +1531,17 @@ const { siteMode = false, frameless = false } = Astro.props;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const scrollBehavior = () => reducedMotion.matches ? 'auto' as const : 'smooth' as const;
   const controls = document.querySelector('.gb-site .gb-controls');
+  const dpadButtons = controls?.querySelectorAll<HTMLButtonElement>('.gbdpad-btn');
+  const releaseDpad = () => dpadButtons?.forEach(button => button.classList.remove('is-pressed'));
+  dpadButtons?.forEach(button => {
+    button.addEventListener('pointerdown', event => {
+      if (button.disabled || (event.pointerType === 'mouse' && event.button !== 0)) return;
+      button.classList.add('is-pressed');
+    });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(type => button.addEventListener(type, releaseDpad));
+  });
+  ['pointerup', 'pointercancel', 'blur', 'pagehide'].forEach(type => window.addEventListener(type, releaseDpad));
+  new MutationObserver(releaseDpad).observe(document.documentElement, { attributes: true, attributeFilter: ['data-display-mode'] });
   controls?.addEventListener('contextmenu', event => event.preventDefault());
   controls?.addEventListener('selectstart', event => event.preventDefault());
   const consoleBody = document.querySelector('.gb-site > .gb-body');

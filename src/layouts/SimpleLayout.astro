@@ -17,7 +17,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <link rel="icon" type="image/png" href="/icon_omencat_transparent.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/omen-cat-apple-180.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
@@ -435,7 +435,8 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         width: min(280px, calc(100% - 16px));
         box-sizing: border-box;
       }
-      :global(html[data-display-mode="gba"]) body { height: 100dvh; overflow: hidden; }
+      :global(html[data-display-mode="gba"]) { background-color: var(--gb-body-bg); }
+      :global(html[data-display-mode="gba"]) body { height: 100dvh; overflow: hidden; background-color: var(--gb-body-bg); }
       /* ゲーム機表示は文字・筐体・画面内UIを光彩やぼかしなしで描く。 */
       :global(html[data-display-mode="gba"] .gb-site),
       :global(html[data-display-mode="gba"] .gb-site *) {
@@ -566,6 +567,14 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         const HUE_KEY         = 'theme-hue';
         const HUE_DEFAULT_KEY = 'theme-hue-config-default';
         const root            = document.documentElement;
+        // 時刻周辺とブラウザーのUIも、筐体上端と同じ共通色に合わせる。
+        const syncBrowserColor = () => {
+          const token = root.dataset.displayMode === 'gba' ? '--gb-body-bg' : '--col-bg-mid';
+          const color = getComputedStyle(root).getPropertyValue(token).trim();
+          if (color) document.querySelector('meta[name="theme-color"]')?.setAttribute('content', color);
+        };
+        new MutationObserver(syncBrowserColor).observe(root, { attributes: true, attributeFilter: ['style', 'data-display-mode'] });
+        syncBrowserColor();
 
         const modeToggle = document.getElementById('display-mode-toggle');
         const fullscreenToggle = document.getElementById('fullscreen-toggle') as HTMLButtonElement | null;
