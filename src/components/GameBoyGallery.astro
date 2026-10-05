@@ -161,11 +161,11 @@ const { siteMode = false, frameless = false } = Astro.props;
       <div class="gb-ab-area">
         <div class="gb-ab-grid">
           <div class="gb-b-wrap">
-            <button class="gb-btn gb-b-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "前のセクション" : undefined} data-site-scroll={siteMode ? "prev" : undefined}></button>
+            <button class="gb-btn gb-b-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "キャンセルして戻る" : undefined} data-site-scroll={siteMode ? "prev" : undefined}></button>
             <span class="gb-ab-label">B</span>
           </div>
           <div class="gb-a-wrap">
-            <button class="gb-btn gb-a-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "次のセクション" : undefined} data-site-scroll={siteMode ? "next" : undefined}></button>
+            <button class="gb-btn gb-a-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "表示中のコンテンツを操作" : undefined} data-site-scroll={siteMode ? "next" : undefined}></button>
             <span class="gb-ab-label">A</span>
           </div>
         </div>
@@ -309,7 +309,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     cursor: pointer;
   }
   .gb-menu-list button.selected, .gb-menu-list button:focus-visible { background: var(--col-primary-a30); outline: 1px solid var(--col-primary); }
-  .gb-menu-list button.selected::before { content: '▶'; margin-left: -15px; margin-right: 5px; }
+  .gb-menu-list button.selected::before { content: '▶'; margin-left: -15px; margin-right: 5px; color: var(--gb-dpad-arrow); }
   .gb-menu-help { border-top: 1px solid var(--col-primary); padding-top: 7px; font-size: 7px; color: var(--gb-text-mid); }
   .gb-color-chip { display: inline-block; width: 8px; height: 8px; margin-right: 7px; }
   .gb-hue-stepper { display: flex; padding: 0 7px 5px 21px; gap: 5px; }
@@ -1596,6 +1596,9 @@ const { siteMode = false, frameless = false } = Astro.props;
   let menuItems: HTMLButtonElement[] = [];
   let buttonMode = false;
   let selectedButton: HTMLButtonElement | null = null;
+  let contentScope: HTMLElement | null = null;
+  let pageScrollSnapshot: number | null = null;
+  let helpTimeout: number | undefined;
   let colorSnapshot: number | null = null;
   let draftHue = 225;
   let customHue = 225;
@@ -1604,8 +1607,8 @@ const { siteMode = false, frameless = false } = Astro.props;
   const inputMode = () => menuOpen ? 'menu' : buttonMode ? 'buttons' : 'page';
   const syncControls = () => {
     const selecting = menuOpen || buttonMode;
-    controls?.querySelector('.gb-a-btn')?.setAttribute('aria-label', selecting ? '選択を確定' : '次のセクション');
-    controls?.querySelector('.gb-b-btn')?.setAttribute('aria-label', selecting ? 'キャンセルして戻る' : '前のセクション');
+    controls?.querySelector('.gb-a-btn')?.setAttribute('aria-label', selecting ? '選択を確定' : '表示中のコンテンツを操作');
+    controls?.querySelector('.gb-b-btn')?.setAttribute('aria-label', 'キャンセルして戻る');
     document.documentElement.dataset.gbInput = inputMode();
   };
   const readHue = () => Number(document.documentElement.style.getPropertyValue('--theme-hue'));
@@ -1648,9 +1651,13 @@ const { siteMode = false, frameless = false } = Astro.props;
   };
   const exitButtonMode = () => {
     stopRepeats();
+    window.clearTimeout(helpTimeout);
     buttonMode = false;
     selectedButton?.classList.remove('gb-ui-selected');
     selectedButton = null;
+    contentScope = null;
+    if (pageScrollSnapshot !== null) siteScreen?.scrollTo({ top: pageScrollSnapshot, behavior: 'instant' });
+    pageScrollSnapshot = null;
     if (actionHelp) actionHelp.hidden = true;
     syncControls();
   };
@@ -1675,7 +1682,28 @@ const { siteMode = false, frameless = false } = Astro.props;
     setMenuView(view);
     syncControls();
   };
-  const uiButtons = () => Array.from(siteScreen?.querySelectorAll<HTMLButtonElement>('.clips-filters button, .clips-expand-btn, .mode-btn, .charts-grid button') ?? [])
+  const currentContent = () => {
+    if (!siteScreen) return null;
+    const screenRect = siteScreen.getBoundingClientRect();
+    // 画面上寄りの位置を含むセクションを優先し、なければ最も広く見えているもの。
+    const anchor = screenRect.top + Math.min(48, siteScreen.clientHeight * 0.2);
+    const sections = Array.from(siteScreen.querySelectorAll<HTMLElement>('.main-container > div'));
+    const visible = sections.filter(section => {
+      const rect = section.getBoundingClientRect();
+      return rect.bottom > screenRect.top && rect.top < screenRect.bottom && section.getClientRects().length > 0;
+    });
+    return visible.find(section => {
+      const rect = section.getBoundingClientRect();
+      return rect.top <= anchor && rect.bottom > anchor;
+    }) ?? visible.sort((a, b) => {
+      const overlap = (section: HTMLElement) => {
+        const rect = section.getBoundingClientRect();
+        return Math.min(rect.bottom, screenRect.bottom) - Math.max(rect.top, screenRect.top);
+      };
+      return overlap(b) - overlap(a);
+    })[0] ?? null;
+  };
+  const uiButtons = () => Array.from(contentScope?.querySelectorAll<HTMLButtonElement>('.clips-filters button, .clips-expand-btn, .mode-btn, .charts-grid button, #copy-crosshair-text') ?? [])
     .filter(button => !button.disabled && !button.closest('[inert]') && button.getClientRects().length > 0 && getComputedStyle(button).visibility !== 'hidden');
   const selectUIButton = (button: HTMLButtonElement) => {
     selectedButton?.classList.remove('gb-ui-selected');
@@ -1690,7 +1718,8 @@ const { siteMode = false, frameless = false } = Astro.props;
     }
     if (actionHelp) {
       actionHelp.hidden = false;
-      actionHelp.textContent = `${button.textContent?.trim() ?? 'BUTTON'}　十字: 選択　A: 決定　B: 終了`;
+      const title = contentScope?.querySelector('h2')?.textContent?.trim() ?? 'CONTENT';
+      actionHelp.textContent = `${title} › ${button.textContent?.trim() ?? 'BUTTON'}　十字: 選択　A: 切替　B: 戻る`;
     }
   };
   const moveUIButton = (direction: number) => {
@@ -1701,9 +1730,18 @@ const { siteMode = false, frameless = false } = Astro.props;
   };
   const enterButtonMode = () => {
     // オプションを閉じてから候補を集め、inertの影響を除く。
-    closeMenu();
+    if (menuOpen) closeMenu();
+    stopRepeats();
+    window.clearTimeout(helpTimeout);
+    contentScope = currentContent();
     const buttons = uiButtons();
-    if (!buttons.length) { openMenu('options'); if (menuHelp) menuHelp.textContent = '操作できるボタンがありません'; return; }
+    if (!buttons.length) {
+      contentScope = null;
+      if (actionHelp) { actionHelp.hidden = false; actionHelp.textContent = 'このコンテンツには操作項目がありません'; }
+      helpTimeout = window.setTimeout(() => { if (actionHelp) actionHelp.hidden = true; }, 2000);
+      return;
+    }
+    pageScrollSnapshot = siteScreen?.scrollTop ?? 0;
     buttonMode = true;
     const screenTop = siteScreen?.getBoundingClientRect().top ?? 0;
     selectUIButton(buttons.find(button => button.getBoundingClientRect().bottom > screenTop + 8) ?? buttons[0]);
@@ -1753,7 +1791,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   };
   const confirmSelection = () => {
     if (menuOpen) { menuItems[menuIndex]?.click(); return; }
-    if (!buttonMode) return;
+    if (!buttonMode) { enterButtonMode(); return; }
     const buttons = uiButtons();
     const index = selectedButton ? buttons.indexOf(selectedButton) : -1;
     if (index < 0) { if (buttons[0]) selectUIButton(buttons[0]); else exitButtonMode(); return; }
@@ -1796,8 +1834,12 @@ const { siteMode = false, frameless = false } = Astro.props;
     button.addEventListener('click', () => openMenu());
   });
   document.addEventListener('keydown', event => {
-    if (document.documentElement.dataset.displayMode !== 'gba' || (!menuOpen && !buttonMode)) return;
+    if (document.documentElement.dataset.displayMode !== 'gba') return;
     if (event.altKey || event.ctrlKey || event.metaKey || (event.target as Element | null)?.matches('input, textarea, select, [contenteditable="true"]')) return;
+    if (!menuOpen && !buttonMode) {
+      if (event.key.toLowerCase() === 'a') { event.preventDefault(); if (!event.repeat) enterButtonMode(); }
+      return;
+    }
     if (event.key === 'Tab' && menuOpen) { event.preventDefault(); selectMenu(menuIndex + (event.shiftKey ? -1 : 1)); return; }
     if (['ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight'].includes(event.key)) {
       event.preventDefault();
@@ -1848,6 +1890,8 @@ const { siteMode = false, frameless = false } = Astro.props;
         else if (action === 'prev') cancelSelection();
         return;
       }
+      if (button.classList.contains('gb-a-btn')) { enterButtonMode(); return; }
+      if (button.classList.contains('gb-b-btn')) return;
       if (action === 'home') { siteScreen.scrollTo({ top: 0, behavior: scrollBehavior() }); return; }
       if (action === 'end') { siteScreen.scrollTo({ top: siteScreen.scrollHeight, behavior: scrollBehavior() }); return; }
       if (action !== 'next' && action !== 'prev') return;
