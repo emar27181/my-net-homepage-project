@@ -147,11 +147,11 @@ const { siteMode = false, frameless = false } = Astro.props;
       <div class="gb-mid-area">
         <div class="gb-ss-row">
           <div class="gb-ss-slot">
-            <button class="gb-ss-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "設定メニューを開く" : undefined} data-site-action={siteMode ? "menu" : undefined}></button>
+            <button class="gb-ss-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "目次メニューを開く" : undefined} data-site-action={siteMode ? "menu" : undefined}></button>
             <span class="gb-ss-label">SEL</span>
           </div>
           <div class="gb-ss-slot">
-            <button class="gb-ss-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "設定メニューを開く" : undefined} data-site-action={siteMode ? "menu" : undefined}></button>
+            <button class="gb-ss-btn" tabindex={siteMode ? 0 : -1} aria-hidden={siteMode ? undefined : "true"} aria-label={siteMode ? "目次メニューを開く" : undefined} data-site-action={siteMode ? "menu" : undefined}></button>
             <span class="gb-ss-label">STA</span>
           </div>
         </div>
@@ -1775,7 +1775,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   });
   document.addEventListener('gb:open-options', () => openMenu('options'));
   document.querySelectorAll('[data-site-action="menu"]').forEach(button => {
-    button.addEventListener('click', () => openMenu('options'));
+    button.addEventListener('click', () => openMenu());
   });
   document.addEventListener('keydown', event => {
     if (document.documentElement.dataset.displayMode !== 'gba' || (!menuOpen && !buttonMode)) return;
