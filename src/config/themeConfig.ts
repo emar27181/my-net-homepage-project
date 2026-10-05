@@ -22,6 +22,16 @@ export const THEME_CONFIG = {
   },
 } as const;
 
+// 通常設定とゲーム内オプションで共通のカラープリセット。
+export const THEME_PRESETS = [
+  { label: 'Blue', hue: 225 },
+  { label: 'Cyan', hue: 180 },
+  { label: 'Purple', hue: 270 },
+  { label: 'Pink', hue: 300 },
+  { label: 'Green', hue: 120 },
+  { label: 'Orange', hue: 30 },
+] as const;
+
 // ========================================
 // HSL色空間でテーマカラーを生成
 // ========================================

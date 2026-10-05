@@ -1,6 +1,7 @@
 ---
 // GameBoyGallery.astro - ゲームボーイ風ギャラリービューワー
 // 画像ナビゲーション + CRT/GB/VHS フィルター切り替え機能付き
+import { THEME_PRESETS } from '../config/themeConfig';
 interface Props { siteMode?: boolean; frameless?: boolean; }
 const { siteMode = false, frameless = false } = Astro.props;
 ---
@@ -49,8 +50,8 @@ const { siteMode = false, frameless = false } = Astro.props;
         {siteMode ? <><slot name="header" /><div class="gb-site-screen" id="gb-site-screen" tabindex="-1" aria-label="ポートフォリオの画面"><slot /></div>
           <div class="gb-menu-overlay" id="gb-menu" role="dialog" aria-modal="true" aria-label="目次メニュー" hidden>
             <div class="gb-menu-panel">
-              <div class="gb-menu-title">▶ MENU <span>SELECT / OPTION</span></div>
-              <div class="gb-menu-list">
+              <div class="gb-menu-title"><span id="gb-menu-heading">MENU</span><span>SELECT / OPTION</span></div>
+              <div class="gb-menu-list" data-menu-view="main">
                 <button data-menu-target="top">TOP</button>
                 <button data-menu-target="about-section">ABOUT ME</button>
                 <button data-menu-target="clips-gallery-section">CLIPS</button>
@@ -58,13 +59,30 @@ const { siteMode = false, frameless = false } = Astro.props;
                 <button data-menu-target="device-section">DEVICE</button>
                 <button data-menu-target="works-section">WORKS</button>
                 <button data-menu-target="bottom">BOTTOM</button>
-                <button data-menu-target="settings">SETTINGS</button>
+                <button data-menu-target="settings">OPTIONS</button>
                 <button data-menu-target="fullscreen">FULL SCREEN</button>
                 <button data-menu-target="normal">EXIT GAME</button>
               </div>
-              <div class="gb-menu-help">↑↓ SELECT　 A OK　 B BACK</div>
+              <div class="gb-menu-list" data-menu-view="options" hidden>
+                <button data-option="colors">COLOR</button>
+                <button data-option="buttons">BUTTONS / TAGS</button>
+                <button data-option="back">BACK</button>
+              </div>
+              <div class="gb-menu-list" data-menu-view="colors" hidden>
+                {THEME_PRESETS.map(preset => (
+                  <button data-option="color" data-hue={preset.hue}><i class="gb-color-chip" style={`background: hsl(${preset.hue},100%,65%)`}></i>{preset.label.toUpperCase()}</button>
+                ))}
+                <button data-option="custom">HUE ◀ <span id="gb-custom-hue">225</span> ▶</button>
+                <div class="gb-hue-stepper" id="gb-hue-stepper" hidden>
+                  <button data-hue-step="-5" aria-label="色相を5下げる">◀ −5</button>
+                  <button data-hue-step="5" aria-label="色相を5上げる">+5 ▶</button>
+                </div>
+                <button data-option="back">CANCEL</button>
+              </div>
+              <div class="gb-menu-help" id="gb-menu-help">十字: 選択　A: 決定　B: 戻る</div>
             </div>
-          </div></> : <div class="viewer-frame" id="viewer-frame">
+          </div>
+          <div class="gb-action-help" id="gb-action-help" role="status" hidden>十字: 選択　A: 決定　B: 終了</div></> : <div class="viewer-frame" id="viewer-frame">
           <!-- HUD 上部 -->
           <div class="viewer-hud-top">
             <span class="hud-left">▶ GALLERY</span>
@@ -276,7 +294,8 @@ const { siteMode = false, frameless = false } = Astro.props;
     box-shadow: 4px 4px 0 #000;
   }
   .gb-menu-title { display: flex; justify-content: space-between; gap: 4px; padding-bottom: 7px; border-bottom: 1px solid var(--col-primary); font-size: 10px; }
-  .gb-menu-title span { font-size: 7px; color: var(--gb-text-mid); }
+  .gb-menu-title > span:last-child { font-size: 7px; color: var(--gb-text-mid); }
+  .gb-menu-list[hidden], .gb-action-help[hidden] { display: none; }
   .gb-menu-list { overflow-y: auto; min-height: 0; padding: 5px 0; }
   .gb-menu-list button {
     display: block;
@@ -292,6 +311,20 @@ const { siteMode = false, frameless = false } = Astro.props;
   .gb-menu-list button.selected, .gb-menu-list button:focus-visible { background: var(--col-primary-a30); outline: 1px solid var(--col-primary); }
   .gb-menu-list button.selected::before { content: '▶'; margin-left: -15px; margin-right: 5px; }
   .gb-menu-help { border-top: 1px solid var(--col-primary); padding-top: 7px; font-size: 7px; color: var(--gb-text-mid); }
+  .gb-color-chip { display: inline-block; width: 8px; height: 8px; margin-right: 7px; }
+  .gb-hue-stepper { display: flex; padding: 0 7px 5px 21px; gap: 5px; }
+  .gb-hue-stepper[hidden] { display: none; }
+  .gb-hue-stepper button { width: auto; padding: 5px; border: 1px solid var(--col-primary); }
+  .gb-action-help {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 55;
+    padding: 5px; background: var(--col-bg-mid); color: var(--col-heading);
+    border-top: 1px solid var(--col-primary); font-size: 8px; pointer-events: none;
+  }
+  :global(html[data-display-mode="gba"] .gb-ui-selected) {
+    outline: 2px dotted var(--col-heading) !important;
+    outline-offset: 2px;
+    background: var(--col-primary-a30) !important;
+  }
   .gb-site-screen {
     flex: 1 1 0;
     min-height: 0;
@@ -1533,36 +1566,143 @@ const { siteMode = false, frameless = false } = Astro.props;
     }, true);
   });
   const menu = document.getElementById('gb-menu');
-  const menuItems = Array.from(menu?.querySelectorAll<HTMLButtonElement>('[data-menu-target]') ?? []);
+  const nav = document.getElementById('page-nav');
+  const menuHeading = document.getElementById('gb-menu-heading');
+  const menuHelp = document.getElementById('gb-menu-help');
+  const actionHelp = document.getElementById('gb-action-help');
+  const customHueDisplay = document.getElementById('gb-custom-hue');
+  type MenuView = 'main' | 'options' | 'colors';
   let menuOpen = false;
+  let menuView: MenuView = 'main';
   let menuIndex = 0;
+  let menuItems: HTMLButtonElement[] = [];
+  let buttonMode = false;
+  let selectedButton: HTMLButtonElement | null = null;
+  let colorSnapshot: number | null = null;
+  let draftHue = 225;
+  let customHue = 225;
+  const repeatStops: Array<() => void> = [];
+  const stopRepeats = () => repeatStops.forEach(stop => stop());
+  const inputMode = () => menuOpen ? 'menu' : buttonMode ? 'buttons' : 'page';
+  const syncControls = () => {
+    const selecting = menuOpen || buttonMode;
+    controls?.querySelector('.gb-a-btn')?.setAttribute('aria-label', selecting ? '選択を確定' : '次のセクション');
+    controls?.querySelector('.gb-b-btn')?.setAttribute('aria-label', selecting ? 'キャンセルして戻る' : '前のセクション');
+    document.documentElement.dataset.gbInput = inputMode();
+  };
+  const readHue = () => Number(document.documentElement.style.getPropertyValue('--theme-hue'));
+  const applyGameHue = (hue: number, persist = false) => {
+    document.dispatchEvent(new CustomEvent('portfolio:theme-hue', { detail: { hue, persist } }));
+  };
+  const restoreColor = () => {
+    if (colorSnapshot !== null) applyGameHue(colorSnapshot);
+    colorSnapshot = null;
+  };
+  const previewSelection = () => {
+    if (menuView !== 'colors' || colorSnapshot === null) return;
+    const item = menuItems[menuIndex];
+    draftHue = item?.dataset.option === 'custom' ? customHue
+      : item?.dataset.option === 'color' ? Number(item.dataset.hue) : colorSnapshot;
+    applyGameHue(draftHue);
+    if (customHueDisplay) customHueDisplay.textContent = String(customHue);
+    const stepper = document.getElementById('gb-hue-stepper');
+    if (stepper) stepper.hidden = item?.dataset.option !== 'custom';
+  };
   const selectMenu = (index: number) => {
+    if (!menuItems.length) return;
     menuIndex = (index + menuItems.length) % menuItems.length;
     menuItems.forEach((item, i) => item.classList.toggle('selected', i === menuIndex));
     menuItems[menuIndex]?.focus({ preventScroll: true });
     menuItems[menuIndex]?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+    previewSelection();
+  };
+  const setMenuView = (view: MenuView, index = 0) => {
+    stopRepeats();
+    menuView = view;
+    menu?.setAttribute('data-view', view);
+    menu?.querySelectorAll<HTMLElement>('[data-menu-view]').forEach(list => {
+      list.hidden = list.dataset.menuView !== view;
+    });
+    menuItems = Array.from(menu?.querySelectorAll<HTMLButtonElement>(`[data-menu-view="${view}"] button[data-menu-target], [data-menu-view="${view}"] button[data-option]`) ?? []);
+    if (menuHeading) menuHeading.textContent = view === 'main' ? 'MENU' : view === 'options' ? 'OPTIONS' : 'COLOR';
+    if (menuHelp) menuHelp.textContent = view === 'colors' ? '十字: 試す　A: 保存　B: 元に戻す' : '十字: 選択　A: 決定　B: 戻る';
+    selectMenu(index);
+  };
+  const exitButtonMode = () => {
+    stopRepeats();
+    buttonMode = false;
+    selectedButton?.classList.remove('gb-ui-selected');
+    selectedButton = null;
+    if (actionHelp) actionHelp.hidden = true;
+    syncControls();
   };
   const closeMenu = () => {
-    if (!menuOpen) return;
+    stopRepeats();
+    restoreColor();
     menuOpen = false;
     if (menu) menu.hidden = true;
     if (siteScreen) siteScreen.inert = false;
-    const nav = document.getElementById('page-nav');
     if (nav) nav.inert = false;
+    syncControls();
     document.querySelector<HTMLButtonElement>('[data-site-action="menu"]')?.focus({ preventScroll: true });
   };
-  const openMenu = () => {
+  const openMenu = (view: MenuView = 'main') => {
     if (!menu || !siteScreen || document.documentElement.dataset.displayMode !== 'gba') return;
+    exitButtonMode();
+    restoreColor();
     menuOpen = true;
     menu.hidden = false;
     siteScreen.inert = true;
-    const nav = document.getElementById('page-nav');
     if (nav) nav.inert = true;
-    selectMenu(0);
+    setMenuView(view);
+    syncControls();
+  };
+  const uiButtons = () => Array.from(siteScreen?.querySelectorAll<HTMLButtonElement>('.clips-filters button, .clips-expand-btn, .mode-btn, .charts-grid button') ?? [])
+    .filter(button => !button.disabled && !button.closest('[inert]') && button.getClientRects().length > 0 && getComputedStyle(button).visibility !== 'hidden');
+  const selectUIButton = (button: HTMLButtonElement) => {
+    selectedButton?.classList.remove('gb-ui-selected');
+    selectedButton = button;
+    button.classList.add('gb-ui-selected');
+    button.focus({ preventScroll: true });
+    if (siteScreen) {
+      const screenRect = siteScreen.getBoundingClientRect();
+      const rect = button.getBoundingClientRect();
+      if (rect.top < screenRect.top + 8) siteScreen.scrollBy({ top: rect.top - screenRect.top - 8, behavior: 'instant' });
+      else if (rect.bottom > screenRect.bottom - 28) siteScreen.scrollBy({ top: rect.bottom - screenRect.bottom + 28, behavior: 'instant' });
+    }
+    if (actionHelp) {
+      actionHelp.hidden = false;
+      actionHelp.textContent = `${button.textContent?.trim() ?? 'BUTTON'}　十字: 選択　A: 決定　B: 終了`;
+    }
+  };
+  const moveUIButton = (direction: number) => {
+    const buttons = uiButtons();
+    if (!buttons.length) { exitButtonMode(); return; }
+    const index = selectedButton ? buttons.indexOf(selectedButton) : -1;
+    selectUIButton(buttons[(Math.max(0, index) + direction + buttons.length) % buttons.length]);
+  };
+  const enterButtonMode = () => {
+    // オプションを閉じてから候補を集め、inertの影響を除く。
+    closeMenu();
+    const buttons = uiButtons();
+    if (!buttons.length) { openMenu('options'); if (menuHelp) menuHelp.textContent = '操作できるボタンがありません'; return; }
+    buttonMode = true;
+    const screenTop = siteScreen?.getBoundingClientRect().top ?? 0;
+    selectUIButton(buttons.find(button => button.getBoundingClientRect().bottom > screenTop + 8) ?? buttons[0]);
+    syncControls();
+  };
+  const cancelSelection = () => {
+    if (buttonMode) { exitButtonMode(); siteScreen?.focus({ preventScroll: true }); return; }
+    if (!menuOpen) return;
+    if (menuView === 'colors') { restoreColor(); setMenuView('options'); }
+    else if (menuView === 'options') {
+      setMenuView('main');
+      selectMenu(menuItems.findIndex(item => item.dataset.menuTarget === 'settings'));
+    } else closeMenu();
   };
   const menuAction = (target: string) => {
+    if (target === 'settings') { setMenuView('options'); return; }
     closeMenu();
-    if (target === 'settings') { document.getElementById('settings-toggle')?.click(); return; }
     if (target === 'fullscreen') { document.getElementById('fullscreen-toggle')?.click(); return; }
     if (target === 'normal') { document.getElementById('display-mode-toggle')?.click(); return; }
     if (!siteScreen) return;
@@ -1576,62 +1716,121 @@ const { siteMode = false, frameless = false } = Astro.props;
       siteScreen.scrollTo({ top, behavior: 'instant' });
     }
   };
-  menuItems.forEach((item, index) => {
-    item.addEventListener('pointerenter', () => { if (menuOpen) selectMenu(index); });
-    item.addEventListener('click', () => menuAction(item.dataset.menuTarget ?? 'top'));
+  const optionAction = (item: HTMLButtonElement) => {
+    if (item.dataset.option === 'back') { cancelSelection(); return; }
+    if (menuView === 'colors') {
+      selectMenu(menuItems.indexOf(item));
+      applyGameHue(draftHue, true);
+      colorSnapshot = null;
+      setMenuView('options');
+      return;
+    }
+    if (item.dataset.option === 'colors') {
+      colorSnapshot = readHue();
+      customHue = colorSnapshot;
+      setMenuView('colors');
+      const index = menuItems.findIndex(button => button.dataset.option === 'color' && Number(button.dataset.hue) === colorSnapshot);
+      selectMenu(index < 0 ? menuItems.findIndex(button => button.dataset.option === 'custom') : index);
+    } else if (item.dataset.option === 'buttons') enterButtonMode();
+  };
+  const confirmSelection = () => {
+    if (menuOpen) { menuItems[menuIndex]?.click(); return; }
+    if (!buttonMode) return;
+    const buttons = uiButtons();
+    const index = selectedButton ? buttons.indexOf(selectedButton) : -1;
+    if (index < 0) { if (buttons[0]) selectUIButton(buttons[0]); else exitButtonMode(); return; }
+    selectedButton?.click();
+    requestAnimationFrame(() => {
+      if (!buttonMode) return;
+      const updated = uiButtons();
+      const next = selectedButton && updated.includes(selectedButton) ? selectedButton : updated[Math.min(index, updated.length - 1)];
+      if (next) selectUIButton(next); else exitButtonMode();
+    });
+  };
+  const moveSelection = (direction: number, horizontal = false) => {
+    if (menuOpen) {
+      if (menuView === 'colors' && horizontal && menuItems[menuIndex]?.dataset.option === 'custom') {
+        customHue = (customHue + direction * 5 + 360) % 360;
+        previewSelection();
+      } else selectMenu(menuIndex + direction);
+    } else if (buttonMode) moveUIButton(direction);
+    else siteScreen?.scrollBy({ top: direction * 4, behavior: 'instant' });
+  };
+  menu?.querySelectorAll<HTMLButtonElement>('[data-menu-target], [data-option]').forEach(item => {
+    item.addEventListener('pointerenter', event => {
+      if (event.pointerType === 'mouse' && menuOpen && menuItems.includes(item)) selectMenu(menuItems.indexOf(item));
+    });
+    item.addEventListener('click', () => {
+      if (!menuOpen || !menuItems.includes(item)) return;
+      if (item.dataset.menuTarget) menuAction(item.dataset.menuTarget);
+      else optionAction(item);
+    });
   });
+  menu?.querySelectorAll<HTMLButtonElement>('[data-hue-step]').forEach(button => {
+    button.addEventListener('click', () => {
+      if (menuView !== 'colors') return;
+      customHue = (customHue + Number(button.dataset.hueStep) + 360) % 360;
+      selectMenu(menuItems.findIndex(item => item.dataset.option === 'custom'));
+    });
+  });
+  document.addEventListener('gb:open-options', () => openMenu('options'));
   document.querySelector('[data-site-action="menu"]')?.addEventListener('click', () => menuOpen ? closeMenu() : openMenu());
   document.addEventListener('keydown', event => {
-    if (!menuOpen) return;
-    if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') { event.preventDefault(); selectMenu(menuIndex - 1); }
-    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') { event.preventDefault(); selectMenu(menuIndex + 1); }
-    if (event.key === 'Escape' || event.key.toLowerCase() === 'b') { event.preventDefault(); closeMenu(); }
-    if (event.key.toLowerCase() === 'a') { event.preventDefault(); menuItems[menuIndex]?.click(); }
+    if (document.documentElement.dataset.displayMode !== 'gba' || (!menuOpen && !buttonMode)) return;
+    if (event.altKey || event.ctrlKey || event.metaKey || (event.target as Element | null)?.matches('input, textarea, select, [contenteditable="true"]')) return;
+    if (event.key === 'Tab' && menuOpen) { event.preventDefault(); selectMenu(menuIndex + (event.shiftKey ? -1 : 1)); return; }
+    if (['ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight'].includes(event.key)) {
+      event.preventDefault();
+      moveSelection(event.key === 'ArrowUp' || event.key === 'ArrowLeft' ? -1 : 1, event.key === 'ArrowLeft' || event.key === 'ArrowRight');
+    }
+    if (event.key === 'Escape' || event.key.toLowerCase() === 'b') { event.preventDefault(); cancelSelection(); }
+    if (event.key.toLowerCase() === 'a') { event.preventDefault(); if (!event.repeat) confirmSelection(); }
   });
-  new MutationObserver(() => { if (document.documentElement.dataset.displayMode !== 'gba') closeMenu(); })
-    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-display-mode'] });
-  const scrollStep = (direction: number) => siteScreen?.scrollBy({ top: direction * 4, behavior: 'instant' });
+  siteScreen?.addEventListener('click', event => {
+    const target = (event.target as Element | null)?.closest<HTMLButtonElement>('button');
+    if (buttonMode && target && uiButtons().includes(target)) selectUIButton(target);
+  });
+  new MutationObserver(() => {
+    if (document.documentElement.dataset.displayMode !== 'gba') { exitButtonMode(); closeMenu(); }
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-display-mode'] });
+  window.addEventListener('blur', stopRepeats);
+  window.addEventListener('pagehide', stopRepeats);
   document.querySelectorAll<HTMLButtonElement>('[data-site-scroll]').forEach(button => {
     const action = button.dataset.siteScroll;
     if (action === 'up' || action === 'down') {
       const direction = action === 'up' ? -1 : 1;
       let repeat: number | undefined;
       const stop = () => { window.clearInterval(repeat); repeat = undefined; };
+      repeatStops.push(stop);
       button.addEventListener('pointerdown', event => {
         if (!siteScreen || (event.pointerType === 'mouse' && event.button !== 0)) return;
         event.preventDefault();
         stop();
         button.setPointerCapture(event.pointerId);
-        if (menuOpen) selectMenu(menuIndex + direction);
-        else scrollStep(direction);
+        const startedIn = inputMode();
+        moveSelection(direction);
         repeat = window.setInterval(() => {
-          if (menuOpen) selectMenu(menuIndex + direction);
-          else scrollStep(direction);
-        }, menuOpen ? 160 : 35);
+          if (inputMode() !== startedIn) { stop(); return; }
+          moveSelection(direction);
+        }, startedIn === 'page' ? 35 : 160);
       });
       button.addEventListener('pointerup', stop);
       button.addEventListener('pointercancel', stop);
       button.addEventListener('lostpointercapture', stop);
-      button.addEventListener('click', event => {
-        if (event.detail === 0) {
-          if (menuOpen) selectMenu(menuIndex + direction);
-          else scrollStep(direction);
-        }
-      });
+      button.addEventListener('click', event => { if (event.detail === 0) moveSelection(direction); });
       return;
     }
     button.addEventListener('click', () => {
       if (!siteScreen) return;
-      if (menuOpen) {
-        if (button.classList.contains('gbdpad-btn')) selectMenu(menuIndex + (action === 'next' ? 1 : -1));
-        else if (action === 'next') menuItems[menuIndex]?.click();
-        else if (action === 'prev') closeMenu();
+      if (menuOpen || buttonMode) {
+        if (button.classList.contains('gbdpad-btn')) moveSelection(action === 'next' ? 1 : -1, true);
+        else if (action === 'next') confirmSelection();
+        else if (action === 'prev') cancelSelection();
         return;
       }
       if (action === 'home') { siteScreen.scrollTo({ top: 0, behavior: scrollBehavior() }); return; }
       if (action === 'end') { siteScreen.scrollTo({ top: siteScreen.scrollHeight, behavior: scrollBehavior() }); return; }
       if (action !== 'next' && action !== 'prev') return;
-      // 横方向は主要セクションの先頭へ移動する。空のアンカーは除く。
       const screenTop = siteScreen.getBoundingClientRect().top;
       const sectionTops = Array.from(siteScreen.querySelectorAll<HTMLElement>('.main-container > div'))
         .filter(section => section.clientHeight > 20)
@@ -1643,6 +1842,7 @@ const { siteMode = false, frameless = false } = Astro.props;
       else if (action === 'prev') siteScreen.scrollTo({ top: 0, behavior: scrollBehavior() });
     });
   });
+  syncControls();
   const IMAGES = [
     { src: "https://picsum.photos/seed/10/800/520",  title: "Cat Sketch #1" },
     { src: "https://picsum.photos/seed/20/800/520",  title: "Fantasy Landscape" },

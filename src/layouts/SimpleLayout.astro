@@ -1,5 +1,5 @@
 ---
-import { NAV_CONFIG, THEME_CONFIG } from '../config/themeConfig';
+import { NAV_CONFIG, THEME_CONFIG, THEME_PRESETS } from '../config/themeConfig';
 import GameBoyGallery from '../components/GameBoyGallery.astro';
 const DEFAULT_HUE = THEME_CONFIG.HUE;
 
@@ -69,12 +69,9 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         <span id="hue-value-display" class="hue-value-display">{DEFAULT_HUE}</span>
       </div>
       <div class="hue-presets">
-        <button class="hue-preset-btn" data-hue="225" style="--pc: hsl(225,100%,65%)">Blue</button>
-        <button class="hue-preset-btn" data-hue="180" style="--pc: hsl(180,100%,65%)">Cyan</button>
-        <button class="hue-preset-btn" data-hue="270" style="--pc: hsl(270,100%,65%)">Purple</button>
-        <button class="hue-preset-btn" data-hue="300" style="--pc: hsl(300,100%,65%)">Pink</button>
-        <button class="hue-preset-btn" data-hue="120" style="--pc: hsl(120,100%,65%)">Green</button>
-        <button class="hue-preset-btn" data-hue="30"  style="--pc: hsl(30,100%,65%)">Orange</button>
+        {THEME_PRESETS.map(preset => (
+          <button class="hue-preset-btn" data-hue={preset.hue} style={`--pc: hsl(${preset.hue},100%,65%)`}>{preset.label}</button>
+        ))}
       </div>
     </div>
     </nav>
@@ -636,6 +633,14 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
           if (display) display.textContent = String(hue);
         }
 
+        // ゲーム内オプションの試し表示と確定を通常設定と同じ入口で扱う。
+        document.addEventListener('portfolio:theme-hue', event => {
+          const { hue, persist } = (event as CustomEvent<{ hue: number; persist: boolean }>).detail;
+          if (!Number.isFinite(hue) || hue < 0 || hue > 360) return;
+          applyHue(hue);
+          if (persist) localStorage.setItem(HUE_KEY, String(hue));
+        });
+
         // ユーザー保存値があれば適用、なければ config デフォルトをそのまま使用
         const saved = localStorage.getItem(HUE_KEY);
         if (saved) applyHue(Number(saved));
@@ -647,6 +652,12 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
 
           // パネル開閉
           toggleBtn?.addEventListener('click', () => {
+            if (root.dataset.displayMode === 'gba') {
+              panel?.classList.remove('open');
+              toggleBtn.classList.remove('active');
+              document.dispatchEvent(new CustomEvent('gb:open-options'));
+              return;
+            }
             panel?.classList.toggle('open');
             toggleBtn.classList.toggle('active');
           });
