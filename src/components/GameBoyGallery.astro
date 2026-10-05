@@ -1531,8 +1531,6 @@ const { siteMode = false, frameless = false } = Astro.props;
 
 <script>
   const siteScreen = document.getElementById('gb-site-screen');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const scrollBehavior = () => reducedMotion.matches ? 'auto' as const : 'smooth' as const;
   const controls = document.querySelector('.gb-site .gb-controls');
   const dpadButtons = controls?.querySelectorAll<HTMLButtonElement>('.gbdpad-btn');
   const releaseDpad = () => dpadButtons?.forEach(button => button.classList.remove('is-pressed'));
@@ -1920,8 +1918,8 @@ const { siteMode = false, frameless = false } = Astro.props;
       }
       if (button.classList.contains('gb-a-btn')) { enterButtonMode(); return; }
       if (button.classList.contains('gb-b-btn')) return;
-      if (action === 'home') { siteScreen.scrollTo({ top: 0, behavior: scrollBehavior() }); return; }
-      if (action === 'end') { siteScreen.scrollTo({ top: siteScreen.scrollHeight, behavior: scrollBehavior() }); return; }
+      if (action === 'home') { siteScreen.scrollTo({ top: 0, behavior: 'instant' }); return; }
+      if (action === 'end') { siteScreen.scrollTo({ top: siteScreen.scrollHeight, behavior: 'instant' }); return; }
       if (action !== 'next' && action !== 'prev') return;
       const screenTop = siteScreen.getBoundingClientRect().top;
       const sectionTops = Array.from(siteScreen.querySelectorAll<HTMLElement>('.main-container > div'))
@@ -1930,8 +1928,8 @@ const { siteMode = false, frameless = false } = Astro.props;
       const target = action === 'next'
         ? sectionTops.find(top => top > siteScreen.scrollTop + 12)
         : sectionTops.reverse().find(top => top < siteScreen.scrollTop - 12);
-      if (target !== undefined) siteScreen.scrollTo({ top: target, behavior: scrollBehavior() });
-      else if (action === 'prev') siteScreen.scrollTo({ top: 0, behavior: scrollBehavior() });
+      if (target !== undefined) siteScreen.scrollTo({ top: target, behavior: 'instant' });
+      else if (action === 'prev') siteScreen.scrollTo({ top: 0, behavior: 'instant' });
     });
   });
   syncControls();
