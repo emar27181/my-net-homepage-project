@@ -62,3 +62,8 @@ body, .main-container { font-size: var(--fs-body); }
 .main-container :is(h3, h3 *, h4, h4 *, h5, h5 *, h6, h6 *) { font-size: var(--fs-subtitle); }
 .main-container :is(a, span, strong, em, b, i, code) { font-size: inherit; }
 .main-container :is(button, input, select, textarea, label, small) { font-size: var(--fs-small); }
+
+/* Explicit UI roles override the layout Japanese-font reset, including child labels. */
+:root [data-font-role="ui"], :root [data-font-role="ui"] * {
+  font-family: var(--font-ui) !important;
+}

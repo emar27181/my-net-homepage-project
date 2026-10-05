@@ -3,7 +3,7 @@ export function getChartFont(role: 'small' | 'body' | 'subtitle' = 'small') {
   const css = getComputedStyle(document.documentElement);
   const size = Number.parseFloat(css.getPropertyValue(`--fs-${role}`));
   if (!Number.isFinite(size)) throw new Error(`Missing typography token: --fs-${role}`);
-  return { family: css.getPropertyValue('--font-pixel-jp').trim(), size };
+  return { family: css.getPropertyValue('--font-ui').trim(), size };
 }
 
 const installed = new WeakSet<object>();

@@ -5,6 +5,7 @@
 /* 8-bit レトロゲームテーマ設定 */
 :root {
   --font-pixel: 'Press Start 2P', cursive;
+  --font-ui: 'Press Start 2P', 'DotGothic16', 'BIZ UDPGothic', monospace;
   --font-mono: 'VT323', monospace;
   --font-pixel-jp: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;
   --font-main-jp: 'DotGothic16', 'BIZ UDPGothic', sans-serif;
