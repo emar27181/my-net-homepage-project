@@ -56,7 +56,6 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       </div>
       <button id="display-mode-toggle" class="display-mode-toggle" type="button" aria-label="GBA表示に切り替える" aria-pressed="false" title="GBA表示に切り替える">
         <svg class="pixel-console" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M3 1h10v1H3zM2 2h1v12H2zm11 0h1v12h-1zM3 14h10v1H3zM4 4h8v1H4zm0 1h1v4H4zm7 0h1v4h-1zM5 8h6v1H5zM5 11h3v1H5zm2-1h1v3H7zm3 1h1v1h-1zm2 1h1v1h-1z"/></svg>
-        <svg class="pixel-page" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M2 2h12v1H2zM1 3h1v10H1zm13 0h1v10h-1zM2 13h12v1H2zM3 4h2v1H3zm3 0h2v1H6zm3 0h2v1H9zM2 6h12v1H2zM3 8h4v4H3zm5 0h5v1H8zm0 2h5v1H8zm0 2h3v1H8z"/></svg>
       </button>
       <button id="fullscreen-toggle" class="display-mode-toggle fullscreen-toggle" type="button" aria-label="全画面表示にする" aria-pressed="false" title="全画面表示にする" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M1 1h5v2H3v3H1zm9 0h5v5h-2V3h-3zM1 10h2v3h3v2H1zm12 0h2v5h-5v-2h3z"/></svg>
@@ -473,10 +472,8 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       }
       .display-mode-toggle:focus-visible { outline: 2px solid var(--col-primary); outline-offset: -2px; }
       .display-mode-toggle[hidden] { display: none !important; }
-      .pixel-console, .pixel-page { image-rendering: pixelated; }
-      .pixel-page { display: none; }
-      :global(html[data-display-mode="gba"]) .pixel-console { display: none; }
-      :global(html[data-display-mode="gba"]) .pixel-page { display: block; }
+      .pixel-console { image-rendering: pixelated; }
+      :global(html[data-display-mode="gba"]) #display-mode-toggle { display: none !important; }
       :global(html[data-display-mode="gba"]) .fullscreen-toggle { display: inline-flex; }
       :global(html[data-display-mode="gba"] .gb-site:fullscreen),
       :global(html[data-display-mode="gba"] .gb-site.fullscreen-fallback) { background: var(--col-bg-deeper); }
@@ -598,7 +595,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
             if (enable) screen?.scrollTo({ top: gbaScroll, behavior: 'instant' });
             else window.scrollTo({ top: normalScroll, behavior: 'instant' });
             window.dispatchEvent(new Event('resize'));
-            modeToggle.focus({ preventScroll: true });
+            (enable ? fullscreenToggle : modeToggle)?.focus({ preventScroll: true });
           });
         });
 
