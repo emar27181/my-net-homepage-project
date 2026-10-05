@@ -321,9 +321,9 @@ const { siteMode = false, frameless = false } = Astro.props;
     border-top: 1px solid var(--col-primary); font-size: 8px; pointer-events: none;
   }
   :global(html[data-display-mode="gba"] .gb-ui-selected) {
-    outline: 2px dotted var(--col-heading) !important;
-    outline-offset: 2px;
-    background: var(--col-primary-a30) !important;
+    outline: none !important;
+    background: var(--col-primary) !important;
+    color: var(--col-bg-deeper) !important;
   }
   .gb-site-screen {
     flex: 1 1 0;
@@ -1596,6 +1596,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   let menuItems: HTMLButtonElement[] = [];
   let buttonMode = false;
   let selectedButton: HTMLButtonElement | null = null;
+  let preferredButtonX: number | null = null;
   let contentScope: HTMLElement | null = null;
   let pageScrollSnapshot: number | null = null;
   let helpTimeout: number | undefined;
@@ -1655,6 +1656,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     buttonMode = false;
     selectedButton?.classList.remove('gb-ui-selected');
     selectedButton = null;
+    preferredButtonX = null;
     contentScope = null;
     if (pageScrollSnapshot !== null) siteScreen?.scrollTo({ top: pageScrollSnapshot, behavior: 'instant' });
     pageScrollSnapshot = null;
@@ -1722,11 +1724,34 @@ const { siteMode = false, frameless = false } = Astro.props;
       actionHelp.textContent = `${title} › ${button.textContent?.trim() ?? 'BUTTON'}　十字: 選択　A: 切替　B: 戻る`;
     }
   };
-  const moveUIButton = (direction: number) => {
+  const moveUIButton = (direction: number, horizontal = false) => {
     const buttons = uiButtons();
     if (!buttons.length) { exitButtonMode(); return; }
-    const index = selectedButton ? buttons.indexOf(selectedButton) : -1;
-    selectUIButton(buttons[(Math.max(0, index) + direction + buttons.length) % buttons.length]);
+    if (!selectedButton || !buttons.includes(selectedButton)) { selectUIButton(buttons[0]); return; }
+    const items = buttons.map(button => {
+      const rect = button.getBoundingClientRect();
+      return { button, x: (rect.left + rect.right) / 2, y: (rect.top + rect.bottom) / 2, height: rect.height };
+    }).sort((a, b) => a.y - b.y || a.x - b.x);
+    // 折り返されたタグも、実際に表示されている行ごとにまとめる。
+    const rows: typeof items[] = [];
+    for (const item of items) {
+      const row = rows.find(row => Math.abs(row[0].y - item.y) < Math.min(row[0].height, item.height) / 2);
+      if (row) row.push(item); else rows.push([item]);
+    }
+    rows.forEach(row => row.sort((a, b) => a.x - b.x));
+    const rowIndex = rows.findIndex(row => row.some(item => item.button === selectedButton));
+    const row = rows[rowIndex];
+    const column = row.findIndex(item => item.button === selectedButton);
+    if (horizontal) {
+      const next = row[(column + direction + row.length) % row.length];
+      preferredButtonX = next.x;
+      selectUIButton(next.button);
+    } else {
+      preferredButtonX ??= row[column].x;
+      const nextRow = rows[(rowIndex + direction + rows.length) % rows.length];
+      const next = nextRow.reduce((best, item) => Math.abs(item.x - preferredButtonX!) < Math.abs(best.x - preferredButtonX!) ? item : best);
+      selectUIButton(next.button);
+    }
   };
   const enterButtonMode = () => {
     // オプションを閉じてから候補を集め、inertの影響を除く。
@@ -1809,7 +1834,7 @@ const { siteMode = false, frameless = false } = Astro.props;
         customHue = (customHue + direction * 5 + 360) % 360;
         previewSelection();
       } else selectMenu(menuIndex + direction);
-    } else if (buttonMode) moveUIButton(direction);
+    } else if (buttonMode) moveUIButton(direction, horizontal);
     else siteScreen?.scrollBy({ top: direction * 4, behavior: 'instant' });
   };
   menu?.querySelectorAll<HTMLButtonElement>('[data-menu-target], [data-option]').forEach(item => {
@@ -1850,7 +1875,10 @@ const { siteMode = false, frameless = false } = Astro.props;
   });
   siteScreen?.addEventListener('click', event => {
     const target = (event.target as Element | null)?.closest<HTMLButtonElement>('button');
-    if (buttonMode && target && uiButtons().includes(target)) selectUIButton(target);
+    if (buttonMode && target && uiButtons().includes(target)) {
+      preferredButtonX = null;
+      selectUIButton(target);
+    }
   });
   new MutationObserver(() => {
     if (document.documentElement.dataset.displayMode !== 'gba') { exitButtonMode(); closeMenu(); }
