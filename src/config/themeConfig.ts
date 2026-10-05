@@ -113,7 +113,15 @@ function hslToRgb(h: number, s: number, l: number): string {
 /**
  * 現在のテーマカラーを取得
  */
-export const getCurrentThemeColors = () => generateThemeColors(THEME_CONFIG.HUE);
+// 表示用はビルド時の色を埋め込まず、global.cssの共通テーマを参照する。
+// 特定色相の実値が必要な処理はgetThemeColorsByHueを使う。
+export const getCurrentThemeColors = () => ({
+  ...generateThemeColors(THEME_CONFIG.HUE),
+  primary: 'var(--col-primary)',
+  primaryAlpha10: 'var(--col-primary-a10)',
+  primaryAlpha5: 'var(--col-primary-a5)',
+  primaryShadow: 'var(--col-primary-a30)',
+});
 
 /**
  * 特定の色相でテーマカラーを取得
