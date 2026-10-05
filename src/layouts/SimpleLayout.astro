@@ -334,6 +334,12 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         flex-shrink: 0;
         margin-left: 12px;
       }
+      .settings-toggle-btn:focus-visible {
+        outline: none;
+        color: var(--col-text-light);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
 
       /* ========== 設定パネル ========== */
       .settings-panel {
@@ -465,12 +471,14 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         display: inline-flex; align-items: center; justify-content: center;
         width: 44px; height: 40px; padding: 0; margin: 0 4px;
         flex-shrink: 0; color: var(--col-primary); background: transparent;
-        border: 1px solid transparent; border-radius: 6px; cursor: pointer;
+        border: none; border-radius: 0; box-shadow: none; cursor: pointer;
       }
       .display-mode-toggle:hover, .display-mode-toggle[aria-pressed="true"] {
-        background: var(--col-primary-a12);
+        background: transparent;
+        color: var(--col-text-light);
       }
-      .display-mode-toggle:focus-visible { outline: 2px solid var(--col-primary); outline-offset: -2px; }
+      .display-mode-toggle:focus-visible { outline: none; color: var(--col-text-light); }
+      .display-mode-toggle:focus-visible svg { transform: scale(1.15); }
       .display-mode-toggle[hidden] { display: none !important; }
       .pixel-console { image-rendering: pixelated; }
       :global(html[data-display-mode="gba"]) #display-mode-toggle { display: none !important; }
