@@ -73,6 +73,11 @@
   --col-text-soft:    hsl(var(--theme-hue), 42%, 60%);  /* #445566相当 */
   --col-nav-text: var(--col-text-light);
   --nav-icon-size: 16px;
+  /* 固定ナビの高さ。PWA(standalone + black-translucent)ではステータスバーの下に
+     コンテンツが潜り込むため、safe-area-inset-top を足した値を一元管理する */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --nav-h: 40px;
+  --nav-offset: calc(var(--nav-h) + var(--safe-top));
   --nav-console-icon-size: clamp(10px, 3cqw, 14px);
   --col-text-light:   hsl(var(--theme-hue), 50%, 72%);  /* #99aaff相当 */
 
