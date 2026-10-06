@@ -105,51 +105,51 @@ export function getPixelTextClass(
 // PROJECT_RULES.mdに基づく統一CSS変数
 export const pixelFontCSS = `
   .font-pixel-primary {
-    font-family: var(--font-pixel), 'Press Start 2P', monospace;
+    font-family: var(--font-pixel);
   }
   
   .font-pixel-secondary {
-    font-family: var(--font-pixel-jp), 'Press Start 2P', monospace;
+    font-family: var(--font-pixel-jp);
   }
   
   .font-pixel-tertiary {
-    font-family: var(--font-pixel-jp), 'Press Start 2P', monospace;
+    font-family: var(--font-pixel-jp);
   }
   
   .font-pixel-body {
-    font-family: var(--font-pixel-jp), 'Press Start 2P', monospace;
+    font-family: var(--font-pixel-jp);
   }
   
   .font-pixel-small {
-    font-family: var(--font-pixel-jp), 'Press Start 2P', monospace;
+    font-family: var(--font-pixel-jp);
   }
   
   .font-pixel-label {
-    font-family: var(--font-pixel), 'Press Start 2P', monospace;
+    font-family: var(--font-pixel);
   }
   
   .font-pixel-data {
-    font-family: var(--font-pixel), 'Press Start 2P', monospace;
+    font-family: var(--font-pixel);
   }
   
   .font-pixel-loading {
-    font-family: var(--font-pixel), 'Press Start 2P', monospace;
+    font-family: var(--font-pixel);
   }
   
   .font-pixel-error {
-    font-family: var(--font-pixel), 'Press Start 2P', monospace;
+    font-family: var(--font-pixel);
   }
   
   .font-pixel-marquee {
-    font-family: var(--font-pixel-jp), 'Press Start 2P', monospace;
+    font-family: var(--font-pixel-jp);
   }
   
   .font-pixel-button {
-    font-family: var(--font-pixel), 'Press Start 2P', monospace;
+    font-family: var(--font-pixel);
   }
   
   .font-pixel-accent {
-    font-family: var(--font-pixel), 'Press Start 2P', monospace;
+    font-family: var(--font-pixel);
   }
   
   .text-shadow-retro {

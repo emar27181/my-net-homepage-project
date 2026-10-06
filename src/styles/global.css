@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&family=BIZ+UDPGothic:wght@400;700&family=DotGothic16&display=swap');
 @import "tailwindcss";
 @import "./typography.css";
 
 /* 8-bit レトロゲームテーマ設定 */
 :root {
-  --font-pixel: 'Press Start 2P', cursive;
+  /* ===== フォント（フォント名を書くのはここだけ。読み込みは SimpleLayout の <link> 1箇所） =====
+     英字: --font-pixel / 日本語: --font-pixel-jp / UI(英字優先+日本語): --font-ui */
+  --font-pixel: 'Press Start 2P', monospace;
   --font-ui: 'Press Start 2P', 'DotGothic16', 'BIZ UDPGothic', monospace;
   --font-mono: 'VT323', monospace;
   --font-pixel-jp: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;

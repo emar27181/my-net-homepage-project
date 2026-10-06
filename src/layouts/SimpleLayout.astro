@@ -44,7 +44,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
     />
   </head>
   <body
-    style="margin: 0; padding: 0; color: white; font-family: 'Press Start 2P', monospace; image-rendering: pixelated;"
+    style="margin: 0; padding: 0; color: white; font-family: var(--font-pixel); image-rendering: pixelated;"
     class="mobile-body"
   >
     <GameBoyGallery siteMode>
@@ -97,7 +97,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         text-rendering: optimizeSpeed !important;
       }
 
-      /* 英数字はPress Start 2P、日本語はDotGothic16 */
+      /* 見出しも本文も日本語ピクセルフォント(--font-pixel-jp)で統一 */
       h1,
       h2,
       h3,

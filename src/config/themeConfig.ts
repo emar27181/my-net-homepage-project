@@ -145,8 +145,9 @@ export const FONT_SIZES = {
 // フォント設定
 // ========================================
 export const FONTS = {
-  pixel: "'Press Start 2P', monospace",
-  pixelJp: "'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace",
+  // 実体は src/styles/global.css の CSS 変数。ここでは参照だけを持つ
+  pixel: 'var(--font-pixel)',
+  pixelJp: 'var(--font-pixel-jp)',
 } as const;
 
 // ========================================
