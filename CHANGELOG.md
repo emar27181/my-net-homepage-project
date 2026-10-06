@@ -4,7 +4,12 @@
 
 ## [Unreleased] - 2026-10-03
 
+### Added
+- SETTING とゲーム機表示の OPTIONS に FONT を追加し、英字（Press Start 2P / Pixelify Sans / Silkscreen）と日本語（DotGothic16 / Fusion Pixel 12px / 10px）のドットフォントを切り替え可能に。選択は保持し、各候補はその書体で見本表示。Fusion Pixel（OFL-1.1）は選んだときだけ読み込み、使う文字範囲の分だけ取得する（本番ビルド実測: 既定表示では 0 件、選択時 約98KB）
+
 ### Improved
+- フォント変数を「選択肢（--font-en-<id> / --font-jp-<id>）」と「役割（--font-pixel 等）」に分離。既定表示の computed font-family は変更前と同一
+- check:fonts が global.css に定義した書体名を自動で禁止対象にし、FONT_OPTIONS の id と書体変数の対応も検査
 - フォント指定を `global.css` の `--font-*` 変数に一元化。`themeConfig.ts` の `FONTS` が同じ値を別に持っていて英字の予備フォントが食い違っていた（cursive / monospace）ため、FONTS は変数参照だけにし、予備は monospace に統一。WiiU・DS・クリップビューア・body・モーダルのフォント名直書きを変数に置換
 - Google Fonts の読み込みを `global.css` の @import・SimpleLayout・index の3箇所から SimpleLayout の `<link>` 1箇所に集約
 - `npm run check:fonts` を追加し `prebuild` で実行。変数定義以外でのフォント名直書き・font-family の生値・Google Fonts の追加読み込みがあるとビルドが失敗する

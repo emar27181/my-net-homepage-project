@@ -274,6 +274,12 @@
   → `themeConfig.ts` の `FONTS` は CSS変数を参照するだけ（`var(--font-pixel)` 等）
   → `npm run check:fonts`（`npm run build` 前に自動実行）が、上記以外のフォント名直書き・`font-family` の生値・Google Fonts読み込みを検出して失敗させる
 
+- **ドットフォントの切り替え（SETTING / ゲーム機の OPTIONS → FONT）**  
+  → 英字・日本語を別々に選べ、選択は localStorage（`font-en` / `font-jp`）に保持
+  → 候補の id・表示名・既定値は `themeConfig.ts` の `FONT_OPTIONS`、書体は `global.css` の `--font-en-<id>` / `--font-jp-<id>`
+  → 候補を足すときは、この2箇所＋読み込み（Google Fonts なら SimpleLayout の `<link>`、自前フォントなら SimpleLayout の `LAZY_FONT_CSS`）を更新。対応漏れは `check:fonts` が検出する
+  → 部品は役割変数（`--font-pixel` / `--font-pixel-jp` / `--font-ui`）だけを使い、選択肢の変数を直接参照しない
+
 - **フォント適用ルール**  
   → 日本語テキスト: `var(--font-pixel-jp)`を使用（DotGothic16優先）
   → 英数字メイン: `var(--font-pixel)`を使用（Press Start 2P）
