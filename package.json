@@ -4,6 +4,8 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev --host --port 8765",
+    "check:fonts": "node scripts/check-fonts.mjs",
+    "prebuild": "npm run check:fonts",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
