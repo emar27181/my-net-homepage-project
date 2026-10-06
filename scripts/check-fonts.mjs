@@ -6,6 +6,7 @@
 //   1) フォント名の直書き（'Press Start 2P' / DotGothic16 / BIZ UDPGothic / VT323 など）
 //   2) font-family に var(--font-*) / inherit 以外の値
 //   3) fonts.googleapis.com の読み込み
+//   4) themeConfig.ts の FONT_OPTIONS の id に対応する --font-en-<id> / --font-jp-<id> が無い
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 
@@ -20,11 +21,22 @@ const EXCLUDED_DIRS = [
 const DEFINITION_FILE = 'src/styles/global.css'; // フォント名を書いてよい唯一のファイル（:root の --font-* 定義行のみ）
 const LOADER_FILE = 'src/layouts/SimpleLayout.astro'; // Google Fonts を読み込む唯一のファイル
 
-const FONT_NAME = /Press[ +]Start[ +]2P|DotGothic16|BIZ[ +]UDPGothic|VT323|Courier New|MS Gothic|Times New Roman/;
+const OPTIONS_FILE = 'src/config/themeConfig.ts'; // 切り替え候補の id 一覧
+
+const FONT_DEF_LINE = /^\s*--font-[a-z0-9-]+\s*:/;
 // font-family / fontFamily の値。var(--font-*) か inherit だけを許す
 const FONT_FAMILY_DECL = /font-?family\s*:\s*([^;`}\n]+)/gi;
-const ALLOWED_VALUE = /^(var\(--font-[a-z-]+\)|inherit)(\s*!important)?\s*$/;
-const FONT_DEF_LINE = /^\s*--font-[a-z-]+\s*:/;
+const ALLOWED_VALUE = /^(var\(--font-[a-z0-9-]+\)|inherit)(\s*!important)?\s*$/;
+
+// 禁止するフォント名 = global.css に定義した書体名すべて ＋ よくあるシステムフォント。
+// 書体を足せば自動で対象になる（一覧を2箇所に持たない）
+const escapeRe = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const definitionLines = readFileSync(join(ROOT, DEFINITION_FILE), 'utf8').split('\n').filter((l) => FONT_DEF_LINE.test(l));
+const definedNames = [...new Set(definitionLines.flatMap((l) => [...l.matchAll(/'([^']+)'/g)].map((m) => m[1])))];
+const SYSTEM_FONTS = ['Courier New', 'MS Gothic', 'Times New Roman', 'Arial', 'Helvetica', 'Meiryo', 'Hiragino'];
+// Google Fonts の URL 表記（Press+Start+2P）も拾う
+const FONT_NAME = new RegExp([...definedNames, ...SYSTEM_FONTS].map((n) => escapeRe(n).replace(/ /g, '[ +]')).join('|'));
+const definedVars = new Set(definitionLines.map((l) => l.trim().split(':')[0]));
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
@@ -65,6 +77,20 @@ for (const rel of walk(SRC)) {
       }
     }
   });
+}
+
+// FONT_OPTIONS の各 id に対応する書体変数があるか
+const optionsSrc = readFileSync(join(ROOT, OPTIONS_FILE), 'utf8');
+const optionsBlock = optionsSrc.slice(optionsSrc.indexOf('export const FONT_OPTIONS'), optionsSrc.indexOf('} as const;', optionsSrc.indexOf('export const FONT_OPTIONS')));
+for (const kind of ['en', 'jp']) {
+  const kindBlock = optionsBlock.match(new RegExp(`\\b${kind}:\\s*\\{([\\s\\S]*?)\\]\\s*,?\\s*\\}`))?.[1] ?? '';
+  const ids = [...kindBlock.matchAll(/id:\s*'([^']+)'/g)].map((m) => m[1]);
+  const def = kindBlock.match(/default:\s*'([^']+)'/)?.[1];
+  if (!ids.length) errors.push(`${OPTIONS_FILE} FONT_OPTIONS.${kind} の選択肢が読み取れない`);
+  for (const id of ids) {
+    if (!definedVars.has(`--font-${kind}-${id}`)) errors.push(`${OPTIONS_FILE} FONT_OPTIONS.${kind} の '${id}' に対応する --font-${kind}-${id} が ${DEFINITION_FILE} に無い`);
+  }
+  if (!def || !ids.includes(def)) errors.push(`${OPTIONS_FILE} FONT_OPTIONS.${kind}.default '${def}' が選択肢に無い`);
 }
 
 if (loaderCount !== 1) errors.push(`${LOADER_FILE} の Google Fonts 読み込みが ${loaderCount} 箇所（1箇所であるべき）`);
