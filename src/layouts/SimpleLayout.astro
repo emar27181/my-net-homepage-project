@@ -1,8 +1,18 @@
 ---
-import { NAV_CONFIG, THEME_CONFIG, THEME_PRESETS } from '../config/themeConfig';
+import { NAV_CONFIG, THEME_CONFIG, THEME_PRESETS, FONT_OPTIONS, fontFaceVar } from '../config/themeConfig';
 import GameBoyGallery from '../components/GameBoyGallery.astro';
 import '../styles/global.css';
+// 追加の日本語ドットフォント（Fusion Pixel）。選ばれたときだけ読み込むので URL だけを取る
+import fusionPixel12Css from '@vp-tw/cjk-web-fonts-fusion-pixel-font/dist/12px/proportional/ja/Fusion-Pixel-12px-Proportional-Japanese.css?url';
+import fusionPixel10Css from '@vp-tw/cjk-web-fonts-fusion-pixel-font/dist/10px/proportional/ja/Fusion-Pixel-10px-Proportional-Japanese.css?url';
+const LAZY_FONT_CSS = { 'jp:fusion-12': fusionPixel12Css, 'jp:fusion-10': fusionPixel10Css };
 const DEFAULT_HUE = THEME_CONFIG.HUE;
+const DEFAULT_FONT_EN = FONT_OPTIONS.en.default;
+const DEFAULT_FONT_JP = FONT_OPTIONS.jp.default;
+const FONT_KINDS = ['en', 'jp'] as const;
+const FONT_KIND_LABELS = { en: 'FONT EN', jp: 'FONT JP' };
+const FONT_KIND_ARIA = { en: '英字フォント', jp: '日本語フォント' };
+const rootStyle = `--theme-hue: ${DEFAULT_HUE}; --font-en-face: ${fontFaceVar('en', DEFAULT_FONT_EN)}; --font-jp-face: ${fontFaceVar('jp', DEFAULT_FONT_JP)}`;
 
 export interface Props {
   title: string;
@@ -14,7 +24,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
 ---
 
 <!doctype html>
-<html data-display-mode="normal" lang="ja" style={`--theme-hue: ${DEFAULT_HUE}`}>
+<html data-display-mode="normal" data-font-en={DEFAULT_FONT_EN} data-font-jp={DEFAULT_FONT_JP} data-lazy-font-css={JSON.stringify(LAZY_FONT_CSS)} lang="ja" style={rootStyle}>
   <head>
     <slot name="head" />
     <meta charset="UTF-8" />
@@ -44,7 +54,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
     />
   </head>
   <body
-    style="margin: 0; padding: 0; color: white; font-family: 'Press Start 2P', monospace; image-rendering: pixelated;"
+    style="margin: 0; padding: 0; color: white; font-family: var(--font-pixel); image-rendering: pixelated;"
     class="mobile-body"
   >
     <GameBoyGallery siteMode>
@@ -75,6 +85,18 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
           <button class="hue-preset-btn" data-hue={preset.hue} style={`--pc: hsl(${preset.hue},100%,65%)`}>{preset.label}</button>
         ))}
       </div>
+      {FONT_KINDS.map(kind => (
+        <div class="settings-font-group">
+          <span class="settings-label">{FONT_KIND_LABELS[kind]}</span>
+          <div class="font-options" role="group" aria-label={FONT_KIND_ARIA[kind]}>
+            {FONT_OPTIONS[kind].options.map(opt => (
+              <button type="button" class="font-option" data-font-kind={kind} data-font-id={opt.id}
+                aria-pressed={String(opt.id === FONT_OPTIONS[kind].default)}
+                style={`--font-option: ${fontFaceVar(kind, opt.id)}, monospace`}>{opt.label}</button>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
     </nav>
 
@@ -85,7 +107,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DotGothic16&family=BIZ+UDPGothic:wght@400;700&family=VT323&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans&family=Silkscreen&family=DotGothic16&family=BIZ+UDPGothic:wght@400;700&family=VT323&display=swap"
       rel="stylesheet"
     />
 
@@ -97,7 +119,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         text-rendering: optimizeSpeed !important;
       }
 
-      /* 英数字はPress Start 2P、日本語はDotGothic16 */
+      /* 見出しも本文も日本語ピクセルフォント(--font-pixel-jp)で統一 */
       h1,
       h2,
       h3,
@@ -353,6 +375,25 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         background: color-mix(in srgb, var(--pc) 25%, transparent);
       }
 
+      /* フォント切り替え: ラベルをその書体で表示し、選択中は塗りで示す（外形は変えない） */
+      .settings-font-group { margin-top: 12px; }
+      .settings-font-group .settings-label { display: block; margin-bottom: 6px; }
+      .font-options { display: flex; flex-wrap: wrap; gap: 6px; }
+      .settings-panel .font-option {
+        font-family: var(--font-option) !important;
+        font-size: var(--fs-nav);
+        min-height: 24px;
+        padding: 2px 8px;
+        background: transparent;
+        border: 1px solid var(--col-primary-a50);
+        color: var(--col-nav-text);
+        border-radius: 3px;
+        cursor: pointer;
+        text-shadow: 1px 1px 0 #000;
+      }
+      .settings-panel .font-option:hover { background: var(--col-primary-a20); }
+      .settings-panel .font-option[aria-pressed="true"] { background: var(--col-primary-a50); }
+
       /* 通常表示: ステータスバー(safe-area)分だけ本文を下げる。ブラウザ表示では 0px */
       :global(html:not([data-display-mode="gba"])) .mobile-body {
         padding-top: var(--safe-top) !important; /* .mobile-body の padding:0 !important に勝たせる */
@@ -489,6 +530,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
     </style>
 
     <script>
+      import { FONT_OPTIONS, FONT_STORAGE_KEYS, fontFaceVar, type FontKind } from '../config/themeConfig';
       (function () {
         const HUE_KEY         = 'theme-hue';
         const HUE_DEFAULT_KEY = 'theme-hue-config-default';
@@ -580,6 +622,49 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
         const saved = localStorage.getItem(HUE_KEY);
         if (saved) applyHue(Number(saved));
 
+        // ===== フォント切り替え（通常設定・ゲーム内オプション共通の入口） =====
+        const lazyFontCss: Record<string, string> = JSON.parse(root.dataset.lazyFontCss || '{}');
+        const isFontKind = (kind: unknown): kind is FontKind => kind === 'en' || kind === 'jp';
+        const isFontId = (kind: FontKind, id: unknown) =>
+          FONT_OPTIONS[kind].options.some(opt => opt.id === id);
+        // 追加フォントの @font-face は選ばれたときに初めて読み込む
+        const ensureFontCss = (kind: FontKind, id: string) => {
+          const href = lazyFontCss[`${kind}:${id}`];
+          if (!href || document.querySelector(`link[data-lazy-font="${kind}:${id}"]`)) return;
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = href;
+          link.dataset.lazyFont = `${kind}:${id}`;
+          document.head.appendChild(link);
+        };
+        function applyFont(kind: FontKind, id: string, persist = false) {
+          if (!isFontId(kind, id)) return;
+          ensureFontCss(kind, id);
+          root.style.setProperty(`--font-${kind}-face`, fontFaceVar(kind, id));
+          root.dataset[kind === 'en' ? 'fontEn' : 'fontJp'] = id;
+          document.querySelectorAll<HTMLButtonElement>(`.font-option[data-font-kind="${kind}"]`).forEach(btn => {
+            btn.setAttribute('aria-pressed', String(btn.dataset.fontId === id));
+          });
+          if (persist) {
+            try { localStorage.setItem(FONT_STORAGE_KEYS[kind], id); } catch {}
+          }
+        }
+        // 見本表示のため全候補の @font-face を登録（実際に読むのは表示した文字の分だけ）
+        const preloadFontPreviews = () =>
+          (['en', 'jp'] as const).forEach(kind => FONT_OPTIONS[kind].options.forEach(opt => ensureFontCss(kind, opt.id)));
+        document.addEventListener('portfolio:font-preload', preloadFontPreviews);
+        document.addEventListener('portfolio:font', event => {
+          const { kind, id, persist } = (event as CustomEvent<{ kind: FontKind; id: string; persist: boolean }>).detail;
+          if (isFontKind(kind)) applyFont(kind, id, persist);
+        });
+        (['en', 'jp'] as const).forEach(kind => {
+          let stored: string | null = null;
+          try { stored = localStorage.getItem(FONT_STORAGE_KEYS[kind]); } catch {}
+          if (stored && isFontId(kind, stored)) applyFont(kind, stored);
+        });
+        // 設定パネルのボタンは本文より前に描画済みなので、ここで選択状態を同期する
+        (['en', 'jp'] as const).forEach(kind => applyFont(kind, root.dataset[kind === 'en' ? 'fontEn' : 'fontJp'] || FONT_OPTIONS[kind].default));
+
         document.addEventListener('DOMContentLoaded', function () {
           const toggleBtn = document.getElementById('settings-toggle');
           const panel     = document.getElementById('settings-panel');
@@ -595,6 +680,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
             }
             panel?.classList.toggle('open');
             toggleBtn.classList.toggle('active');
+            if (panel?.classList.contains('open')) preloadFontPreviews();
           });
 
           // パネル外クリックで閉じる
@@ -611,6 +697,14 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
             const hue = Number(slider.value);
             applyHue(hue);
             localStorage.setItem(HUE_KEY, String(hue));
+          });
+
+          // フォントボタン
+          document.querySelectorAll<HTMLButtonElement>('.font-option').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const kind = btn.dataset.fontKind;
+              if (isFontKind(kind) && btn.dataset.fontId) applyFont(kind, btn.dataset.fontId, true);
+            });
           });
 
           // プリセットボタン

@@ -113,7 +113,6 @@ const fpsGames    = gamesData.filter((g: any) => g.category === "FPS");
 const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 ---
 
-<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
 
 
 <SimpleLayout title="nodoame27181 Portfolio（のどあめ）">
@@ -661,7 +660,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
               href="https://valorant-point-viewer.netlify.app/"
               target="_blank"
               rel="noopener"
-              style={`display: inline-block; padding: 4px 10px; background: var(--col-primary); color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: var(--fs-small); font-family: 'DotGothic16','BIZ UDPGothic','Press Start 2P',monospace; text-shadow: 1px 1px 0 #000; image-rendering: pixelated;`}
+              style={`display: inline-block; padding: 4px 10px; background: var(--col-primary); color: ${COLORS.textWhite}; text-decoration: none; border-radius: 4px; font-size: var(--fs-small); font-family: var(--font-pixel-jp); text-shadow: 1px 1px 0 #000; image-rendering: pixelated;`}
             >サイトを見る →</a>
           </div>
         </DSLite></div>
@@ -1134,7 +1133,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   }
   .sens-modal-overlay,
   .sens-modal-overlay * {
-    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
+    font-family: var(--font-pixel-jp) !important;
     image-rendering: pixelated;
   }
   .sens-modal-box {
@@ -1850,7 +1849,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     border-radius: 4px;
     padding: 6px 8px;
     z-index: 10;
-    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
+    font-family: var(--font-pixel-jp) !important;
     font-size: var(--fs-small) !important;
     color: #fff !important;
     text-shadow: 1px 1px 0 #000 !important;

@@ -110,8 +110,11 @@ npm install
 # 開発サーバー起動
 npm run dev
 
-# ビルド
+# ビルド（先に check:fonts が自動で走る）
 npm run build
+
+# フォント一元管理のチェックだけ実行
+npm run check:fonts
 
 # プレビュー
 npm run preview

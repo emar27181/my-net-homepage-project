@@ -4,12 +4,15 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev --host --port 8765",
+    "check:fonts": "node scripts/check-fonts.mjs",
+    "prebuild": "npm run check:fonts",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.10",
+    "@vp-tw/cjk-web-fonts-fusion-pixel-font": "^0.0.1",
     "astro": "^5.12.9",
     "tailwindcss": "^4.1.10"
   }

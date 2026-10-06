@@ -56,7 +56,7 @@ export function installChartTypography(Chart: any) {
     });
   };
   new MutationObserver(refresh).observe(document.documentElement, {
-    attributes: true, attributeFilter: ['data-display-mode'],
+    attributes: true, attributeFilter: ['data-display-mode', 'data-font-en', 'data-font-jp'],
   });
   if (document.fonts) {
     void document.fonts.ready.then(refresh);

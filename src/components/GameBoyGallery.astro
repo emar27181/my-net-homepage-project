@@ -1,7 +1,7 @@
 ---
 // GameBoyGallery.astro - ゲームボーイ風ギャラリービューワー
 // 画像ナビゲーション + CRT/GB/VHS フィルター切り替え機能付き
-import { THEME_PRESETS } from '../config/themeConfig';
+import { THEME_PRESETS, FONT_OPTIONS, fontFaceVar } from '../config/themeConfig';
 interface Props { siteMode?: boolean; frameless?: boolean; }
 const { siteMode = false, frameless = false } = Astro.props;
 ---
@@ -65,6 +65,7 @@ const { siteMode = false, frameless = false } = Astro.props;
               </div>
               <div class="gb-menu-list" data-menu-view="options" hidden>
                 <button data-option="colors">COLOR</button>
+                <button data-option="fonts">FONT</button>
                 <button data-option="buttons">BUTTONS / TAGS</button>
                 <button data-option="back">BACK</button>
               </div>
@@ -77,6 +78,13 @@ const { siteMode = false, frameless = false } = Astro.props;
                   <button data-hue-step="-5" aria-label="色相を5下げる">◀ −5</button>
                   <button data-hue-step="5" aria-label="色相を5上げる">+5 ▶</button>
                 </div>
+                <button data-option="back">CANCEL</button>
+              </div>
+              <div class="gb-menu-list" data-menu-view="fonts" hidden>
+                {(['en', 'jp'] as const).map(kind => FONT_OPTIONS[kind].options.map(opt => (
+                  <button class="gb-font-opt" data-option="font" data-font-kind={kind} data-font-id={opt.id}
+                    style={`--font-option: ${fontFaceVar(kind, opt.id)}, monospace`}>{`${kind.toUpperCase()}: ${opt.label}`}</button>
+                )))}
                 <button data-option="back">CANCEL</button>
               </div>
               <div class="gb-menu-help" id="gb-menu-help">十字: 選択　A: 決定　B: 戻る</div>
@@ -308,6 +316,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     font: var(--fs-menu) var(--font-pixel);
     cursor: pointer;
   }
+  .gb-menu-list button.gb-font-opt { font-family: var(--font-option) !important; }
   .gb-menu-list button.selected, .gb-menu-list button:focus-visible { background: var(--col-primary-a30); outline: 1px solid var(--col-primary); }
   .gb-menu-list button.selected::before { content: '▶'; margin-left: -15px; margin-right: 5px; color: var(--gb-dpad-arrow); }
   .gb-menu-help { border-top: 1px solid var(--col-primary); padding-top: 7px; font-size: var(--fs-console-7); color: var(--gb-text-mid); }
@@ -1587,7 +1596,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   const menuHelp = document.getElementById('gb-menu-help');
   const actionHelp = document.getElementById('gb-action-help');
   const customHueDisplay = document.getElementById('gb-custom-hue');
-  type MenuView = 'main' | 'options' | 'colors';
+  type MenuView = 'main' | 'options' | 'colors' | 'fonts';
   let menuOpen = false;
   let menuView: MenuView = 'main';
   let menuIndex = 0;
@@ -1599,6 +1608,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   let pageScrollSnapshot: number | null = null;
   let helpTimeout: number | undefined;
   let colorSnapshot: number | null = null;
+  let fontSnapshot: { en: string; jp: string } | null = null;
   let draftHue = 225;
   let customHue = 225;
   const repeatStops: Array<() => void> = [];
@@ -1618,7 +1628,29 @@ const { siteMode = false, frameless = false } = Astro.props;
     if (colorSnapshot !== null) applyGameHue(colorSnapshot);
     colorSnapshot = null;
   };
+  // フォントも色と同じく「十字で試す・Aで保存・Bで元に戻す」
+  const readFonts = () => ({
+    en: document.documentElement.dataset.fontEn ?? FONT_OPTIONS.en.default,
+    jp: document.documentElement.dataset.fontJp ?? FONT_OPTIONS.jp.default,
+  });
+  const applyGameFont = (kind: string, id: string, persist = false) => {
+    document.dispatchEvent(new CustomEvent('portfolio:font', { detail: { kind, id, persist } }));
+  };
+  const restoreFonts = () => {
+    if (fontSnapshot) { applyGameFont('en', fontSnapshot.en); applyGameFont('jp', fontSnapshot.jp); }
+    fontSnapshot = null;
+  };
+  const previewFont = () => {
+    if (menuView !== 'fonts' || !fontSnapshot) return;
+    const item = menuItems[menuIndex];
+    applyGameFont('en', fontSnapshot.en);
+    applyGameFont('jp', fontSnapshot.jp);
+    if (item?.dataset.option === 'font' && item.dataset.fontKind && item.dataset.fontId) {
+      applyGameFont(item.dataset.fontKind, item.dataset.fontId);
+    }
+  };
   const previewSelection = () => {
+    previewFont();
     if (menuView !== 'colors' || colorSnapshot === null) return;
     const item = menuItems[menuIndex];
     draftHue = item?.dataset.option === 'custom' ? customHue
@@ -1644,8 +1676,8 @@ const { siteMode = false, frameless = false } = Astro.props;
       list.hidden = list.dataset.menuView !== view;
     });
     menuItems = Array.from(menu?.querySelectorAll<HTMLButtonElement>(`[data-menu-view="${view}"] button[data-menu-target], [data-menu-view="${view}"] button[data-option]`) ?? []);
-    if (menuHeading) menuHeading.textContent = view === 'main' ? 'MENU' : view === 'options' ? 'OPTIONS' : 'COLOR';
-    if (menuHelp) menuHelp.textContent = view === 'colors' ? '十字: 試す　A: 保存　B: 元に戻す' : '十字: 選択　A: 決定　B: 戻る';
+    if (menuHeading) menuHeading.textContent = view === 'main' ? 'MENU' : view === 'options' ? 'OPTIONS' : view === 'fonts' ? 'FONT' : 'COLOR';
+    if (menuHelp) menuHelp.textContent = view === 'colors' || view === 'fonts' ? '十字: 試す　A: 保存　B: 元に戻す' : '十字: 選択　A: 決定　B: 戻る';
     selectMenu(index);
   };
   const exitButtonMode = () => {
@@ -1664,6 +1696,7 @@ const { siteMode = false, frameless = false } = Astro.props;
   const closeMenu = () => {
     stopRepeats();
     restoreColor();
+    restoreFonts();
     menuOpen = false;
     if (menu) menu.hidden = true;
     if (siteScreen) siteScreen.inert = false;
@@ -1675,6 +1708,7 @@ const { siteMode = false, frameless = false } = Astro.props;
     if (!menu || !siteScreen || document.documentElement.dataset.displayMode !== 'gba') return;
     exitButtonMode();
     restoreColor();
+    restoreFonts();
     menuOpen = true;
     menu.hidden = false;
     siteScreen.inert = true;
@@ -1774,6 +1808,11 @@ const { siteMode = false, frameless = false } = Astro.props;
     if (buttonMode) { exitButtonMode(); siteScreen?.focus({ preventScroll: true }); return; }
     if (!menuOpen) return;
     if (menuView === 'colors') { restoreColor(); setMenuView('options'); }
+    else if (menuView === 'fonts') {
+      restoreFonts();
+      setMenuView('options');
+      selectMenu(menuItems.findIndex(item => item.dataset.option === 'fonts'));
+    }
     else if (menuView === 'options') {
       setMenuView('main');
       selectMenu(menuItems.findIndex(item => item.dataset.menuTarget === 'settings'));
@@ -1797,6 +1836,13 @@ const { siteMode = false, frameless = false } = Astro.props;
   };
   const optionAction = (item: HTMLButtonElement) => {
     if (item.dataset.option === 'back') { cancelSelection(); return; }
+    if (menuView === 'fonts') {
+      if (item.dataset.fontKind && item.dataset.fontId) applyGameFont(item.dataset.fontKind, item.dataset.fontId, true);
+      fontSnapshot = null;
+      setMenuView('options');
+      selectMenu(menuItems.findIndex(button => button.dataset.option === 'fonts'));
+      return;
+    }
     if (menuView === 'colors') {
       selectMenu(menuItems.indexOf(item));
       applyGameHue(draftHue, true);
@@ -1810,6 +1856,11 @@ const { siteMode = false, frameless = false } = Astro.props;
       setMenuView('colors');
       const index = menuItems.findIndex(button => button.dataset.option === 'color' && Number(button.dataset.hue) === colorSnapshot);
       selectMenu(index < 0 ? menuItems.findIndex(button => button.dataset.option === 'custom') : index);
+    } else if (item.dataset.option === 'fonts') {
+      fontSnapshot = readFonts();
+      document.dispatchEvent(new CustomEvent('portfolio:font-preload'));
+      setMenuView('fonts');
+      selectMenu(menuItems.findIndex(button => button.dataset.option === 'font' && button.dataset.fontKind === 'en' && button.dataset.fontId === fontSnapshot?.en));
     } else if (item.dataset.option === 'buttons') enterButtonMode();
   };
   const confirmSelection = () => {
