@@ -268,17 +268,11 @@
   → YouTube外部リンクボタンを必ず配置（「📺 YouTubeで見る」）
 
 #### ピクセルフォント統一管理システム
-- **Google Fonts読み込み必須**  
-  → `DotGothic16`: 日本語ピクセルフォント（最優先）
-  → `BIZ UDPGothic`: 日本語フォールバック（400, 700ウェイト）
-  → `Press Start 2P`: 英数字ピクセルフォント
-  → `VT323`: モノスペースフォント
-
-- **CSS変数による統一管理**  
-  → `--font-pixel`: 'Press Start 2P', cursive
-  → `--font-mono`: 'VT323', monospace  
-  → `--font-pixel-jp`: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace
-  → `--font-main-jp`: 'DotGothic16', 'BIZ UDPGothic', sans-serif
+- **フォントの一元管理（実体は1箇所）**  
+  → フォント名を書くのは `src/styles/global.css` の `:root` にある `--font-*` 定義だけ（値はそちらを見る）
+  → Google Fonts の読み込みは `src/layouts/SimpleLayout.astro` の `<link>` 1箇所だけ
+  → `themeConfig.ts` の `FONTS` は CSS変数を参照するだけ（`var(--font-pixel)` 等）
+  → `npm run check:fonts`（`npm run build` 前に自動実行）が、上記以外のフォント名直書き・`font-family` の生値・Google Fonts読み込みを検出して失敗させる
 
 - **フォント適用ルール**  
   → 日本語テキスト: `var(--font-pixel-jp)`を使用（DotGothic16優先）
@@ -312,7 +306,7 @@
   ```css
   .my-overlay,
   .my-overlay * {
-    font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace !important;
+    font-family: var(--font-pixel-jp) !important;
     image-rendering: pixelated;
   }
   ```
@@ -325,7 +319,7 @@
 
 - **コードテキスト統一ルール**  
   → クロスヘアコード・設定値等もピクセルフォント統一必須
-  → `font-family: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace`
+  → `font-family: var(--font-pixel-jp)`
   → Courier New等のシステムフォント使用禁止
   → コード系要素も`text-shadow: 1px 1px 0px #000000`と`image-rendering: pixelated`適用
 
@@ -368,8 +362,7 @@
 
 - **禁止事項**
   → フォントサイズ・色・フォントファミリーのハードコード禁止
-  → `'Press Start 2P', monospace` → `${FONTS.pixel}` を使用
-  → `'DotGothic16', ...` → `${FONTS.pixelJp}` を使用
+  → フォント名の直書き禁止 → CSS では `var(--font-pixel)` / `var(--font-pixel-jp)`、テンプレートでは `${FONTS.pixel}` / `${FONTS.pixelJp}` を使用
   → `color: #cccccc` → `color: ${COLORS.textGray}` を使用
   → リンク色は `style={S.link}` で統一（`color: ${COLORS.primary}` の直接指定禁止）
 
