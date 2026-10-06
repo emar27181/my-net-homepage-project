@@ -3,13 +3,23 @@
 
 /* 8-bit レトロゲームテーマ設定 */
 :root {
-  /* ===== フォント（フォント名を書くのはここだけ。読み込みは SimpleLayout の <link> 1箇所） =====
-     英字: --font-pixel / 日本語: --font-pixel-jp / UI(英字優先+日本語): --font-ui */
-  --font-pixel: 'Press Start 2P', monospace;
-  --font-ui: 'Press Start 2P', 'DotGothic16', 'BIZ UDPGothic', monospace;
+  /* ===== フォント（フォント名を書くのはここだけ。読み込みは SimpleLayout の1箇所） =====
+     選択肢: --font-en-<id> / --font-jp-<id>。id・表示名・既定値は themeConfig.ts の FONT_OPTIONS。
+     選択中の書体 --font-en-face / --font-jp-face は SimpleLayout が <html> の style に入れ、
+     設定で切り替える。部品は下の役割変数（--font-pixel 等）だけを使う */
+  --font-en-press-start: 'Press Start 2P';
+  --font-en-pixelify:    'Pixelify Sans';
+  --font-en-silkscreen:  'Silkscreen';
+  --font-jp-dotgothic:   'DotGothic16', 'BIZ UDPGothic';
+  --font-jp-fusion-12:   'Fusion Pixel 12px Proportional Japanese';
+  --font-jp-fusion-10:   'Fusion Pixel 10px Proportional Japanese';
+
+  /* 役割: 英字 / UI(英字優先+日本語) / 日本語 / 等幅 */
+  --font-pixel: var(--font-en-face), monospace;
+  --font-ui: var(--font-en-face), var(--font-jp-face), monospace;
+  --font-pixel-jp: var(--font-jp-face), var(--font-en-face), monospace;
+  --font-main-jp: var(--font-jp-face), sans-serif;
   --font-mono: 'VT323', monospace;
-  --font-pixel-jp: 'DotGothic16', 'BIZ UDPGothic', 'Press Start 2P', monospace;
-  --font-main-jp: 'DotGothic16', 'BIZ UDPGothic', sans-serif;
 
   /* ============================================================
      テーマ色相 — themeConfig.ts の HUE がデフォルト値

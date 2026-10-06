@@ -144,6 +144,30 @@ export const FONT_SIZES = {
 // ========================================
 // フォント設定
 // ========================================
+// 設定で切り替えられるドットフォント。書体の実体は global.css の --font-en-<id> / --font-jp-<id>。
+// id を足すときは global.css に同名の変数を足す（check:fonts が対応を確認する）
+export const FONT_OPTIONS = {
+  en: {
+    default: 'press-start',
+    options: [
+      { id: 'press-start', label: 'PRESS START' },
+      { id: 'pixelify', label: 'PIXELIFY' },
+      { id: 'silkscreen', label: 'SILKSCREEN' },
+    ],
+  },
+  jp: {
+    default: 'dotgothic',
+    options: [
+      { id: 'dotgothic', label: 'ドットゴシック' },
+      { id: 'fusion-12', label: 'フュージョン 12' },
+      { id: 'fusion-10', label: 'フュージョン 10' },
+    ],
+  },
+} as const;
+export type FontKind = keyof typeof FONT_OPTIONS;
+export const FONT_STORAGE_KEYS: Record<FontKind, string> = { en: 'font-en', jp: 'font-jp' };
+export const fontFaceVar = (kind: FontKind, id: string) => `var(--font-${kind}-${id})`;
+
 export const FONTS = {
   // 実体は src/styles/global.css の CSS 変数。ここでは参照だけを持つ
   pixel: 'var(--font-pixel)',

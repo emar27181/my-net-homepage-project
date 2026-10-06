@@ -1,8 +1,15 @@
 ---
-import { NAV_CONFIG, THEME_CONFIG, THEME_PRESETS } from '../config/themeConfig';
+import { NAV_CONFIG, THEME_CONFIG, THEME_PRESETS, FONT_OPTIONS, fontFaceVar } from '../config/themeConfig';
 import GameBoyGallery from '../components/GameBoyGallery.astro';
 import '../styles/global.css';
+// 追加の日本語ドットフォント（Fusion Pixel）。選ばれたときだけ読み込むので URL だけを取る
+import fusionPixel12Css from '@vp-tw/cjk-web-fonts-fusion-pixel-font/dist/12px/proportional/ja/Fusion-Pixel-12px-Proportional-Japanese.css?url';
+import fusionPixel10Css from '@vp-tw/cjk-web-fonts-fusion-pixel-font/dist/10px/proportional/ja/Fusion-Pixel-10px-Proportional-Japanese.css?url';
+const LAZY_FONT_CSS = { 'jp:fusion-12': fusionPixel12Css, 'jp:fusion-10': fusionPixel10Css };
 const DEFAULT_HUE = THEME_CONFIG.HUE;
+const DEFAULT_FONT_EN = FONT_OPTIONS.en.default;
+const DEFAULT_FONT_JP = FONT_OPTIONS.jp.default;
+const rootStyle = `--theme-hue: ${DEFAULT_HUE}; --font-en-face: ${fontFaceVar('en', DEFAULT_FONT_EN)}; --font-jp-face: ${fontFaceVar('jp', DEFAULT_FONT_JP)}`;
 
 export interface Props {
   title: string;
@@ -14,7 +21,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
 ---
 
 <!doctype html>
-<html data-display-mode="normal" lang="ja" style={`--theme-hue: ${DEFAULT_HUE}`}>
+<html data-display-mode="normal" data-font-en={DEFAULT_FONT_EN} data-font-jp={DEFAULT_FONT_JP} data-lazy-font-css={JSON.stringify(LAZY_FONT_CSS)} lang="ja" style={rootStyle}>
   <head>
     <slot name="head" />
     <meta charset="UTF-8" />
@@ -85,7 +92,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DotGothic16&family=BIZ+UDPGothic:wght@400;700&family=VT323&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans&family=Silkscreen&family=DotGothic16&family=BIZ+UDPGothic:wght@400;700&family=VT323&display=swap"
       rel="stylesheet"
     />
 
