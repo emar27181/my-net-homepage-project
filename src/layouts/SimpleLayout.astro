@@ -649,6 +649,10 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
             try { localStorage.setItem(FONT_STORAGE_KEYS[kind], id); } catch {}
           }
         }
+        // 見本表示のため全候補の @font-face を登録（実際に読むのは表示した文字の分だけ）
+        const preloadFontPreviews = () =>
+          (['en', 'jp'] as const).forEach(kind => FONT_OPTIONS[kind].options.forEach(opt => ensureFontCss(kind, opt.id)));
+        document.addEventListener('portfolio:font-preload', preloadFontPreviews);
         document.addEventListener('portfolio:font', event => {
           const { kind, id, persist } = (event as CustomEvent<{ kind: FontKind; id: string; persist: boolean }>).detail;
           if (isFontKind(kind)) applyFont(kind, id, persist);
@@ -676,10 +680,7 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
             }
             panel?.classList.toggle('open');
             toggleBtn.classList.toggle('active');
-            // 見本表示のため、開いたときに全候補の @font-face を登録（実際に読むのはラベルの文字分だけ）
-            if (panel?.classList.contains('open')) {
-              (['en', 'jp'] as const).forEach(kind => FONT_OPTIONS[kind].options.forEach(opt => ensureFontCss(kind, opt.id)));
-            }
+            if (panel?.classList.contains('open')) preloadFontPreviews();
           });
 
           // パネル外クリックで閉じる
