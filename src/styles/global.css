@@ -83,6 +83,11 @@
   --col-text-dim:     hsl(var(--theme-hue), 18%, 32%);  /* #445566相当 */
   --col-text-soft:    hsl(var(--theme-hue), 42%, 60%);  /* #445566相当 */
   --col-nav-text: var(--col-text-light);
+  --col-danger: hsl(348, 100%, 63%);
+
+  /* 共通UI寸法。テキストサイズとは分離して管理する */
+  --brand-profile-icon-size: 104px;
+  --ui-control-size-sm: 28px;
   --nav-icon-size: 16px;
   /* 固定ナビの高さ。PWA(standalone + black-translucent)ではステータスバーの下に
      コンテンツが潜り込むため、safe-area-inset-top を足した値を一元管理する */
@@ -388,5 +393,25 @@ a:visited {
   .retro-frame {
     padding: 10px;
     margin: 6px 0;
+  }
+}
+
+
+/* ブランドアイコンはPWAと同じ単一アセットを使い、表示寸法だけここで管理する */
+.brand-profile-icon {
+  width: var(--brand-profile-icon-size);
+  height: var(--brand-profile-icon-size);
+  margin: 0 auto 15px;
+  display: block;
+  border-radius: 8px;
+  border: 2px solid var(--col-primary);
+  background-color: var(--col-primary-a10);
+  padding: 5px;
+  image-rendering: pixelated;
+}
+
+@media (max-width: 480px) {
+  :root {
+    --brand-profile-icon-size: 88px;
   }
 }
