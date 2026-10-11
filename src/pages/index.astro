@@ -21,6 +21,7 @@ import {
   FONTS,
   getStylePresets,
 } from "../config/themeConfig";
+import { BRAND_ASSETS } from "../config/siteAssets";
 import "../styles/global.css";
 
 // テーマカラー統合オブジェクト
@@ -139,9 +140,9 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
       <!-- プロフィール画像 -->
       <img
-        src="/icon_omencat_transparent.png"
+        src={BRAND_ASSETS.appIcon}
         alt="nodoame27181のプロフィール画像：青いオーメン猫"
-        style={`width: 120px; height: 120px; margin: 0 auto 15px auto; display: block; border-radius: 8px; border: 2px solid var(--col-primary); background-color: var(--col-primary-a10); padding: 5px;`}
+        class="brand-profile-icon"
       />
 
       <p
@@ -1164,10 +1165,10 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .sens-modal-close {
     background: transparent;
     border: 1px solid var(--col-primary);
-    color: #fff !important;
-    font-size: var(--fs-title) !important;
-    width: 32px;
-    height: 32px;
+    color: var(--text-high-contrast) !important;
+    font-size: var(--fs-icon-sm) !important;
+    width: var(--ui-control-size-sm);
+    height: var(--ui-control-size-sm);
     cursor: pointer;
     border-radius: 4px;
     line-height: 1;
@@ -1186,7 +1187,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   .sens-mode-btn {
     background: transparent;
     border: 1px solid var(--col-primary);
-    color: #aaa !important;
+    color: var(--col-text-soft) !important;
     font-size: var(--fs-small) !important;
     padding: 4px 14px;
     cursor: pointer;
@@ -1304,8 +1305,8 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   }
 
   .gm-close:hover {
-    border-color: #ff4466;
-    color: #ff4466;
+    border-color: var(--col-danger);
+    color: var(--col-danger);
   }
 
   .gm-divider {
