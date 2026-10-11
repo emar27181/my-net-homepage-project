@@ -702,16 +702,14 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
 
             <!-- 右側: 実際のサイト埋め込み -->
             <div style="text-align: center;">
-              <div
-                style="position: relative; width: 100%; aspect-ratio: 2 / 3;"
-              >
+              <div class="works-preview-frame">
                 <iframe
                   src="https://valorant-point-viewer.netlify.app/"
                   width="100%"
                   height="100%"
                   frameborder="0"
-                  scrolling="no"
-                  style={`border: 2px solid var(--col-primary); border-radius: 6px; box-shadow: 0 4px 8px var(--col-primary-a30); background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0; overflow: hidden;`}
+                  scrolling="auto"
+                  style={`border: 2px solid var(--col-primary); border-radius: 6px; box-shadow: 0 4px 8px var(--col-primary-a30); background: ${COLORS.bgWhite}; position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden;`}
                   title="VALORANT Point Viewer - Live Demo"
                   loading="lazy"></iframe>
               </div>
@@ -734,16 +732,14 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
             </p>
 
             <div style="margin-bottom: 15px; text-align: center;">
-              <div
-                style="position: relative; width: 100%; max-width: 350px; height: calc((350px * 4 / 3) + 20px); margin: 0 auto;"
-              >
+              <div class="works-preview-frame">
                 <iframe
                   src="https://valorant-point-viewer.netlify.app/"
                   width="100%"
                   height="100%"
                   frameborder="0"
-                  scrolling="no"
-                  style={`border: 2px solid var(--col-primary); border-radius: 6px; box-shadow: 0 4px 8px var(--col-primary-a30); background: ${COLORS.bgWhite}; position: absolute; top: 0; left: 0; overflow: hidden;`}
+                  scrolling="auto"
+                  style={`border: 2px solid var(--col-primary); border-radius: 6px; box-shadow: 0 4px 8px var(--col-primary-a30); background: ${COLORS.bgWhite}; position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden;`}
                   title="VALORANT Point Viewer - Live Demo (Mobile)"
                   loading="lazy"></iframe>
               </div>
@@ -981,6 +977,14 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
       height: 35px !important;
       font-size: var(--fs-subtitle) !important;
     }
+  }
+
+  /* My Works の埋め込みは実機スマホに近い縦横比で統一 */
+  .works-preview-frame {
+    position: relative;
+    width: min(100%, 390px);
+    aspect-ratio: 9 / 19.5;
+    margin: 0 auto;
   }
 
   /* My Works レスポンシブ対応 */
