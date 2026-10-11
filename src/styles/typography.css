@@ -43,10 +43,19 @@
     --fs-body: 13px;
     --fs-small: 11px;
     --fs-nav: 8px;
+    --fs-icon-md: 28px;
+    --fs-icon-lg: 40px;
+    --fs-icon-xl: 48px;
   }
 }
 @media (max-width: 480px) and (orientation: portrait) {
-  :root { --fs-title: 15px; --fs-small: 10px; }
+  :root {
+    --fs-title: 15px;
+    --fs-small: 10px;
+    --fs-icon-md: 26px;
+    --fs-icon-lg: 36px;
+    --fs-icon-xl: 40px;
+  }
 }
 html[data-display-mode="gba"] {
   --fs-title: 14px;
