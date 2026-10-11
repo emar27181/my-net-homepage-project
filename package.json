@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "astro dev --host --port 8765",
     "check:fonts": "node scripts/check-fonts.mjs",
-    "prebuild": "npm run check:fonts",
+    "check:design-tokens": "node scripts/check-design-tokens.mjs",
+    "prebuild": "npm run check:fonts && npm run check:design-tokens",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
