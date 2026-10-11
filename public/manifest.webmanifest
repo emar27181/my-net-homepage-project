@@ -10,15 +10,9 @@
   "theme_color": "#0d1028",
   "icons": [
     {
-      "src": "/icons/omen-cat-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/icons/omen-cat-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
+      "src": "/icons/omen-cat.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any"
     }
   ]
