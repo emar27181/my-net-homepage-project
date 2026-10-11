@@ -1,6 +1,7 @@
 export const BRAND_ASSETS = {
   appIcon: '/icons/omen-cat.svg',
   appleTouchIcon: '/icons/omen-cat-apple-180.png',
+  pageTopIcon: '/icons/omen-cat-apple-180.png',
   manifest: '/manifest.webmanifest',
 } as const;
 
