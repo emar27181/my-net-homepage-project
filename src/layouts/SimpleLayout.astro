@@ -1,5 +1,6 @@
 ---
 import { NAV_CONFIG, THEME_CONFIG, THEME_PRESETS, FONT_OPTIONS, fontFaceVar } from '../config/themeConfig';
+import { BRAND_ASSETS, PWA_META } from '../config/siteAssets';
 import GameBoyGallery from '../components/GameBoyGallery.astro';
 import '../styles/global.css';
 // 追加の日本語ドットフォント（Fusion Pixel）。選ばれたときだけ読み込むので URL だけを取る
@@ -30,13 +31,13 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <link rel="icon" type="image/svg+xml" href="/icons/omen-cat.svg" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/icons/omen-cat-apple-180.png" />
-    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href={BRAND_ASSETS.appIcon} />
+    <link rel="apple-touch-icon" sizes="180x180" href={BRAND_ASSETS.appleTouchIcon} />
+    <link rel="manifest" href={BRAND_ASSETS.manifest} />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="nodoamen" />
-    <meta name="theme-color" content="#0d1028" />
+    <meta name="theme-color" content={PWA_META.themeColor} />
     <title>{pageTitle}</title>
     <meta name="author" content="nodoame27181（nodoamen）" />
     <meta property="og:type" content="website" />
