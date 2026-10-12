@@ -10,11 +10,12 @@ function getResolvedUiFontFamily() {
   }
 
   const probe = document.createElement('span');
-  probe.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none;font-family:var(--font-ui)';
+  probe.dataset.fontRole = 'ui';
+  probe.hidden = true;
   document.body.appendChild(probe);
   const family = getComputedStyle(probe).fontFamily;
   probe.remove();
-  return family || 'monospace';
+  return family || getComputedStyle(document.body).fontFamily;
 }
 
 export function getChartFont(role: 'chart' | 'chart-title' | 'chart-tooltip' = 'chart') {
