@@ -764,6 +764,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     </div>
     <!-- フッター -->
     <div
+      class="site-footer"
       style="text-align: center; padding: 20px 0; border-top: 1px solid var(--col-border-mid);"
     >
       <p
@@ -851,6 +852,19 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
   "col-text":    COLORS.textGray,
   "col-white":   COLORS.textWhite,
 }}>
+  /* iPhone PWAでもフッター背景を画面下端まで連続させる。 */
+  .site-footer {
+    margin-bottom: 0 !important;
+    background: var(--color-bg-secondary);
+  }
+
+  @media screen and (max-width: 480px) {
+    .site-footer {
+      padding-top: 12px !important;
+      padding-bottom: max(12px, var(--safe-bottom)) !important;
+    }
+  }
+
   /* 文字溢れ防止 - 長いURLやコードのみ折り返す */
   * {
     overflow-wrap: break-word !important;
