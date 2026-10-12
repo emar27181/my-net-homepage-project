@@ -85,6 +85,11 @@
   --col-nav-text: var(--col-text-light);
   --col-danger: hsl(348, 100%, 63%);
 
+  /* VALORANT mode colors: buttons / chart series share these tokens. */
+  --mode-competitive: hsl(45, 100%, 58%);
+  --mode-unrated: var(--col-primary);
+  --mode-deathmatch: var(--col-danger);
+
   /* 共通UI寸法。テキストサイズとは分離して管理する */
   --brand-profile-icon-size: 104px;
   --ui-control-size-sm: 28px;
