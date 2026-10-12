@@ -500,13 +500,86 @@ document.addEventListener("DOMContentLoaded", () => {
   const mapData    = gameData.competitive.map;
 
   // --- Rank chart helpers ---
-  function getUnifiedActIds() {
+  function getEpisodeId(actId) {
+    return String(actId || '').split(':')[0].trim();
+  }
+
+  function getActLabel(actId) {
+    const parts = String(actId || '').split(':');
+    return parts.length > 1 ? parts.slice(1).join(':').trim() : String(actId || '');
+  }
+
+  function getUnifiedEpisodeIds() {
     const seen = new Set(), ids = [];
-    (gameData.competitive?.rank || []).forEach(d => { if (!seen.has(d.act_id)) { seen.add(d.act_id); ids.push(d.act_id); } });
+    const pushEpisode = (d) => {
+      const episode = getEpisodeId(d.act_id);
+      if (episode && !seen.has(episode)) {
+        seen.add(episode);
+        ids.push(episode);
+      }
+    };
+    (gameData.competitive?.rank || []).forEach(pushEpisode);
     ['unrated','swiftplay','deathmatch'].forEach(m => {
-      (gameData[m]?.rank || []).forEach(d => { if (!seen.has(d.act_id)) { seen.add(d.act_id); ids.push(d.act_id); } });
+      (gameData[m]?.rank || []).forEach(pushEpisode);
     });
     return ids;
+  }
+
+  function getEpisodeActs(modeKey, episodeId) {
+    return (gameData[modeKey]?.rank || []).filter(d => getEpisodeId(d.act_id) === episodeId);
+  }
+
+  function inferredMatches(d) {
+    return d?.wins != null && d.win_rate > 0 ? d.wins / d.win_rate : 0;
+  }
+
+  function aggregateEpisodeMetric(acts, metricMode) {
+    if (!acts.length) return null;
+    if (metricMode === 'rank') {
+      const latest = acts[acts.length - 1];
+      return latest?.rank ? allRanks.indexOf(latest.rank) : null;
+    }
+    if (metricMode === 'playtime') {
+      return Math.round(acts.reduce((sum, d) => sum + (d.playtime || 0), 0) * 10) / 10;
+    }
+    if (metricMode === 'wins') {
+      return acts.reduce((sum, d) => sum + (d.wins || 0), 0);
+    }
+    if (metricMode === 'win_rate') {
+      const totalWins = acts.reduce((sum, d) => sum + (d.wins || 0), 0);
+      const totalMatches = acts.reduce((sum, d) => sum + inferredMatches(d), 0);
+      return totalMatches > 0 ? parseFloat(((totalWins / totalMatches) * 100).toFixed(1)) : null;
+    }
+    if (metricMode === 'kd' || metricMode === 'hs') {
+      let weight = 0, weighted = 0;
+      acts.forEach(d => {
+        const value = d?.[metricMode];
+        if (value == null) return;
+        const w = d.playtime > 0 ? d.playtime : inferredMatches(d);
+        if (w > 0) {
+          weight += w;
+          weighted += value * w;
+        }
+      });
+      if (weight <= 0) return null;
+      const value = weighted / weight;
+      return metricMode === 'hs'
+        ? parseFloat((value * 100).toFixed(1))
+        : parseFloat(value.toFixed(2));
+    }
+    return null;
+  }
+
+  function aggregateOverallActsByAct(episodeId) {
+    const byAct = new Map();
+    ALL_RANK_MODES.forEach(m => {
+      getEpisodeActs(m, episodeId).forEach(d => {
+        const list = byAct.get(d.act_id) || [];
+        list.push({ ...d, _mode: m });
+        byAct.set(d.act_id, list);
+      });
+    });
+    return [...byAct.entries()].map(([actId, rows]) => ({ actId, rows }));
   }
 
   let currentRankMode = 'playtime';
@@ -515,52 +588,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const OVERALL_COLOR = '#44DD44';
   const ALL_RANK_MODES = ['competitive', 'unrated', 'swiftplay', 'deathmatch'];
 
-  function buildOverallRankDataset(metricMode, labels) {
-    if (metricMode === 'rank') return null; // ランクは合計できない
-    const dataMaps = Object.fromEntries(
-      ALL_RANK_MODES.map(m => [m, Object.fromEntries((gameData[m]?.rank || []).map(d => [d.act_id, d]))])
+  function getOverallEpisodeActs(episodeId) {
+    return ALL_RANK_MODES.flatMap(m =>
+      getEpisodeActs(m, episodeId).map(d => ({ ...d, _mode: m }))
     );
-    let data;
+  }
+
+  function aggregateOverallEpisodeMetric(episodeId, metricMode) {
+    if (metricMode === 'rank') return null;
     if (metricMode === 'hs') {
-      // hs はコンペのみ存在 → そのまま転用
-      data = labels.map(l => dataMaps.competitive[l]?.hs != null ? dataMaps.competitive[l].hs * 100 : null);
-    } else if (metricMode === 'playtime') {
-      data = labels.map(l => {
-        const s = ALL_RANK_MODES.reduce((acc, m) => acc + (dataMaps[m][l]?.playtime || 0), 0);
-        return s > 0 ? s : null;
-      });
-    } else if (metricMode === 'playtime_cumulative') {
+      return aggregateEpisodeMetric(getEpisodeActs('competitive', episodeId), 'hs');
+    }
+    return aggregateEpisodeMetric(getOverallEpisodeActs(episodeId), metricMode);
+  }
+
+  function buildOverallRankDataset(metricMode, labels) {
+    if (metricMode === 'rank') return null;
+    let data;
+    if (metricMode === 'playtime_cumulative') {
       let cum = 0;
-      data = labels.map(l => {
-        const s = ALL_RANK_MODES.reduce((acc, m) => acc + (dataMaps[m][l]?.playtime || 0), 0);
-        if (s > 0) { cum += s; return Math.round(cum * 10) / 10; }
-        return null;
-      });
-    } else if (metricMode === 'wins') {
-      data = labels.map(l => {
-        const s = ALL_RANK_MODES.reduce((acc, m) => acc + (dataMaps[m][l]?.wins || 0), 0);
-        return s > 0 ? s : null;
-      });
-    } else if (metricMode === 'win_rate') {
-      data = labels.map(l => {
-        let totalWins = 0, totalMatches = 0;
-        ALL_RANK_MODES.forEach(m => {
-          const d = dataMaps[m][l];
-          if (d?.wins != null && d.win_rate > 0) { totalWins += d.wins; totalMatches += d.wins / d.win_rate; }
-        });
-        return totalMatches > 0 ? parseFloat(((totalWins / totalMatches) * 100).toFixed(1)) : null;
-      });
-    } else if (metricMode === 'kd') {
-      data = labels.map(l => {
-        let sumPt = 0, sumKdPt = 0;
-        ALL_RANK_MODES.forEach(m => {
-          const d = dataMaps[m][l];
-          if (d?.kd != null && d.playtime > 0) { sumPt += d.playtime; sumKdPt += d.kd * d.playtime; }
-        });
-        return sumPt > 0 ? parseFloat((sumKdPt / sumPt).toFixed(2)) : null;
+      data = labels.map(episode => {
+        const value = aggregateOverallEpisodeMetric(episode, 'playtime');
+        if (value == null) return null;
+        cum += value;
+        return Math.round(cum * 10) / 10;
       });
     } else {
-      data = labels.map(() => null);
+      data = labels.map(episode => aggregateOverallEpisodeMetric(episode, metricMode));
     }
     return {
       label: 'OVERALL', data,
@@ -616,51 +670,80 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function buildRankDatasets(metricMode) {
-    const labels = getUnifiedActIds();
+    const labels = getUnifiedEpisodeIds();
     const datasets = [];
     for (const m of activeModes) {
-      if (m === 'overall') continue; // 後で追加
+      if (m === 'overall') continue;
       const modeRank = gameData[m]?.rank || [];
       if (!modeRank.length) continue;
-      // rank/hs はコンペのみ → 他モードは凡例のみ表示（nullデータ）
       if ((metricMode === 'rank' || metricMode === 'hs') && m !== 'competitive') {
         datasets.push({ label: MODE_LABELS[m], data: labels.map(() => null), borderColor: MODE_COLORS[m], borderWidth: 1.5, pointStyle: 'rect', pointRadius: 0, pointBackgroundColor: MODE_COLORS[m], pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: false });
         continue;
       }
-      const dataMap = Object.fromEntries(modeRank.map(d => [d.act_id, d]));
       let data, ptColors;
-      if (metricMode === 'rank') {
-        data = labels.map(l => dataMap[l] ? allRanks.indexOf(dataMap[l].rank) : null);
-        ptColors = labels.map(l => dataMap[l] ? (rankColors[dataMap[l].rank.split(' ')[0]] || MODE_COLORS[m]) : null);
-      } else if (metricMode === 'playtime_cumulative') {
+      if (metricMode === 'playtime_cumulative') {
         let cum = 0;
-        data = labels.map(l => { if (dataMap[l]) { cum += dataMap[l].playtime; return Math.round(cum*10)/10; } return null; });
-        ptColors = MODE_COLORS[m];
-      } else if (metricMode === 'kd') {
-        data = labels.map(l => dataMap[l]?.kd ?? null);
-        ptColors = MODE_COLORS[m];
-      } else if (metricMode === 'hs') {
-        data = labels.map(l => dataMap[l]?.hs != null ? (dataMap[l].hs*100) : null);
-        ptColors = MODE_COLORS[m];
-      } else if (metricMode === 'win_rate') {
-        data = labels.map(l => dataMap[l] ? (dataMap[l].win_rate*100) : null);
+        data = labels.map(episode => {
+          const value = aggregateEpisodeMetric(getEpisodeActs(m, episode), 'playtime');
+          if (value == null) return null;
+          cum += value;
+          return Math.round(cum * 10) / 10;
+        });
         ptColors = MODE_COLORS[m];
       } else {
-        data = labels.map(l => dataMap[l] ? dataMap[l][metricMode] : null);
-        ptColors = MODE_COLORS[m];
+        data = labels.map(episode => aggregateEpisodeMetric(getEpisodeActs(m, episode), metricMode));
+        ptColors = metricMode === 'rank'
+          ? labels.map(episode => {
+              const acts = getEpisodeActs(m, episode);
+              const latest = acts[acts.length - 1];
+              return latest?.rank ? (rankColors[latest.rank.split(' ')[0]] || MODE_COLORS[m]) : null;
+            })
+          : MODE_COLORS[m];
       }
       datasets.push({ label: MODE_LABELS[m], data, borderColor: MODE_COLORS[m], borderWidth: 1.5, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: ptColors, pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: true });
     }
     if (activeModes.has('overall')) {
       const od = buildOverallRankDataset(metricMode, labels);
-      if (od) {
-        datasets.push(od);
-      } else {
-        // rankメトリクスではOVERALLを凡例のみ表示
-        datasets.push({ label: 'OVERALL', data: labels.map(() => null), borderColor: OVERALL_COLOR, borderWidth: 1.5, pointStyle: 'rect', pointRadius: 0, pointBackgroundColor: OVERALL_COLOR, pointBorderColor: OVERALL_COLOR, pointBorderWidth: 1, tension: 0, spanGaps: false });
-      }
+      if (od) datasets.push(od);
+      else datasets.push({ label: 'OVERALL', data: labels.map(() => null), borderColor: OVERALL_COLOR, borderWidth: 1.5, pointStyle: 'rect', pointRadius: 0, pointBackgroundColor: OVERALL_COLOR, pointBorderColor: OVERALL_COLOR, pointBorderWidth: 1, tension: 0, spanGaps: false });
     }
     return { labels, datasets };
+  }
+
+  function formatActTooltipRow(d) {
+    const parts = [getActLabel(d.act_id)];
+    if (d.rank) parts.push(d.rank);
+    if (d.playtime != null) parts.push(`${d.playtime}h`);
+    if (d.wins != null) parts.push(`${d.wins}W`);
+    if (d.win_rate != null) parts.push(`${(d.win_rate * 100).toFixed(1)}%`);
+    if (d.kd != null) parts.push(`K/D ${d.kd.toFixed(2)}`);
+    if (d.hs != null) parts.push(`HS ${(d.hs * 100).toFixed(1)}%`);
+    return parts.join(' / ');
+  }
+
+  function getEpisodeTooltipLines(item) {
+    const episode = item.label;
+    const modeKey = Object.keys(MODE_LABELS).find(k => MODE_LABELS[k] === item.dataset.label);
+    if (modeKey) {
+      const acts = getEpisodeActs(modeKey, episode);
+      return acts.map(d => ` ${formatActTooltipRow(d)}`);
+    }
+    if (item.dataset.label === 'OVERALL') {
+      const groups = aggregateOverallActsByAct(episode);
+      return groups.flatMap(({ actId, rows }) => {
+        const playtime = aggregateEpisodeMetric(rows, 'playtime');
+        const wins = aggregateEpisodeMetric(rows, 'wins');
+        const wr = aggregateEpisodeMetric(rows, 'win_rate');
+        const kd = aggregateEpisodeMetric(rows, 'kd');
+        const parts = [getActLabel(actId)];
+        if (playtime != null) parts.push(`${playtime}h`);
+        if (wins != null) parts.push(`${wins}W`);
+        if (wr != null) parts.push(`${wr.toFixed(1)}%`);
+        if (kd != null) parts.push(`K/D ${kd.toFixed(2)}`);
+        return [` ${parts.join(' / ')}`];
+      });
+    }
+    return [];
   }
 
   // --- Agent chart helpers ---
@@ -826,19 +909,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ...commonOptions.plugins,
         legend: multiLegend,
         tooltip: { ...commonOptions.plugins.tooltip, callbacks: {
-          label: (item) => {
-            const modeKey = Object.keys(MODE_LABELS).find(k => MODE_LABELS[k] === item.dataset.label);
-            const d = (gameData[modeKey]?.rank || []).find(r => r.act_id === item.label);
-            if (!d) return '';
-            const lines = [];
-            if (d.rank) lines.push(` RANK    : ${d.rank}`);
-            lines.push(` PLAYTIME: ${d.playtime}h`);
-            if (d.wins     != null) lines.push(` WINS    : ${d.wins}`);
-            if (d.win_rate != null) lines.push(` WIN %   : ${(d.win_rate*100).toFixed(1)}%`);
-            if (d.kd       != null) lines.push(` K/D     : ${d.kd.toFixed(2)}`);
-            if (d.hs       != null) lines.push(` HS%     : ${(d.hs*100).toFixed(1)}%`);
-            return lines;
-          },
+          title: (items) => items.length ? `${items[0].label} / ${items[0].dataset.label}` : '',
+          label: (item) => getEpisodeTooltipLines(item),
         }},
       },
       scales: {
