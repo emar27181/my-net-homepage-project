@@ -189,7 +189,7 @@ const S = getStylePresets(COLORS);
   }
   .mode-label {
     font-family: var(--font-ui);
-    font-size: var(--fs-small);
+    font-size: var(--fs-chart);
     color: rgba(166, 247, 255, 0.5);
     letter-spacing: 1px;
     margin-right: 4px;
@@ -207,7 +207,7 @@ const S = getStylePresets(COLORS);
     border: 1px solid rgba(var(--mc-rgb), 0.3);
     padding: 6px 14px;
     font-family: var(--font-ui);
-    font-size: var(--fs-small);
+    font-size: var(--fs-chart);
     cursor: pointer;
     transition: all 0.15s ease;
     border-radius: 2px;
@@ -263,7 +263,7 @@ const S = getStylePresets(COLORS);
     border: 1px solid hsla(var(--theme-hue), 55%, 78%, 0.30);
     padding: 4px 12px;
     font-family: var(--font-ui);
-    font-size: var(--fs-small);
+    font-size: var(--fs-chart);
     cursor: pointer;
     transition: all 0.15s ease;
     border-radius: 2px;
@@ -295,7 +295,7 @@ const S = getStylePresets(COLORS);
   .footer-info {
     display: flex;
     justify-content: space-between;
-    font-size: var(--fs-small);
+    font-size: var(--fs-chart);
     color: var(--theme-primary);
     opacity: 0.7;
     margin-top: 10px;
@@ -350,7 +350,7 @@ const S = getStylePresets(COLORS);
     box-shadow: 2px 2px 0 rgba(0,0,0,0.4);
   }
   .agent-threshold-value {
-    font-size: var(--fs-small);
+    font-size: var(--fs-chart);
     color: var(--col-accessible);
     font-family: var(--font-ui);
     min-width: 70px;
@@ -368,7 +368,7 @@ const S = getStylePresets(COLORS);
     border: 1px solid hsla(var(--theme-hue), 55%, 78%, 0.30);
     padding: 4px 14px;
     font-family: var(--font-ui);
-    font-size: var(--fs-small);
+    font-size: var(--fs-chart);
     cursor: pointer;
     transition: all 0.15s ease;
     border-radius: 2px;
@@ -397,7 +397,7 @@ const S = getStylePresets(COLORS);
     border: 1px solid hsla(var(--theme-hue), 55%, 78%, 0.25);
     padding: 4px 12px;
     font-family: var(--font-ui);
-    font-size: var(--fs-small);
+    font-size: var(--fs-chart);
     cursor: pointer;
     transition: all 0.15s ease;
     border-radius: 2px;
@@ -425,26 +425,69 @@ const S = getStylePresets(COLORS);
       grid-template-columns: 1fr;
     }
     .chart-container {
-      padding: 12px;
+      padding: 10px;
       overflow: hidden;
+    }
+    .chart-container h3 {
+      font-size: var(--fs-chart-title) !important;
+      line-height: 1.35;
+      margin-bottom: 6px !important;
     }
     .chart-wrapper {
       margin: 0 auto;
       max-width: 100%;
+      aspect-ratio: 1.9;
+      min-height: 0;
+    }
+    .mode-switcher,
+    .controls,
+    .agent-view-toggle,
+    .agent-role-filters {
+      gap: 5px;
+    }
+    .mode-btn,
+    .controls button,
+    .agent-view-toggle button,
+    .agent-role-filters button {
+      font-size: var(--fs-chart);
+      line-height: 1.25;
+      padding: 3px 7px;
     }
     .footer-info {
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       text-align: center;
+      font-size: var(--fs-chart);
+      line-height: 1.45;
     }
     .agent-filter-panel {
       position: static;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .agent-panel {
       padding-top: 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .chart-container {
+      padding: 8px;
+    }
+    .chart-wrapper {
+      aspect-ratio: 2.05;
+    }
+    .mode-switcher {
+      margin-bottom: 12px;
+    }
+    .controls {
+      margin-top: 8px;
+      margin-bottom: 6px;
+    }
+    .footer-info {
+      margin-top: 7px;
+      padding-top: 6px;
     }
   }
 </style>
@@ -886,6 +929,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const commonOptions = {
     responsive: true, maintainAspectRatio: false,
+    layout: { padding: { left: 6, right: 6, top: 2, bottom: 2 } },
     scales: {
       y: { ticks: { color: THEME_COLOR }, grid: { color: GRID_H, lineWidth: GRID_H_W } },
       x: { ticks: { color: THEME_COLOR }, grid: { color: GRID_V, lineWidth: GRID_V_W } },
