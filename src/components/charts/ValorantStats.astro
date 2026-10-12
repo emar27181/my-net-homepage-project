@@ -661,7 +661,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     return {
       label: 'OVERALL', data,
-      borderColor: OVERALL_COLOR, borderWidth: 1.5,
+      borderColor: OVERALL_COLOR, backgroundColor: OVERALL_COLOR, borderWidth: 1,
       pointStyle: 'rect', pointRadius: getResponsiveRadius,
       pointBackgroundColor: OVERALL_COLOR, pointBorderColor: OVERALL_COLOR, pointBorderWidth: 1,
       tension: 0, spanGaps: true,
@@ -720,7 +720,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const modeRank = gameData[m]?.rank || [];
       if (!modeRank.length) continue;
       if ((metricMode === 'rank' || metricMode === 'hs') && m !== 'competitive') {
-        datasets.push({ label: MODE_LABELS[m], data: labels.map(() => null), borderColor: MODE_COLORS[m], borderWidth: 1.5, pointStyle: 'rect', pointRadius: 0, pointBackgroundColor: MODE_COLORS[m], pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: false });
+        datasets.push({ label: MODE_LABELS[m], data: labels.map(() => null), borderColor: MODE_COLORS[m], backgroundColor: 'transparent', borderWidth: 1, pointStyle: 'rect', pointRadius: 0, pointBackgroundColor: MODE_COLORS[m], pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: false });
         continue;
       }
       let data, ptColors;
@@ -743,12 +743,12 @@ document.addEventListener("DOMContentLoaded", () => {
             })
           : MODE_COLORS[m];
       }
-      datasets.push({ label: MODE_LABELS[m], data, borderColor: MODE_COLORS[m], borderWidth: 1.5, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: ptColors, pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: true });
+      datasets.push({ label: MODE_LABELS[m], data, borderColor: MODE_COLORS[m], backgroundColor: ptColors, borderWidth: 1, pointStyle: 'rect', pointRadius: getResponsiveRadius, pointBackgroundColor: ptColors, pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: true });
     }
     if (activeModes.has('overall')) {
       const od = buildOverallRankDataset(metricMode, labels);
       if (od) datasets.push(od);
-      else datasets.push({ label: 'OVERALL', data: labels.map(() => null), borderColor: OVERALL_COLOR, borderWidth: 1.5, pointStyle: 'rect', pointRadius: 0, pointBackgroundColor: OVERALL_COLOR, pointBorderColor: OVERALL_COLOR, pointBorderWidth: 1, tension: 0, spanGaps: false });
+      else datasets.push({ label: 'OVERALL', data: labels.map(() => null), borderColor: OVERALL_COLOR, backgroundColor: 'transparent', borderWidth: 1, pointStyle: 'rect', pointRadius: 0, pointBackgroundColor: OVERALL_COLOR, pointBorderColor: OVERALL_COLOR, pointBorderWidth: 1, tension: 0, spanGaps: false });
     }
     return { labels, datasets };
   }
@@ -945,7 +945,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- 1. RANK CHART ---
   const rChart = new Chart(document.getElementById('rankChart').getContext('2d'), {
-    type: 'line',
+    type: 'bar',
     data: { labels: [], datasets: [] },
     options: {
       ...commonOptions,
@@ -957,9 +957,18 @@ document.addEventListener("DOMContentLoaded", () => {
           label: (item) => getEpisodeTooltipLines(item),
         }},
       },
+      datasets: {
+        bar: {
+          categoryPercentage: 0.78,
+          barPercentage: 0.82,
+          maxBarThickness: 28,
+          borderWidth: 1,
+          borderRadius: 2,
+        },
+      },
       scales: {
         y: { min:0, max:24, ticks:{ stepSize:1, callback:rankLabelFunc, autoSkip:false, maxRotation:0, minRotation:0 }, grid:{ color:(c)=>c.tick.value%3===0?GRID_H:GRID_H.replace('0.4)','0.1)'), lineWidth:(c)=>c.tick.value%3===0?2:1 } },
-        x: { ...commonOptions.scales.x },
+        x: { ...commonOptions.scales.x, stacked: false },
       },
     },
   });
