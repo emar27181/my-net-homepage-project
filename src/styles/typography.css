@@ -10,6 +10,9 @@
   --fs-footer: var(--fs-small);
   --fs-nav: 10px;
   --fs-menu: 10px;
+  --fs-chart: 10px;
+  --fs-chart-title: 13px;
+  --fs-chart-tooltip: 11px;
   --icon-inline-sm: 14px;
   --fs-icon-sm: 16px;
   --fs-icon-md: 32px;
@@ -43,6 +46,9 @@
     --fs-body: 13px;
     --fs-small: 11px;
     --fs-nav: 8px;
+    --fs-chart: 8px;
+    --fs-chart-title: 11px;
+    --fs-chart-tooltip: 9px;
     --fs-icon-md: 28px;
     --fs-icon-lg: 40px;
     --fs-icon-xl: 48px;
@@ -52,6 +58,9 @@
   :root {
     --fs-title: 15px;
     --fs-small: 10px;
+    --fs-chart: 7px;
+    --fs-chart-title: 10px;
+    --fs-chart-tooltip: 8px;
     --fs-icon-md: 26px;
     --fs-icon-lg: 36px;
     --fs-icon-xl: 40px;
@@ -64,6 +73,9 @@ html[data-display-mode="gba"] {
   --fs-body: 11px;
   --fs-small: 9px;
   --fs-nav: var(--fs-console-8);
+  --fs-chart: var(--fs-console-7);
+  --fs-chart-title: var(--fs-console-9);
+  --fs-chart-tooltip: var(--fs-console-8);
 }
 body, .main-container { font-size: var(--fs-body); }
 .main-container :is(p, li, td, th, blockquote) { font-size: var(--fs-body); }
