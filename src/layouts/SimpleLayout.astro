@@ -395,12 +395,22 @@ const pageTitle = `${title} | VALORANT・ゲームプロフィール`;
       .settings-panel .font-option:hover { background: var(--col-primary-a20); }
       .settings-panel .font-option[aria-pressed="true"] { background: var(--col-primary-a50); }
 
-      /* 通常表示: ステータスバー(safe-area)分だけ本文を下げる。ブラウザ表示では 0px */
+      /* 通常表示はナビ自体がsafe-areaを含む。body側では重ねて余白を足さない。 */
       :global(html:not([data-display-mode="gba"])) .mobile-body {
-        padding-top: var(--safe-top) !important; /* .mobile-body の padding:0 !important に勝たせる */
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: 100dvh;
+        background: var(--col-bg-mid);
       }
 
-      /* ナビ分のpadding */
+      /* 固定ナビの直下から本文を開始し、上下端に意図しない隙間を作らない。 */
+      @media screen and (max-width: 480px) {
+        :global(html:not([data-display-mode="gba"])) .mobile-main {
+          margin: var(--nav-offset) 0 0 !important;
+          min-height: calc(100dvh - var(--nav-offset)) !important;
+        }
+      }
+
       body > *:not(#page-nav):not(.settings-panel) {
         padding-top: 0;
       }

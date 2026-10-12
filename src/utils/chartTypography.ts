@@ -1,9 +1,29 @@
-/** Canvas text reads the same CSS roles as HTML, including mode and viewport changes. */
-export function getChartFont(role: 'small' | 'body' | 'subtitle' = 'small') {
+/** Canvas text reads the same CSS roles as HTML, including mode and viewport changes.
+ * Canvas cannot resolve CSS var() expressions in font-family, so read the browser-resolved
+ * family from a real UI element instead of passing "--font-ui" through as a raw custom property.
+ */
+function getResolvedUiFontFamily() {
+  const uiElement = document.querySelector('[data-font-role="ui"]');
+  if (uiElement) {
+    const family = getComputedStyle(uiElement).fontFamily;
+    if (family) return family;
+  }
+
+  const probe = document.createElement('span');
+  probe.dataset.fontRole = 'ui';
+  probe.hidden = true;
+  document.body.appendChild(probe);
+  const family = getComputedStyle(probe).fontFamily;
+  probe.remove();
+  return family || getComputedStyle(document.body).fontFamily;
+}
+
+export function getChartFont(role: 'chart' | 'chart-title' | 'chart-tooltip' = 'chart') {
   const css = getComputedStyle(document.documentElement);
-  const size = Number.parseFloat(css.getPropertyValue(`--fs-${role}`));
-  if (!Number.isFinite(size)) throw new Error(`Missing typography token: --fs-${role}`);
-  return { family: css.getPropertyValue('--font-ui').trim(), size };
+  const token = `--fs-${role}`;
+  const size = Number.parseFloat(css.getPropertyValue(token));
+  if (!Number.isFinite(size)) throw new Error(`Missing typography token: ${token}`);
+  return { family: getResolvedUiFontFamily(), size };
 }
 
 const installed = new WeakSet<object>();
@@ -12,8 +32,8 @@ export function installChartTypography(Chart: any) {
   if (installed.has(Chart)) return;
   installed.add(Chart);
   const applyFonts = (options: any) => {
-      const small = getChartFont('small');
-      const body = getChartFont('body');
+      const small = getChartFont('chart');
+      const tooltip = getChartFont('chart-tooltip');
       options.font = small;
       for (const scale of Object.values(options.scales ?? {}) as any[]) {
         scale.ticks ??= {};
@@ -28,15 +48,15 @@ export function installChartTypography(Chart: any) {
       }
       if (plugins.tooltip !== false) {
         plugins.tooltip ??= {};
-        plugins.tooltip.titleFont = body;
-        plugins.tooltip.bodyFont = body;
+        plugins.tooltip.titleFont = tooltip;
+        plugins.tooltip.bodyFont = tooltip;
         plugins.tooltip.footerFont = small;
       }
       for (const name of ['title', 'subtitle']) {
-        if (plugins[name]) plugins[name].font = getChartFont('subtitle');
+        if (plugins[name]) plugins[name].font = getChartFont('chart-title');
       }
   };
-  const syncDefaults = () => Object.assign(Chart.defaults.font, getChartFont('small'));
+  const syncDefaults = () => Object.assign(Chart.defaults.font, getChartFont('chart'));
   syncDefaults();
   Chart.register({
     id: 'portfolioTypography',
