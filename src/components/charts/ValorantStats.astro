@@ -145,6 +145,7 @@ const S = getStylePresets(COLORS);
           <button onclick="toggleAgentRole('Sentinel')" id="btn-role-sentinel" class="active">SENTINEL</button>
         </div>
         <div class="chart-wrapper"><canvas id="agentChart"></canvas></div>
+        <div class="agent-chart-note">TIME / MATCHES は COMP + UNRATED の積み上げ、割合・平均系は横並び比較</div>
         <div class="controls agent-stat-controls">
           <button onclick="updateAgentStat('time')" id="btn-a-time" class="active">Time</button>
           <button onclick="updateAgentStat('matches')" id="btn-a-matches">Matches</button>
@@ -313,6 +314,13 @@ const S = getStylePresets(COLORS);
   }
   .agent-panel {
     position: relative;
+  }
+  .agent-chart-note {
+    margin-top: 6px;
+    text-align: center;
+    color: var(--col-accessible-d);
+    font-size: var(--fs-chart);
+    line-height: 1.45;
   }
   .agent-filter-panel {
     display: flex;
@@ -843,14 +851,13 @@ document.addEventListener("DOMContentLoaded", () => {
       datasets.push({
         label: MODE_LABELS[m],
         data: ROLES.map(r => getRoleVal(agg[r], agentCurrentStat)),
-        borderColor: MODE_COLORS[m], borderWidth: 2,
-        pointStyle: 'rect', pointRadius: getResponsiveRadius,
-        pointBackgroundColor: ROLES.map(r => ROLE_COLORS[r]),
-        pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1,
-        tension: 0, spanGaps: false,
+        borderColor: MODE_COLORS[m],
+        backgroundColor: MODE_COLORS[m],
+        borderWidth: 1,
+        stack: ['time','matches'].includes(agentCurrentStat) ? 'mode-total' : undefined,
       });
     }
-    if (activeModes.has('overall')) {
+    if (activeModes.has('overall') && !['time','matches'].includes(agentCurrentStat)) {
       const combined = {};
       for (const role of ROLES) {
         let totalMatches=0, totalTime=0, totalWins=0, wKd=0, wAdr=0, wAcs=0, wHs=0, wKast=0, has=false;
@@ -868,11 +875,9 @@ document.addEventListener("DOMContentLoaded", () => {
       datasets.push({
         label: 'OVERALL',
         data: ROLES.map(r => getRoleVal(combined[r], agentCurrentStat)),
-        borderColor: OVERALL_COLOR, borderWidth: 2,
-        pointStyle: 'rect', pointRadius: getResponsiveRadius,
-        pointBackgroundColor: ROLES.map(r => ROLE_COLORS[r]),
-        pointBorderColor: OVERALL_COLOR, pointBorderWidth: 1,
-        tension: 0, spanGaps: false,
+        borderColor: OVERALL_COLOR,
+        backgroundColor: OVERALL_COLOR,
+        borderWidth: 1,
       });
     }
     return { labels: ROLES, datasets };
@@ -898,13 +903,17 @@ document.addEventListener("DOMContentLoaded", () => {
       return {
         label: MODE_LABELS[m],
         data: allNames.map(n => agentMap[n]?.[agentCurrentStat] ?? null),
-        borderColor: MODE_COLORS[m], borderWidth: 1.5, pointStyle: 'rect', pointRadius: getResponsiveRadius,
-        pointBackgroundColor: allNames.map(n => agentMap[n] ? (agentColors[n] || MODE_COLORS[m]) : 'transparent'),
-        pointBorderColor: MODE_COLORS[m], pointBorderWidth: 1, tension: 0, spanGaps: false,
+        borderColor: MODE_COLORS[m],
+        backgroundColor: MODE_COLORS[m],
+        borderWidth: 1,
+        stack: ['time','matches'].includes(agentCurrentStat) ? 'mode-total' : undefined,
       };
     });
-    if (activeModes.has('overall')) {
-      datasets.push(buildOverallAgentDataset(allNames));
+    if (activeModes.has('overall') && !['time','matches'].includes(agentCurrentStat)) {
+      const overall = buildOverallAgentDataset(allNames);
+      overall.backgroundColor = OVERALL_COLOR;
+      overall.borderWidth = 1;
+      datasets.push(overall);
     }
     return { labels: allNames, datasets };
   }
@@ -1060,7 +1069,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const el = document.getElementById('agentChart');
     if (!el) return null;
     return new Chart(el.getContext('2d'), {
-      type: 'line',
+      type: 'bar',
       data: { labels: [], datasets: [] },
       options: {
         ...commonOptions,
@@ -1072,7 +1081,7 @@ document.addEventListener("DOMContentLoaded", () => {
               if (agentViewMode === 'role') {
                 const statLabel = { matches:'MATCHES', time:'TIME(hrs)', win_rate:'WIN%', kd:'K/D', adr:'ADR', acs:'ACS', hs:'HS%', kast:'KAST%' }[agentCurrentStat] || agentCurrentStat;
                 const val = ctx.parsed.y;
-                return ` ${statLabel}: ${val != null ? val : 'N/A'}`;
+                return ` ${ctx.dataset.label} / ${statLabel}: ${val != null ? val : 'N/A'}`;
               }
               const modeKey = Object.keys(MODE_LABELS).find(k => MODE_LABELS[k] === ctx.dataset.label);
               const agent = (gameData[modeKey]?.agent || []).find(a => a.name === ctx.label);
@@ -1081,9 +1090,18 @@ document.addEventListener("DOMContentLoaded", () => {
             },
           }},
         },
+        datasets: {
+          bar: {
+            categoryPercentage: 0.76,
+            barPercentage: 0.84,
+            maxBarThickness: 30,
+            borderWidth: 1,
+            borderRadius: 2,
+          },
+        },
         scales: {
-          y: { ticks:{color:THEME_COLOR}, grid:{color:GRID_H,lineWidth:GRID_H_W} },
-          x: { ticks:{
+          y: { stacked: false, ticks:{color:THEME_COLOR}, grid:{color:GRID_H,lineWidth:GRID_H_W} },
+          x: { stacked: false, ticks:{
             color: (c) => agentViewMode === 'role' ? (ROLE_COLORS[c.tick.label] || THEME_COLOR) : (agentColors[c.tick.label] || THEME_COLOR),
             autoSkip:false,
             maxRotation:45,
@@ -1099,6 +1117,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const { labels, datasets } = agentViewMode === 'role' ? buildRoleDatasets() : buildAgentDatasets();
     agentChart.data.labels   = labels;
     agentChart.data.datasets = datasets;
+    const isStackedMetric = ['time','matches'].includes(agentCurrentStat);
+    agentChart.options.scales.x.stacked = isStackedMetric;
+    agentChart.options.scales.y.stacked = isStackedMetric;
     // ROLEビューではX軸ラベルを水平表示
     agentChart.options.scales.x.ticks.maxRotation = agentViewMode === 'role' ? 0 : 45;
     agentChart.options.scales.x.ticks.minRotation = agentViewMode === 'role' ? 0 : 45;
