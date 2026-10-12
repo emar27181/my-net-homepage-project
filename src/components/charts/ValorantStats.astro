@@ -56,7 +56,6 @@ const S = getStylePresets(COLORS);
     <span class="mode-label">MODE</span>
     <button onclick="toggleMode('competitive')" id="btn-mode-competitive" class="mode-btn mode-btn-competitive active">COMPETITIVE</button>
     <button onclick="toggleMode('unrated')" id="btn-mode-unrated" class="mode-btn mode-btn-unrated active">UNRATED</button>
-    <button onclick="toggleMode('swiftplay')" id="btn-mode-swiftplay" class="mode-btn mode-btn-swiftplay">SWIFT PLAY</button>
     <button onclick="toggleMode('deathmatch')" id="btn-mode-deathmatch" class="mode-btn mode-btn-deathmatch active">DEATHMATCH</button>
   </div>
 
@@ -197,7 +196,6 @@ const S = getStylePresets(COLORS);
   /* per-mode color variables */
   .mode-btn-competitive { --mc: var(--mode-competitive); }
   .mode-btn-unrated     { --mc: var(--mode-unrated); }
-  .mode-btn-swiftplay   { --mc: var(--mode-swiftplay); }
   .mode-btn-deathmatch  { --mc: var(--mode-deathmatch); }
 
   .mode-btn {
@@ -518,10 +516,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const MODE_COLORS  = {
     competitive: modeColor('competitive'),
     unrated: modeColor('unrated'),
-    swiftplay: modeColor('swiftplay'),
     deathmatch: modeColor('deathmatch'),
   };
-  const MODE_LABELS  = { competitive: 'COMP', unrated: 'UNRATED', swiftplay: 'SWIFT', deathmatch: 'DM' };
+  const MODE_LABELS  = { competitive: 'COMP', unrated: 'UNRATED', deathmatch: 'DM' };
   let activeModes    = new Set(['competitive', 'unrated', 'deathmatch']);
 
   // --- 定数 ---
@@ -574,7 +571,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
     (gameData.competitive?.rank || []).forEach(pushEpisode);
-    ['unrated','swiftplay','deathmatch'].forEach(m => {
+    ['unrated','deathmatch'].forEach(m => {
       (gameData[m]?.rank || []).forEach(pushEpisode);
     });
     return ids;
@@ -639,7 +636,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentRankMode = 'playtime';
 
-  const ALL_RANK_MODES = ['competitive', 'unrated', 'swiftplay', 'deathmatch'];
+  const ALL_RANK_MODES = ['competitive', 'unrated', 'deathmatch'];
 
   function buildRankDatasets(metricMode) {
     const labels = getUnifiedEpisodeIds();
