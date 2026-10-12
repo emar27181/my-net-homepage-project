@@ -1,10 +1,28 @@
-/** Canvas text reads the same CSS roles as HTML, including mode and viewport changes. */
+/** Canvas text reads the same CSS roles as HTML, including mode and viewport changes.
+ * Canvas cannot resolve CSS var() expressions in font-family, so read the browser-resolved
+ * family from a real UI element instead of passing "--font-ui" through as a raw custom property.
+ */
+function getResolvedUiFontFamily() {
+  const uiElement = document.querySelector('[data-font-role="ui"]');
+  if (uiElement) {
+    const family = getComputedStyle(uiElement).fontFamily;
+    if (family) return family;
+  }
+
+  const probe = document.createElement('span');
+  probe.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none;font-family:var(--font-ui)';
+  document.body.appendChild(probe);
+  const family = getComputedStyle(probe).fontFamily;
+  probe.remove();
+  return family || 'monospace';
+}
+
 export function getChartFont(role: 'chart' | 'chart-title' | 'chart-tooltip' = 'chart') {
   const css = getComputedStyle(document.documentElement);
   const token = `--fs-${role}`;
   const size = Number.parseFloat(css.getPropertyValue(token));
   if (!Number.isFinite(size)) throw new Error(`Missing typography token: ${token}`);
-  return { family: css.getPropertyValue('--font-ui').trim(), size };
+  return { family: getResolvedUiFontFamily(), size };
 }
 
 const installed = new WeakSet<object>();
