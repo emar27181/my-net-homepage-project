@@ -33,7 +33,7 @@ const S = getStylePresets(COLORS);
 
 // クリップギャラリーデータ（src/data/clips.json で管理・scoreの合計が高いほど上位）
 interface ClipScore { smooth: number; clutch: number; tap: number; "6kills": number; onemag: number; }
-interface ClipData  { id: string; url: string; title: string; map: string; agent: string; views: number; tags: string[]; score: ClipScore; }
+interface ClipData  { id: string; url: string; title: string; map: string; agent: string; views: number; addedAt: string; tags: string[]; score: ClipScore; }
 const CLIPS_INITIAL_SHOW = 6;
 
 const SCORE_DEFAULTS: ClipScore = { smooth: 2, clutch: 0, tap: 3, "6kills": 0, onemag: 0 };
@@ -443,6 +443,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
         <div class="clips-result-info" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
           <span><span id="clips-count">{clipGalleryData.length}</span> 件のクリップ</span>
           <button class="clips-sort-btn active" id="clips-sort-custom">★ カスタム順</button>
+          <button class="clips-sort-btn" id="clips-sort-newest">↓ 新着順</button>
           <button class="clips-sort-btn" id="clips-sort-views">⬇ 再生回数順</button>
           <span style="color:var(--col-border-mid); margin: 0 4px;">|</span>
           <button class="clips-col-btn" data-cols="1">1列</button>
@@ -470,6 +471,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
             data-title={clip.title.toLowerCase()}
             data-tags={(clip.tags ?? []).join(',')}
             data-views={String(clip.views)}
+            data-added-at={clip.addedAt}
             data-score={String(totalScore(clip))}
             data-score-detail={JSON.stringify(clip.score)}
             data-index={String(i)}
@@ -2284,7 +2286,7 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
     let activeMap   = 'all';
     let activeAgent = 'all';
     let activeKw    = 'all';
-    type SortMode = 'custom' | 'views';
+    type SortMode = 'custom' | 'newest' | 'views';
     let sortMode: SortMode = 'custom';
     let expanded    = false;
 
@@ -2314,6 +2316,14 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
         return [...cards].sort((a, b) =>
           Number(b.dataset.views ?? 0) - Number(a.dataset.views ?? 0)
         );
+      }
+      if (sortMode === 'newest') {
+        return [...cards].sort((a, b) => {
+          const dateDiff = Date.parse(b.dataset.addedAt ?? '') - Date.parse(a.dataset.addedAt ?? '');
+          if (Number.isFinite(dateDiff) && dateDiff !== 0) return dateDiff;
+          // 同日に追加されたクリップは従来のカスタムスコア順を維持
+          return Number(b.dataset.score ?? 0) - Number(a.dataset.score ?? 0);
+        });
       }
       // custom: スコア合計の高い順（data-score はサーバー側で計算済み）
       return [...cards].sort((a, b) =>
@@ -2391,15 +2401,20 @@ const socialGames = gamesData.filter((g: any) => g.category === "ソシャゲ");
       });
 
       // ソートボタン
-      const sortBtns = ['clips-sort-custom', 'clips-sort-views'];
+      const sortBtnIds: Record<SortMode, string> = {
+        custom: 'clips-sort-custom',
+        newest: 'clips-sort-newest',
+        views: 'clips-sort-views',
+      };
       function setSort(mode: SortMode) {
         sortMode = mode;
-        sortBtns.forEach(id => document.getElementById(id)?.classList.remove('active'));
-        document.getElementById(mode === 'custom' ? 'clips-sort-custom' : 'clips-sort-views')?.classList.add('active');
+        Object.values(sortBtnIds).forEach(id => document.getElementById(id)?.classList.remove('active'));
+        document.getElementById(sortBtnIds[mode])?.classList.add('active');
         expanded = false;
         render();
       }
       document.getElementById('clips-sort-custom')?.addEventListener('click', () => setSort('custom'));
+      document.getElementById('clips-sort-newest')?.addEventListener('click', () => setSort('newest'));
       document.getElementById('clips-sort-views')?.addEventListener('click',  () => setSort('views'));
 
       // 列数切り替え（モバイルでは強制1列）
